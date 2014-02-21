@@ -462,7 +462,7 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 			var i, a, b, c, m;
 
 			var vertexIndexBuffer = new Uint32Array( data, offsetVertices, 3 * nElements );
-			var materialIndexBuffer = new Uint16Array( data, offsetMaterials, nElements );
+			var materialIndexBuffer = Arrays.newUint16Array( data, offsetMaterials, nElements );
 
 			for( i = 0; i < nElements; i ++ ) {
 
@@ -483,7 +483,7 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 			var i, a, b, c, d, m;
 
 			var vertexIndexBuffer = new Uint32Array( data, offsetVertices, 4 * nElements );
-			var materialIndexBuffer = new Uint16Array( data, offsetMaterials, nElements );
+			var materialIndexBuffer = Arrays.newUint16Array( data, offsetMaterials, nElements );
 
 			for( i = 0; i < nElements; i ++ ) {
 
@@ -507,7 +507,7 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 
 			var vertexIndexBuffer = new Uint32Array( data, offsetVertices, 3 * nElements );
 			var normalIndexBuffer = new Uint32Array( data, offsetNormals, 3 * nElements );
-			var materialIndexBuffer = new Uint16Array( data, offsetMaterials, nElements );
+			var materialIndexBuffer = Arrays.newUint16Array( data, offsetMaterials, nElements );
 
 			for( i = 0; i < nElements; i ++ ) {
 
@@ -534,7 +534,7 @@ THREE.BinaryLoader.prototype.createBinModel = function ( data, callback, texture
 
 			var vertexIndexBuffer = new Uint32Array( data, offsetVertices, 4 * nElements );
 			var normalIndexBuffer = new Uint32Array( data, offsetNormals, 4 * nElements );
-			var materialIndexBuffer = new Uint16Array( data, offsetMaterials, nElements );
+			var materialIndexBuffer = Arrays.newUint16Array( data, offsetMaterials, nElements );
 
 			for( i = 0; i < nElements; i ++ ) {
 

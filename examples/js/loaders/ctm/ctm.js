@@ -554,7 +554,7 @@ CTM.calcSmoothNormals = function(indices, vertices){
 CTM.isLittleEndian = (function(){
   var buffer = new ArrayBuffer(2),
       bytes = new Uint8Array(buffer),
-      ints = new Uint16Array(buffer);
+      ints = Arrays.newUint16Array(buffer);
 
   bytes[0] = 1;
 

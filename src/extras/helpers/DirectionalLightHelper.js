@@ -52,7 +52,6 @@ THREE.DirectionalLightHelper.prototype.update = function () {
 	var v2 = new THREE.Vector3();
 	var v3 = new THREE.Vector3();
 
-	return function () {
 
 		v1.setFromMatrixPosition( this.light.matrixWorld );
 		v2.setFromMatrixPosition( this.light.target.matrixWorld );
@@ -65,7 +64,5 @@ THREE.DirectionalLightHelper.prototype.update = function () {
 		this.targetLine.geometry.verticesNeedUpdate = true;
 		this.targetLine.material.color.copy( this.lightPlane.material.color );
 
-	}
-
-}();
+};
 

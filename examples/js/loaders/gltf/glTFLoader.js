@@ -187,7 +187,7 @@ THREE.glTFLoader.prototype.load = function( url, callback ) {
     };
 
     IndicesDelegate.prototype.convert = function(resource, ctx) {
-        return new Uint16Array(resource, 0, ctx.indices.count);
+        return Arrays.newUint16Array(resource, 0, ctx.indices.count);
     };
 
     IndicesDelegate.prototype.resourceAvailable = function(glResource, ctx) {

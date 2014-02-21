@@ -22,7 +22,7 @@ THREE.SpritePlugin = function () {
 			- 0.5,   0.5, 0, 1
 		] );
 
-		faces = new Uint16Array( [
+        faces = Arrays.newUint8Array( [
 			0, 1, 2,
 			0, 2, 3
 		] );
@@ -30,11 +30,11 @@ THREE.SpritePlugin = function () {
 		vertexBuffer  = _gl.createBuffer();
 		elementBuffer = _gl.createBuffer();
 
-		_gl.bindBuffer( _gl.ARRAY_BUFFER, vertexBuffer );
-		_gl.bufferData( _gl.ARRAY_BUFFER, vertices, _gl.STATIC_DRAW );
+        _gl.bindBuffer( Context3D.ARRAY_BUFFER, vertexBuffer );
+        _gl.bufferData( Context3D.ARRAY_BUFFER, vertices, Context3D.STATIC_DRAW );
 
-		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
-		_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faces, _gl.STATIC_DRAW );
+        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
+        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, faces, Context3D.STATIC_DRAW );
 
 		program = createProgram();
 
@@ -93,18 +93,18 @@ THREE.SpritePlugin = function () {
 		_gl.enableVertexAttribArray( attributes.position );
 		_gl.enableVertexAttribArray( attributes.uv );
 
-		_gl.disable( _gl.CULL_FACE );
-		_gl.enable( _gl.BLEND );
+        _gl.disable( Context3D.CULL_FACE );
+        _gl.enable( Context3D.BLEND );
 
-		_gl.bindBuffer( _gl.ARRAY_BUFFER, vertexBuffer );
-		_gl.vertexAttribPointer( attributes.position, 2, _gl.FLOAT, false, 2 * 8, 0 );
-		_gl.vertexAttribPointer( attributes.uv, 2, _gl.FLOAT, false, 2 * 8, 8 );
+        _gl.bindBuffer( Context3D.ARRAY_BUFFER, vertexBuffer );
+        _gl.vertexAttribPointer( attributes.position, 2, Context3D.FLOAT, false, 2 * 8, 0 );
+        _gl.vertexAttribPointer( attributes.uv, 2, Context3D.FLOAT, false, 2 * 8, 8 );
 
-		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
+        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
 		_gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
 
-		_gl.activeTexture( _gl.TEXTURE0 );
+        _gl.activeTexture( Context3D.TEXTURE0 );
 		_gl.uniform1i( uniforms.map, 0 );
 
 		var oldFogType = 0;
@@ -226,13 +226,13 @@ THREE.SpritePlugin = function () {
 
 			}
 
-			_gl.drawElements( _gl.TRIANGLES, 6, _gl.UNSIGNED_SHORT, 0 );
+            _gl.drawElements( Context3D.TRIANGLES, 6, Context3D.UNSIGNED_SHORT, 0 );
 
 		}
 
 		// restore gl
 
-		_gl.enable( _gl.CULL_FACE );
+        _gl.enable( Context3D.CULL_FACE );
 
 	};
 
@@ -240,8 +240,8 @@ THREE.SpritePlugin = function () {
 
 		var program = _gl.createProgram();
 
-		var vertexShader = _gl.createShader( _gl.VERTEX_SHADER );
-		var fragmentShader = _gl.createShader( _gl.FRAGMENT_SHADER );
+        var vertexShader = _gl.createShader( Context3D.VERTEX_SHADER );
+        var fragmentShader = _gl.createShader( Context3D.FRAGMENT_SHADER );
 
 		_gl.shaderSource( vertexShader, [
 

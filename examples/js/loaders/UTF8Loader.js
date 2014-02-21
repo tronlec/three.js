@@ -433,7 +433,7 @@ THREE.UTF8Loader.prototype.decompressMesh =  function ( str, meshParams, decodeP
     var indexStart = meshParams.indexRange[ 0 ];
     var numIndices = 3 * meshParams.indexRange[ 1 ];
 
-    var indicesOut = new Uint16Array( numIndices );
+    var indicesOut = Arrays.newUint16Array( numIndices );
 
     this.decompressIndices_( str, inputOffset, numIndices, indicesOut, 0 );
 
@@ -536,13 +536,13 @@ THREE.UTF8Loader.prototype.decompressMesh2 = function( str, meshParams, decodePa
 
     var numIndices = 3 * meshParams.codeRange[ 2 ];
 
-    var indicesOut = new Uint16Array( numIndices );
+    var indicesOut = Arrays.newUint16Array( numIndices );
 
     var crosses = new Int32Array( 3 * numVerts );
 
-    var lastAttrib = new Uint16Array( stride );
+    var lastAttrib = Arrays.newUint16Array( stride );
 
-    var attribsOutFixed = new Uint16Array( stride * numVerts );
+    var attribsOutFixed = Arrays.newUint16Array( stride * numVerts );
     var attribsOut = new Float32Array( stride * numVerts );
 
     var highest = 0;

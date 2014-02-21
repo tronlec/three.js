@@ -573,7 +573,7 @@ THREE.BufferGeometry.prototype = {
 		console.log("Reordering "+verticesCount+" vertices.");
 		*/
 
-		var sortedIndices = new Uint16Array( indices.length ); //16-bit buffers
+		var sortedIndices = Arrays.newUint16Array( indices.length ); //16-bit buffers
 		var indexPtr = 0;
 		var vertexPtr = 0;
 

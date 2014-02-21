@@ -40,8 +40,6 @@ THREE.SpotLightHelper.prototype.update = function () {
 	var vector = new THREE.Vector3();
 	var vector2 = new THREE.Vector3();
 
-	return function () {
-
 		var coneLength = this.light.distance ? this.light.distance : 10000;
 		var coneWidth = coneLength * Math.tan( this.light.angle );
 
@@ -54,6 +52,4 @@ THREE.SpotLightHelper.prototype.update = function () {
 
 		this.cone.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
-	};
-
-}();
+};

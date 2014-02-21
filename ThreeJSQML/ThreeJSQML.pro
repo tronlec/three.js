@@ -15,3 +15,17 @@ OTHER_FILES = qmldir \
     ../src/renderers/* \
     ../src/renderers/shaders/* \
     ../src/renderers/renderables/* \
+    ../src/extras/renderers/plugins/* \
+    ../src/extras/core/Gyroscope.js \
+    ../src/extras/helpers/CameraHelper.js \
+    ../src/extras/helpers/DirectionalLightHelper.js \
+    ../src/extras/helpers/HemisphereLightHelper.js \
+    ../src/extras/helpers/PointLightHelper.js \
+    ../src/extras/helpers/SpotLightHelper.js \
+    ../src/extras/objects/LensFlare.js \
+    ../src/extras/objects/ImmediateRenderObject.js \
+    ../src/extras/renderers/plugins/LensFlarePlugin.js \
+    ../src/extras/renderers/plugins/ShadowMapPlugin.js \
+    ../src/extras/renderers/plugins/SpritePlugin.js \
+    ../src/extras/shaders/ShaderFlares.js \
+    ../src/extras/geometries/*

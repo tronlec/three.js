@@ -9478,7 +9478,7 @@ THREE.BufferGeometry.prototype = {
 		console.log("Reordering "+verticesCount+" vertices.");
 		*/
 
-		var sortedIndices = new Uint16Array( indices.length ); //16-bit buffers
+		var sortedIndices = Arrays.newUint16Array( indices.length ); //16-bit buffers
 		var indexPtr = 0;
 		var vertexPtr = 0;
 
@@ -21157,8 +21157,8 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		}
 
-		geometryGroup.__faceArray = new Uint16Array( ntris * 3 );
-		geometryGroup.__lineArray = new Uint16Array( nlines * 2 );
+		geometryGroup.__faceArray = Arrays.newUint16Array( ntris * 3 );
+		geometryGroup.__lineArray = Arrays.newUint16Array( nlines * 2 );
 
 		var m, ml;
 
@@ -36226,7 +36226,7 @@ THREE.LensFlarePlugin = function () {
 		_precision = renderer.getPrecision();
 
 		_lensFlare.vertices = new Float32Array( 8 + 8 );
-		_lensFlare.faces = new Uint16Array( 6 );
+		_lensFlare.faces = Arrays.newUint16Array( 6 );
 
 		var i = 0;
 		_lensFlare.vertices[ i++ ] = -1; _lensFlare.vertices[ i++ ] = -1;	// vertex
@@ -37034,7 +37034,7 @@ THREE.SpritePlugin = function () {
 			- 0.5,   0.5, 0, 1
 		] );
 
-		faces = new Uint16Array( [
+		faces = Arrays.newUint16Array( [
 			0, 1, 2,
 			0, 2, 3
 		] );

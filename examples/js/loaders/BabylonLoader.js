@@ -123,7 +123,7 @@ THREE.BabylonLoader.prototype = {
 
 				geometry.attributes.index = {
 					itemSize: 1,
-					array: new Uint16Array( data.indices )
+					array: Arrays.newUint16Array( data.indices )
 				};
 
 				geometry.attributes.position = {

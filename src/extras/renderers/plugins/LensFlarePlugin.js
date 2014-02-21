@@ -15,7 +15,7 @@ THREE.LensFlarePlugin = function () {
 		_precision = renderer.getPrecision();
 
 		_lensFlare.vertices = Arrays.newFloat32Array( 8 + 8 );
-		_lensFlare.faces = new Uint16Array( 6 );
+        _lensFlare.faces = Arrays.newUint16Array( 6 );
 
 		var i = 0;
 		_lensFlare.vertices[ i++ ] = -1; _lensFlare.vertices[ i++ ] = -1;	// vertex
@@ -39,32 +39,32 @@ THREE.LensFlarePlugin = function () {
 		_lensFlare.vertexBuffer     = _gl.createBuffer();
 		_lensFlare.elementBuffer    = _gl.createBuffer();
 
-		_gl.bindBuffer( _gl.ARRAY_BUFFER, _lensFlare.vertexBuffer );
-		_gl.bufferData( _gl.ARRAY_BUFFER, _lensFlare.vertices, _gl.STATIC_DRAW );
+        _gl.bindBuffer( Context3D.ARRAY_BUFFER, _lensFlare.vertexBuffer );
+        _gl.bufferData( Context3D.ARRAY_BUFFER, _lensFlare.vertices, Context3D.STATIC_DRAW );
 
-		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, _lensFlare.elementBuffer );
-		_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, _lensFlare.faces, _gl.STATIC_DRAW );
+        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.elementBuffer );
+        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.faces, Context3D.STATIC_DRAW );
 
 		// textures
 
 		_lensFlare.tempTexture      = _gl.createTexture();
 		_lensFlare.occlusionTexture = _gl.createTexture();
 
-		_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.tempTexture );
-		_gl.texImage2D( _gl.TEXTURE_2D, 0, _gl.RGB, 16, 16, 0, _gl.RGB, _gl.UNSIGNED_BYTE, null );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_MAG_FILTER, _gl.NEAREST );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, _gl.NEAREST );
+        _gl.bindTexture( Context3D.TEXTURE_2D, _lensFlare.tempTexture );
+        _gl.texImage2D( Context3D.TEXTURE_2D, 0, Context3D.RGB, 16, 16, 0, Context3D.RGB, Context3D.UNSIGNED_BYTE, null );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_WRAP_S, Context3D.CLAMP_TO_EDGE );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_WRAP_T, Context3D.CLAMP_TO_EDGE );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_MAG_FILTER, Context3D.NEAREST );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_MIN_FILTER, Context3D.NEAREST );
 
-		_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.occlusionTexture );
-		_gl.texImage2D( _gl.TEXTURE_2D, 0, _gl.RGBA, 16, 16, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, null );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_MAG_FILTER, _gl.NEAREST );
-		_gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, _gl.NEAREST );
+        _gl.bindTexture( Context3D.TEXTURE_2D, _lensFlare.occlusionTexture );
+        _gl.texImage2D( Context3D.TEXTURE_2D, 0, Context3D.RGBA, 16, 16, 0, Context3D.RGBA, Context3D.UNSIGNED_BYTE, null );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_WRAP_S, Context3D.CLAMP_TO_EDGE );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_WRAP_T, Context3D.CLAMP_TO_EDGE );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_MAG_FILTER, Context3D.NEAREST );
+        _gl.texParameteri( Context3D.TEXTURE_2D, Context3D.TEXTURE_MIN_FILTER, Context3D.NEAREST );
 
-		if ( _gl.getParameter( _gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS ) <= 0 ) {
+        if ( _gl.getParameter( Context3D.MAX_VERTEX_TEXTURE_IMAGE_UNITS ) <= 0 ) {
 
 			_lensFlare.hasVertexTexture = false;
 			_lensFlare.program = createProgram( THREE.ShaderFlares[ "lensFlare" ], _precision );
@@ -138,13 +138,13 @@ THREE.LensFlarePlugin = function () {
 		_gl.uniform1i( uniforms.occlusionMap, 0 );
 		_gl.uniform1i( uniforms.map, 1 );
 
-		_gl.bindBuffer( _gl.ARRAY_BUFFER, _lensFlare.vertexBuffer );
-		_gl.vertexAttribPointer( attributes.vertex, 2, _gl.FLOAT, false, 2 * 8, 0 );
-		_gl.vertexAttribPointer( attributes.uv, 2, _gl.FLOAT, false, 2 * 8, 8 );
+        _gl.bindBuffer( Context3D.ARRAY_BUFFER, _lensFlare.vertexBuffer );
+        _gl.vertexAttribPointer( attributes.vertex, 2, Context3D.FLOAT, false, 2 * 8, 0 );
+        _gl.vertexAttribPointer( attributes.uv, 2, Context3D.FLOAT, false, 2 * 8, 8 );
 
-		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, _lensFlare.elementBuffer );
+        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.elementBuffer );
 
-		_gl.disable( _gl.CULL_FACE );
+        _gl.disable( Context3D.CULL_FACE );
 		_gl.depthMask( false );
 
 		var i, j, jl, flare, sprite;
@@ -180,9 +180,9 @@ THREE.LensFlarePlugin = function () {
 
 				// save current RGB to temp texture
 
-				_gl.activeTexture( _gl.TEXTURE1 );
-				_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.tempTexture );
-				_gl.copyTexImage2D( _gl.TEXTURE_2D, 0, _gl.RGB, screenPositionPixels.x - 8, screenPositionPixels.y - 8, 16, 16, 0 );
+                _gl.activeTexture( Context3D.TEXTURE1 );
+                _gl.bindTexture( Context3D.TEXTURE_2D, _lensFlare.tempTexture );
+                _gl.copyTexImage2D( Context3D.TEXTURE_2D, 0, Context3D.RGB, screenPositionPixels.x - 8, screenPositionPixels.y - 8, 16, 16, 0 );
 
 
 				// render pink quad
@@ -191,27 +191,27 @@ THREE.LensFlarePlugin = function () {
 				_gl.uniform2f( uniforms.scale, scale.x, scale.y );
 				_gl.uniform3f( uniforms.screenPosition, screenPosition.x, screenPosition.y, screenPosition.z );
 
-				_gl.disable( _gl.BLEND );
-				_gl.enable( _gl.DEPTH_TEST );
+                _gl.disable( Context3D.BLEND );
+                _gl.enable( Context3D.DEPTH_TEST );
 
-				_gl.drawElements( _gl.TRIANGLES, 6, _gl.UNSIGNED_SHORT, 0 );
+                _gl.drawElements( Context3D.TRIANGLES, 6, Context3D.UNSIGNED_SHORT, 0 );
 
 
 				// copy result to occlusionMap
 
-				_gl.activeTexture( _gl.TEXTURE0 );
-				_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.occlusionTexture );
-				_gl.copyTexImage2D( _gl.TEXTURE_2D, 0, _gl.RGBA, screenPositionPixels.x - 8, screenPositionPixels.y - 8, 16, 16, 0 );
+                _gl.activeTexture( Context3D.TEXTURE0 );
+                _gl.bindTexture( Context3D.TEXTURE_2D, _lensFlare.occlusionTexture );
+                _gl.copyTexImage2D( Context3D.TEXTURE_2D, 0, Context3D.RGBA, screenPositionPixels.x - 8, screenPositionPixels.y - 8, 16, 16, 0 );
 
 
 				// restore graphics
 
 				_gl.uniform1i( uniforms.renderType, 1 );
-				_gl.disable( _gl.DEPTH_TEST );
+                _gl.disable( Context3D.DEPTH_TEST );
 
-				_gl.activeTexture( _gl.TEXTURE1 );
-				_gl.bindTexture( _gl.TEXTURE_2D, _lensFlare.tempTexture );
-				_gl.drawElements( _gl.TRIANGLES, 6, _gl.UNSIGNED_SHORT, 0 );
+                _gl.activeTexture( Context3D.TEXTURE1 );
+                _gl.bindTexture( Context3D.TEXTURE_2D, _lensFlare.tempTexture );
+                _gl.drawElements( Context3D.TRIANGLES, 6, Context3D.UNSIGNED_SHORT, 0 );
 
 
 				// update object positions
@@ -231,7 +231,7 @@ THREE.LensFlarePlugin = function () {
 				// render flares
 
 				_gl.uniform1i( uniforms.renderType, 2 );
-				_gl.enable( _gl.BLEND );
+                _gl.enable( Context3D.BLEND );
 
 				for ( j = 0, jl = flare.lensFlares.length; j < jl; j ++ ) {
 
@@ -258,7 +258,7 @@ THREE.LensFlarePlugin = function () {
 						_renderer.setBlending( sprite.blending, sprite.blendEquation, sprite.blendSrc, sprite.blendDst );
 						_renderer.setTexture( sprite.texture, 1 );
 
-						_gl.drawElements( _gl.TRIANGLES, 6, _gl.UNSIGNED_SHORT, 0 );
+                        _gl.drawElements( Context3D.TRIANGLES, 6, Context3D.UNSIGNED_SHORT, 0 );
 
 					}
 
@@ -270,8 +270,8 @@ THREE.LensFlarePlugin = function () {
 
 		// restore gl
 
-		_gl.enable( _gl.CULL_FACE );
-		_gl.enable( _gl.DEPTH_TEST );
+        _gl.enable( Context3D.CULL_FACE );
+        _gl.enable( Context3D.DEPTH_TEST );
 		_gl.depthMask( true );
 
 	};
@@ -280,8 +280,8 @@ THREE.LensFlarePlugin = function () {
 
 		var program = _gl.createProgram();
 
-		var fragmentShader = _gl.createShader( _gl.FRAGMENT_SHADER );
-		var vertexShader = _gl.createShader( _gl.VERTEX_SHADER );
+        var fragmentShader = _gl.createShader( Context3D.FRAGMENT_SHADER );
+        var vertexShader = _gl.createShader( Context3D.VERTEX_SHADER );
 
 		var prefix = "precision " + precision + " float;\n";
 
