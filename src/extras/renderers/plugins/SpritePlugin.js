@@ -15,7 +15,7 @@ THREE.SpritePlugin = function () {
 		_gl = renderer.context;
 		_renderer = renderer;
 
-		vertices = new Float32Array( [
+		vertices = Arrays.newFloat32Array( [
 			- 0.5, - 0.5, 0, 0, 
 			  0.5, - 0.5, 1, 0,
 			  0.5,   0.5, 1, 1,

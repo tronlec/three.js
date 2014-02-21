@@ -14,7 +14,7 @@
 
 THREE.Matrix4 = function ( n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44 ) {
 
-	this.elements = new Float32Array( 16 );
+	this.elements = Arrays.newFloat32Array( 16 );
 
 	// TODO: if n11 is undefined, then just set to identity, otherwise copy all other values into matrix
 	//   we should not support semi specification of Matrix4, it is just weird.
@@ -88,11 +88,9 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	extractRotation: function () {
+    extractRotation: function ( m ) {
 
 		var v1 = new THREE.Vector3();
-
-		return function ( m ) {
 
 			var te = this.elements;
 			var me = m.elements;
@@ -114,10 +112,7 @@ THREE.Matrix4.prototype = {
 			te[10] = me[10] * scaleZ;
 
 			return this;
-
-		};
-
-	}(),
+    },
 
 	makeRotationFromEuler: function ( euler ) {
 
@@ -292,13 +287,11 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	lookAt: function() {
+    lookAt: function( eye, target, up ) {
 
 		var x = new THREE.Vector3();
 		var y = new THREE.Vector3();
 		var z = new THREE.Vector3();
-
-		return function ( eye, target, up ) {
 
 			var te = this.elements;
 
@@ -328,9 +321,7 @@ THREE.Matrix4.prototype = {
 
 			return this;
 
-		};
-
-	}(),
+    },
 
 	multiply: function ( m, n ) {
 
@@ -427,11 +418,9 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	multiplyVector3Array: function() {
+    multiplyVector3Array: function( a ) {
 
 		var v1 = new THREE.Vector3();
-
-		return function ( a ) {
 
 			for ( var i = 0, il = a.length; i < il; i += 3 ) {
 
@@ -448,10 +437,7 @@ THREE.Matrix4.prototype = {
 			}
 
 			return a;
-
-		};
-
-	}(),
+    },
 
 	rotateAxis: function ( v ) {
 
@@ -578,16 +564,11 @@ THREE.Matrix4.prototype = {
 
 		var v1 = new THREE.Vector3();
 
-		return function () {
-
 			console.warn( 'DEPRECATED: Matrix4\'s .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.' );
 
 			var te = this.elements;
 			return v1.set( te[12], te[13], te[14] );
-
-		};
-
-	}(),
+    },
 
 	setPosition: function ( v ) {
 
@@ -826,12 +807,10 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	decompose: function () {
+    decompose: function ( position, quaternion, scale ) {
 
 		var vector = new THREE.Vector3();
 		var matrix = new THREE.Matrix4();
-
-		return function ( position, quaternion, scale ) {
 
 			var te = this.elements;
 
@@ -876,10 +855,7 @@ THREE.Matrix4.prototype = {
 			scale.z = sz;
 
 			return this;
-
-		};
-
-	}(),
+    },
 
 	makeFrustum: function ( left, right, bottom, top, near, far ) {
 

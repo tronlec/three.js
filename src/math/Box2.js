@@ -67,11 +67,9 @@ THREE.Box2.prototype = {
 
 	},
 
-	setFromCenterAndSize: function () {
+    setFromCenterAndSize: function ( center, size ) {
 
 		var v1 = new THREE.Vector2();
-
-		return function ( center, size ) {
 
 			var halfSize = v1.copy( size ).multiplyScalar( 0.5 );
 			this.min.copy( center ).sub( halfSize );
@@ -79,9 +77,7 @@ THREE.Box2.prototype = {
 
 			return this;
 
-		};
-
-	}(),
+    },
 
 	copy: function ( box ) {
 
@@ -209,18 +205,14 @@ THREE.Box2.prototype = {
 
 	},
 
-	distanceToPoint: function () {
+    distanceToPoint: function ( point ) {
 
 		var v1 = new THREE.Vector2();
-
-		return function ( point ) {
 
 			var clampedPoint = v1.copy( point ).clamp( this.min, this.max );
 			return clampedPoint.sub( point ).length();
 
-		};
-
-	}(),
+    },
 
 	intersect: function ( box ) {
 

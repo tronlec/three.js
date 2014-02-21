@@ -313,21 +313,16 @@ THREE.Euler.prototype = {
 
 	},
 
-	reorder: function () {
+    reorder: function ( newOrder ) {
 
 		// WARNING: this discards revolution information -bhouston
 
 		var q = new THREE.Quaternion();
 
-		return function ( newOrder ) {
-
 			q.setFromEuler( this );
 			this.setFromQuaternion( q, newOrder );
 
-		};
-
-
-	}(),
+    },
 
 	fromArray: function ( array ) {
 

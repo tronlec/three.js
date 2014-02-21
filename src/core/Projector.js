@@ -49,20 +49,16 @@ THREE.Projector = function () {
 
 	};
 
-	this.unprojectVector = function () {
+    this.unprojectVector = function ( vector, camera ) {
 
 		var projectionMatrixInverse = new THREE.Matrix4();
-
-		return function ( vector, camera ) {
 
 			projectionMatrixInverse.getInverse( camera.projectionMatrix );
 			_viewProjectionMatrix.multiplyMatrices( camera.matrixWorld, projectionMatrixInverse );
 
 			return vector.applyProjection( _viewProjectionMatrix );
 
-		};
-
-	}();
+    };
 
 	this.pickingRay = function ( vector, camera ) {
 

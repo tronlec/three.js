@@ -23,39 +23,34 @@ THREE.Sphere.prototype = {
 	},
 
 
-	setFromPoints: function () {
+    setFromPoints: function ( points, optionalCenter ) {
 
 		var box = new THREE.Box3();
 
-		return function ( points, optionalCenter )  {
+        var center = this.center;
 
-			var center = this.center;
+        if ( optionalCenter !== undefined ) {
 
-			if ( optionalCenter !== undefined ) {
+            center.copy( optionalCenter );
 
-				center.copy( optionalCenter );
+        } else {
 
-			} else {
+            box.setFromPoints( points ).center( center );
 
-				box.setFromPoints( points ).center( center );
+        }
 
-			}
+        var maxRadiusSq = 0;
 
-			var maxRadiusSq = 0;
+        for ( var i = 0, il = points.length; i < il; i ++ ) {
 
-			for ( var i = 0, il = points.length; i < il; i ++ ) {
+            maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( points[ i ] ) );
 
-				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( points[ i ] ) );
+        }
 
-			}
+        this.radius = Math.sqrt( maxRadiusSq );
 
-			this.radius = Math.sqrt( maxRadiusSq );
-
-			return this;			
- 		
- 		};
-
-	}(),
+        return this;
+    },
 
 	copy: function ( sphere ) {
 

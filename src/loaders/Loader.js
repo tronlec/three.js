@@ -5,7 +5,7 @@
 THREE.Loader = function ( showStatus ) {
 
 	this.showStatus = showStatus;
-	this.statusDomElement = showStatus ? THREE.Loader.prototype.addStatusElement() : null;
+    this.statusMessage = showStatus ? "" : null;
 
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
@@ -18,27 +18,6 @@ THREE.Loader.prototype = {
 	constructor: THREE.Loader,
 
 	crossOrigin: undefined,
-
-	addStatusElement: function () {
-
-		var e = document.createElement( "div" );
-
-		e.style.position = "absolute";
-		e.style.right = "0px";
-		e.style.top = "0px";
-		e.style.fontSize = "0.8em";
-		e.style.textAlign = "left";
-		e.style.background = "rgba(0,0,0,0.25)";
-		e.style.color = "#fff";
-		e.style.width = "120px";
-		e.style.padding = "0.5em 0.5em 0.5em 0.5em";
-		e.style.zIndex = 1000;
-
-		e.innerHTML = "Loading ...";
-
-		return e;
-
-	},
 
 	updateProgress: function ( progress ) {
 
@@ -55,7 +34,7 @@ THREE.Loader.prototype = {
 
 		}
 
-		this.statusDomElement.innerHTML = message;
+        this.statusMessage = message;
 
 	},
 
@@ -155,15 +134,15 @@ THREE.Loader.prototype = {
 
 			if ( isCompressed ) {
 
-				var texture = THREE.ImageUtils.loadCompressedTexture( fullPath );
+                var ctexture = THREE.ImageUtils.loadCompressedTexture( fullPath );
 
-				where[ name ] = texture;
+                where[ name ] = ctexture;
 
 			} else {
 
-				var texture = document.createElement( 'canvas' );
+                var texture = THREE.ImageUtils.loadTexture( fullPath );
 
-				where[ name ] = new THREE.Texture( texture );
+                where[ name ] = texture;
 
 			}
 

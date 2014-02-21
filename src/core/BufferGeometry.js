@@ -141,8 +141,6 @@ THREE.BufferGeometry.prototype = {
 		var box = new THREE.Box3();
 		var vector = new THREE.Vector3();
 
-		return function () {
-
 			if ( this.boundingSphere === null ) {
 
 				this.boundingSphere = new THREE.Sphere();
@@ -179,9 +177,7 @@ THREE.BufferGeometry.prototype = {
 
 			}
 
-		}
-
-	}(),
+    },
 
 	computeVertexNormals: function () {
 
@@ -197,7 +193,7 @@ THREE.BufferGeometry.prototype = {
 				this.attributes[ "normal" ] = {
 
 					itemSize: 3,
-					array: new Float32Array( nVertexElements )
+					array: Arrays.newFloat32Array( nVertexElements )
 
 				};
 
@@ -380,7 +376,7 @@ THREE.BufferGeometry.prototype = {
 			this.attributes[ "tangent" ] = {
 
 				itemSize: 4,
-				array: new Float32Array( nTangentElements )
+				array: Arrays.newFloat32Array( nTangentElements )
 
 			};
 

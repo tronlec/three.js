@@ -52,12 +52,11 @@ THREE.LOD.prototype.getObjectForDistance = function ( distance ) {
 
 };
 
-THREE.LOD.prototype.update = function () {
+THREE.LOD.prototype.update = function ( camera ) {
 
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
-	return function ( camera ) {
 
 		if ( this.objects.length > 1 ) {
 
@@ -91,9 +90,7 @@ THREE.LOD.prototype.update = function () {
 
 		}
 
-	};
-
-}();
+};
 
 THREE.LOD.prototype.clone = function ( object ) {
 

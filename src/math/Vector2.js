@@ -226,27 +226,22 @@ THREE.Vector2.prototype = {
 		return this;
 	},
 
-	clampScalar: ( function () {
+    clampScalar: function ( minVal, maxVal ) {
 
-		var min, max;
+        var min, max;
 
-		return function ( minVal, maxVal ) {
+        if ( min === undefined ) {
 
-			if ( min === undefined ) {
+            min = new THREE.Vector2();
+            max = new THREE.Vector2();
 
-				min = new THREE.Vector2();
-				max = new THREE.Vector2();
+        }
 
-			}
+        min.set( minVal, minVal );
+        max.set( maxVal, maxVal );
 
-			min.set( minVal, minVal );
-			max.set( maxVal, maxVal );
-
-			return this.clamp( min, max );
-
-		};
-		
-	} )(),
+        return this.clamp( min, max );
+    },
 
 	floor: function () {
 

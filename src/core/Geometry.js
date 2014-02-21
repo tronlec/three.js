@@ -566,12 +566,10 @@ THREE.Geometry.prototype = {
 
 	// Geometry splitting
 
-	makeGroups: ( function () {
+    makeGroups: function ( usesFaceMaterial ) {
 
 		var geometryGroupCounter = 0;
 		
-		return function ( usesFaceMaterial ) {
-
 			var f, fl, face, materialIndex,
 				groupHash, hash_map = {};
 
@@ -627,9 +625,7 @@ THREE.Geometry.prototype = {
 
 			}
 
-		};
-		
-	} )(),
+    },
 
 	clone: function () {
 

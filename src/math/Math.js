@@ -15,8 +15,6 @@ THREE.Math = {
 		var uuid = new Array(36);
 		var rnd = 0, r;
 
-		return function () {
-
 			for ( var i = 0; i < 36; i ++ ) {
 
 				if ( i == 8 || i == 13 || i == 18 || i == 23 ) {
@@ -39,9 +37,7 @@ THREE.Math = {
 			
 			return uuid.join('');
 
-		};
-
-	}(),
+    },
 
 	// Clamp value to range <a, b>
 
@@ -130,29 +126,19 @@ THREE.Math = {
 
 	},
 
-	degToRad: function() {
+    degToRad: function( degrees ) {
 
 		var degreeToRadiansFactor = Math.PI / 180;
 
-		return function ( degrees ) {
-
 			return degrees * degreeToRadiansFactor;
+    },
 
-		};
-
-	}(),
-
-	radToDeg: function() {
+    radToDeg: function( radians ) {
 
 		var radianToDegreesFactor = 180 / Math.PI;
 
-		return function ( radians ) {
-
 			return radians * radianToDegreesFactor;
-
-		};
-
-	}(),
+    },
 
 	isPowerOfTwo: function ( value ) {
 		return ( value & ( value - 1 ) ) === 0 && value !== 0;
