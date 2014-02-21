@@ -6,6 +6,8 @@
  */
 var programUniformMap = {};
 var programAttributeMap = {};
+var p_uniforms;
+var m_uniforms;
 
 THREE.Canvas3DRenderer = function ( parameters ) {
 
@@ -2483,12 +2485,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
             _gl.bindBuffer( Context3D.ARRAY_BUFFER, object.__webglVertexBuffer );
             _gl.bufferData( Context3D.ARRAY_BUFFER, object.positionArray, Context3D.DYNAMIC_DRAW );
-            var maMap = this.programAttributesMap[""+material.program];
+            var maMap = programAttributeMap["prg"+material.program.id];
             _gl.enableVertexAttribArray( maMap.position );
             _gl.vertexAttribPointer( maMap.position, 3, Context3D.FLOAT, false, 0, 0 );
 
 		}
-        var aMap = this.programAttributesMap[""+program];
+        var aMap = programAttributeMap["prg"+program.id];
 
 		if ( object.hasNormals ) {
 
@@ -2576,7 +2578,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var program = setProgram( camera, lights, fog, material, object );
 
-        var aMap = this.programAttributesMap[""+program];
+        var aMap = programAttributeMap["prg"+program.id];
         var programAttributes = aMap;
 		var geometryAttributes = geometry.attributes;
 
@@ -2846,7 +2848,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var program = setProgram( camera, lights, fog, material, object );
 
-        var aMap = this.programAttributesMap[""+program];
+        var aMap = programAttributeMap["prg"+program.id];
         var attributes = aMap;
 
 		var updateBuffers = false,
@@ -3094,7 +3096,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	function setupMorphTargets ( material, geometryGroup, object ) {
 
 		// set base
-        var maMap = this.programAttributesMap[""+material.program];
+        var maMap = programAttributeMap["prg"+material.program.id];
 
         var attributes = maMap;
 
@@ -3229,7 +3231,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		// load updated influences uniform
 
-        var uMap = this.programUniformMap[""+program];
+        var uMap = programUniformMap["prg"+program.id];
         if ( uMap.morphTargetInfluences !== null ) {
             _gl.uniform1fv( uMap.morphTargetInfluences, object.__webglMorphTargetInfluences );
 		}
@@ -4168,7 +4170,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		material.program = buildProgram( shaderID, material.fragmentShader, material.vertexShader, material.uniforms, material.attributes, material.defines, parameters, material.index0AttributeName );
 
-        var attributes = this.programAttributesMap[""+material.program];
+        var attributes = programAttributeMap["prg"+material.program.id];
 
 		if ( material.morphTargets ) {
 
@@ -4254,7 +4256,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		var refreshMaterial = false;
 
         var program = material.program;
-        var uMap = this.programUniformMap[""+program];
+        var uMap = programUniformMap["prg"+program.id];
         p_uniforms = uMap;
         m_uniforms = material.uniforms;
 
@@ -4715,7 +4717,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		var uniform, value, type, location, texture, textureUnit, i, il, j, jl, offset;
 
 		for ( j = 0, jl = uniforms.length; j < jl; j ++ ) {
-            var uMap = this.programUniformMap[""+program];
+            var uMap = programUniformMap["prg"+program.id];
             location = uMap[ uniforms[ j ][ 1 ] ];
 			if ( !location ) continue;
 
@@ -5454,21 +5456,17 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		code = chunks.join();
 
 		// Check if code has been already compiled
-
 		for ( p = 0, pl = _programs.length; p < pl; p ++ ) {
 
 			var programInfo = _programs[ p ];
 
 			if ( programInfo.code === code ) {
 
-				// console.log( "Code already compiled." /*: \n\n" + code*/ );
-
+                console.log( "Code already compiled.:\n\n" + code );
 				programInfo.usedTimes ++;
 
 				return programInfo.program;
-
 			}
-
 		}
 
 		var shadowMapTypeDefine = "SHADOWMAP_TYPE_BASIC";
@@ -5483,7 +5481,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		}
 
-		// console.log( "building new program " );
+        console.log( "building new program " );
 
 		//
 
@@ -5657,12 +5655,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		_gl.linkProgram( program );
 
-        if ( _gl.getProgramParameter( program, Context3D.LINK_STATUS ) === false ) {
+        if ( !_gl.getProgramParameter( program, Context3D.LINK_STATUS )) {
 
 			console.error( 'Could not initialise shader' );
             console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, Context3D.VALIDATE_STATUS ) );
 			console.error( 'gl.getError()', _gl.getError() );
-
 		}
 
 		if ( _gl.getProgramInfoLog( program ) !== '' ) {
@@ -5754,7 +5751,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
     function cacheUniformLocations ( program, identifiers ) {
 
         var progName, i, l, id;
-        progName = ""+program;
+        progName = "prg"+program.id;
         programUniformMap[progName] = {};
 		for( i = 0, l = identifiers.length; i < l; i ++ ) {
             id = identifiers[ i ];
@@ -5767,7 +5764,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	function cacheAttributeLocations ( program, identifiers ) {
 
         var progName, i, l, id;
-        progName = ""+program;
+        progName = "prg"+program.id;
         programAttributeMap[progName] = {};
         for( i = 0, l = identifiers.length; i < l; i ++ ) {
 			id = identifiers[ i ];
