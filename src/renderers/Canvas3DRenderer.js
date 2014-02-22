@@ -318,8 +318,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( this.devicePixelRatio !== 1 && updateStyle !== false ) {
 
-			_canvas.style.width = width + 'px';
-			_canvas.style.height = height + 'px';
+//			_canvas.style.width = width + 'px';
+//			_canvas.style.height = height + 'px';
 
 		}
 
