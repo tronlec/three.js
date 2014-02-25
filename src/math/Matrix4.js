@@ -14,18 +14,29 @@
 
 THREE.Matrix4 = function ( n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44 ) {
 
-	this.elements = Arrays.newFloat32Array( 16 );
+    this.elements = Arrays.newFloat32Array( 16 );
 
 	// TODO: if n11 is undefined, then just set to identity, otherwise copy all other values into matrix
 	//   we should not support semi specification of Matrix4, it is just weird.
 
 	var te = this.elements;
 
-	te[0] = ( n11 !== undefined ) ? n11 : 1; te[4] = n12 || 0; te[8] = n13 || 0; te[12] = n14 || 0;
-	te[1] = n21 || 0; te[5] = ( n22 !== undefined ) ? n22 : 1; te[9] = n23 || 0; te[13] = n24 || 0;
-	te[2] = n31 || 0; te[6] = n32 || 0; te[10] = ( n33 !== undefined ) ? n33 : 1; te[14] = n34 || 0;
-	te[3] = n41 || 0; te[7] = n42 || 0; te[11] = n43 || 0; te[15] = ( n44 !== undefined ) ? n44 : 1;
-
+    te.set( 0, (n11 !== undefined) ? n11 : 1);
+    te.set( 4,  n12 || 0);
+    te.set( 8, n13 || 0);
+    te.set(12, n14 || 0);
+    te.set( 1, n21 || 0);
+    te.set( 5, (n22 !== undefined) ? n22 : 1);
+    te.set( 9, n23 || 0);
+    te.set(13, n24 || 0);
+    te.set( 2, n31 || 0);
+    te.set( 6, n32 || 0);
+    te.set(10, (n33 !== undefined) ? n33 : 1);
+    te.set(14, n34 || 0);
+    te.set( 3, n41 || 0);
+    te.set( 7, n42 || 0);
+    te.set(11, n43 || 0);
+    te.set(15, (n44 !== undefined) ? n44 : 1);
 };
 
 THREE.Matrix4.prototype = {
@@ -36,24 +47,27 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		te[0] = n11; te[4] = n12; te[8] = n13; te[12] = n14;
-		te[1] = n21; te[5] = n22; te[9] = n23; te[13] = n24;
-		te[2] = n31; te[6] = n32; te[10] = n33; te[14] = n34;
-		te[3] = n41; te[7] = n42; te[11] = n43; te[15] = n44;
+        te.set(0,n11); te.set(4,n12); te.set(8,n13); te.set(12,n14);
+        te.set(1,n21); te.set(5,n22); te.set(9,n23); te.set(13,n24);
+        te.set(2,n31); te.set(6,n32); te.set(10,n33); te.set(14,n34);
+        te.set(3,n41); te.set(7,n42); te.set(11,n43); te.set(15,n44);
 
 		return this;
 
 	},
 
+    float32Array: function() {
+        console.log("float32Array returning " + this.elements);
+        return this.elements;
+    },
+
 	identity: function () {
 
 		this.set(
-
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1
-
 		);
 
 		return this;
@@ -80,9 +94,9 @@ THREE.Matrix4.prototype = {
 		var te = this.elements;
 		var me = m.elements;
 
-		te[12] = me[12];
-		te[13] = me[13];
-		te[14] = me[14];
+        te.set(12,me.get(12));
+        te.set(13,me.get(13));
+        te.set(14,me.get(14));
 
 		return this;
 
@@ -95,21 +109,21 @@ THREE.Matrix4.prototype = {
 			var te = this.elements;
 			var me = m.elements;
 
-			var scaleX = 1 / v1.set( me[0], me[1], me[2] ).length();
-			var scaleY = 1 / v1.set( me[4], me[5], me[6] ).length();
-			var scaleZ = 1 / v1.set( me[8], me[9], me[10] ).length();
+            var scaleX = 1 / v1.set( me.get(0), me.get(1), me.get(2) ).length();
+            var scaleY = 1 / v1.set( me.get(4), me.get(5), me.get(6) ).length();
+            var scaleZ = 1 / v1.set( me.get(8), me.get(9), me.get(10) ).length();
 
-			te[0] = me[0] * scaleX;
-			te[1] = me[1] * scaleX;
-			te[2] = me[2] * scaleX;
+            te.set(0,me.get(0) * scaleX);
+            te.set(1,me.get(1) * scaleX);
+            te.set(2,me.get(2) * scaleX);
 
-			te[4] = me[4] * scaleY;
-			te[5] = me[5] * scaleY;
-			te[6] = me[6] * scaleY;
+            te.set(4,me.get(4) * scaleY);
+            te.set(5,me.get(5) * scaleY);
+            te.set(6,me.get(6) * scaleY);
 
-			te[8] = me[8] * scaleZ;
-			te[9] = me[9] * scaleZ;
-			te[10] = me[10] * scaleZ;
+            te.set(8,me.get(8) * scaleZ);
+            te.set(9,me.get(9) * scaleZ);
+            te.set(10,me.get(10) * scaleZ);
 
 			return this;
     },
@@ -133,110 +147,109 @@ THREE.Matrix4.prototype = {
 
 			var ae = a * e, af = a * f, be = b * e, bf = b * f;
 
-			te[0] = c * e;
-			te[4] = - c * f;
-			te[8] = d;
+            te.set(0,c * e);
+            te.set(4,- c * f);
+            te.set(8,d);
 
-			te[1] = af + be * d;
-			te[5] = ae - bf * d;
-			te[9] = - b * c;
+            te.set(1,af + be * d);
+            te.set(5,ae - bf * d);
+            te.set(9,- b * c);
 
-			te[2] = bf - ae * d;
-			te[6] = be + af * d;
-			te[10] = a * c;
+            te.set(2,bf - ae * d);
+            te.set(6,be + af * d);
+            te.set(10,a * c);
 
 		} else if ( euler.order === 'YXZ' ) {
 
 			var ce = c * e, cf = c * f, de = d * e, df = d * f;
 
-			te[0] = ce + df * b;
-			te[4] = de * b - cf;
-			te[8] = a * d;
+            te.set(0,ce + df * b);
+            te.set(4,de * b - cf);
+            te.set(8,a * d);
 
-			te[1] = a * f;
-			te[5] = a * e;
-			te[9] = - b;
+            te.set(1,a * f);
+            te.set(5,a * e);
+            te.set(9,- b);
 
-			te[2] = cf * b - de;
-			te[6] = df + ce * b;
-			te[10] = a * c;
+            te.set(2,cf * b - de);
+            te.set(6,df + ce * b);
+            te.set(10,a * c);
 
 		} else if ( euler.order === 'ZXY' ) {
 
 			var ce = c * e, cf = c * f, de = d * e, df = d * f;
 
-			te[0] = ce - df * b;
-			te[4] = - a * f;
-			te[8] = de + cf * b;
+            te.set(0, ce - df * b);
+            te.set(4, - a * f);
+            te.set(8, de + cf * b);
 
-			te[1] = cf + de * b;
-			te[5] = a * e;
-			te[9] = df - ce * b;
+            te.set(1, cf + de * b);
+            te.set(5, a * e);
+            te.set(9, df - ce * b);
 
-			te[2] = - a * d;
-			te[6] = b;
-			te[10] = a * c;
+            te.set(2, - a * d);
+            te.set(6, b);
+            te.set(10, a * c);
 
 		} else if ( euler.order === 'ZYX' ) {
 
 			var ae = a * e, af = a * f, be = b * e, bf = b * f;
 
-			te[0] = c * e;
-			te[4] = be * d - af;
-			te[8] = ae * d + bf;
+            te.set(0, c * e);
+            te.set(4, be * d - af);
+            te.set(8, ae * d + bf);
 
-			te[1] = c * f;
-			te[5] = bf * d + ae;
-			te[9] = af * d - be;
+            te.set(1, c * f);
+            te.set(5, bf * d + ae);
+            te.set(9, af * d - be);
 
-			te[2] = - d;
-			te[6] = b * c;
-			te[10] = a * c;
+            te.set(2, - d);
+            te.set(6, b * c);
+            te.set(10, a * c);
 
 		} else if ( euler.order === 'YZX' ) {
 
 			var ac = a * c, ad = a * d, bc = b * c, bd = b * d;
 
-			te[0] = c * e;
-			te[4] = bd - ac * f;
-			te[8] = bc * f + ad;
+            te.set(0, c * e);
+            te.set(4, bd - ac * f);
+            te.set(8, bc * f + ad);
 
-			te[1] = f;
-			te[5] = a * e;
-			te[9] = - b * e;
+            te.set(1, f);
+            te.set(5, a * e);
+            te.set(9, - b * e);
 
-			te[2] = - d * e;
-			te[6] = ad * f + bc;
-			te[10] = ac - bd * f;
+            te.set(2, - d * e);
+            te.set(6, ad * f + bc);
+            te.set(10, ac - bd * f);
 
 		} else if ( euler.order === 'XZY' ) {
 
 			var ac = a * c, ad = a * d, bc = b * c, bd = b * d;
 
-			te[0] = c * e;
-			te[4] = - f;
-			te[8] = d * e;
+            te.set(0, c * e);
+            te.set(4, - f);
+            te.set(8, d * e);
 
-			te[1] = ac * f + bd;
-			te[5] = a * e;
-			te[9] = ad * f - bc;
+            te.set(1, ac * f + bd);
+            te.set(5, a * e);
+            te.set(9, ad * f - bc);
 
-			te[2] = bc * f - ad;
-			te[6] = b * e;
-			te[10] = bd * f + ac;
-
+            te.set(2, bc * f - ad);
+            te.set(6, b * e);
+            te.set(10, bd * f + ac);
 		}
 
 		// last column
-		te[3] = 0;
-		te[7] = 0;
-		te[11] = 0;
+        te.set(3,0);
+        te.set(7,0);
+        te.set(11,0);
 
 		// bottom row
-		te[12] = 0;
-		te[13] = 0;
-		te[14] = 0;
-		te[15] = 1;
+        te.set(12,0);
+        te.set(13,0);
+        te.set(14,0);
+        te.set(15,1);
 
 		return this;
 
@@ -260,28 +273,28 @@ THREE.Matrix4.prototype = {
 		var yy = y * y2, yz = y * z2, zz = z * z2;
 		var wx = w * x2, wy = w * y2, wz = w * z2;
 
-		te[0] = 1 - ( yy + zz );
-		te[4] = xy - wz;
-		te[8] = xz + wy;
+        te.set(0,1 - ( yy + zz ));
+        te.set(4,xy - wz);
+        te.set(8,xz + wy);
 
-		te[1] = xy + wz;
-		te[5] = 1 - ( xx + zz );
-		te[9] = yz - wx;
+        te.set(1,xy + wz);
+        te.set(5,1 - ( xx + zz ));
+        te.set(9,yz - wx);
 
-		te[2] = xz - wy;
-		te[6] = yz + wx;
-		te[10] = 1 - ( xx + yy );
+        te.set(2,xz - wy);
+        te.set(6,yz + wx);
+        te.set(10,1 - ( xx + yy ));
 
 		// last column
-		te[3] = 0;
-		te[7] = 0;
-		te[11] = 0;
+        te.set(3,0);
+        te.set(7,0);
+        te.set(11,0);
 
 		// bottom row
-		te[12] = 0;
-		te[13] = 0;
-		te[14] = 0;
-		te[15] = 1;
+        te.set(12,0);
+        te.set(13,0);
+        te.set(14,0);
+        te.set(15,1);
 
 		return this;
 
@@ -315,9 +328,9 @@ THREE.Matrix4.prototype = {
 			y.crossVectors( z, x );
 
 
-			te[0] = x.x; te[4] = y.x; te[8] = z.x;
-			te[1] = x.y; te[5] = y.y; te[9] = z.y;
-			te[2] = x.z; te[6] = y.z; te[10] = z.z;
+            te.set(0,x.x); te.set(4,y.x); te.set(8,z.x);
+            te.set(1,x.y); te.set(5,y.y); te.set(9,z.y);
+            te.set(2,x.z); te.set(6,y.z); te.set(10,z.z);
 
 			return this;
 
@@ -342,35 +355,35 @@ THREE.Matrix4.prototype = {
 		var be = b.elements;
 		var te = this.elements;
 
-		var a11 = ae[0], a12 = ae[4], a13 = ae[8], a14 = ae[12];
-		var a21 = ae[1], a22 = ae[5], a23 = ae[9], a24 = ae[13];
-		var a31 = ae[2], a32 = ae[6], a33 = ae[10], a34 = ae[14];
-		var a41 = ae[3], a42 = ae[7], a43 = ae[11], a44 = ae[15];
+        var a11 = ae.get(0), a12 = ae.get(4), a13 = ae.get(8), a14 = ae.get(12);
+        var a21 = ae.get(1), a22 = ae.get(5), a23 = ae.get(9), a24 = ae.get(13);
+        var a31 = ae.get(2), a32 = ae.get(6), a33 = ae.get(10), a34 = ae.get(14);
+        var a41 = ae.get(3), a42 = ae.get(7), a43 = ae.get(11), a44 = ae.get(15);
 
-		var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-		var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-		var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-		var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
+        var b11 = be.get(0), b12 = be.get(4), b13 = be.get(8), b14 = be.get(12);
+        var b21 = be.get(1), b22 = be.get(5), b23 = be.get(9), b24 = be.get(13);
+        var b31 = be.get(2), b32 = be.get(6), b33 = be.get(10), b34 = be.get(14);
+        var b41 = be.get(3), b42 = be.get(7), b43 = be.get(11), b44 = be.get(15);
 
-		te[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-		te[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-		te[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-		te[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+        te.set(0,a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41);
+        te.set(4,a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42);
+        te.set(8,a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43);
+        te.set(12,a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44);
 
-		te[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-		te[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-		te[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-		te[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+        te.set(1,a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41);
+        te.set(5,a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42);
+        te.set(9,a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43);
+        te.set(13,a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44);
 
-		te[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-		te[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-		te[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-		te[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+        te.set(2,a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41);
+        te.set(6,a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42);
+        te.set(10,a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43);
+        te.set(14,a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44);
 
-		te[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-		te[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-		te[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-		te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+        te.set(3,a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41);
+        te.set(7,a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42);
+        te.set(11,a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43);
+        te.set(15,a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44);
 
 		return this;
 
@@ -382,10 +395,10 @@ THREE.Matrix4.prototype = {
 
 		this.multiplyMatrices( a, b );
 
-		r[ 0 ] = te[0]; r[ 1 ] = te[1]; r[ 2 ] = te[2]; r[ 3 ] = te[3];
-		r[ 4 ] = te[4]; r[ 5 ] = te[5]; r[ 6 ] = te[6]; r[ 7 ] = te[7];
-		r[ 8 ]  = te[8]; r[ 9 ]  = te[9]; r[ 10 ] = te[10]; r[ 11 ] = te[11];
-		r[ 12 ] = te[12]; r[ 13 ] = te[13]; r[ 14 ] = te[14]; r[ 15 ] = te[15];
+        r.set( 0, te.get(0)); r.set( 1 ,te.get(1)); r.set( 2 ,te.get(2)); r.set( 3 ,te.get(3));
+        r.set( 4, te.get(4)); r.set( 5 ,te.get(5)); r.set( 6 ,te.get(6)); r.set( 7 ,te.get(7));
+        r.set( 8, te.get(8)); r.set( 9, te.get(9)); r.set( 10 ,te.get(10)); r.set( 11 ,te.get(11));
+        r.set( 12, te.get(12)); r.set( 13 ,te.get(13)); r.set( 14 ,te.get(14)); r.set( 15 ,te.get(15));
 
 		return this;
 
@@ -395,10 +408,10 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		te[0] *= s; te[4] *= s; te[8] *= s; te[12] *= s;
-		te[1] *= s; te[5] *= s; te[9] *= s; te[13] *= s;
-		te[2] *= s; te[6] *= s; te[10] *= s; te[14] *= s;
-		te[3] *= s; te[7] *= s; te[11] *= s; te[15] *= s;
+        te.set(0, te.get(0) * s); te.set(4, te.get(4) * s); te.set(8, te.get(8) * s); te.set(12, te.get(12) * s);
+        te.set(1, te.get(1) * s); te.set(5, te.get(5) * s); te.set(9, te.get(9) * s); te.set(13, te.get(13) * s);
+        te.set(2, te.get(2) * s); te.set(6, te.get(6) * s); te.set(10, te.get(10) * s); te.set(14, te.get(14) * s);
+        te.set(3, te.get(3) * s); te.set(7, te.get(7) * s); te.set(11, te.get(11) * s); te.set(15, te.get(15) * s);
 
 		return this;
 
@@ -424,16 +437,15 @@ THREE.Matrix4.prototype = {
 
 			for ( var i = 0, il = a.length; i < il; i += 3 ) {
 
-				v1.x = a[ i ];
-				v1.y = a[ i + 1 ];
-				v1.z = a[ i + 2 ];
+                v1.x = a.get( i );
+                v1.y = a.get( i + 1 );
+                v1.z = a.get( i + 2 );
 
 				v1.applyProjection( this );
 
-				a[ i ]     = v1.x;
-				a[ i + 1 ] = v1.y;
-				a[ i + 2 ] = v1.z;
-
+                a.set( i, v1.x);
+                a.set( i + 1 ,v1.y);
+                a.set( i + 2 ,v1.z);
 			}
 
 			return a;
@@ -458,10 +470,10 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-		var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
-		var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
-		var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+        var n11 = te.get(0), n12 = te.get(4), n13 = te.get(8), n14 = te.get(12);
+        var n21 = te.get(1), n22 = te.get(5), n23 = te.get(9), n24 = te.get(13);
+        var n31 = te.get(2), n32 = te.get(6), n33 = te.get(10), n34 = te.get(14);
+        var n41 = te.get(3), n42 = te.get(7), n43 = te.get(11), n44 = te.get(15);
 
 		//TODO: make this more efficient
 		//( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
@@ -509,13 +521,13 @@ THREE.Matrix4.prototype = {
 		var te = this.elements;
 		var tmp;
 
-		tmp = te[1]; te[1] = te[4]; te[4] = tmp;
-		tmp = te[2]; te[2] = te[8]; te[8] = tmp;
-		tmp = te[6]; te[6] = te[9]; te[9] = tmp;
+        tmp = te.get(1); te.set(1,te.get(4)); te.set(4,tmp);
+        tmp = te.get(2); te.set(2,te.get(8)); te.set(8,tmp);
+        tmp = te.get(6); te.set(6,te.get(9)); te.set(9,tmp);
 
-		tmp = te[3]; te[3] = te[12]; te[12] = tmp;
-		tmp = te[7]; te[7] = te[13]; te[13] = tmp;
-		tmp = te[11]; te[11] = te[14]; te[14] = tmp;
+        tmp = te.get(3); te.set(3,te.get(12)); te.set(12,tmp);
+        tmp = te.get(7); te.set(7,te.get(13)); te.set(13,tmp);
+        tmp = te.get(11); te.set(11,te.get(14)); te.set(14,tmp);
 
 		return this;
 
@@ -524,10 +536,22 @@ THREE.Matrix4.prototype = {
 	flattenToArray: function ( flat ) {
 
 		var te = this.elements;
-		flat[ 0 ] = te[0]; flat[ 1 ] = te[1]; flat[ 2 ] = te[2]; flat[ 3 ] = te[3];
-		flat[ 4 ] = te[4]; flat[ 5 ] = te[5]; flat[ 6 ] = te[6]; flat[ 7 ] = te[7];
-		flat[ 8 ] = te[8]; flat[ 9 ] = te[9]; flat[ 10 ] = te[10]; flat[ 11 ] = te[11];
-		flat[ 12 ] = te[12]; flat[ 13 ] = te[13]; flat[ 14 ] = te[14]; flat[ 15 ] = te[15];
+        flat.set(0, te.get(0));
+        flat.set(1, te.get(1));
+        flat.set(2, te.get(2));
+        flat.set(3, te.get(3));
+        flat.set(4, te.get(4));
+        flat.set(5, te.get(5));
+        flat.set(6, te.get(6));
+        flat.set(7, te.get(7));
+        flat.set(8, te.get(8));
+        flat.set(9, te.get(9));
+        flat.set(10, te.get(10));
+        flat.set(11, te.get(11));
+        flat.set(12, te.get(12));
+        flat.set(13, te.get(13));
+        flat.set(14, te.get(14));
+        flat.set(15, te.get(15));
 
 		return flat;
 
@@ -536,28 +560,23 @@ THREE.Matrix4.prototype = {
 	flattenToArrayOffset: function( flat, offset ) {
 
 		var te = this.elements;
-		flat[ offset ] = te[0];
-		flat[ offset + 1 ] = te[1];
-		flat[ offset + 2 ] = te[2];
-		flat[ offset + 3 ] = te[3];
-
-		flat[ offset + 4 ] = te[4];
-		flat[ offset + 5 ] = te[5];
-		flat[ offset + 6 ] = te[6];
-		flat[ offset + 7 ] = te[7];
-
-		flat[ offset + 8 ]  = te[8];
-		flat[ offset + 9 ]  = te[9];
-		flat[ offset + 10 ] = te[10];
-		flat[ offset + 11 ] = te[11];
-
-		flat[ offset + 12 ] = te[12];
-		flat[ offset + 13 ] = te[13];
-		flat[ offset + 14 ] = te[14];
-		flat[ offset + 15 ] = te[15];
-
+        flat.set(offset, te.get(0));
+        flat.set(offset + 1, te.get(1));
+        flat.set(offset + 2, te.get(2));
+        flat.set(offset + 3, te.get(3));
+        flat.set(offset + 4, te.get(4));
+        flat.set(offset + 5, te.get(5));
+        flat.set(offset + 6, te.get(6));
+        flat.set(offset + 7, te.get(7));
+        flat.set(offset + 8, te.get(8));
+        flat.set(offset + 9, te.get(9));
+        flat.set(offset + 10, te.get(10));
+        flat.set(offset + 11, te.get(11));
+        flat.set(offset + 12, te.get(12));
+        flat.set(offset + 13, te.get(13));
+        flat.set(offset + 14, te.get(14));
+        flat.set(offset + 15, te.get(15));
 		return flat;
-
 	},
 
 	getPosition: function() {
@@ -567,16 +586,16 @@ THREE.Matrix4.prototype = {
 			console.warn( 'DEPRECATED: Matrix4\'s .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.' );
 
 			var te = this.elements;
-			return v1.set( te[12], te[13], te[14] );
+            return v1.set( te.get(12), te.get(13), te.get(14) );
     },
 
 	setPosition: function ( v ) {
 
 		var te = this.elements;
 
-		te[12] = v.x;
-		te[13] = v.y;
-		te[14] = v.z;
+        te.set(12,v.x);
+        te.set(13,v.y);
+        te.set(14,v.z);
 
 		return this;
 
@@ -588,29 +607,29 @@ THREE.Matrix4.prototype = {
 		var te = this.elements;
 		var me = m.elements;
 
-		var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
-		var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
-		var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
-		var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
+        var n11 = me.get(0), n12 = me.get(4), n13 = me.get(8), n14 = me.get(12);
+        var n21 = me.get(1), n22 = me.get(5), n23 = me.get(9), n24 = me.get(13);
+        var n31 = me.get(2), n32 = me.get(6), n33 = me.get(10), n34 = me.get(14);
+        var n41 = me.get(3), n42 = me.get(7), n43 = me.get(11), n44 = me.get(15);
 
-		te[0] = n23*n34*n42 - n24*n33*n42 + n24*n32*n43 - n22*n34*n43 - n23*n32*n44 + n22*n33*n44;
-		te[4] = n14*n33*n42 - n13*n34*n42 - n14*n32*n43 + n12*n34*n43 + n13*n32*n44 - n12*n33*n44;
-		te[8] = n13*n24*n42 - n14*n23*n42 + n14*n22*n43 - n12*n24*n43 - n13*n22*n44 + n12*n23*n44;
-		te[12] = n14*n23*n32 - n13*n24*n32 - n14*n22*n33 + n12*n24*n33 + n13*n22*n34 - n12*n23*n34;
-		te[1] = n24*n33*n41 - n23*n34*n41 - n24*n31*n43 + n21*n34*n43 + n23*n31*n44 - n21*n33*n44;
-		te[5] = n13*n34*n41 - n14*n33*n41 + n14*n31*n43 - n11*n34*n43 - n13*n31*n44 + n11*n33*n44;
-		te[9] = n14*n23*n41 - n13*n24*n41 - n14*n21*n43 + n11*n24*n43 + n13*n21*n44 - n11*n23*n44;
-		te[13] = n13*n24*n31 - n14*n23*n31 + n14*n21*n33 - n11*n24*n33 - n13*n21*n34 + n11*n23*n34;
-		te[2] = n22*n34*n41 - n24*n32*n41 + n24*n31*n42 - n21*n34*n42 - n22*n31*n44 + n21*n32*n44;
-		te[6] = n14*n32*n41 - n12*n34*n41 - n14*n31*n42 + n11*n34*n42 + n12*n31*n44 - n11*n32*n44;
-		te[10] = n12*n24*n41 - n14*n22*n41 + n14*n21*n42 - n11*n24*n42 - n12*n21*n44 + n11*n22*n44;
-		te[14] = n14*n22*n31 - n12*n24*n31 - n14*n21*n32 + n11*n24*n32 + n12*n21*n34 - n11*n22*n34;
-		te[3] = n23*n32*n41 - n22*n33*n41 - n23*n31*n42 + n21*n33*n42 + n22*n31*n43 - n21*n32*n43;
-		te[7] = n12*n33*n41 - n13*n32*n41 + n13*n31*n42 - n11*n33*n42 - n12*n31*n43 + n11*n32*n43;
-		te[11] = n13*n22*n41 - n12*n23*n41 - n13*n21*n42 + n11*n23*n42 + n12*n21*n43 - n11*n22*n43;
-		te[15] = n12*n23*n31 - n13*n22*n31 + n13*n21*n32 - n11*n23*n32 - n12*n21*n33 + n11*n22*n33;
+        te.set(0,n23*n34*n42 - n24*n33*n42 + n24*n32*n43 - n22*n34*n43 - n23*n32*n44 + n22*n33*n44);
+        te.set(4,n14*n33*n42 - n13*n34*n42 - n14*n32*n43 + n12*n34*n43 + n13*n32*n44 - n12*n33*n44);
+        te.set(8,n13*n24*n42 - n14*n23*n42 + n14*n22*n43 - n12*n24*n43 - n13*n22*n44 + n12*n23*n44);
+        te.set(12,n14*n23*n32 - n13*n24*n32 - n14*n22*n33 + n12*n24*n33 + n13*n22*n34 - n12*n23*n34);
+        te.set(1,n24*n33*n41 - n23*n34*n41 - n24*n31*n43 + n21*n34*n43 + n23*n31*n44 - n21*n33*n44);
+        te.set(5,n13*n34*n41 - n14*n33*n41 + n14*n31*n43 - n11*n34*n43 - n13*n31*n44 + n11*n33*n44);
+        te.set(9,n14*n23*n41 - n13*n24*n41 - n14*n21*n43 + n11*n24*n43 + n13*n21*n44 - n11*n23*n44);
+        te.set(13,n13*n24*n31 - n14*n23*n31 + n14*n21*n33 - n11*n24*n33 - n13*n21*n34 + n11*n23*n34);
+        te.set(2,n22*n34*n41 - n24*n32*n41 + n24*n31*n42 - n21*n34*n42 - n22*n31*n44 + n21*n32*n44);
+        te.set(6,n14*n32*n41 - n12*n34*n41 - n14*n31*n42 + n11*n34*n42 + n12*n31*n44 - n11*n32*n44);
+        te.set(10,n12*n24*n41 - n14*n22*n41 + n14*n21*n42 - n11*n24*n42 - n12*n21*n44 + n11*n22*n44);
+        te.set(14,n14*n22*n31 - n12*n24*n31 - n14*n21*n32 + n11*n24*n32 + n12*n21*n34 - n11*n22*n34);
+        te.set(3,n23*n32*n41 - n22*n33*n41 - n23*n31*n42 + n21*n33*n42 + n22*n31*n43 - n21*n32*n43);
+        te.set(7,n12*n33*n41 - n13*n32*n41 + n13*n31*n42 - n11*n33*n42 - n12*n31*n43 + n11*n32*n43);
+        te.set(11,n13*n22*n41 - n12*n23*n41 - n13*n21*n42 + n11*n23*n42 + n12*n21*n43 - n11*n22*n43);
+        te.set(15,n12*n23*n31 - n13*n22*n31 + n13*n21*n32 - n11*n23*n32 - n12*n21*n33 + n11*n22*n33);
 
-		var det = n11 * te[ 0 ] + n21 * te[ 4 ] + n31 * te[ 8 ] + n41 * te[ 12 ];
+        var det = n11 * te.get( 0 ) + n21 * te.get( 4 ) + n31 * te.get( 8 ) + n41 * te.get( 12 );
 
 		if ( det == 0 ) {
 
@@ -672,10 +691,10 @@ THREE.Matrix4.prototype = {
 		var te = this.elements;
 		var x = v.x, y = v.y, z = v.z;
 
-		te[0] *= x; te[4] *= y; te[8] *= z;
-		te[1] *= x; te[5] *= y; te[9] *= z;
-		te[2] *= x; te[6] *= y; te[10] *= z;
-		te[3] *= x; te[7] *= y; te[11] *= z;
+        te.set(0, te.get(0) * x); te.set(4, te.get(4) * y); te.set(8, te.get(8) * z);
+        te.set(1, te.get(1) * x); te.set(5, te.get(5) * y); te.set(9, te.get(9) * z);
+        te.set(2, te.get(2) * x); te.set(6, te.get(6) * y); te.set(10, te.get(10) * z);
+        te.set(3, te.get(3) * x); te.set(7, te.get(7) * y); te.set(11, te.get(11) * z);
 
 		return this;
 
@@ -685,9 +704,9 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		var scaleXSq = te[0] * te[0] + te[1] * te[1] + te[2] * te[2];
-		var scaleYSq = te[4] * te[4] + te[5] * te[5] + te[6] * te[6];
-		var scaleZSq = te[8] * te[8] + te[9] * te[9] + te[10] * te[10];
+        var scaleXSq = te.get(0) * te.get(0) + te.get(1) * te.get(1) + te.get(2) * te.get(2);
+        var scaleYSq = te.get(4) * te.get(4) + te.get(5) * te.get(5) + te.get(6) * te.get(6);
+        var scaleZSq = te.get(8) * te.get(8) + te.get(9) * te.get(9) + te.get(10) * te.get(10);
 
 		return Math.sqrt( Math.max( scaleXSq, Math.max( scaleYSq, scaleZSq ) ) );
 
@@ -814,9 +833,9 @@ THREE.Matrix4.prototype = {
 
 			var te = this.elements;
 
-			var sx = vector.set( te[0], te[1], te[2] ).length();
-			var sy = vector.set( te[4], te[5], te[6] ).length();
-			var sz = vector.set( te[8], te[9], te[10] ).length();
+            var sx = vector.set( te.get(0), te.get(1), te.get(2) ).length();
+            var sy = vector.set( te.get(4), te.get(5), te.get(6) ).length();
+            var sz = vector.set( te.get(8), te.get(9), te.get(10) ).length();
 
 			// if determine is negative, we need to invert one scale
 			var det = this.determinant();
@@ -824,9 +843,9 @@ THREE.Matrix4.prototype = {
 				sx = -sx;
 			}
 
-			position.x = te[12];
-			position.y = te[13];
-			position.z = te[14];
+            position.x = te.get(12);
+            position.y = te.get(13);
+            position.z = te.get(14);
 
 			// scale the rotation part
 
@@ -836,17 +855,17 @@ THREE.Matrix4.prototype = {
 			var invSY = 1 / sy;
 			var invSZ = 1 / sz;
 
-			matrix.elements[0] *= invSX;
-			matrix.elements[1] *= invSX;
-			matrix.elements[2] *= invSX;
+            matrix.elements.set(0, te.get(0) * invSX);
+            matrix.elements.set(1, te.get(1) * invSX);
+            matrix.elements.set(2, te.get(2) * invSX);
 
-			matrix.elements[4] *= invSY;
-			matrix.elements[5] *= invSY;
-			matrix.elements[6] *= invSY;
+            matrix.elements.set(4, te.get(4) * invSY);
+            matrix.elements.set(5, te.get(5) * invSY);
+            matrix.elements.set(6, te.get(6) * invSY);
 
-			matrix.elements[8] *= invSZ;
-			matrix.elements[9] *= invSZ;
-			matrix.elements[10] *= invSZ;
+            matrix.elements.set(8, te.get(8) * invSZ);
+            matrix.elements.set(9, te.get(9) * invSZ);
+            matrix.elements.set(10, te.get(10) * invSZ);
 
 			quaternion.setFromRotationMatrix( matrix );
 
@@ -868,10 +887,10 @@ THREE.Matrix4.prototype = {
 		var c = - ( far + near ) / ( far - near );
 		var d = - 2 * far * near / ( far - near );
 
-		te[0] = x;	te[4] = 0;	te[8] = a;	te[12] = 0;
-		te[1] = 0;	te[5] = y;	te[9] = b;	te[13] = 0;
-		te[2] = 0;	te[6] = 0;	te[10] = c;	te[14] = d;
-		te[3] = 0;	te[7] = 0;	te[11] = - 1;	te[15] = 0;
+        te.set(0,x); te.set(4,0);	te.set(8,a);	te.set(12,0);
+        te.set(1,0); te.set(5,y);	te.set(9,b);	te.set(13,0);
+        te.set(2,0); te.set(6,0);	te.set(10,c);	te.set(14,d);
+        te.set(3,0); te.set(7,0);	te.set(11,- 1);	te.set(15,0);
 
 		return this;
 
@@ -899,10 +918,10 @@ THREE.Matrix4.prototype = {
 		var y = ( top + bottom ) / h;
 		var z = ( far + near ) / p;
 
-		te[0] = 2 / w;	te[4] = 0;	te[8] = 0;	te[12] = -x;
-		te[1] = 0;	te[5] = 2 / h;	te[9] = 0;	te[13] = -y;
-		te[2] = 0;	te[6] = 0;	te[10] = -2/p;	te[14] = -z;
-		te[3] = 0;	te[7] = 0;	te[11] = 0;	te[15] = 1;
+        te.set(0,2 / w); te.set(4,0); te.set(8,0); te.set(12,-x);
+        te.set(1,0); te.set(5,2 / h); te.set(9,0); te.set(13,-y);
+        te.set(2,0); te.set(6,0); te.set(10,-2/p); te.set(14,-z);
+        te.set(3,0); te.set(7,0); te.set(11,0); te.set(15,1);
 
 		return this;
 
@@ -920,11 +939,11 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		return [
-			te[ 0 ], te[ 1 ], te[ 2 ], te[ 3 ],
-			te[ 4 ], te[ 5 ], te[ 6 ], te[ 7 ],
-			te[ 8 ], te[ 9 ], te[ 10 ], te[ 11 ],
-			te[ 12 ], te[ 13 ], te[ 14 ], te[ 15 ]
+        return [
+            te.get( 0 ), te.get( 1 ), te.get( 2 ), te.get( 3 ),
+            te.get( 4 ), te.get( 5 ), te.get( 6 ), te.get( 7 ),
+            te.get( 8 ), te.get( 9 ), te.get( 10 ), te.get( 11 ),
+            te.get( 12 ), te.get( 13 ), te.get( 14 ), te.get( 15 )
 		];
 
 	},
@@ -934,13 +953,11 @@ THREE.Matrix4.prototype = {
 		var te = this.elements;
 
 		return new THREE.Matrix4(
-
-			te[0], te[4], te[8], te[12],
-			te[1], te[5], te[9], te[13],
-			te[2], te[6], te[10], te[14],
-			te[3], te[7], te[11], te[15]
-
-		);
+                    te.get( 0 ), te.get( 1 ), te.get( 2 ), te.get( 3 ),
+                    te.get( 4 ), te.get( 5 ), te.get( 6 ), te.get( 7 ),
+                    te.get( 8 ), te.get( 9 ), te.get( 10 ), te.get( 11 ),
+                    te.get( 12 ), te.get( 13 ), te.get( 14 ), te.get( 15 )
+        );
 
 	}
 
