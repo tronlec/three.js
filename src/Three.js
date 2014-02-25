@@ -5,8 +5,6 @@
  */
 
 function THREE() {
-    this.REVISION = '66';
-    this.theLoader = null;
 };
 
 //self.console = self.console || {
@@ -25,21 +23,21 @@ function THREE() {
 // requestAnimationFrame polyfill by Erik Möller
 // fixes from Paul Irish and Tino Zijdel
 // using 'self' instead of 'window' for compatibility with both NodeJS and IE10.
-THREE.requestAnimationFrame = function(callback) {
-    var currTime = Date.now(), timeToCall = Math.max( 0, 16 - ( currTime - lastTime ) );
-    var id = self.setTimeout( function() { callback( currTime + timeToCall ); }, timeToCall );
-    lastTime = currTime + timeToCall;
-    return id;
-}
+//THREE.requestAnimationFrame = function(callback) {
+//    var currTime = Date.now(), timeToCall = Math.max( 0, 16 - ( currTime - lastTime ) );
+//    var id = self.setTimeout( function() { callback( currTime + timeToCall ); }, timeToCall );
+//    lastTime = currTime + timeToCall;
+//    return id;
+//}
 
-THREE.cancelAnimationFrame = function( id ) {
-    self.cancelAnimationFrame = function ( id ) { self.clearTimeout( id ) };
-}
+//THREE.cancelAnimationFrame = function( id ) {
+//    self.cancelAnimationFrame = function ( id ) { self.clearTimeout( id ) };
+//}
 
-
+THREE.REVISION = '66';
+THREE.theLoader = null;
 
 // GL STATE CONSTANTS
-
 THREE.CullFaceNone = 0;
 THREE.CullFaceBack = 1;
 THREE.CullFaceFront = 2;
