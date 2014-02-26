@@ -92,7 +92,7 @@ THREE.SkinnedMesh = function ( geometry, material, useVertexTexture ) {
 			this.boneTextureWidth = size;
 			this.boneTextureHeight = size;
 
-			this.boneMatrices = Arrays.newFloat32Array( this.boneTextureWidth * this.boneTextureHeight * 4 ); // 4 floats per RGBA pixel
+			this.boneMatrices = new Float32Array( this.boneTextureWidth * this.boneTextureHeight * 4 ); // 4 floats per RGBA pixel
 			this.boneTexture = new THREE.DataTexture( this.boneMatrices, this.boneTextureWidth, this.boneTextureHeight, THREE.RGBAFormat, THREE.FloatType );
 			this.boneTexture.minFilter = THREE.NearestFilter;
 			this.boneTexture.magFilter = THREE.NearestFilter;
@@ -101,7 +101,7 @@ THREE.SkinnedMesh = function ( geometry, material, useVertexTexture ) {
 
 		} else {
 
-			this.boneMatrices = Arrays.newFloat32Array( 16 * nBones );
+			this.boneMatrices = new Float32Array( 16 * nBones );
 
 		}
 

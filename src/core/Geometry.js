@@ -566,12 +566,10 @@ THREE.Geometry.prototype = {
 
 	// Geometry splitting
 
-	makeGroups: ( function () {
+    makeGroups: function ( usesFaceMaterial ) {
 
 		var geometryGroupCounter = 0;
 		
-		return function ( usesFaceMaterial, maxVerticesInGroup ) {
-
 			var f, fl, face, materialIndex,
 				groupHash, hash_map = {};
 
@@ -599,7 +597,7 @@ THREE.Geometry.prototype = {
 
 				}
 
-				if ( this.geometryGroups[ groupHash ].vertices + 3 > maxVerticesInGroup ) {
+				if ( this.geometryGroups[ groupHash ].vertices + 3 > 65535 ) {
 
 					hash_map[ materialIndex ].counter += 1;
 					groupHash = hash_map[ materialIndex ].hash + '_' + hash_map[ materialIndex ].counter;
@@ -627,9 +625,7 @@ THREE.Geometry.prototype = {
 
 			}
 
-		};
-		
-	} )(),
+    },
 
 	clone: function () {
 

@@ -14,8 +14,8 @@ THREE.LensFlarePlugin = function () {
 
 		_precision = renderer.getPrecision();
 
-		_lensFlare.vertices = Arrays.newFloat32Array( 8 + 8 );
-        _lensFlare.faces = Arrays.newUint16Array( 6 );
+		_lensFlare.vertices = new Float32Array( 8 + 8 );
+        _lensFlare.faces = new Uint16Array( 6 );
 
 		var i = 0;
 		_lensFlare.vertices[ i++ ] = -1; _lensFlare.vertices[ i++ ] = -1;	// vertex
@@ -40,10 +40,10 @@ THREE.LensFlarePlugin = function () {
 		_lensFlare.elementBuffer    = _gl.createBuffer();
 
         _gl.bindBuffer( Context3D.ARRAY_BUFFER, _lensFlare.vertexBuffer );
-        _gl.bufferData( Context3D.ARRAY_BUFFER, _lensFlare.vertices, Context3D.STATIC_DRAW );
+        _gl.bufferData( Context3D.ARRAY_BUFFER, _lensFlare.vertices.typedArray(), Context3D.STATIC_DRAW );
 
         _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.elementBuffer );
-        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.faces, Context3D.STATIC_DRAW );
+        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, _lensFlare.faces.typedArray(), Context3D.STATIC_DRAW );
 
 		// textures
 

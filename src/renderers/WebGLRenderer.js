@@ -4214,7 +4214,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		if ( refreshMaterial || camera !== _currentCamera ) {
 
-            _gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.float32Array() );
+			_gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
 
 			if ( camera !== _currentCamera ) _currentCamera = camera;
 
@@ -4362,7 +4362,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				if ( p_uniforms.viewMatrix !== null ) {
 
-                    _gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.float32Array() );
+					_gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements );
 
 				}
 
@@ -4374,7 +4374,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		if ( p_uniforms.modelMatrix !== null ) {
 
-            _gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.float32Array() );
+			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements );
 
 		}
 
@@ -4622,11 +4622,11 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	function loadUniformsMatrices ( uniforms, object ) {
 
-        _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.float32Array() );
+		_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements );
 
 		if ( uniforms.normalMatrix ) {
 
-            _gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.float32Array() );
+			_gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements );
 
 		}
 
@@ -4714,8 +4714,9 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					offset = i * 2;
 
-                    uniform._array.set(offset, value[ i ].x);
-                    uniform._array.set(offset + 1, value[ i ].y);
+					uniform._array[ offset ] 	 = value[ i ].x;
+					uniform._array[ offset + 1 ] = value[ i ].y;
+
 				}
 
 				_gl.uniform2fv( location, uniform._array );
@@ -4732,9 +4733,10 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					offset = i * 3;
 
-                    uniform._array.set(offset, value[ i ].x);
-                    uniform._array.set(offset + 1, value[ i ].y);
-                    uniform._array.set(offset + 2, value[ i ].z);
+					uniform._array[ offset ] 	 = value[ i ].x;
+					uniform._array[ offset + 1 ] = value[ i ].y;
+					uniform._array[ offset + 2 ] = value[ i ].z;
+
 				}
 
 				_gl.uniform3fv( location, uniform._array );
@@ -4751,10 +4753,10 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 					offset = i * 4;
 
-                    uniform._array.set(offset, value[ i ].x);
-                    uniform._array.set(offset + 1, value[ i ].y);
-                    uniform._array.set(offset + 2, value[ i ].z);
-                    uniform._array.set(offset + 3, value[ i ].w);
+					uniform._array[ offset ] 	 = value[ i ].x;
+					uniform._array[ offset + 1 ] = value[ i ].y;
+					uniform._array[ offset + 2 ] = value[ i ].z;
+					uniform._array[ offset + 3 ] = value[ i ].w;
 
 				}
 

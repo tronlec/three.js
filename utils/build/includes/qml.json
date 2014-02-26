@@ -1,6 +1,7 @@
 [
 "src/Three.js",
         "src/Three.js",
+        "src/core/QmlWrappers.js",
         "src/math/Color.js",
         "src/math/Quaternion.js",
         "src/math/Vector2.js",
@@ -97,5 +98,7 @@
         "src/extras/geometries/BoxGeometry.js",
         "src/extras/geometries/CircleGeometry.js",
         "src/extras/geometries/CubeGeometry.js",
-        "src/extras/geometries/CylinderGeometry.js"
+        "src/extras/geometries/CylinderGeometry.js",
+        "src/extras/geometries/SphereGeometry.js"
+
 ]

@@ -193,7 +193,7 @@ THREE.BufferGeometry.prototype = {
 				this.attributes[ "normal" ] = {
 
 					itemSize: 3,
-					array: Arrays.newFloat32Array( nVertexElements )
+                    array: new Float32Array( nVertexElements )
 
 				};
 
@@ -376,7 +376,7 @@ THREE.BufferGeometry.prototype = {
 			this.attributes[ "tangent" ] = {
 
 				itemSize: 4,
-				array: Arrays.newFloat32Array( nTangentElements )
+                array: new Float32Array( nTangentElements )
 
 			};
 
@@ -573,7 +573,7 @@ THREE.BufferGeometry.prototype = {
 		console.log("Reordering "+verticesCount+" vertices.");
 		*/
 
-		var sortedIndices = Arrays.newUint16Array( indices.length ); //16-bit buffers
+        var sortedIndices = new Uint16Array( indices.length ); //16-bit buffers
 		var indexPtr = 0;
 		var vertexPtr = 0;
 

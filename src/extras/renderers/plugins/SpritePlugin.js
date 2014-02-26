@@ -15,7 +15,7 @@ THREE.SpritePlugin = function () {
 		_gl = renderer.context;
 		_renderer = renderer;
 
-		vertices = Arrays.newFloat32Array( [
+		vertices = new Float32Array( [
 			- 0.5, - 0.5, 0, 0, 
 			  0.5, - 0.5, 1, 0,
 			  0.5,   0.5, 1, 1,
@@ -31,10 +31,10 @@ THREE.SpritePlugin = function () {
 		elementBuffer = _gl.createBuffer();
 
         _gl.bindBuffer( Context3D.ARRAY_BUFFER, vertexBuffer );
-        _gl.bufferData( Context3D.ARRAY_BUFFER, vertices, Context3D.STATIC_DRAW );
+        _gl.bufferData( Context3D.ARRAY_BUFFER, vertices.typedArray(), Context3D.STATIC_DRAW );
 
         _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
-        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, faces, Context3D.STATIC_DRAW );
+        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, faces.typedArray(), Context3D.STATIC_DRAW );
 
 		program = createProgram();
 
@@ -102,7 +102,7 @@ THREE.SpritePlugin = function () {
 
         _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
-		_gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
+        _gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
         _gl.activeTexture( Context3D.TEXTURE0 );
 		_gl.uniform1i( uniforms.map, 0 );
@@ -172,7 +172,7 @@ THREE.SpritePlugin = function () {
 			material = sprite.material;
 
 			_gl.uniform1f( uniforms.alphaTest, material.alphaTest );
-			_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
+            _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements.typedArray() );
 
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;

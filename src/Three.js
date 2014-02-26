@@ -4,6 +4,8 @@
  * @author bhouston / http://exocortex.com
  */
 
+console.log("THREE Start");
+
 function THREE() {
 };
 
@@ -35,7 +37,8 @@ function THREE() {
 //}
 
 THREE.REVISION = '66';
-THREE.theLoader = null;
+THREE.qmlImageLoader = null;
+THREE.qmlCanvas = null;
 
 // GL STATE CONSTANTS
 THREE.CullFaceNone = 0;

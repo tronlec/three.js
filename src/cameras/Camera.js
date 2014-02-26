@@ -6,39 +6,35 @@
 
 THREE.Camera = function () {
 
-	THREE.Object3D.call( this );
+    THREE.Object3D.call( this );
 
-	this.matrixWorldInverse = new THREE.Matrix4();
-	this.projectionMatrix = new THREE.Matrix4();
+    this.matrixWorldInverse = new THREE.Matrix4();
+    this.projectionMatrix = new THREE.Matrix4();
 
 };
 
 THREE.Camera.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Camera.prototype.lookAt = function () {
+THREE.Camera.prototype.lookAt = function ( vector ) {
 
-	// This routine does not support cameras with rotated and/or translated parent(s)
+    // This routine does not support cameras with rotated and/or translated parent(s)
 
-	var m1 = new THREE.Matrix4();
+    var m1 = new THREE.Matrix4();
 
-	return function ( vector ) {
+    m1.lookAt( this.position, vector, this.up );
 
-		m1.lookAt( this.position, vector, this.up );
+    this.quaternion.setFromRotationMatrix( m1 );
 
-		this.quaternion.setFromRotationMatrix( m1 );
-
-	};
-
-}();
+};
 
 THREE.Camera.prototype.clone = function (camera) {
 
-	if ( camera === undefined ) camera = new THREE.Camera();
+    if ( camera === undefined ) camera = new THREE.Camera();
 
-	THREE.Object3D.prototype.clone.call( this, camera );
+    THREE.Object3D.prototype.clone.call( this, camera );
 
-	camera.matrixWorldInverse.copy( this.matrixWorldInverse );
-	camera.projectionMatrix.copy( this.projectionMatrix );
+    camera.matrixWorldInverse.copy( this.matrixWorldInverse );
+    camera.projectionMatrix.copy( this.projectionMatrix );
 
-	return camera;
+    return camera;
 };
