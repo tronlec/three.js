@@ -35,6 +35,15 @@ Uint16Array.prototype = {
         return this[index];
     },
 
+    print: function() {
+        var values = "[ "
+        for (var i = 0; i < this._length; i++) {
+            values += this[i] + " ";
+        };
+        values += "]";
+        console.log("Uint16Array("+this.name+") = "+values);
+    },
+
     typedArray: function() {
         var ar = this._internalArray;
         for (var i = 0; i < this._length; i++)
@@ -81,6 +90,15 @@ Uint8Array.prototype = {
 
     get: function( index ) {
         return this[index];
+    },
+
+    print: function() {
+        var values = "[ "
+        for (var i = 0; i < this._length; i++) {
+            values += this[i] + " ";
+        };
+        values += "]";
+        console.log("Uint8Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -132,12 +150,23 @@ Float32Array.prototype = {
         return this[index];
     },
 
+    print: function() {
+        var values = "[ "
+        for (var i = 0; i < this._length; i++) {
+            values += this[i] + " ";
+        };
+        values += "]";
+        console.log("Float32Array("+this.name+") = "+values);
+    },
+
     typedArray: function() {
         var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
+        for (var i = 0; i < this._length; i++) {
             ar.set(i, this[i]);
-        if (this.name !== undefined)
+        }
+        if (this.name !== undefined) {
             ar.name = this.name;
+        }
 
         return ar;
     }
