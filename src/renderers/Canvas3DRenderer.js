@@ -1778,7 +1778,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			for ( vk = 0, vkl = morphTargets.length; vk < vkl; vk ++ ) {
 
 				offset_morphTarget = 0;
-
 				for ( f = 0, fl = chunk_faces3.length; f < fl; f ++ ) {
 
 					chf = chunk_faces3[ f ];
@@ -3223,7 +3222,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			for ( i = 0; i < il; i ++ ) {
 
 				influence = influences[ i ];
-
+                console.log("influence of "+i+" is "+influence);
 				if ( influence > 0 ) {
                     if (debug_renderer) console.log(renderer_name+".setupMorphTargets() activeInfluenceIndices.push(influence:"+influence+", i:"+i+")");
                     activeInfluenceIndices.push( [ influence, i ] );
@@ -3254,9 +3253,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( activeInfluenceIndices[ m ] ) {
 
 					influenceIndex = activeInfluenceIndices[ m ][ 1 ];
-
-					if ( attributes[ "morphTarget" + m ] >= 0 ) {
-						enableAttribute( attributes[ "morphTarget" + m ] );
+                    console.log("Morph target "+m);
+                    if ( attributes[ "morphTarget" + m ] >= 0 ) {
+                        console.log("Enabling attribute for morph target "+m);
+                        enableAttribute( attributes[ "morphTarget" + m ] );
                         _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ influenceIndex ] );
                         _gl.vertexAttribPointer( attributes[ "morphTarget" + m ], 3, Context3D.FLOAT, false, 0, 0 );
 
@@ -3298,6 +3298,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
         var morphTargetInfluences = material.program[PROGRAM_UNIFORMS].morphTargetInfluences;
         console.log("morphTargetInfluences "+morphTargetInfluences);
         if ( morphTargetInfluences !== null ) {
+            object.__webglMorphTargetInfluences.print();
             _gl.uniform1fv( morphTargetInfluences, object.__webglMorphTargetInfluences.typedArray() );
 		}
 
@@ -5832,7 +5833,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		for( i = 0, l = identifiers.length; i < l; i ++ ) {
             id = identifiers[ i ];
             var uniformLoc = _gl.getUniformLocation( program, id );
-            if (uniformLoc)
+            if (uniformLoc != null)
                 uniformLoc.name = ""+id;
             program[PROGRAM_UNIFORMS][id] = uniformLoc;
 		}
