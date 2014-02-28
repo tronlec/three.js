@@ -48,6 +48,7 @@ THREE.Geometry = function () {
 	this.lineDistancesNeedUpdate = false;
 
 	this.buffersNeedUpdate = false;
+    this.geometryGroupCounter = 0;
 
 };
 
@@ -568,8 +569,6 @@ THREE.Geometry.prototype = {
 
     makeGroups: function ( usesFaceMaterial ) {
 
-		var geometryGroupCounter = 0;
-		
 			var f, fl, face, materialIndex,
 				groupHash, hash_map = {};
 
@@ -619,7 +618,7 @@ THREE.Geometry.prototype = {
 
 			for ( var g in this.geometryGroups ) {
 
-				this.geometryGroups[ g ].id = geometryGroupCounter ++;
+                this.geometryGroups[ g ].id = this.geometryGroupCounter ++;
 
 				this.geometryGroupsList.push( this.geometryGroups[ g ] );
 

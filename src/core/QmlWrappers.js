@@ -39,7 +39,8 @@ Uint16Array.prototype = {
         var ar = this._internalArray;
         for (var i = 0; i < this._length; i++)
             ar.set(i, this[i]);
-
+        if (this.name !== undefined)
+            ar.name = this.name;
         //this._internalArray.set(this);
         return ar;
     }
@@ -86,6 +87,8 @@ Uint8Array.prototype = {
         var ar = this._internalArray;
         for (var i = 0; i < this._length; i++)
             ar.set(i, this[i]);
+        if (this.name !== undefined)
+            ar.name = this.name;
 
         //this._internalArray.set(this);
         return ar;
@@ -133,9 +136,58 @@ Float32Array.prototype = {
         var ar = this._internalArray;
         for (var i = 0; i < this._length; i++)
             ar.set(i, this[i]);
+        if (this.name !== undefined)
+            ar.name = this.name;
 
         return ar;
     }
 }
 
+function Int32Array(initValue) {
+    if (initValue instanceof Int32Array) {
+        this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(initValue);
+    } else if (initValue instanceof Array) {
+        this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(initValue);
+    } else {
+        this._length = initValue;
+        this._internalArray = Arrays.newInt32Array(this._length);
+    }
+}
+
+Int32Array.prototype = {
+    constructor: Int32Array,
+
+    set: function( array ) {
+        if (array instanceof Int32Array) {
+            for (var i; i < this._length; i++) {
+                this[i] = array.get(i);
+            }
+
+        } else if (array instanceof Array) {
+            for (var j = 0; j < this._length; j++) {
+                this[j] = array[j];
+            }
+        }
+    },
+
+    set: function( index, value ) {
+        this[index] = value;
+    },
+
+    get: function( index ) {
+        return this[index];
+    },
+
+    typedArray: function() {
+        var ar = this._internalArray;
+        for (var i = 0; i < this._length; i++)
+            ar.set(i, this[i]);
+        if (this.name !== undefined)
+            ar.name = this.name;
+
+        return ar;
+    }
+}
 console.log("QmlWrappers DONE");
