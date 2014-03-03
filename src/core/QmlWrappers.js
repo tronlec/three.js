@@ -1,14 +1,12 @@
 function Uint16Array(initValue) {
     if (initValue instanceof Uint16Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newUint16Array(initValue);
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newUint16Array(initValue);
     } else {
         this._length = initValue;
-        this._internalArray = Arrays.newUint16Array(initValue);
     }
+    this._internalArray = Arrays.newUint16Array(this._length);
 }
 
 Uint16Array.prototype = {
@@ -58,14 +56,12 @@ Uint16Array.prototype = {
 function Uint8Array(initValue) {
     if (initValue instanceof Uint8Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newUint8Array(initValue);
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newUint8Array(initValue);
     } else {
         this._length = initValue;
-        this._internalArray = Arrays.newUint8Array(initValue);
     }
+    this._internalArray = Arrays.newUint8Array(this._length);
 }
 
 Uint8Array.prototype = {
@@ -116,14 +112,12 @@ Uint8Array.prototype = {
 function Float32Array(initValue) {
     if (initValue instanceof Float32Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newFloat32Array(initValue);
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newFloat32Array(initValue);
     } else {
         this._length = initValue;
-        this._internalArray = Arrays.newFloat32Array(this._length);
     }
+    this._internalArray = Arrays.newFloat32Array(this._length);
 }
 
 Float32Array.prototype = {
@@ -175,14 +169,12 @@ Float32Array.prototype = {
 function Int32Array(initValue) {
     if (initValue instanceof Int32Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(initValue);
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(initValue);
     } else {
         this._length = initValue;
-        this._internalArray = Arrays.newInt32Array(this._length);
     }
+    this._internalArray = Arrays.newInt32Array(this._length);
 }
 
 Int32Array.prototype = {
@@ -219,4 +211,5 @@ Int32Array.prototype = {
         return ar;
     }
 }
+
 console.log("QmlWrappers DONE");

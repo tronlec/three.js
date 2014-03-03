@@ -45,7 +45,12 @@ THREE.Object3D = function () {
 	this.frustumCulled = true;
 
 	this.userData = {};
-
+    this._q1 = new THREE.Quaternion();
+    this._v1 = new THREE.Vector3();
+    this._vx = new THREE.Vector3( 1, 0, 0 );
+    this._vy = new THREE.Vector3( 0, 1, 0 );
+    this._vz = new THREE.Vector3( 0, 0, 1 );
+    this._m1 = new THREE.Matrix4();
 };
 
 
@@ -150,7 +155,7 @@ THREE.Object3D.prototype = {
 		// rotate object on axis in object space
 		// axis is assumed to be normalized
 
-		var q1 = new THREE.Quaternion();
+        var q1 = this._q1;
 
 			q1.setFromAxisAngle( axis, angle );
 
@@ -162,7 +167,7 @@ THREE.Object3D.prototype = {
 
     rotateX: function ( angle ) {
 
-		var v1 = new THREE.Vector3( 1, 0, 0 );
+        var v1 = this._vx;
 
 			return this.rotateOnAxis( v1, angle );
 
@@ -170,7 +175,7 @@ THREE.Object3D.prototype = {
 
     rotateY: function ( angle ) {
 
-		var v1 = new THREE.Vector3( 0, 1, 0 );
+        var v1 = this._vy;
 
 			return this.rotateOnAxis( v1, angle );
 
@@ -178,7 +183,7 @@ THREE.Object3D.prototype = {
 
     rotateZ: function ( angle ) {
 
-		var v1 = new THREE.Vector3( 0, 0, 1 );
+        var v1 = this._vz;
 
 			return this.rotateOnAxis( v1, angle );
 
@@ -189,7 +194,7 @@ THREE.Object3D.prototype = {
 		// translate object by distance along axis in object space
 		// axis is assumed to be normalized
 
-		var v1 = new THREE.Vector3();
+        var v1 = this._v1;
 
 			v1.copy( axis );
 
@@ -210,7 +215,7 @@ THREE.Object3D.prototype = {
 
     translateX: function ( distance ) {
 
-		var v1 = new THREE.Vector3( 1, 0, 0 );
+        var v1 = this._vx;
 
 			return this.translateOnAxis( v1, distance );
 
@@ -218,7 +223,7 @@ THREE.Object3D.prototype = {
 
     translateY: function ( distance ) {
 
-		var v1 = new THREE.Vector3( 0, 1, 0 );
+        var v1 = this._vy;
 
 			return this.translateOnAxis( v1, distance );
 
@@ -226,7 +231,7 @@ THREE.Object3D.prototype = {
 
     translateZ: function ( distance ) {
 
-		var v1 = new THREE.Vector3( 0, 0, 1 );
+        var v1 = this._vz;
 
 			return this.translateOnAxis( v1, distance );
 
@@ -240,7 +245,7 @@ THREE.Object3D.prototype = {
 
     worldToLocal: function ( vector ) {
 
-		var m1 = new THREE.Matrix4();
+        var m1 = this._m1;
 
 			return vector.applyMatrix4( m1.getInverse( this.matrixWorld ) );
 
@@ -250,7 +255,7 @@ THREE.Object3D.prototype = {
 
 		// This routine does not support objects with rotated and/or translated parent(s)
 
-		var m1 = new THREE.Matrix4();
+        var m1 = this._m1;
 
 			m1.lookAt( vector, this.position, this.up );
 

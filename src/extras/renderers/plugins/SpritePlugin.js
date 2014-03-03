@@ -22,7 +22,7 @@ THREE.SpritePlugin = function () {
 			- 0.5,   0.5, 0, 1
 		] );
 
-        faces = Arrays.newUint8Array( [
+		faces = new Uint16Array( [
 			0, 1, 2,
 			0, 2, 3
 		] );

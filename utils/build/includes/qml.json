@@ -44,6 +44,7 @@
         "src/lights/SpotLight.js",
         "src/loaders/Loader.js",
         "src/loaders/ImageLoader.js",
+        "src/loaders/LoadingManager.js",
         "src/loaders/JSONLoader.js",
         "src/loaders/Geometry2Loader.js",
         "src/loaders/MaterialLoader.js",
@@ -88,6 +89,7 @@
         "src/renderers/renderables/RenderableSprite.js",
         "src/renderers/renderables/RenderableLine.js",
         "src/extras/core/Gyroscope.js",
+        "src/extras/ImageUtils.js",
         "src/extras/helpers/CameraHelper.js",
         "src/extras/helpers/DirectionalLightHelper.js",
         "src/extras/helpers/HemisphereLightHelper.js",
@@ -104,5 +106,4 @@
         "src/extras/geometries/CubeGeometry.js",
         "src/extras/geometries/CylinderGeometry.js",
         "src/extras/geometries/SphereGeometry.js"
-
 ]

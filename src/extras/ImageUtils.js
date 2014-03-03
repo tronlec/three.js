@@ -363,8 +363,8 @@ THREE.ImageUtils = {
 
 		function loadARGBMip( buffer, dataOffset, width, height ) {
 			var dataLength = width*height*4;
-			var srcBuffer = Arrays.newUint8Array( buffer, dataOffset, dataLength );
-			var byteArray = Arrays.newUint8Array( dataLength );
+			var srcBuffer = new Uint8Array( buffer, dataOffset, dataLength );
+			var byteArray = new Uint8Array( dataLength );
 			var dst = 0;
 			var src = 0;
 			for ( var y = 0; y < height; y++ ) {
@@ -505,7 +505,7 @@ THREE.ImageUtils = {
 					var dataLength = byteArray.length;
 				} else {
 					var dataLength = Math.max( 4, width ) / 4 * Math.max( 4, height ) / 4 * blockBytes;
-					var byteArray = Arrays.newUint8Array( buffer, dataOffset, dataLength );
+					var byteArray = new Uint8Array( buffer, dataOffset, dataLength );
 				}
 				
 				var mipmap = { "data": byteArray, "width": width, "height": height };
@@ -633,7 +633,7 @@ THREE.ImageUtils = {
 	generateDataTexture: function ( width, height, color ) {
 
 		var size = width * height;
-		var data = Arrays.newUint8Array( 3 * size );
+		var data = new Uint8Array( 3 * size );
 
 		var r = Math.floor( color.r * 255 );
 		var g = Math.floor( color.g * 255 );

@@ -21,21 +21,41 @@ THREE.BufferGeometry = function () {
 
 	this.boundingBox = null;
 	this.boundingSphere = null;
-
+    this._box = new THREE.Box3();
+    this._vector = new THREE.Vector3();
 };
 
 THREE.BufferGeometry.prototype = {
 
 	constructor: THREE.BufferGeometry,
 
-	addAttribute: function ( name, type, numItems, itemSize ) {
+	addAttribute: function ( name, array, itemSize ) {
 
-		this.attributes[ name ] = {
+		if ( arguments.length === 4 ) {
 
-			array: new type( numItems * itemSize ),
-			itemSize: itemSize
+			console.warn( 'DEPRECATED: BufferGeometry.addAttribute() now accepts only 3 arguments ( name, array, itemSize )' );
 
-		};
+			this.attributes[ arguments[ 0 ] ] = {
+
+				array: new arguments[ 1 ]( arguments[ 2 ] * arguments[ 3 ] ),
+				itemSize: arguments[ 3 ]
+
+			};
+
+		} else {
+
+			this.attributes[ name ] = {
+
+				array: array,
+				itemSize: itemSize
+
+			};
+
+		}
+
+	},
+
+	getAttribute: function ( name ) {
 
 		return this.attributes[ name ];
 
@@ -138,8 +158,8 @@ THREE.BufferGeometry.prototype = {
 
 	computeBoundingSphere: function () {
 
-		var box = new THREE.Box3();
-		var vector = new THREE.Vector3();
+        var box = this._box;
+        var vector = this._vector;
 
 			if ( this.boundingSphere === null ) {
 

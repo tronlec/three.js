@@ -4,13 +4,14 @@
 
 THREE.Loader = function ( showStatus ) {
 
-	this.showStatus = showStatus;
+    this._texLoader = new THREE.TextureLoader();
+    this.showStatus = showStatus;
     this.statusMessage = showStatus ? "" : null;
 
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
 	this.onLoadComplete = function () {};
-
+    console.log("Loader constructed + this");
 };
 
 THREE.Loader.prototype = {
@@ -30,7 +31,7 @@ THREE.Loader.prototype = {
 
 		} else {
 
-			message += ( progress.loaded / 1000 ).toFixed(2) + " KB";
+			message += ( progress.loaded / 1024 ).toFixed(2) + " KB";
 
 		}
 
@@ -97,33 +98,30 @@ THREE.Loader.prototype = {
 		}
 
 		function load_image( where, url ) {
-
-			var image = new Image();
-
-			image.onload = function () {
+            console.log("THREE.Loader.createMaterial.load_image("+url+")");
+            var texLoader = new Three.TextureLoader();
+            // TODO: FIXME!
+            texLoader.load(url, function ( image ) {
+                console.log("THREE.Loader.create_material.texLoader.load() done");
 
 				if ( !is_pow2( this.width ) || !is_pow2( this.height ) ) {
 
 					var width = nearest_pow2( this.width );
 					var height = nearest_pow2( this.height );
 
-					where.image.width = width;
-					where.image.height = height;
-					where.image.getContext( '2d' ).drawImage( this, 0, 0, width, height );
+                    console.log("TODO: IMAGE RESIZE ");
+                    //where.image.width = width;
+                    //where.image.height = height;
+                    //where.image.getContext( '2d' ).drawImage( this, 0, 0, width, height );
 
 				} else {
 
-					where.image = this;
+                    where.image = image;
 
 				}
 
 				where.needsUpdate = true;
-
-			};
-
-			if ( _this.crossOrigin !== undefined ) image.crossOrigin = _this.crossOrigin;
-			image.src = url;
-
+            });
 		}
 
 		function create_texture( where, name, sourceFile, repeat, offset, wrap, anisotropy ) {

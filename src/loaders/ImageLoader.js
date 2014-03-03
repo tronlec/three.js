@@ -5,7 +5,7 @@
 THREE.ImageLoader = function ( manager ) {
 
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-    this.qmlImageLoader = undefined;
+
 };
 
 THREE.ImageLoader.prototype = {
@@ -16,18 +16,18 @@ THREE.ImageLoader.prototype = {
 
 		var scope = this;
 
-        if ( this.qmlImageLoader === undefined ) {
-            console.log("qmlImageLoader not set, can't load images.")
+        if ( THREE.qmlImageLoader === undefined ) {
+            console.log("THREE.qmlImageLoader not set, can't load images.")
             return null;
         }
-
-        var image = this.qmlImageLoader.load (url);
+        console.log("About to load ("+url+")");
+        var image = THREE.qmlImageLoader.load (url);
 
 		if ( onLoad !== undefined ) {
 
 			image.addEventListener( 'load', function ( event ) {
 
-				scope.manager.itemEnd( url );
+                scope.manager.itemEnd( url );
 				onLoad( this );
 
 			}, false );
@@ -58,7 +58,7 @@ THREE.ImageLoader.prototype = {
 
 		image.src = url;
 
-		scope.manager.itemStart( url );
+        scope.manager.itemStart( url );
 
 		return image;
 

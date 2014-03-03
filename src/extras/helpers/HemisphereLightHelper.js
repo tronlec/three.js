@@ -30,6 +30,7 @@ THREE.HemisphereLightHelper = function ( light, sphereSize, arrowLength, domeSiz
 	this.add( this.lightSphere );
 
 	this.update();
+    this._vector = new THREE.Vector3();
 
 };
 
@@ -42,7 +43,7 @@ THREE.HemisphereLightHelper.prototype.dispose = function () {
 
 THREE.HemisphereLightHelper.prototype.update = function () {
 
-	var vector = new THREE.Vector3();
+    var vector = this._vector;
 
 
 		this.colors[ 0 ].copy( this.light.color ).multiplyScalar( this.light.intensity );

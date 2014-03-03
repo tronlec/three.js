@@ -10,7 +10,7 @@ THREE.Camera = function () {
 
     this.matrixWorldInverse = new THREE.Matrix4();
     this.projectionMatrix = new THREE.Matrix4();
-
+    this._matrixCache = new THREE.Matrix4();
 };
 
 THREE.Camera.prototype = Object.create( THREE.Object3D.prototype );
@@ -19,7 +19,7 @@ THREE.Camera.prototype.lookAt = function ( vector ) {
 
     // This routine does not support cameras with rotated and/or translated parent(s)
 
-    var m1 = new THREE.Matrix4();
+    var m1 = this._matrixCache;
 
     m1.lookAt( this.position, vector, this.up );
 

@@ -13,7 +13,6 @@ var PROGRAM_ID  = 2;
 
 var BUFFER_BELONGS_TO_ATTRIBUTE = 0;
 
-
 var debug_renderer = true;
 var renderer_name = "THREE.Canvas3DRenderer";
 
@@ -906,7 +905,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function initMeshBuffers ( geometryGroup, object ) {
         if (debug_renderer) console.log(renderer_name+".initMeshBuffers()");
-
 		var geometry = object.geometry,
 			faces3 = geometryGroup.faces3,
 
@@ -3222,7 +3220,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			for ( i = 0; i < il; i ++ ) {
 
 				influence = influences[ i ];
-                console.log("influence of "+i+" is "+influence);
 				if ( influence > 0 ) {
                     if (debug_renderer) console.log(renderer_name+".setupMorphTargets() activeInfluenceIndices.push(influence:"+influence+", i:"+i+")");
                     activeInfluenceIndices.push( [ influence, i ] );

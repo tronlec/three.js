@@ -2,7 +2,9 @@
  * https://github.com/mrdoob/eventdispatcher.js/
  */
 
-THREE.EventDispatcher = function () {}
+THREE.EventDispatcher = function () {
+    this._array = [];
+}
 
 THREE.EventDispatcher.prototype = {
 
@@ -76,7 +78,7 @@ THREE.EventDispatcher.prototype = {
 
     dispatchEvent: function ( event ) {
 
-        var array = [];
+        var array = this._array;
 
         if ( this._listeners === undefined ) return;
 

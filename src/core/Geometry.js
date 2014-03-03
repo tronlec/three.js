@@ -48,7 +48,7 @@ THREE.Geometry = function () {
 	this.lineDistancesNeedUpdate = false;
 
 	this.buffersNeedUpdate = false;
-    this.geometryGroupCounter = 0;
+    this._geometryGroupCounter = 0;
 
 };
 
@@ -567,7 +567,7 @@ THREE.Geometry.prototype = {
 
 	// Geometry splitting
 
-    makeGroups: function ( usesFaceMaterial ) {
+    makeGroups: function ( usesFaceMaterial, maxVerticesInGroup ) {
 
 			var f, fl, face, materialIndex,
 				groupHash, hash_map = {};
@@ -596,7 +596,7 @@ THREE.Geometry.prototype = {
 
 				}
 
-				if ( this.geometryGroups[ groupHash ].vertices + 3 > 65535 ) {
+				if ( this.geometryGroups[ groupHash ].vertices + 3 > maxVerticesInGroup ) {
 
 					hash_map[ materialIndex ].counter += 1;
 					groupHash = hash_map[ materialIndex ].hash + '_' + hash_map[ materialIndex ].counter;
@@ -618,12 +618,11 @@ THREE.Geometry.prototype = {
 
 			for ( var g in this.geometryGroups ) {
 
-                this.geometryGroups[ g ].id = this.geometryGroupCounter ++;
+                this.geometryGroups[ g ].id = this._geometryGroupCounter ++;
 
 				this.geometryGroupsList.push( this.geometryGroups[ g ] );
 
 			}
-
     },
 
 	clone: function () {
