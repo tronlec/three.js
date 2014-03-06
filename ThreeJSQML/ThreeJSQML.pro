@@ -9,6 +9,7 @@ OTHER_FILES = qmldir \
     ../src/lights/* \
     ../src/loaders/* \
     ../src/materials/* \
+    ../src/qml/* \
     ../src/textures/* \
     ../src/objects/* \
     ../src/scenes/* \
@@ -30,4 +31,4 @@ OTHER_FILES = qmldir \
     ../src/extras/renderers/plugins/SpritePlugin.js \
     ../src/extras/shaders/ShaderFlares.js \
     ../src/extras/geometries/* \
-    ../src/core/QmlWrappers.js
+    ../src/loaders/QMLImageLoader.js

@@ -1,7 +1,9 @@
 [
 "src/Three.js",
         "src/Three.js",
-        "src/core/QmlWrappers.js",
+        "src/qml/TypedArrayWrappers.js",
+        "src/qml/QmlImageElement.js",
+        "src/qml/QmlHtmlElements.js",
         "src/math/Color.js",
         "src/math/Quaternion.js",
         "src/math/Vector2.js",

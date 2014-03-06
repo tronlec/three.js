@@ -13,21 +13,24 @@ THREE.ImageLoader.prototype = {
 	constructor: THREE.ImageLoader,
 
 	load: function ( url, onLoad, onProgress, onError ) {
-        console.log("THREE.ImageLoader.prototype.load")
+
 		var scope = this;
-		var image = document.createElement( 'img' );
-        console.log("ImageLoader.load image created");
+
+        if ( THREE.qmlImageLoader === undefined ) {
+            console.log("THREE.qmlImageLoader not set, can't load images.")
+            return null;
+        }
+        console.log("About to load ("+url+")");
+        var image = THREE.qmlImageLoader.load (url);
 
 		if ( onLoad !== undefined ) {
 
 			image.addEventListener( 'load', function ( event ) {
-                console.log("THREE.ImageLoader.load.onload" + event.constructor.name + " this:"+this.constructor.name);
-                console.log("scope.manager.itemEnd( url );");
+                console.log("THREE.ImageLoader.load function ( event ) manager "+scope.manager);
                 scope.manager.itemEnd( url );
-                console.log("onLoad( this );");
-                onLoad( this );
-                console.log("done;");
-            }, false );
+				onLoad( this );
+
+			}, false );
 
 		}
 
@@ -51,15 +54,12 @@ THREE.ImageLoader.prototype = {
 
 		}
 
-        console.log("ImageLoader.load this.crossOrigin");
-        if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
+		if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
 
-        console.log("ImageLoader.load image.src");
-        image.src = url;
+		image.src = url;
 
-        console.log("ImageLoader.load scope.manager.itemStart");
         scope.manager.itemStart( url );
-        console.log("ImageLoader.load exit");
+
 		return image;
 
 	},

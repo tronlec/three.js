@@ -626,7 +626,7 @@ THREE.Geometry.prototype = {
     },
 
 	clone: function () {
-
+        console.log("THREE:Geometry.prototype.clone()");
 		var geometry = new THREE.Geometry();
 
 		var vertices = this.vertices;

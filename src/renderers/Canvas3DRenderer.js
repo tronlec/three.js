@@ -6008,7 +6008,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 						mipmap = mipmaps[ i ];
-                        _gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
+                        _gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
 
 					}
 
@@ -6016,7 +6016,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-                    _gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image );
+                    _gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 				}
 
@@ -6117,7 +6117,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					if( !isCompressed ) {
 
-                        _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ] );
+                        _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 					} else {
 						

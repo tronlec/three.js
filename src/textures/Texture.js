@@ -38,25 +38,21 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 	this._needsUpdate = false;
 	this.onUpdate = null;
 
+    this.__defineGetter__("needsUpdate", function(){
+        return this._needsUpdate;
+    });
+
+    this.__defineSetter__("needsUpdate", function(value){
+        console.log("THREE.Texture.set needsUpdate ( value )");
+        if ( value === true )
+            this.update();
+        this._needsUpdate = value;
+    });
 };
 
 THREE.Texture.prototype = {
 
 	constructor: THREE.Texture,
-
-	get needsUpdate () {
-
-		return this._needsUpdate;
-
-	},
-
-	set needsUpdate ( value ) {
-
-		if ( value === true ) this.update();
-
-		this._needsUpdate = value;
-
-	},
 
 	clone: function ( texture ) {
 

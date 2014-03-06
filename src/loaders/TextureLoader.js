@@ -13,13 +13,13 @@ THREE.TextureLoader.prototype = {
 	constructor: THREE.TextureLoader,
 
 	load: function ( url, onLoad, onProgress, onError ) {
-
+        console.log("THREE.TextureLoader.load("+url+")");
 		var scope = this;
 
 		var loader = new THREE.ImageLoader( scope.manager );
 		loader.setCrossOrigin( this.crossOrigin );
 		loader.load( url, function ( image ) {
-
+            console.log("THREE.TextureLoader.load.onload "+image.constructor.name);
 			var texture = new THREE.Texture( image );
 			texture.needsUpdate = true;
 

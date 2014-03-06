@@ -38,13 +38,13 @@ THREE.Frustum.prototype = {
 
 	},
 
-	copy: function ( frustum ) {
+    copy: function ( src ) {
 
 		var planes = this.planes;
 
 		for( var i = 0; i < 6; i ++ ) {
 
-			planes[i].copy( frustum.planes[i] );
+            planes[i].copy( src.planes[i] );
 
 		}
 
