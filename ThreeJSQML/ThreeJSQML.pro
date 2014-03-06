@@ -30,5 +30,4 @@ OTHER_FILES = qmldir \
     ../src/extras/renderers/plugins/ShadowMapPlugin.js \
     ../src/extras/renderers/plugins/SpritePlugin.js \
     ../src/extras/shaders/ShaderFlares.js \
-    ../src/extras/geometries/* \
-    ../src/loaders/QMLImageLoader.js
+    ../src/extras/geometries/*
