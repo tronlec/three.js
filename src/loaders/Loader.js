@@ -11,7 +11,7 @@ THREE.Loader = function ( showStatus ) {
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
 	this.onLoadComplete = function () {};
-    console.log("Loader constructed + this");
+
 };
 
 THREE.Loader.prototype = {
@@ -98,18 +98,17 @@ THREE.Loader.prototype = {
 		}
 
 		function load_image( where, url ) {
-            console.log("THREE.Loader.createMaterial.load_image("+url+")");
+
             var texLoader = new Three.TextureLoader();
             // TODO: FIXME!
             texLoader.load(url, function ( image ) {
-                console.log("THREE.Loader.create_material.texLoader.load() done");
 
 				if ( !is_pow2( this.width ) || !is_pow2( this.height ) ) {
 
 					var width = nearest_pow2( this.width );
 					var height = nearest_pow2( this.height );
 
-                    console.log("TODO: IMAGE RESIZE ");
+                    console.error("Image resize not implemented!");
                     //where.image.width = width;
                     //where.image.height = height;
                     //where.image.getContext( '2d' ).drawImage( this, 0, 0, width, height );

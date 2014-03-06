@@ -15,14 +15,9 @@ THREE.ImageUtils = {
 		var texture = new THREE.Texture( undefined, mapping );
 
 		var image = loader.load( url, function () {
-            console.log("THREE.ImageUtils.loadTexture.onload ENTER");
-
-            console.log("texture.needsUpdate = true; texture "+texture);
             texture.needsUpdate = true;
 
-            console.log("if ( onLoad ) onLoad( texture );");
             if ( onLoad ) onLoad( texture );
-            console.log("THREE.ImageUtils.loadTexture.onload EXIT");
         } );
 
 		texture.image = image;

@@ -472,8 +472,8 @@ THREE.Object3D.prototype = {
 	},
 
 	clone: function ( object, recursive ) {
-        console.log("Object3D.prototype.clone()");
-		if ( object === undefined ) object = new THREE.Object3D();
+
+        if ( object === undefined ) object = new THREE.Object3D();
 		if ( recursive === undefined ) recursive = true;
 
 		object.name = this.name;

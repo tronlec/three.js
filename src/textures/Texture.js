@@ -43,7 +43,7 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
     });
 
     this.__defineSetter__("needsUpdate", function(value){
-        console.log("THREE.Texture.set needsUpdate ( value )");
+
         if ( value === true )
             this.update();
         this._needsUpdate = value;

@@ -41,7 +41,6 @@ Int8Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Int8Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -95,7 +94,6 @@ Uint8Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Uint8Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -105,7 +103,6 @@ Uint8Array.prototype = {
         if (this.name !== undefined)
             ar.name = this.name;
 
-        //this._internalArray.set(this);
         return ar;
     }
 }
@@ -151,7 +148,6 @@ Int16Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Int16Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -160,7 +156,7 @@ Int16Array.prototype = {
             ar.set(i, this[i]);
         if (this.name !== undefined)
             ar.name = this.name;
-        //this._internalArray.set(this);
+
         return ar;
     }
 }
@@ -206,7 +202,6 @@ Uint16Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Uint16Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -215,7 +210,7 @@ Uint16Array.prototype = {
             ar.set(i, this[i]);
         if (this.name !== undefined)
             ar.name = this.name;
-        //this._internalArray.set(this);
+
         return ar;
     }
 }
@@ -261,7 +256,6 @@ Int32Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Int32Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -270,6 +264,7 @@ Int32Array.prototype = {
             ar.set(i, this[i]);
         if (this.name !== undefined)
             ar.name = this.name;
+
         return ar;
     }
 }
@@ -315,7 +310,6 @@ Uint32Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Uint32Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -324,6 +318,7 @@ Uint32Array.prototype = {
             ar.set(i, this[i]);
         if (this.name !== undefined)
             ar.name = this.name;
+
         return ar;
     }
 }
@@ -336,6 +331,7 @@ function Float32Array(initValue) {
     } else {
         this._length = initValue;
     }
+
     this._internalArray = Arrays.newFloat32Array(this._length);
 }
 
@@ -369,7 +365,6 @@ Float32Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Float32Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -426,7 +421,6 @@ Float64Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Float64Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -483,7 +477,6 @@ Int32Array.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Int32Array("+this.name+") = "+values);
     },
 
     typedArray: function() {
@@ -537,7 +530,6 @@ Uint8ClampedArray.prototype = {
             values += this[i] + " ";
         };
         values += "]";
-        console.log("Uint8ClampedArray("+this.name+") = "+values);
     },
     typedArray: function() {
         var ar = this._internalArray;

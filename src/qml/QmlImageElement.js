@@ -1,14 +1,12 @@
 var __texImageToImageMap = {};
 
 function textureLoaded(texImage) {
-    console.log("function textureLoaded(texImage)");
     var target = __texImageToImageMap[""+texImage.id()];
     if (target)
         target.notifySuccess(texImage);
 }
 
 function textureLoadError(texImage) {
-    console.log("function __handleImageLoadError(texImage)");
     var target = __texImageToImageMap[""+texImage.id()];
     if (target)
         target.notifyError(texImage);
@@ -31,13 +29,10 @@ function Image () {
     });
 
     this.__defineSetter__("src", function(url){
-        console.log("Image.prototype set src "+url);
         this._src = url;
         if (this._src && this._src !== '') {
             this._texImage = textureImageLoader.loadTexture(this._src);
             __texImageToImageMap[""+this._texImage.id()] = _this;
-            console.log("_texImage.source of "+this._texImage.id()+" set to "+this._src);
-
         }
     });
 };
@@ -72,22 +67,19 @@ Image.prototype = {
     },
 
     notifySuccess: function(image) {
-        console.log("notifySuccess;");
         if (this._onSuccessCallback !== undefined) {
-            console.log("this._onSuccessCallback(this);");
             this._onSuccessCallback(new Event());
         }
     },
 
     notifyProgress: function(image) {
-        console.log("notifyProgress;");
         if (this._onProgressCallback !== undefined) {
             this._onProgressCallback(new Event());
         }
     },
 
     notifyError: function(image) {
-        console.log("notifyError;");
+        console.log("Image.notifyError()");
         if (this._onErrorCallback !== undefined) {
             this._onErrorCallback(new Event());
         }
@@ -101,3 +93,8 @@ Image.prototype = {
         console.error("Image.data not implemented!");
     }
 };
+
+// TODO: Support for resizing:
+//where.image.width = width;
+//where.image.height = height;
+//where.image.getContext( '2d' ).drawImage( this, 0, 0, width, height );

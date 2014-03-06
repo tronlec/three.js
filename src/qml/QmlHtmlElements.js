@@ -22,7 +22,6 @@ function document() {
 
 document.createElement = function(type) {
     if (type === "img") {
-        console.log("document.createElement");
         return new Image();
     }
 
