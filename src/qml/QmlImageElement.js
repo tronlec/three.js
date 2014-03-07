@@ -20,6 +20,7 @@ function Image () {
     this._onErrorCallback    = undefined;
     this._width  = 0;
     this._height = 0;
+    this._texImage = undefined;
 
     // Setup mapping between the native QObject image and this image
     var _this = this;
@@ -29,32 +30,32 @@ function Image () {
     });
 
     this.__defineSetter__("src", function(url){
-        this._src = url;
-        if (this._src && this._src !== '') {
-            this._texImage = textureImageLoader.loadTexture(this._src);
+        if (url && url !== '' && url !== this._src) {
+            this._texImage = textureImageLoader.loadTexture(url);
             __texImageToImageMap[""+this._texImage.id()] = _this;
         }
+        this._src = url;
+    });
+
+    this.__defineGetter__("width", function(){
+        return (this._texImage !== undefined)?this._texImage.width:0;
+    });
+
+    this.__defineSetter__("width", function(url){
+        console.log("TODO: Implement image resize");
+    });
+
+    this.__defineGetter__("height", function(){
+        return (this._texImage !== undefined)?this._texImage.height:0;
+    });
+
+    this.__defineSetter__("height", function(url){
+        console.log("TODO: Implement image resize");
     });
 };
 
 Image.prototype = {
     constructor: Image,
-
-    get width() {
-        return this._width;
-    },
-
-    set width(value) {
-        console.log("TODO: Implement image resize");
-    },
-
-    get height() {
-        return this._height;
-    },
-
-    set height(value) {
-        console.log("TODO: Implement image resize");
-    },
 
     addEventListener: function( eventName, callback, flag ) {
         if (eventName === 'load') {

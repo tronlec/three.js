@@ -77,7 +77,7 @@ THREE.Loader.prototype = {
 
 		for ( var i = 0; i < materials.length; ++ i ) {
 
-            array[ i ] = this.createMaterial( materials[ i ], texturePath );
+			array[ i ] = this.createMaterial( materials[ i ], texturePath );
 
 		}
 
@@ -103,43 +103,11 @@ THREE.Loader.prototype = {
 
 		var _this = this;
 
-		function is_pow2( n ) {
-
-			var l = Math.log( n ) / Math.LN2;
-			return Math.floor( l ) == l;
-
-		}
-
 		function nearest_pow2( n ) {
 
 			var l = Math.log( n ) / Math.LN2;
 			return Math.pow( 2, Math.round(  l ) );
 
-		}
-
-		function load_image( where, url ) {
-
-            var texLoader = new THREE.TextureLoader();
-            // TODO: FIXME!
-            texLoader.load(url, function ( image ) {
-                if ( !is_pow2( this.width ) || !is_pow2( this.height ) ) {
-
-					var width = nearest_pow2( this.width );
-					var height = nearest_pow2( this.height );
-
-                    console.error("Image resize not implemented!");
-                    //where.image.width = width;
-                    //where.image.height = height;
-                    //where.image.getContext( '2d' ).drawImage( this, 0, 0, width, height );
-
-				} else {
-
-                    where.image = image;
-
-				}
-
-				where.needsUpdate = true;
-            });
 		}
 
 		function create_texture( where, name, sourceFile, repeat, offset, wrap, anisotropy ) {
@@ -150,15 +118,15 @@ THREE.Loader.prototype = {
 
 			if ( isCompressed ) {
 
-                var ctexture = THREE.ImageUtils.loadCompressedTexture( fullPath );
+				var texture = THREE.ImageUtils.loadCompressedTexture( fullPath );
 
-                where[ name ] = ctexture;
+				where[ name ] = texture;
 
 			} else {
 
-                var texture = THREE.ImageUtils.loadTexture( fullPath );
+				var texture = HREE.ImageUtils.loadTexture( fullPath );
 
-                where[ name ] = texture;
+				where[ name ] = texture;
 
 			}
 
@@ -194,12 +162,6 @@ THREE.Loader.prototype = {
 			if ( anisotropy ) {
 
 				where[ name ].anisotropy = anisotropy;
-
-			}
-
-			if ( ! isCompressed ) {
-
-				load_image( where[ name ], fullPath );
 
 			}
 
@@ -329,7 +291,7 @@ THREE.Loader.prototype = {
 
 		// textures
 
-        if ( m.mapDiffuse && texturePath !== undefined && texturePath !== null ) {
+		if ( m.mapDiffuse && texturePath ) {
 
 			create_texture( mpars, "map", m.mapDiffuse, m.mapDiffuseRepeat, m.mapDiffuseOffset, m.mapDiffuseWrap, m.mapDiffuseAnisotropy );
 

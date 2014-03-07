@@ -4,9 +4,8 @@
 
 THREE.ObjectLoader = function ( manager ) {
 
-    this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
     this.__matrix = new THREE.Matrix4();
-
 };
 
 THREE.ObjectLoader.prototype = {
