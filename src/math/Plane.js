@@ -45,14 +45,17 @@ THREE.Plane.prototype = {
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 
-        var normal = v1.subVectors( c, b ).cross( v2.subVectors( a, b ) ).normalize();
 
-        // Q: should an error be thrown if normal is zero (e.g. degenerate plane)?
+			var normal = v1.subVectors( c, b ).cross( v2.subVectors( a, b ) ).normalize();
 
-        this.setFromNormalAndCoplanarPoint( normal, a );
+			// Q: should an error be thrown if normal is zero (e.g. degenerate plane)?
 
-        return this;
-    },
+			this.setFromNormalAndCoplanarPoint( normal, a );
+
+			return this;
+
+
+	},
 
 
 	copy: function ( plane ) {

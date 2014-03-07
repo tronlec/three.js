@@ -149,11 +149,8 @@ THREE.CylinderGeometry = function ( radiusTop, radiusBottom, height, radialSegme
 
 	}
 
-	this.computeCentroids();
 	this.computeFaceNormals();
 
 }
 
 THREE.CylinderGeometry.prototype = Object.create( THREE.Geometry.prototype );
-
-console.log("THREE.CylinderGeometry DONE");

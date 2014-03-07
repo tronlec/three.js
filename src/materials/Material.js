@@ -88,7 +88,7 @@ THREE.Material.prototype = {
 
 	clone: function ( material ) {
 
-        if ( material === undefined ) material = new THREE.Material();
+		if ( material === undefined ) material = new THREE.Material();
 
 		material.name = this.name;
 

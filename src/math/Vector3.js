@@ -192,30 +192,36 @@ THREE.Vector3.prototype = {
 
     applyEuler: function ( euler ) {
 
-        var quaternion;
+		var quaternion;
 
-        if ( euler instanceof THREE.Euler === false ) {
 
-            console.error( 'ERROR: Vector3\'s .applyEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.' );
+			if ( euler instanceof THREE.Euler === false ) {
 
-        }
+				console.error( 'ERROR: Vector3\'s .applyEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.' );
 
-        if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
+			}
 
-        this.applyQuaternion( quaternion.setFromEuler( euler ) );
+			if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
 
-        return this;
+			this.applyQuaternion( quaternion.setFromEuler( euler ) );
+
+			return this;
+
+
     },
 
     applyAxisAngle: function ( axis, angle ) {
 
-        var quaternion;
+		var quaternion;
 
-        if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
 
-        this.applyQuaternion( quaternion.setFromAxisAngle( axis, angle ) );
+			if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
 
-        return this;
+			this.applyQuaternion( quaternion.setFromAxisAngle( axis, angle ) );
+
+			return this;
+
+
     },
 
 	applyMatrix3: function ( m ) {
@@ -434,18 +440,22 @@ THREE.Vector3.prototype = {
 
     clampScalar: function ( minVal, maxVal ) {
 
-        var min, max;
-        if ( min === undefined ) {
+		var min, max;
 
-            min = new THREE.Vector3();
-            max = new THREE.Vector3();
 
-        }
+			if ( min === undefined ) {
 
-        min.set( minVal, minVal, minVal );
-        max.set( maxVal, maxVal, maxVal );
+				min = new THREE.Vector3();
+				max = new THREE.Vector3();
 
-        return this.clamp( min, max );
+			}
+
+			min.set( minVal, minVal, minVal );
+			max.set( maxVal, maxVal, maxVal );
+
+			return this.clamp( min, max );
+
+
     },
 
 	floor: function () {
@@ -581,26 +591,32 @@ THREE.Vector3.prototype = {
 
     projectOnVector: function ( vector ) {
 
-        var v1, dot;
+		var v1, dot;
 
-        if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-        v1.copy( vector ).normalize();
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-        dot = this.dot( v1 );
+			v1.copy( vector ).normalize();
 
-        return this.copy( v1 ).multiplyScalar( dot );
+			dot = this.dot( v1 );
+
+			return this.copy( v1 ).multiplyScalar( dot );
+
+
     },
 
     projectOnPlane: function ( planeNormal ) {
 
-        var v1;
+		var v1;
 
-        if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-        v1.copy( this ).projectOnVector( planeNormal );
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-        return this.sub( v1 );
+			v1.copy( this ).projectOnVector( planeNormal );
+
+			return this.sub( v1 );
+
+
     },
 
     reflect: function ( normal ) {
@@ -610,9 +626,12 @@ THREE.Vector3.prototype = {
 
 		var v1;
 
-        if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-        return this.sub( v1.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
+
+			return this.sub( v1.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
+
+
     },
 
 	angleTo: function ( v ) {

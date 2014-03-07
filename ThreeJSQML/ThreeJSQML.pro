@@ -15,7 +15,9 @@ OTHER_FILES = qmldir \
     ../src/scenes/* \
     ../src/renderers/* \
     ../src/renderers/shaders/* \
+    ../src/renderers/webgl/* \
     ../src/renderers/renderables/* \
+    ../src/extras/* \
     ../src/extras/renderers/plugins/* \
     ../src/extras/animation/* \
     ../src/extras/core/Gyroscope.js \

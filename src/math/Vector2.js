@@ -228,19 +228,22 @@ THREE.Vector2.prototype = {
 
     clampScalar: function ( minVal, maxVal ) {
 
-        var min, max;
+		var min, max;
 
-        if ( min === undefined ) {
 
-            min = new THREE.Vector2();
-            max = new THREE.Vector2();
+			if ( min === undefined ) {
 
-        }
+				min = new THREE.Vector2();
+				max = new THREE.Vector2();
 
-        min.set( minVal, minVal );
-        max.set( maxVal, maxVal );
+			}
 
-        return this.clamp( min, max );
+			min.set( minVal, minVal );
+			max.set( maxVal, maxVal );
+
+			return this.clamp( min, max );
+
+
     },
 
 	floor: function () {

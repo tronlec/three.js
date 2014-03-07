@@ -80,6 +80,7 @@ THREE.EventDispatcher.prototype = {
 
         var array = this._array;
 
+
         if ( this._listeners === undefined ) return;
 
         var listeners = this._listeners;

@@ -6,16 +6,13 @@ THREE.Geometry2 = function ( size ) {
 
 	THREE.BufferGeometry.call( this );
 
-	this.addAttribute( 'position', new Float32Array( size * 3 ), 3 );
-	this.addAttribute( 'normal', new Float32Array( size * 3 ), 3 );
-	this.addAttribute( 'uv', new Float32Array( size * 2 ), 2 );
+	this.vertices = new THREE.Float32Attribute( size, 3 );
+	this.normals = new THREE.Float32Attribute( size, 3 );
+	this.uvs = new THREE.Float32Attribute( size, 2 );
 
-	this.vertices = this.getAttribute( 'position' ).array;
-	this.normals = this.getAttribute( 'normal' ).array;
-	this.uvs = this.getAttribute( 'uv' ).array;
-
-	this.boundingBox = null;
-	this.boundingSphere = null;
+	this.addAttribute( 'position', this.vertices );
+	this.addAttribute( 'normal', this.normals );
+	this.addAttribute( 'uv', this.uvs );
 
 };
 

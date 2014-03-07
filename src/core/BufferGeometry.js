@@ -9,49 +9,32 @@ THREE.BufferGeometry = function () {
 
 	this.name = '';
 
-	// attributes
-
 	this.attributes = {};
-
-	// offsets for chunks when using indexed elements
-
-	this.offsets = [];
-
-	// boundings
+	this.drawcalls = [];
+	this.offsets = this.drawcalls; // backwards compatibility
 
 	this.boundingBox = null;
 	this.boundingSphere = null;
-    this._box = new THREE.Box3();
-    this._vector = new THREE.Vector3();
+
 };
 
 THREE.BufferGeometry.prototype = {
 
 	constructor: THREE.BufferGeometry,
 
-	addAttribute: function ( name, array, itemSize ) {
+	addAttribute: function ( name, attribute ) {
 
-		if ( arguments.length === 4 ) {
+		if ( attribute instanceof THREE.BufferAttribute === false ) {
 
-			console.warn( 'DEPRECATED: BufferGeometry.addAttribute() now accepts only 3 arguments ( name, array, itemSize )' );
+			console.warn( 'DEPRECATED: BufferGeometry\'s addAttribute() now expects ( name, attribute ).' );
 
-			this.attributes[ arguments[ 0 ] ] = {
+			this.attributes[ name ] = { array: arguments[ 1 ], itemSize: arguments[ 2 ] };
 
-				array: new arguments[ 1 ]( arguments[ 2 ] * arguments[ 3 ] ),
-				itemSize: arguments[ 3 ]
-
-			};
-
-		} else {
-
-			this.attributes[ name ] = {
-
-				array: array,
-				itemSize: itemSize
-
-			};
+			return;
 
 		}
+
+		this.attributes[ name ] = attribute;
 
 	},
 
@@ -61,13 +44,25 @@ THREE.BufferGeometry.prototype = {
 
 	},
 
+	addDrawCall: function ( start, count, indexOffset ) {
+
+		this.drawcalls.push( {
+
+			start: start,
+			count: count,
+			index: indexOffset !== undefined ? indexOffset : 0
+
+		} );
+
+	},
+
 	applyMatrix: function ( matrix ) {
 
 		var position = this.attributes.position;
 
 		if ( position !== undefined ) {
 
-			matrix.multiplyVector3Array( position.array );
+			matrix.applyToVector3Array( position.array );
 			position.needsUpdate = true;
 
 		}
@@ -78,7 +73,7 @@ THREE.BufferGeometry.prototype = {
 
 			var normalMatrix = new THREE.Matrix3().getNormalMatrix( matrix );
 
-			normalMatrix.multiplyVector3Array( normal.array );
+			normalMatrix.applyToVector3Array( normal.array );
 			normal.needsUpdate = true;
 
 		}
@@ -158,8 +153,10 @@ THREE.BufferGeometry.prototype = {
 
 	computeBoundingSphere: function () {
 
-        var box = this._box;
-        var vector = this._vector;
+		var box = new THREE.Box3();
+		var vector = new THREE.Vector3();
+
+		return function () {
 
 			if ( this.boundingSphere === null ) {
 
@@ -197,7 +194,9 @@ THREE.BufferGeometry.prototype = {
 
 			}
 
-    },
+		}
+
+	}(),
 
 	computeVertexNormals: function () {
 
@@ -213,7 +212,7 @@ THREE.BufferGeometry.prototype = {
 				this.attributes[ "normal" ] = {
 
 					itemSize: 3,
-                    array: new Float32Array( nVertexElements )
+					array: new Float32Array( nVertexElements )
 
 				};
 
@@ -396,7 +395,7 @@ THREE.BufferGeometry.prototype = {
 			this.attributes[ "tangent" ] = {
 
 				itemSize: 4,
-                array: new Float32Array( nTangentElements )
+				array: new Float32Array( nTangentElements )
 
 			};
 
@@ -593,7 +592,7 @@ THREE.BufferGeometry.prototype = {
 		console.log("Reordering "+verticesCount+" vertices.");
 		*/
 
-        var sortedIndices = new Uint16Array( indices.length ); //16-bit buffers
+		var sortedIndices = new Uint16Array( indices.length ); //16-bit buffers
 		var indexPtr = 0;
 		var vertexPtr = 0;
 

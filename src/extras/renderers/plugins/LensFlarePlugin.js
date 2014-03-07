@@ -15,7 +15,7 @@ THREE.LensFlarePlugin = function () {
 		_precision = renderer.getPrecision();
 
 		_lensFlare.vertices = new Float32Array( 8 + 8 );
-        _lensFlare.faces = new Uint16Array( 6 );
+		_lensFlare.faces = new Uint16Array( 6 );
 
 		var i = 0;
 		_lensFlare.vertices[ i++ ] = -1; _lensFlare.vertices[ i++ ] = -1;	// vertex

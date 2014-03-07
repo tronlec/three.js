@@ -9,7 +9,7 @@ console.log("THREE Start");
 function THREE() {
 };
 
-THREE.REVISION = '66';
+THREE.REVISION = '67dev';
 THREE.qmlImageLoader = null;
 
 // GL STATE CONSTANTS

@@ -78,8 +78,6 @@ THREE.Geometry.prototype = {
 
 			}
 
-			face.centroid.applyMatrix4( matrix );
-
 		}
 
 		if ( this.boundingBox instanceof THREE.Box3 ) {
@@ -91,24 +89,6 @@ THREE.Geometry.prototype = {
 		if ( this.boundingSphere instanceof THREE.Sphere ) {
 
 			this.computeBoundingSphere();
-
-		}
-
-	},
-
-	computeCentroids: function () {
-
-		var f, fl, face;
-
-		for ( f = 0, fl = this.faces.length; f < fl; f ++ ) {
-
-			face = this.faces[ f ];
-			face.centroid.set( 0, 0, 0 );
-
-			face.centroid.add( this.vertices[ face.a ] );
-			face.centroid.add( this.vertices[ face.b ] );
-			face.centroid.add( this.vertices[ face.c ] );
-			face.centroid.divideScalar( 3 );
 
 		}
 
@@ -626,7 +606,7 @@ THREE.Geometry.prototype = {
     },
 
 	clone: function () {
-        console.log("THREE:Geometry.prototype.clone()");
+
 		var geometry = new THREE.Geometry();
 
 		var vertices = this.vertices;

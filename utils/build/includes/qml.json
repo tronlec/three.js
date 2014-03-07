@@ -1,5 +1,4 @@
 [
-"src/Three.js",
         "src/Three.js",
         "src/qml/TypedArrayWrappers.js",
         "src/qml/QmlImageElement.js",
@@ -10,6 +9,7 @@
         "src/math/Vector3.js",
         "src/math/Vector4.js",
         "src/math/Euler.js",
+
         "src/math/Matrix3.js",
         "src/math/Matrix4.js",
         "src/math/Frustum.js",
@@ -17,6 +17,7 @@
         "src/math/Vertex.js",
         "src/math/UV.js",
         "src/math/Spline.js",
+
         "src/math/Box2.js",
         "src/math/Box3.js",
         "src/math/Triangle.js",
@@ -63,6 +64,7 @@
         "src/materials/MeshFaceMaterial.js",
         "src/materials/ParticleSystemMaterial.js",
         "src/materials/ShaderMaterial.js",
+        "src/materials/RawShaderMaterial.js",
         "src/materials/SpriteMaterial.js",
         "src/textures/Texture.js",
         "src/textures/CompressedTexture.js",
@@ -82,6 +84,8 @@
         "src/renderers/shaders/UniformsUtils.js",
         "src/renderers/shaders/UniformsLib.js",
         "src/renderers/shaders/ShaderLib.js",
+        "src/renderers/webgl/WebGLProgram.js",
+        "src/renderers/webgl/WebGLShader.js",
         "src/renderers/Canvas3DRenderer.js",
         "src/renderers/WebGLRenderTarget.js",
         "src/renderers/WebGLRenderTargetCube.js",

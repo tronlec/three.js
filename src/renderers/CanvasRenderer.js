@@ -74,6 +74,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 	_pointLights = new THREE.Color(),
 
 	_vector3 = new THREE.Vector3(), // Needed for PointLight
+	_centroid = new THREE.Vector3(),
 	_normal = new THREE.Vector3(),
 	_normalViewMatrix = new THREE.Matrix3();
 
@@ -641,7 +642,9 @@ THREE.CanvasRenderer = function ( parameters ) {
 
 			_color.copy( _ambientLight );
 
-			calculateLight( element.centroidModel, element.normalModel, _color );
+			_centroid.copy( v1.positionWorld ).add( v2.positionWorld ).add( v3.positionWorld ).divideScalar( 3 );
+
+			calculateLight( _centroid, element.normalModel, _color );
 
 			_color.multiply( _diffuseColor ).add( _emissiveColor );
 
@@ -726,6 +729,14 @@ THREE.CanvasRenderer = function ( parameters ) {
 			_normal.copy( element.normalModel ).applyMatrix3( _normalViewMatrix );
 
 			_color.setRGB( _normal.x, _normal.y, _normal.z ).multiplyScalar( 0.5 ).addScalar( 0.5 );
+
+			material.wireframe === true
+				? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+				: fillPath( _color );
+
+		} else {
+
+			_color.setRGB( 1, 1, 1 );
 
 			material.wireframe === true
 				? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )

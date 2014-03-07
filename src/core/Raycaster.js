@@ -30,6 +30,10 @@ var descSort = function ( a, b ) {
 
 };
 
+
+
+
+
 THREE.Raycaster.prototype.intersectObject = function ( object, intersects ) {
     if ( object instanceof THREE.Sprite ) {
 
@@ -77,7 +81,6 @@ THREE.Raycaster.prototype.intersectObject = function ( object, intersects ) {
         }
 
         // Check boundingBox before continuing
-
         inverseMatrix.getInverse( object.matrixWorld );
         localRay.copy( this.ray ).applyMatrix4( inverseMatrix );
 
@@ -135,7 +138,6 @@ THREE.Raycaster.prototype.intersectObject = function ( object, intersects ) {
                                     positions[ c * 3 + 1 ],
                                     positions[ c * 3 + 2 ]
                                     );
-
 
                         if ( material.side === THREE.BackSide ) {
 
@@ -196,7 +198,6 @@ THREE.Raycaster.prototype.intersectObject = function ( object, intersects ) {
                                 positions[ c * 3 + 1 ],
                                 positions[ c * 3 + 2 ]
                                 );
-
 
                     if ( material.side === THREE.BackSide ) {
 

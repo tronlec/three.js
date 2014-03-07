@@ -5,157 +5,159 @@
 
 THREE.Math = {
 
-    PI2: Math.PI * 2,
+	PI2: Math.PI * 2,
 
-    generateUUID: function () {
+	generateUUID: function () {
 
-        // http://www.broofa.com/Tools/Math.uuid.htm
+		// http://www.broofa.com/Tools/Math.uuid.htm
+		
+		var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+		var uuid = new Array(36);
+		var rnd = 0, r;
 
-        var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-        var uuid = new Array(36);
-        var rnd = 0, r;
+		return function () {
 
-        return function () {
+			for ( var i = 0; i < 36; i ++ ) {
 
-            for ( var i = 0; i < 36; i ++ ) {
+				if ( i == 8 || i == 13 || i == 18 || i == 23 ) {
+			
+					uuid[ i ] = '-';
+			
+				} else if ( i == 14 ) {
+			
+					uuid[ i ] = '4';
+			
+				} else {
+			
+					if (rnd <= 0x02) rnd = 0x2000000 + (Math.random()*0x1000000)|0;
+					r = rnd & 0xf;
+					rnd = rnd >> 4;
+					uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
 
-                if ( i == 8 || i == 13 || i == 18 || i == 23 ) {
+				}
+			}
+			
+			return uuid.join('');
 
-                    uuid[ i ] = '-';
+		};
 
-                } else if ( i == 14 ) {
+	}(),
 
-                    uuid[ i ] = '4';
+	// Clamp value to range <a, b>
 
-                } else {
+	clamp: function ( x, a, b ) {
 
-                    if (rnd <= 0x02) rnd = 0x2000000 + (Math.random()*0x1000000)|0;
-                    r = rnd & 0xf;
-                    rnd = rnd >> 4;
-                    uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+		return ( x < a ) ? a : ( ( x > b ) ? b : x );
 
-                }
-            }
+	},
 
-            return uuid.join('');
+	// Clamp value to range <a, inf)
 
-        };
+	clampBottom: function ( x, a ) {
 
-    }(),
+		return x < a ? a : x;
 
-    // Clamp value to range <a, b>
+	},
 
-    clamp: function ( x, a, b ) {
+	// Linear mapping from range <a1, a2> to range <b1, b2>
 
-        return ( x < a ) ? a : ( ( x > b ) ? b : x );
+	mapLinear: function ( x, a1, a2, b1, b2 ) {
 
-    },
+		return b1 + ( x - a1 ) * ( b2 - b1 ) / ( a2 - a1 );
 
-    // Clamp value to range <a, inf)
+	},
 
-    clampBottom: function ( x, a ) {
+	// http://en.wikipedia.org/wiki/Smoothstep
 
-        return x < a ? a : x;
+	smoothstep: function ( x, min, max ) {
 
-    },
+		if ( x <= min ) return 0;
+		if ( x >= max ) return 1;
 
-    // Linear mapping from range <a1, a2> to range <b1, b2>
+		x = ( x - min )/( max - min );
 
-    mapLinear: function ( x, a1, a2, b1, b2 ) {
+		return x*x*(3 - 2*x);
 
-        return b1 + ( x - a1 ) * ( b2 - b1 ) / ( a2 - a1 );
+	},
 
-    },
+	smootherstep: function ( x, min, max ) {
 
-    // http://en.wikipedia.org/wiki/Smoothstep
+		if ( x <= min ) return 0;
+		if ( x >= max ) return 1;
 
-    smoothstep: function ( x, min, max ) {
+		x = ( x - min )/( max - min );
 
-        if ( x <= min ) return 0;
-        if ( x >= max ) return 1;
+		return x*x*x*(x*(x*6 - 15) + 10);
 
-        x = ( x - min )/( max - min );
+	},
 
-        return x*x*(3 - 2*x);
+	// Random float from <0, 1> with 16 bits of randomness
+	// (standard Math.random() creates repetitive patterns when applied over larger space)
 
-    },
+	random16: function () {
 
-    smootherstep: function ( x, min, max ) {
+		return ( 65280 * Math.random() + 255 * Math.random() ) / 65535;
 
-        if ( x <= min ) return 0;
-        if ( x >= max ) return 1;
+	},
 
-        x = ( x - min )/( max - min );
+	// Random integer from <low, high> interval
 
-        return x*x*x*(x*(x*6 - 15) + 10);
+	randInt: function ( low, high ) {
 
-    },
+		return low + Math.floor( Math.random() * ( high - low + 1 ) );
 
-    // Random float from <0, 1> with 16 bits of randomness
-    // (standard Math.random() creates repetitive patterns when applied over larger space)
+	},
 
-    random16: function () {
+	// Random float from <low, high> interval
 
-        return ( 65280 * Math.random() + 255 * Math.random() ) / 65535;
+	randFloat: function ( low, high ) {
 
-    },
+		return low + Math.random() * ( high - low );
 
-    // Random integer from <low, high> interval
+	},
 
-    randInt: function ( low, high ) {
+	// Random float from <-range/2, range/2> interval
 
-        return low + Math.floor( Math.random() * ( high - low + 1 ) );
+	randFloatSpread: function ( range ) {
 
-    },
+		return range * ( 0.5 - Math.random() );
 
-    // Random float from <low, high> interval
+	},
 
-    randFloat: function ( low, high ) {
+	sign: function ( x ) {
 
-        return low + Math.random() * ( high - low );
+		return ( x < 0 ) ? - 1 : ( x > 0 ) ? 1 : 0;
 
-    },
+	},
 
-    // Random float from <-range/2, range/2> interval
+	degToRad: function() {
 
-    randFloatSpread: function ( range ) {
+		var degreeToRadiansFactor = Math.PI / 180;
 
-        return range * ( 0.5 - Math.random() );
+		return function ( degrees ) {
 
-    },
+			return degrees * degreeToRadiansFactor;
 
-    sign: function ( x ) {
+		};
 
-        return ( x < 0 ) ? - 1 : ( x > 0 ) ? 1 : 0;
+	}(),
 
-    },
+	radToDeg: function() {
 
-    degToRad: function() {
+		var radianToDegreesFactor = 180 / Math.PI;
 
-        var degreeToRadiansFactor = Math.PI / 180;
+		return function ( radians ) {
 
-        return function ( degrees ) {
+			return radians * radianToDegreesFactor;
 
-            return degrees * degreeToRadiansFactor;
+		};
 
-        };
+	}(),
 
-    }(),
+	isPowerOfTwo: function ( value ) {
 
-    radToDeg: function() {
+		return ( value & ( value - 1 ) ) === 0 && value !== 0;
 
-        var radianToDegreesFactor = 180 / Math.PI;
-
-        return function ( radians ) {
-
-            return radians * radianToDegreesFactor;
-
-        };
-
-    }(),
-
-    isPowerOfTwo: function ( value ) {
-        return ( value & ( value - 1 ) ) === 0 && value !== 0;
-    }
+	}
 
 };

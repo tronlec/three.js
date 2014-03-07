@@ -14,15 +14,17 @@ THREE.ImageLoader.prototype = {
 
 	load: function ( url, onLoad, onProgress, onError ) {
 
-        var scope = this;
+		var scope = this;
 		var image = document.createElement( 'img' );
 
 		if ( onLoad !== undefined ) {
 
 			image.addEventListener( 'load', function ( event ) {
-                scope.manager.itemEnd( url );
-                onLoad( this );
-            }, false );
+
+				scope.manager.itemEnd( url );
+				onLoad( this );
+
+			}, false );
 
 		}
 
@@ -46,16 +48,13 @@ THREE.ImageLoader.prototype = {
 
 		}
 
+		if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
 
-        if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
+		image.src = url;
 
+		scope.manager.itemStart( url );
 
-        image.src = url;
-
-
-        scope.manager.itemStart( url );
-
-        return image;
+		return image;
 
 	},
 

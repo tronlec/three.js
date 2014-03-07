@@ -86,12 +86,14 @@ THREE.Box3.prototype = {
 
 		var v1 = new THREE.Vector3();
 
+
 			var halfSize = v1.copy( size ).multiplyScalar( 0.5 );
 
 			this.min.copy( center ).sub( halfSize );
 			this.max.copy( center ).add( halfSize );
 
 			return this;
+
 
     },
 
@@ -101,6 +103,7 @@ THREE.Box3.prototype = {
 		// accounting for both the object's, and childrens', world transforms
 
 		var v1 = new THREE.Vector3();
+
 
 			var scope = this;
 
@@ -129,6 +132,7 @@ THREE.Box3.prototype = {
 			} );
 
 			return this;
+
 
     },
 
@@ -269,13 +273,17 @@ THREE.Box3.prototype = {
 
 		var v1 = new THREE.Vector3();
 
+
 			var clampedPoint = v1.copy( point ).clamp( this.min, this.max );
 			return clampedPoint.sub( point ).length();
+
+
     },
 
     getBoundingSphere: function( optionalTarget ) {
 
 		var v1 = new THREE.Vector3();
+
 
 			var result = optionalTarget || new THREE.Sphere();
 
@@ -283,6 +291,7 @@ THREE.Box3.prototype = {
 			result.radius = this.size( v1 ).length() * 0.5;
 
 			return result;
+
 
     },
 

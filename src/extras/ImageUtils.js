@@ -15,10 +15,12 @@ THREE.ImageUtils = {
 		var texture = new THREE.Texture( undefined, mapping );
 
 		var image = loader.load( url, function () {
-            texture.needsUpdate = true;
 
-            if ( onLoad ) onLoad( texture );
-        } );
+			texture.needsUpdate = true;
+
+			if ( onLoad ) onLoad( texture );
+
+		} );
 
 		texture.image = image;
 		texture.sourceFile = url;

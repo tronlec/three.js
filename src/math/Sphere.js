@@ -27,29 +27,31 @@ THREE.Sphere.prototype = {
 
 		var box = new THREE.Box3();
 
-        var center = this.center;
 
-        if ( optionalCenter !== undefined ) {
+			var center = this.center;
 
-            center.copy( optionalCenter );
+			if ( optionalCenter !== undefined ) {
 
-        } else {
+				center.copy( optionalCenter );
 
-            box.setFromPoints( points ).center( center );
+			} else {
 
-        }
+				box.setFromPoints( points ).center( center );
 
-        var maxRadiusSq = 0;
+			}
 
-        for ( var i = 0, il = points.length; i < il; i ++ ) {
+			var maxRadiusSq = 0;
 
-            maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( points[ i ] ) );
+			for ( var i = 0, il = points.length; i < il; i ++ ) {
 
-        }
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( points[ i ] ) );
 
-        this.radius = Math.sqrt( maxRadiusSq );
+			}
+
+			this.radius = Math.sqrt( maxRadiusSq );
 
         return this;
+
     },
 
 	copy: function ( sphere ) {

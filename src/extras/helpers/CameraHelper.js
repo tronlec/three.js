@@ -98,6 +98,9 @@ THREE.CameraHelper = function ( camera ) {
 	this.matrixAutoUpdate = false;
 
 	this.pointMap = pointMap;
+    this._vector = new THREE.Vector3();
+    this._camera = new THREE.Camera();
+    this._projector = new THREE.Projector();
 
 	this.update();
 
@@ -107,9 +110,9 @@ THREE.CameraHelper.prototype = Object.create( THREE.Line.prototype );
 
 THREE.CameraHelper.prototype.update = function () {
 
-	var vector = new THREE.Vector3();
-	var camera = new THREE.Camera();
-	var projector = new THREE.Projector();
+    var vector = this._vector;
+    var camera = this._camera;
+    var projector = this._projector;
 
 
 		var scope = this;

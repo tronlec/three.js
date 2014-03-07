@@ -66,6 +66,7 @@ THREE.DirectionalLightHelper.prototype.update = function () {
     var v2 = this._v2;
     var v3 = this._v3;
 
+
     v1.setFromMatrixPosition( this.light.matrixWorld );
     v2.setFromMatrixPosition( this.light.target.matrixWorld );
     v3.subVectors( v2, v1 );
