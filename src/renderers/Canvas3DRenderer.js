@@ -240,35 +240,35 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// GPU capabilities
 
-	var _maxTextures = _gl.getParameter( Context3D.MAX_TEXTURE_IMAGE_UNITS );
-	var _maxVertexTextures = _gl.getParameter( Context3D.MAX_VERTEX_TEXTURE_IMAGE_UNITS );
-	var _maxTextureSize = _gl.getParameter( Context3D.MAX_TEXTURE_SIZE );
-	var _maxCubemapSize = _gl.getParameter( Context3D.MAX_CUBE_MAP_TEXTURE_SIZE );
+	var _maxTextures = _gl.getParameter( _gl.MAX_TEXTURE_IMAGE_UNITS );
+	var _maxVertexTextures = _gl.getParameter( _gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS );
+	var _maxTextureSize = _gl.getParameter( _gl.MAX_TEXTURE_SIZE );
+	var _maxCubemapSize = _gl.getParameter( _gl.MAX_CUBE_MAP_TEXTURE_SIZE );
 
 	var _maxAnisotropy = _glExtensionTextureFilterAnisotropic ? _gl.getParameter( _glExtensionTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT ) : 0;
 
 	var _supportsVertexTextures = ( _maxVertexTextures > 0 );
 	var _supportsBoneTextures = _supportsVertexTextures && _glExtensionTextureFloat;
 
-    var _compressedTextureFormats = _glExtensionCompressedTextureS3TC ? _gl.getParameter( Context3D.COMPRESSED_TEXTURE_FORMATS ) : [];
+	var _compressedTextureFormats = _glExtensionCompressedTextureS3TC ? _gl.getParameter( _gl.COMPRESSED_TEXTURE_FORMATS ) : [];
 
 	//
 
-    var _vertexShaderPrecisionHighpFloat = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.HIGH_FLOAT );
-    var _vertexShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.MEDIUM_FLOAT );
-    var _vertexShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.LOW_FLOAT );
+	var _vertexShaderPrecisionHighpFloat = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.HIGH_FLOAT );
+	var _vertexShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.MEDIUM_FLOAT );
+	var _vertexShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.LOW_FLOAT );
 
-    var _fragmentShaderPrecisionHighpFloat = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.HIGH_FLOAT );
-    var _fragmentShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.MEDIUM_FLOAT );
-    var _fragmentShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.LOW_FLOAT );
+	var _fragmentShaderPrecisionHighpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.HIGH_FLOAT );
+	var _fragmentShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.MEDIUM_FLOAT );
+	var _fragmentShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.LOW_FLOAT );
 
-    var _vertexShaderPrecisionHighpInt = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.HIGH_INT );
-    var _vertexShaderPrecisionMediumpInt = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.MEDIUM_INT );
-    var _vertexShaderPrecisionLowpInt = _gl.getShaderPrecisionFormat( Context3D.VERTEX_SHADER, Context3D.LOW_INT );
+	var _vertexShaderPrecisionHighpInt = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.HIGH_INT );
+	var _vertexShaderPrecisionMediumpInt = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.MEDIUM_INT );
+	var _vertexShaderPrecisionLowpInt = _gl.getShaderPrecisionFormat( _gl.VERTEX_SHADER, _gl.LOW_INT );
 
-    var _fragmentShaderPrecisionHighpInt = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.HIGH_INT );
-    var _fragmentShaderPrecisionMediumpInt = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.MEDIUM_INT );
-    var _fragmentShaderPrecisionLowpInt = _gl.getShaderPrecisionFormat( Context3D.FRAGMENT_SHADER, Context3D.LOW_INT );
+	var _fragmentShaderPrecisionHighpInt = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.HIGH_INT );
+	var _fragmentShaderPrecisionMediumpInt = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.MEDIUM_INT );
+	var _fragmentShaderPrecisionLowpInt = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.LOW_INT );
 
 	// clamp precision to maximum available
 
@@ -373,7 +373,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.enableScissorTest = function ( enable ) {
 
-		enable ? _gl.enable( Context3D.SCISSOR_TEST ) : _gl.disable( Context3D.SCISSOR_TEST );
+		enable ? _gl.enable( _gl.SCISSOR_TEST ) : _gl.disable( _gl.SCISSOR_TEST );
 
 	};
 
@@ -411,9 +411,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var bits = 0;
 
-        if ( color !== undefined && color ) bits |= Context3D.COLOR_BUFFER_BIT;
-        if ( depth !== undefined && depth ) bits |= Context3D.DEPTH_BUFFER_BIT;
-        if ( stencil !== undefined && stencil ) bits |= Context3D.STENCIL_BUFFER_BIT;
+		if ( color === undefined || color ) bits |= _gl.COLOR_BUFFER_BIT;
+		if ( depth === undefined || depth ) bits |= _gl.DEPTH_BUFFER_BIT;
+		if ( stencil === undefined || stencil ) bits |= _gl.STENCIL_BUFFER_BIT;
 
 		_gl.clear( bits );
 
@@ -421,19 +421,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.clearColor = function () {
 
-        _gl.clear( Context3D.COLOR_BUFFER_BIT );
+		_gl.clear( _gl.COLOR_BUFFER_BIT );
 
 	};
 
 	this.clearDepth = function () {
 
-        _gl.clear( Context3D.DEPTH_BUFFER_BIT );
+		_gl.clear( _gl.DEPTH_BUFFER_BIT );
 
 	};
 
 	this.clearStencil = function () {
 
-        _gl.clear( Context3D.STENCIL_BUFFER_BIT );
+		_gl.clear( _gl.STENCIL_BUFFER_BIT );
 
 	};
 
@@ -772,9 +772,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( programInfo.program === program ) {
 
-                programInfo[PROGRAM_USED_TIMES] --;
+				programInfo.usedTimes --;
 
-                if ( programInfo[PROGRAM_USED_TIMES] === 0 ) {
+				if ( programInfo.usedTimes === 0 ) {
 
 					deleteProgram = true;
 
@@ -1440,15 +1440,15 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( dirtyVertices || object.sortParticles ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometry.__webglVertexBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglVertexBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
 
 		}
 
 		if ( dirtyColors || object.sortParticles ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometry.__webglColorBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, colorArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglColorBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
 
 		}
 
@@ -1460,8 +1460,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( customAttribute.needsUpdate || object.sortParticles ) {
 
-                    _gl.bindBuffer( Context3D.ARRAY_BUFFER, customAttribute.buffer );
-                    _gl.bufferData( Context3D.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
+					_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
 
 				}
 
@@ -1511,8 +1511,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometry.__webglVertexBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglVertexBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
 
 		}
 
@@ -1530,8 +1530,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometry.__webglColorBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, colorArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglColorBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
 
 		}
 
@@ -1543,8 +1543,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometry.__webglLineDistanceBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, lineDistanceArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglLineDistanceBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, lineDistanceArray.typedArray(), hint );
 
 		}
 
@@ -1632,8 +1632,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-                    _gl.bindBuffer( Context3D.ARRAY_BUFFER, customAttribute.buffer );
-                    _gl.bufferData( Context3D.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
+					_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
 
 				}
 
@@ -1760,8 +1760,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
 
 		}
 
@@ -1838,13 +1838,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ vk ] );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, morphTargetsArrays[ vk ].typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ vk ] );
+				_gl.bufferData( _gl.ARRAY_BUFFER, morphTargetsArrays[ vk ].typedArray(), hint );
 
 				if ( material.morphNormals ) {
 
-                    _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ vk ] );
-                    _gl.bufferData( Context3D.ARRAY_BUFFER, morphNormalsArrays[ vk ].typedArray(), hint );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ vk ] );
+					_gl.bufferData( _gl.ARRAY_BUFFER, morphNormalsArrays[ vk ].typedArray(), hint );
 
 				}
 
@@ -1906,11 +1906,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( offset_skin > 0 ) {
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, skinIndexArray.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, skinIndexArray.typedArray(), hint );
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglSkinWeightsBuffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, skinWeightArray.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinWeightsBuffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, skinWeightArray.typedArray(), hint );
 
 			}
 
@@ -1957,8 +1957,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( offset_color > 0 ) {
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglColorBuffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, colorArray.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglColorBuffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
 
 			}
 
@@ -1995,8 +1995,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglTangentBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, tangentArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglTangentBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, tangentArray.typedArray(), hint );
 
 		}
 
@@ -2039,8 +2039,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglNormalBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, normalArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglNormalBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, normalArray.typedArray(), hint );
 
 		}
 
@@ -2069,8 +2069,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( offset_uv > 0 ) {
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglUVBuffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, uvArray.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUVBuffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, uvArray.typedArray(), hint );
 
 			}
 
@@ -2101,8 +2101,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( offset_uv2 > 0 ) {
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglUV2Buffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, uv2Array.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUV2Buffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, uv2Array.typedArray(), hint );
 
 			}
 
@@ -2133,11 +2133,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglFaceBuffer );
-            _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, faceArray.typedArray(), hint );
+			_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglFaceBuffer );
+			_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faceArray.typedArray(), hint );
 
-            _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglLineBuffer );
-            _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, lineArray.typedArray(), hint );
+            _gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglLineBuffer );
+            _gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, lineArray.typedArray(), hint );
 
 		}
 
@@ -2421,8 +2421,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-                _gl.bindBuffer( Context3D.ARRAY_BUFFER, customAttribute.buffer );
-                _gl.bufferData( Context3D.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
+				_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
 
 			}
 
@@ -2460,13 +2460,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( attributeName === 'index' ) {
 
-                    _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, attributeItem.buffer );
-                    _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, attributeItem.array.typedArray(), hint );
+					_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, attributeItem.buffer );
+					_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, attributeItem.array.typedArray(), hint );
 
 				} else {
 
-                    _gl.bindBuffer( Context3D.ARRAY_BUFFER, attributeItem.buffer );
-                    _gl.bufferData( Context3D.ARRAY_BUFFER, attributeItem.array.typedArray(), hint );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, attributeItem.buffer );
+					_gl.bufferData( _gl.ARRAY_BUFFER, attributeItem.array.typedArray(), hint );
 
 				}
 
@@ -2495,17 +2495,16 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( object.hasPositions ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, object.__webglVertexBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, object.positionArray.typedArray(), Context3D.DYNAMIC_DRAW );
-            enableAttribute( material.program.attributes.position );
-            _gl.vertexAttribPointer( material.program.attributes.position, 3, Context3D.FLOAT, false, 0, 0 );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglVertexBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, object.positionArray, _gl.DYNAMIC_DRAW );
+			enableAttribute( program.attributes.position );
+			_gl.vertexAttribPointer( program.attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
 		}
-        var aMap = program.attributes;
 
 		if ( object.hasNormals ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, object.__webglNormalBuffer );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglNormalBuffer );
 
 			if ( material.shading === THREE.FlatShading ) {
 
@@ -2550,33 +2549,33 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.bufferData( Context3D.ARRAY_BUFFER, object.normalArray.typedArray(), Context3D.DYNAMIC_DRAW );
-            enableAttribute( aMap.normal );
-            _gl.vertexAttribPointer( aMap.normal, 3, Context3D.FLOAT, false, 0, 0 );
+			_gl.bufferData( _gl.ARRAY_BUFFER, object.normalArray.typedArray(), _gl.DYNAMIC_DRAW );
+			enableAttribute( program.attributes.normal );
+			_gl.vertexAttribPointer( program.attributes.normal, 3, _gl.FLOAT, false, 0, 0 );
 
 		}
 
 		if ( object.hasUvs && material.map ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, object.__webglUvBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, object.uvArray.typedArray(), Context3D.DYNAMIC_DRAW );
-            enableAttribute( aMap.uv );
-            _gl.vertexAttribPointer( aMap.uv, 2, Context3D.FLOAT, false, 0, 0 );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglUvBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, object.uvArray.typedArray(), _gl.DYNAMIC_DRAW );
+			enableAttribute( program.attributes.uv );
+			_gl.vertexAttribPointer( program.attributes.uv, 2, _gl.FLOAT, false, 0, 0 );
 
 		}
 
 		if ( object.hasColors && material.vertexColors !== THREE.NoColors ) {
 
-            _gl.bindBuffer( Context3D.ARRAY_BUFFER, object.__webglColorBuffer );
-            _gl.bufferData( Context3D.ARRAY_BUFFER, object.colorArray.typedArray(), Context3D.DYNAMIC_DRAW );
-            enableAttribute( aMap.color );
-            _gl.vertexAttribPointer( aMap.color, 3, Context3D.FLOAT, false, 0, 0 );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglColorBuffer );
+			_gl.bufferData( _gl.ARRAY_BUFFER, object.colorArray.typedArray(), _gl.DYNAMIC_DRAW );
+			enableAttribute( program.attributes.color );
+			_gl.vertexAttribPointer( program.attributes.color, 3, _gl.FLOAT, false, 0, 0 );
 
 		}
 
 		disableUnusedAttributes();
 
-		_gl.drawArrays( Context3D.TRIANGLES, 0, object.count );
+		_gl.drawArrays( _gl.TRIANGLES, 0, object.count );
 
 		object.count = 0;
 
@@ -2635,7 +2634,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var updateBuffers = false,
 			wireframeBit = material.wireframe ? 1 : 0,
-            geometryHash = ( geometry.id * 0xffffff ) + ( program.id * 2 ) + wireframeBit;
+			geometryHash = ( geometry.id * 0xffffff ) + ( program.id * 2 ) + wireframeBit;
 
 		if ( geometryHash !== _currentGeometryGroupHash ) {
 
@@ -2681,11 +2680,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					if ( updateBuffers ) {
 
 						setupVertexAttributes( material, programAttributes, geometryAttributes, 0 );
-						_gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, index.buffer );
+						_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, index.buffer );
 
 					}
 
-					_gl.drawElements( Context3D.TRIANGLES, index.array.length, type, 0 );
+					_gl.drawElements( _gl.TRIANGLES, index.array.length, type, 0 );
 
 					_this.info.render.calls ++;
 					_this.info.render.vertices += index.array.length; // not really true, here vertices can be shared
@@ -2706,13 +2705,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 						if ( updateBuffers ) {
 
 							setupVertexAttributes( material, programAttributes, geometryAttributes, startIndex );
-							_gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, index.buffer );
+							_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, index.buffer );
 
 						}
 
 						// render indexed triangles
 
-						_gl.drawElements( Context3D.TRIANGLES, offsets[ i ].count, type, offsets[ i ].start * size );
+						_gl.drawElements( _gl.TRIANGLES, offsets[ i ].count, type, offsets[ i ].start * size );
 
 						_this.info.render.calls ++;
 						_this.info.render.vertices += offsets[ i ].count; // not really true, here vertices can be shared
@@ -2736,7 +2735,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				// render non-indexed triangles
 
-				_gl.drawArrays( Context3D.TRIANGLES, 0, position.array.length / 3 );
+				_gl.drawArrays( _gl.TRIANGLES, 0, position.array.length / 3 );
 
 				_this.info.render.calls ++;
 				_this.info.render.vertices += position.array.length / 3;
@@ -2758,14 +2757,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			// render particles
 
-			_gl.drawArrays( Context3D.POINTS, 0, position.array.length / 3 );
+			_gl.drawArrays( _gl.POINTS, 0, position.array.length / 3 );
 
 			_this.info.render.calls ++;
 			_this.info.render.points += position.array.length / 3;
 
 		} else if ( object instanceof THREE.Line ) {
 
-			var primitives = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
+			var primitives = ( object.type === THREE.LineStrip ) ? _gl.LINE_STRIP : _gl.LINES;
 
 			setLineWidth( material.linewidth );
 
@@ -2779,12 +2778,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				
 				if ( index.array instanceof Uint32Array ){
 					
-					type = Context3D.UNSIGNED_INT;
+					type = _gl.UNSIGNED_INT;
 					size = 4;
 					
 				} else {
 					
-					type = Context3D.UNSIGNED_SHORT;
+					type = _gl.UNSIGNED_SHORT;
 					size = 2;
 					
 				}
@@ -2796,11 +2795,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					if ( updateBuffers ) {
 
 						setupVertexAttributes( material, programAttributes, geometryAttributes, 0 );
-						_gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, index.buffer );
+						_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, index.buffer );
 
 					}
 					
-					_gl.drawElements( Context3D.LINES, index.array.length, type, 0 ); // 2 bytes per Uint16Array
+					_gl.drawElements( _gl.LINES, index.array.length, type, 0 ); // 2 bytes per Uint16Array
 
 					_this.info.render.calls ++;
 					_this.info.render.vertices += index.array.length; // not really true, here vertices can be shared
@@ -2820,13 +2819,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 						if ( updateBuffers ) {
 
 							setupVertexAttributes( material, programAttributes, geometryAttributes, startIndex );
-							_gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, index.buffer );
+							_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, index.buffer );
 
 						}
 
 						// render indexed lines
 						
-						_gl.drawElements( Context3D.LINES, offsets[ i ].count, type, offsets[ i ].start * size ); // 2 bytes per Uint16Array
+						_gl.drawElements( _gl.LINES, offsets[ i ].count, type, offsets[ i ].start * size ); // 2 bytes per Uint16Array
 
 						_this.info.render.calls ++;
 						_this.info.render.vertices += offsets[ i ].count; // not really true, here vertices can be shared
@@ -2866,11 +2865,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var program = setProgram( camera, lights, fog, material, object );
 
-        var attributes = program.attributes;
+		var attributes = program.attributes;
 
 		var updateBuffers = false,
 			wireframeBit = material.wireframe ? 1 : 0,
-            geometryGroupHash = ( geometryGroup.id * 0xffffff ) + ( program.id * 2 ) + wireframeBit;
+			geometryGroupHash = ( geometryGroup.id * 0xffffff ) + ( program.id * 2 ) + wireframeBit;
 
 		if ( geometryGroupHash !== _currentGeometryGroupHash ) {
 
@@ -2891,9 +2890,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( updateBuffers ) {
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
 				enableAttribute( attributes.position );
-				_gl.vertexAttribPointer( attributes.position, 3, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
 			}
 
@@ -2922,7 +2921,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					if ( attributes[ attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] ] >= 0 ) {
 
-						_gl.bindBuffer( Context3D.ARRAY_BUFFER, attribute.buffer );
+                        _gl.bindBuffer( _gl.ARRAY_BUFFER, attribute.buffer );
 						enableAttribute( attributes[ attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] ] );
 						_gl.vertexAttribPointer( attributes[ attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] ], attribute.size, _gl.FLOAT, false, 0, 0 );
 
@@ -2939,9 +2938,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( object.geometry.colors.length > 0 || object.geometry.faces.length > 0 ) {
 
-					_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglColorBuffer );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglColorBuffer );
 					enableAttribute( attributes.color );
-					_gl.vertexAttribPointer( attributes.color, 3, Context3D.FLOAT, false, 0, 0 );
+					_gl.vertexAttribPointer( attributes.color, 3, _gl.FLOAT, false, 0, 0 );
 
 				} else if ( material.defaultAttributeValues ) {
 
@@ -2956,9 +2955,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( attributes.normal >= 0 ) {
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglNormalBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglNormalBuffer );
 				enableAttribute( attributes.normal );
-				_gl.vertexAttribPointer( attributes.normal, 3, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.normal, 3, _gl.FLOAT, false, 0, 0 );
 
 			}
 
@@ -2966,9 +2965,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( attributes.tangent >= 0 ) {
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglTangentBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglTangentBuffer );
 				enableAttribute( attributes.tangent );
-				_gl.vertexAttribPointer( attributes.tangent, 4, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.tangent, 4, _gl.FLOAT, false, 0, 0 );
 
 			}
 
@@ -2978,9 +2977,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( object.geometry.faceVertexUvs[0] ) {
 
-					_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglUVBuffer );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUVBuffer );
 					enableAttribute( attributes.uv );
-					_gl.vertexAttribPointer( attributes.uv, 2, Context3D.FLOAT, false, 0, 0 );
+					_gl.vertexAttribPointer( attributes.uv, 2, _gl.FLOAT, false, 0, 0 );
 
 				} else if ( material.defaultAttributeValues ) {
 
@@ -2995,9 +2994,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( object.geometry.faceVertexUvs[1] ) {
 
-					_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglUV2Buffer );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUV2Buffer );
 					enableAttribute( attributes.uv2 );
-					_gl.vertexAttribPointer( attributes.uv2, 2, Context3D.FLOAT, false, 0, 0 );
+					_gl.vertexAttribPointer( attributes.uv2, 2, _gl.FLOAT, false, 0, 0 );
 
 				} else if ( material.defaultAttributeValues ) {
 
@@ -3011,13 +3010,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( material.skinning &&
 				 attributes.skinIndex >= 0 && attributes.skinWeight >= 0 ) {
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer );
 				enableAttribute( attributes.skinIndex );
-				_gl.vertexAttribPointer( attributes.skinIndex, 4, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.skinIndex, 4, _gl.FLOAT, false, 0, 0 );
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglSkinWeightsBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinWeightsBuffer );
 				enableAttribute( attributes.skinWeight );
-				_gl.vertexAttribPointer( attributes.skinWeight, 4, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.skinWeight, 4, _gl.FLOAT, false, 0, 0 );
 
 			}
 
@@ -3025,9 +3024,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( attributes.lineDistance >= 0 ) {
 
-				_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglLineDistanceBuffer );
+				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglLineDistanceBuffer );
 				enableAttribute( attributes.lineDistance );
-				_gl.vertexAttribPointer( attributes.lineDistance, 1, Context3D.FLOAT, false, 0, 0 );
+				_gl.vertexAttribPointer( attributes.lineDistance, 1, _gl.FLOAT, false, 0, 0 );
 
 			}
 
@@ -3039,22 +3038,22 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( object instanceof THREE.Mesh ) {
 
-			var type = geometryGroup.__typeArray === Uint32Array ? Context3D.UNSIGNED_INT : Context3D.UNSIGNED_SHORT;
+			var type = geometryGroup.__typeArray === Uint32Array ? _gl.UNSIGNED_INT : _gl.UNSIGNED_SHORT;
 
 			// wireframe
 			
 			if ( material.wireframe ) {
 
 				setLineWidth( material.wireframeLinewidth );
-				if ( updateBuffers ) _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglLineBuffer );
-				_gl.drawElements( Context3D.LINES, geometryGroup.__webglLineCount, type, 0 );
+				if ( updateBuffers ) _gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglLineBuffer );
+				_gl.drawElements( _gl.LINES, geometryGroup.__webglLineCount, type, 0 );
 
 			// triangles
 
 			} else {
 
-				if ( updateBuffers ) _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglFaceBuffer );
-				_gl.drawElements( Context3D.TRIANGLES, geometryGroup.__webglFaceCount, type, 0 );
+				if ( updateBuffers ) _gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglFaceBuffer );
+				_gl.drawElements( _gl.TRIANGLES, geometryGroup.__webglFaceCount, type, 0 );
 
 			}
 
@@ -3066,7 +3065,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else if ( object instanceof THREE.Line ) {
 
-			var primitives = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
+			var primitives = ( object.type === THREE.LineStrip ) ? _gl.LINE_STRIP : _gl.LINES;
 
 			setLineWidth( material.linewidth );
 
@@ -3078,7 +3077,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else if ( object instanceof THREE.ParticleSystem ) {
 
-			_gl.drawArrays( Context3D.POINTS, 0, geometryGroup.__webglParticleCount );
+			_gl.drawArrays( _gl.POINTS, 0, geometryGroup.__webglParticleCount );
 
 			_this.info.render.calls ++;
 			_this.info.render.points += geometryGroup.__webglParticleCount;
@@ -3129,19 +3128,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		// set base
 
-        var attributes = material.program.attributes;
+		var attributes = material.program.attributes;
 
 		if ( object.morphTargetBase !== -1 && attributes.position >= 0 ) {
 
-			_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ object.morphTargetBase ] );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ object.morphTargetBase ] );
 			enableAttribute( attributes.position );
-			_gl.vertexAttribPointer( attributes.position, 3, Context3D.FLOAT, false, 0, 0 );
+			_gl.vertexAttribPointer( attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
 		} else if ( attributes.position >= 0 ) {
 
-			_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
+			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
 			enableAttribute( attributes.position );
-			_gl.vertexAttribPointer( attributes.position, 3, Context3D.FLOAT, false, 0, 0 );
+			_gl.vertexAttribPointer( attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
 		}
 
@@ -3157,17 +3156,17 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( attributes[ "morphTarget" + m ] >= 0 ) {
 
-					_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ order[ m ] ] );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ order[ m ] ] );
 					enableAttribute( attributes[ "morphTarget" + m ] );
-					_gl.vertexAttribPointer( attributes[ "morphTarget" + m ], 3, Context3D.FLOAT, false, 0, 0 );
+					_gl.vertexAttribPointer( attributes[ "morphTarget" + m ], 3, _gl.FLOAT, false, 0, 0 );
 
 				}
 
 				if ( attributes[ "morphNormal" + m ] >= 0 && material.morphNormals ) {
 
-					_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ order[ m ] ] );
+					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ order[ m ] ] );
 					enableAttribute( attributes[ "morphNormal" + m ] );
-					_gl.vertexAttribPointer( attributes[ "morphNormal" + m ], 3, Context3D.FLOAT, false, 0, 0 );
+					_gl.vertexAttribPointer( attributes[ "morphNormal" + m ], 3, _gl.FLOAT, false, 0, 0 );
 
 				}
 
@@ -3221,17 +3220,17 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					if ( attributes[ "morphTarget" + m ] >= 0 ) {
 
-						_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ influenceIndex ] );
+						_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ influenceIndex ] );
 						enableAttribute( attributes[ "morphTarget" + m ] );
-						_gl.vertexAttribPointer( attributes[ "morphTarget" + m ], 3, Context3D.FLOAT, false, 0, 0 );
+						_gl.vertexAttribPointer( attributes[ "morphTarget" + m ], 3, _gl.FLOAT, false, 0, 0 );
 
 					}
 
 					if ( attributes[ "morphNormal" + m ] >= 0 && material.morphNormals ) {
 
-						_gl.bindBuffer( Context3D.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ influenceIndex ] );
+						_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ influenceIndex ] );
 						enableAttribute( attributes[ "morphNormal" + m ] );
-						_gl.vertexAttribPointer( attributes[ "morphNormal" + m ], 3, Context3D.FLOAT, false, 0, 0 );
+						_gl.vertexAttribPointer( attributes[ "morphNormal" + m ], 3, _gl.FLOAT, false, 0, 0 );
 
 
 					}
@@ -3262,9 +3261,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		// load updated influences uniform
 
-        if ( material.program.uniforms.morphTargetInfluences !== null ) {
+		if ( material.program.uniforms.morphTargetInfluences !== null ) {
 
-            _gl.uniform1fv( material.program.uniforms.morphTargetInfluences, object.__webglMorphTargetInfluences.typedArray() );
+			_gl.uniform1fv( material.program.uniforms.morphTargetInfluences, object.__webglMorphTargetInfluences.typedArray() );
 
 		}
 
@@ -3936,7 +3935,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( geometry instanceof THREE.BufferGeometry ) {
 
-			setDirectBuffers( geometry, Context3D.DYNAMIC_DRAW );
+			setDirectBuffers( geometry, _gl.DYNAMIC_DRAW );
 
 		} else if ( object instanceof THREE.Mesh ) {
 
@@ -3960,7 +3959,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					 geometry.uvsNeedUpdate || geometry.normalsNeedUpdate ||
 					 geometry.colorsNeedUpdate || geometry.tangentsNeedUpdate || customAttributesDirty ) {
 
-					setMeshBuffers( geometryGroup, object, Context3D.DYNAMIC_DRAW, !geometry.dynamic, material );
+					setMeshBuffers( geometryGroup, object, _gl.DYNAMIC_DRAW, !geometry.dynamic, material );
 
 				}
 
@@ -3986,7 +3985,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( geometry.verticesNeedUpdate || geometry.colorsNeedUpdate || geometry.lineDistancesNeedUpdate || customAttributesDirty ) {
 
-				setLineBuffers( geometry, Context3D.DYNAMIC_DRAW );
+				setLineBuffers( geometry, _gl.DYNAMIC_DRAW );
 
 			}
 
@@ -4005,7 +4004,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( geometry.verticesNeedUpdate || geometry.colorsNeedUpdate || object.sortParticles || customAttributesDirty ) {
 
-				setParticleBuffers( geometry, Context3D.DYNAMIC_DRAW, object );
+				setParticleBuffers( geometry, _gl.DYNAMIC_DRAW, object );
 
 			}
 
@@ -4245,7 +4244,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( programInfo.code === code ) {
 
 				program = programInfo;
-                program.usedTimes ++;
+				program.usedTimes ++;
 
 				break;
 
@@ -4264,7 +4263,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		material.program = program;
 
-        var attributes = material.program.attributes;
+		var attributes = material.program.attributes;
 
 		if ( material.morphTargets ) {
 
@@ -4350,7 +4349,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		var refreshMaterial = false;
 
 		var program = material.program,
-            p_uniforms = program.uniforms,
+			p_uniforms = program.uniforms,
 			m_uniforms = material.uniforms;
 
 		if ( program.id !== _currentProgram ) {
@@ -4811,7 +4810,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		for ( j = 0, jl = uniforms.length; j < jl; j ++ ) {
 
-            location = program.uniforms[ uniforms[ j ][ 1 ] ];
+			location = program.uniforms[ uniforms[ j ][ 1 ] ];
 			if ( !location ) continue;
 
 			uniform = uniforms[ j ][ 0 ];
@@ -5284,35 +5283,35 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( cullFace === THREE.CullFaceNone ) {
 
-			_gl.disable( Context3D.CULL_FACE );
+			_gl.disable( _gl.CULL_FACE );
 
 		} else {
 
 			if ( frontFaceDirection === THREE.FrontFaceDirectionCW ) {
 
-				_gl.frontFace( Context3D.CW );
+				_gl.frontFace( _gl.CW );
 
 			} else {
 
-				_gl.frontFace( Context3D.CCW );
+				_gl.frontFace( _gl.CCW );
 
 			}
 
 			if ( cullFace === THREE.CullFaceBack ) {
 
-                _gl.cullFace( Context3D.BACK );
+				_gl.cullFace( _gl.BACK );
 
 			} else if ( cullFace === THREE.CullFaceFront ) {
 
-                _gl.cullFace( Context3D.FRONT );
+				_gl.cullFace( _gl.FRONT );
 
 			} else {
 
-                _gl.cullFace( Context3D.FRONT_AND_BACK );
+				_gl.cullFace( _gl.FRONT_AND_BACK );
 
 			}
 
-            _gl.enable( Context3D.CULL_FACE );
+			_gl.enable( _gl.CULL_FACE );
 
 		}
 
@@ -5327,11 +5326,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( doubleSided ) {
 
-                _gl.disable( Context3D.CULL_FACE );
+				_gl.disable( _gl.CULL_FACE );
 
 			} else {
 
-                _gl.enable( Context3D.CULL_FACE );
+				_gl.enable( _gl.CULL_FACE );
 
 			}
 
@@ -5343,11 +5342,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( flipSided ) {
 
-                _gl.frontFace( Context3D.CW );
+				_gl.frontFace( _gl.CW );
 
 			} else {
 
-                _gl.frontFace( Context3D.CCW );
+				_gl.frontFace( _gl.CCW );
 
 			}
 
@@ -5363,11 +5362,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( depthTest ) {
 
-                _gl.enable( Context3D.DEPTH_TEST );
+				_gl.enable( _gl.DEPTH_TEST );
 
 			} else {
 
-                _gl.disable( Context3D.DEPTH_TEST );
+				_gl.disable( _gl.DEPTH_TEST );
 
 			}
 
@@ -5406,11 +5405,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( polygonoffset ) {
 
-                _gl.enable( Context3D.POLYGON_OFFSET_FILL );
+				_gl.enable( _gl.POLYGON_OFFSET_FILL );
 
 			} else {
 
-                _gl.disable( Context3D.POLYGON_OFFSET_FILL );
+				_gl.disable( _gl.POLYGON_OFFSET_FILL );
 
 			}
 
@@ -5435,37 +5434,37 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( blending === THREE.NoBlending ) {
 
-                _gl.disable( Context3D.BLEND );
+				_gl.disable( _gl.BLEND );
 
 			} else if ( blending === THREE.AdditiveBlending ) {
 
-                _gl.enable( Context3D.BLEND );
-                _gl.blendEquation( Context3D.FUNC_ADD );
-                _gl.blendFunc( Context3D.SRC_ALPHA, Context3D.ONE );
+				_gl.enable( _gl.BLEND );
+				_gl.blendEquation( _gl.FUNC_ADD );
+				_gl.blendFunc( _gl.SRC_ALPHA, _gl.ONE );
 
 			} else if ( blending === THREE.SubtractiveBlending ) {
 
 				// TODO: Find blendFuncSeparate() combination
-                _gl.enable( Context3D.BLEND );
-                _gl.blendEquation( Context3D.FUNC_ADD );
-                _gl.blendFunc( Context3D.ZERO, Context3D.ONE_MINUS_SRC_COLOR );
+				_gl.enable( _gl.BLEND );
+				_gl.blendEquation( _gl.FUNC_ADD );
+				_gl.blendFunc( _gl.ZERO, _gl.ONE_MINUS_SRC_COLOR );
 
 			} else if ( blending === THREE.MultiplyBlending ) {
 
 				// TODO: Find blendFuncSeparate() combination
-                _gl.enable( Context3D.BLEND );
-                _gl.blendEquation( Context3D.FUNC_ADD );
-                _gl.blendFunc( Context3D.ZERO, Context3D.SRC_COLOR );
+				_gl.enable( _gl.BLEND );
+				_gl.blendEquation( _gl.FUNC_ADD );
+				_gl.blendFunc( _gl.ZERO, _gl.SRC_COLOR );
 
 			} else if ( blending === THREE.CustomBlending ) {
 
-                _gl.enable( Context3D.BLEND );
+				_gl.enable( _gl.BLEND );
 
 			} else {
 
-                _gl.enable( Context3D.BLEND );
-                _gl.blendEquationSeparate( Context3D.FUNC_ADD, Context3D.FUNC_ADD );
-                _gl.blendFuncSeparate( Context3D.SRC_ALPHA, Context3D.ONE_MINUS_SRC_ALPHA, Context3D.ONE, Context3D.ONE_MINUS_SRC_ALPHA );
+				_gl.enable( _gl.BLEND );
+				_gl.blendEquationSeparate( _gl.FUNC_ADD, _gl.FUNC_ADD );
+				_gl.blendFuncSeparate( _gl.SRC_ALPHA, _gl.ONE_MINUS_SRC_ALPHA, _gl.ONE, _gl.ONE_MINUS_SRC_ALPHA );
 
 			}
 
@@ -5508,19 +5507,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( isImagePowerOfTwo ) {
 
-            _gl.texParameteri( textureType, Context3D.TEXTURE_WRAP_S, paramThreeToGL( texture.wrapS ) );
-            _gl.texParameteri( textureType, Context3D.TEXTURE_WRAP_T, paramThreeToGL( texture.wrapT ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_WRAP_S, paramThreeToGL( texture.wrapS ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_WRAP_T, paramThreeToGL( texture.wrapT ) );
 
-            _gl.texParameteri( textureType, Context3D.TEXTURE_MAG_FILTER, paramThreeToGL( texture.magFilter ) );
-            _gl.texParameteri( textureType, Context3D.TEXTURE_MIN_FILTER, paramThreeToGL( texture.minFilter ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_MAG_FILTER, paramThreeToGL( texture.magFilter ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_MIN_FILTER, paramThreeToGL( texture.minFilter ) );
 
 		} else {
 
-            _gl.texParameteri( textureType, Context3D.TEXTURE_WRAP_S, Context3D.CLAMP_TO_EDGE );
-            _gl.texParameteri( textureType, Context3D.TEXTURE_WRAP_T, Context3D.CLAMP_TO_EDGE );
+			_gl.texParameteri( textureType, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE );
+			_gl.texParameteri( textureType, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE );
 
-            _gl.texParameteri( textureType, Context3D.TEXTURE_MAG_FILTER, filterFallback( texture.magFilter ) );
-            _gl.texParameteri( textureType, Context3D.TEXTURE_MIN_FILTER, filterFallback( texture.minFilter ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_MAG_FILTER, filterFallback( texture.magFilter ) );
+			_gl.texParameteri( textureType, _gl.TEXTURE_MIN_FILTER, filterFallback( texture.minFilter ) );
 
 		}
 
@@ -5553,19 +5552,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-            _gl.activeTexture( Context3D.TEXTURE0 + slot );
-            _gl.bindTexture( Context3D.TEXTURE_2D, texture.__webglTexture );
+			_gl.activeTexture( _gl.TEXTURE0 + slot );
+			_gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
 
-            _gl.pixelStorei( Context3D.UNPACK_FLIP_Y_WEBGL, texture.flipY );
-            _gl.pixelStorei( Context3D.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );
-            _gl.pixelStorei( Context3D.UNPACK_ALIGNMENT, texture.unpackAlignment );
+			_gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
+			_gl.pixelStorei( _gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );
+			_gl.pixelStorei( _gl.UNPACK_ALIGNMENT, texture.unpackAlignment );
 
 			var image = texture.image,
 			isImagePowerOfTwo = THREE.Math.isPowerOfTwo( image.width ) && THREE.Math.isPowerOfTwo( image.height ),
 			glFormat = paramThreeToGL( texture.format ),
 			glType = paramThreeToGL( texture.type );
 
-            setTextureParameters( Context3D.TEXTURE_2D, texture, isImagePowerOfTwo );
+			setTextureParameters( _gl.TEXTURE_2D, texture, isImagePowerOfTwo );
 
 			var mipmap, mipmaps = texture.mipmaps;
 
@@ -5580,7 +5579,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 						mipmap = mipmaps[ i ];
-                        _gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
 					}
 
@@ -5588,7 +5587,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-                    _gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
+					_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
 
 				}
 
@@ -5598,9 +5597,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					mipmap = mipmaps[ i ];
 					if ( texture.format!==THREE.RGBAFormat ) {
-                        _gl.compressedTexImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
+						_gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
 					} else {
-                        _gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 					}
 
 				}
@@ -5616,7 +5615,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 						mipmap = mipmaps[ i ];
-                        _gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
+						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
 
 					}
 
@@ -5624,13 +5623,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-                    _gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
+					_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 				}
 
 			}
 
-            if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( Context3D.TEXTURE_2D );
+			if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
 
 			texture.needsUpdate = false;
 
@@ -5638,8 +5637,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else {
 
-            _gl.activeTexture( Context3D.TEXTURE0 + slot );
-            _gl.bindTexture( Context3D.TEXTURE_2D, texture.__webglTexture );
+			_gl.activeTexture( _gl.TEXTURE0 + slot );
+			_gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
 
 		}
 
@@ -5675,10 +5674,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-                _gl.activeTexture( Context3D.TEXTURE0 + slot );
-                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube.texImage() );
+				_gl.activeTexture( _gl.TEXTURE0 + slot );
+				_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube.texImage() );
 
-                _gl.pixelStorei( Context3D.UNPACK_FLIP_Y_WEBGL, texture.flipY );
+				_gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
 
 				var isCompressed = texture instanceof THREE.CompressedTexture;
 
@@ -5703,13 +5702,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				glFormat = paramThreeToGL( texture.format ),
 				glType = paramThreeToGL( texture.type );
 
-                setTextureParameters( Context3D.TEXTURE_CUBE_MAP, texture, isImagePowerOfTwo );
+				setTextureParameters( _gl.TEXTURE_CUBE_MAP, texture, isImagePowerOfTwo );
 
 				for ( var i = 0; i < 6; i ++ ) {
 
 					if( !isCompressed ) {
 
-                        _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
+						_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 					} else {
 						
@@ -5720,10 +5719,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 							mipmap = mipmaps[ j ];
 							if ( texture.format!==THREE.RGBAFormat ) {
 
-                                _gl.compressedTexImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, j, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
+								_gl.compressedTexImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, j, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
 
 							} else {
-                                _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, j, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+								_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, j, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 							}
 
 						}
@@ -5732,7 +5731,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( texture.generateMipmaps && isImagePowerOfTwo ) {
 
-                    _gl.generateMipmap( Context3D.TEXTURE_CUBE_MAP );
+					_gl.generateMipmap( _gl.TEXTURE_CUBE_MAP );
 
 				}
 
@@ -5742,8 +5741,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-                _gl.activeTexture( Context3D.TEXTURE0 + slot );
-                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube );
+				_gl.activeTexture( _gl.TEXTURE0 + slot );
+				_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube );
 
 			}
 
@@ -5753,8 +5752,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function setCubeTextureDynamic ( texture, slot ) {
 
-        _gl.activeTexture( Context3D.TEXTURE0 + slot );
-        _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.__webglTexture );
+		_gl.activeTexture( _gl.TEXTURE0 + slot );
+		_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, texture.__webglTexture );
 
 	};
 
@@ -5762,19 +5761,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function setupFrameBuffer ( framebuffer, renderTarget, textureTarget ) {
 
-        _gl.bindFramebuffer( Context3D.FRAMEBUFFER, framebuffer );
-        _gl.framebufferTexture2D( Context3D.FRAMEBUFFER, Context3D.COLOR_ATTACHMENT0, textureTarget, renderTarget.__webglTexture, 0 );
+		_gl.bindFramebuffer( _gl.FRAMEBUFFER, framebuffer );
+		_gl.framebufferTexture2D( _gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, textureTarget, renderTarget.__webglTexture, 0 );
 
 	};
 
 	function setupRenderBuffer ( renderbuffer, renderTarget  ) {
 
-        _gl.bindRenderbuffer( Context3D.RENDERBUFFER, renderbuffer );
+		_gl.bindRenderbuffer( _gl.RENDERBUFFER, renderbuffer );
 
 		if ( renderTarget.depthBuffer && ! renderTarget.stencilBuffer ) {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.DEPTH_COMPONENT16, renderTarget.width, renderTarget.height );
-            _gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.DEPTH_ATTACHMENT, Context3D.RENDERBUFFER, renderbuffer );
+			_gl.renderbufferStorage( _gl.RENDERBUFFER, _gl.DEPTH_COMPONENT16, renderTarget.width, renderTarget.height );
+			_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, _gl.RENDERBUFFER, renderbuffer );
 
 		/* For some reason this is not working. Defaulting to RGBA4.
 		} else if( ! renderTarget.depthBuffer && renderTarget.stencilBuffer ) {
@@ -5784,12 +5783,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		*/
 		} else if ( renderTarget.depthBuffer && renderTarget.stencilBuffer ) {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.DEPTH_STENCIL, renderTarget.width, renderTarget.height );
-            _gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.DEPTH_STENCIL_ATTACHMENT, Context3D.RENDERBUFFER, renderbuffer );
+			_gl.renderbufferStorage( _gl.RENDERBUFFER, _gl.DEPTH_STENCIL, renderTarget.width, renderTarget.height );
+			_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_STENCIL_ATTACHMENT, _gl.RENDERBUFFER, renderbuffer );
 
 		} else {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.RGBA4, renderTarget.width, renderTarget.height );
+			_gl.renderbufferStorage( _gl.RENDERBUFFER, _gl.RGBA4, renderTarget.width, renderTarget.height );
 
 		}
 
@@ -5821,22 +5820,22 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				renderTarget.__webglFramebuffer = [];
 				renderTarget.__webglRenderbuffer = [];
 
-                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, renderTarget.__webglTexture );
-                setTextureParameters( Context3D.TEXTURE_CUBE_MAP, renderTarget, isTargetPowerOfTwo );
+				_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, renderTarget.__webglTexture );
+				setTextureParameters( _gl.TEXTURE_CUBE_MAP, renderTarget, isTargetPowerOfTwo );
 
 				for ( var i = 0; i < 6; i ++ ) {
 
 					renderTarget.__webglFramebuffer[ i ] = _gl.createFramebuffer();
 					renderTarget.__webglRenderbuffer[ i ] = _gl.createRenderbuffer();
 
-                    _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
+					_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
-                    setupFrameBuffer( renderTarget.__webglFramebuffer[ i ], renderTarget, Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i );
+					setupFrameBuffer( renderTarget.__webglFramebuffer[ i ], renderTarget, _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i );
 					setupRenderBuffer( renderTarget.__webglRenderbuffer[ i ], renderTarget );
 
 				}
 
-				if ( isTargetPowerOfTwo ) _gl.generateMipmap( Context3D.TEXTURE_CUBE_MAP );
+				if ( isTargetPowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_CUBE_MAP );
 
 			} else {
 
@@ -5852,22 +5851,22 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-				_gl.bindTexture( Context3D.TEXTURE_2D, renderTarget.__webglTexture );
-				setTextureParameters( Context3D.TEXTURE_2D, renderTarget, isTargetPowerOfTwo );
+				_gl.bindTexture( _gl.TEXTURE_2D, renderTarget.__webglTexture );
+				setTextureParameters( _gl.TEXTURE_2D, renderTarget, isTargetPowerOfTwo );
 
-				_gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
+				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
-				setupFrameBuffer( renderTarget.__webglFramebuffer, renderTarget, Context3D.TEXTURE_2D );
+				setupFrameBuffer( renderTarget.__webglFramebuffer, renderTarget, _gl.TEXTURE_2D );
 
 				if ( renderTarget.shareDepthFrom ) {
 
 					if ( renderTarget.depthBuffer && ! renderTarget.stencilBuffer ) {
 
-						_gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.DEPTH_ATTACHMENT, Context3D.RENDERBUFFER, renderTarget.__webglRenderbuffer );
+						_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, _gl.RENDERBUFFER, renderTarget.__webglRenderbuffer );
 
 					} else if ( renderTarget.depthBuffer && renderTarget.stencilBuffer ) {
 
-                        _gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.DEPTH_STENCIL_ATTACHMENT, Context3D.RENDERBUFFER, renderTarget.__webglRenderbuffer );
+						_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_STENCIL_ATTACHMENT, _gl.RENDERBUFFER, renderTarget.__webglRenderbuffer );
 
 					}
 
@@ -5877,7 +5876,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-                if ( isTargetPowerOfTwo ) _gl.generateMipmap( Context3D.TEXTURE_2D );
+				if ( isTargetPowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
 
 			}
 
@@ -5885,16 +5884,16 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( isCube ) {
 
-                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, null );
+				_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, null );
 
 			} else {
 
-                _gl.bindTexture( Context3D.TEXTURE_2D, null );
+				_gl.bindTexture( _gl.TEXTURE_2D, null );
 
 			}
 
-            _gl.bindRenderbuffer( Context3D.RENDERBUFFER, null );
-            _gl.bindFramebuffer( Context3D.FRAMEBUFFER, null );
+			_gl.bindRenderbuffer( _gl.RENDERBUFFER, null );
+			_gl.bindFramebuffer( _gl.FRAMEBUFFER, null );
 
 		}
 
@@ -5932,7 +5931,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( framebuffer !== _currentFramebuffer ) {
 
-            _gl.bindFramebuffer( Context3D.FRAMEBUFFER, framebuffer );
+			_gl.bindFramebuffer( _gl.FRAMEBUFFER, framebuffer );
 			_gl.viewport( vx, vy, width, height );
 
 			_currentFramebuffer = framebuffer;
@@ -5948,15 +5947,15 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( renderTarget instanceof THREE.WebGLRenderTargetCube ) {
 
-            _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, renderTarget.__webglTexture );
-            _gl.generateMipmap( Context3D.TEXTURE_CUBE_MAP );
-            _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, null );
+			_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, renderTarget.__webglTexture );
+			_gl.generateMipmap( _gl.TEXTURE_CUBE_MAP );
+			_gl.bindTexture( _gl.TEXTURE_CUBE_MAP, null );
 
 		} else {
 
-            _gl.bindTexture( Context3D.TEXTURE_2D, renderTarget.__webglTexture );
-            _gl.generateMipmap( Context3D.TEXTURE_2D );
-            _gl.bindTexture( Context3D.TEXTURE_2D, null );
+			_gl.bindTexture( _gl.TEXTURE_2D, renderTarget.__webglTexture );
+			_gl.generateMipmap( _gl.TEXTURE_2D );
+			_gl.bindTexture( _gl.TEXTURE_2D, null );
 
 		}
 
@@ -5968,11 +5967,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( f === THREE.NearestFilter || f === THREE.NearestMipMapNearestFilter || f === THREE.NearestMipMapLinearFilter ) {
 
-            return Context3D.NEAREST;
+			return _gl.NEAREST;
 
 		}
 
-        return Context3D.LINEAR;
+		return _gl.LINEAR;
 
 	};
 
@@ -5980,52 +5979,52 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function paramThreeToGL ( p ) {
 
-        if ( p === THREE.RepeatWrapping ) return Context3D.REPEAT;
-        if ( p === THREE.ClampToEdgeWrapping ) return Context3D.CLAMP_TO_EDGE;
-        if ( p === THREE.MirroredRepeatWrapping ) return Context3D.MIRRORED_REPEAT;
+		if ( p === THREE.RepeatWrapping ) return _gl.REPEAT;
+		if ( p === THREE.ClampToEdgeWrapping ) return _gl.CLAMP_TO_EDGE;
+		if ( p === THREE.MirroredRepeatWrapping ) return _gl.MIRRORED_REPEAT;
 
-        if ( p === THREE.NearestFilter ) return Context3D.NEAREST;
-        if ( p === THREE.NearestMipMapNearestFilter ) return Context3D.NEAREST_MIPMAP_NEAREST;
-        if ( p === THREE.NearestMipMapLinearFilter ) return Context3D.NEAREST_MIPMAP_LINEAR;
+		if ( p === THREE.NearestFilter ) return _gl.NEAREST;
+		if ( p === THREE.NearestMipMapNearestFilter ) return _gl.NEAREST_MIPMAP_NEAREST;
+		if ( p === THREE.NearestMipMapLinearFilter ) return _gl.NEAREST_MIPMAP_LINEAR;
 
-        if ( p === THREE.LinearFilter ) return Context3D.LINEAR;
-        if ( p === THREE.LinearMipMapNearestFilter ) return Context3D.LINEAR_MIPMAP_NEAREST;
-        if ( p === THREE.LinearMipMapLinearFilter ) return Context3D.LINEAR_MIPMAP_LINEAR;
+		if ( p === THREE.LinearFilter ) return _gl.LINEAR;
+		if ( p === THREE.LinearMipMapNearestFilter ) return _gl.LINEAR_MIPMAP_NEAREST;
+		if ( p === THREE.LinearMipMapLinearFilter ) return _gl.LINEAR_MIPMAP_LINEAR;
 
-        if ( p === THREE.UnsignedByteType ) return Context3D.UNSIGNED_BYTE;
-        if ( p === THREE.UnsignedShort4444Type ) return Context3D.UNSIGNED_SHORT_4_4_4_4;
-        if ( p === THREE.UnsignedShort5551Type ) return Context3D.UNSIGNED_SHORT_5_5_5_1;
-        if ( p === THREE.UnsignedShort565Type ) return Context3D.UNSIGNED_SHORT_5_6_5;
+		if ( p === THREE.UnsignedByteType ) return _gl.UNSIGNED_BYTE;
+		if ( p === THREE.UnsignedShort4444Type ) return _gl.UNSIGNED_SHORT_4_4_4_4;
+		if ( p === THREE.UnsignedShort5551Type ) return _gl.UNSIGNED_SHORT_5_5_5_1;
+		if ( p === THREE.UnsignedShort565Type ) return _gl.UNSIGNED_SHORT_5_6_5;
 
-        if ( p === THREE.ByteType ) return Context3D.BYTE;
-        if ( p === THREE.ShortType ) return Context3D.SHORT;
-        if ( p === THREE.UnsignedShortType ) return Context3D.UNSIGNED_SHORT;
-        if ( p === THREE.IntType ) return Context3D.INT;
-        if ( p === THREE.UnsignedIntType ) return Context3D.UNSIGNED_INT;
-        if ( p === THREE.FloatType ) return Context3D.FLOAT;
+		if ( p === THREE.ByteType ) return _gl.BYTE;
+		if ( p === THREE.ShortType ) return _gl.SHORT;
+		if ( p === THREE.UnsignedShortType ) return _gl.UNSIGNED_SHORT;
+		if ( p === THREE.IntType ) return _gl.INT;
+		if ( p === THREE.UnsignedIntType ) return _gl.UNSIGNED_INT;
+		if ( p === THREE.FloatType ) return _gl.FLOAT;
 
-        if ( p === THREE.AlphaFormat ) return Context3D.ALPHA;
-        if ( p === THREE.RGBFormat ) return Context3D.RGB;
-        if ( p === THREE.RGBAFormat ) return Context3D.RGBA;
-        if ( p === THREE.LuminanceFormat ) return Context3D.LUMINANCE;
-        if ( p === THREE.LuminanceAlphaFormat ) return Context3D.LUMINANCE_ALPHA;
+		if ( p === THREE.AlphaFormat ) return _gl.ALPHA;
+		if ( p === THREE.RGBFormat ) return _gl.RGB;
+		if ( p === THREE.RGBAFormat ) return _gl.RGBA;
+		if ( p === THREE.LuminanceFormat ) return _gl.LUMINANCE;
+		if ( p === THREE.LuminanceAlphaFormat ) return _gl.LUMINANCE_ALPHA;
 
-        if ( p === THREE.AddEquation ) return Context3D.FUNC_ADD;
-        if ( p === THREE.SubtractEquation ) return Context3D.FUNC_SUBTRACT;
-        if ( p === THREE.ReverseSubtractEquation ) return Context3D.FUNC_REVERSE_SUBTRACT;
+		if ( p === THREE.AddEquation ) return _gl.FUNC_ADD;
+		if ( p === THREE.SubtractEquation ) return _gl.FUNC_SUBTRACT;
+		if ( p === THREE.ReverseSubtractEquation ) return _gl.FUNC_REVERSE_SUBTRACT;
 
-        if ( p === THREE.ZeroFactor ) return Context3D.ZERO;
-        if ( p === THREE.OneFactor ) return Context3D.ONE;
-        if ( p === THREE.SrcColorFactor ) return Context3D.SRC_COLOR;
-        if ( p === THREE.OneMinusSrcColorFactor ) return Context3D.ONE_MINUS_SRC_COLOR;
-        if ( p === THREE.SrcAlphaFactor ) return Context3D.SRC_ALPHA;
-        if ( p === THREE.OneMinusSrcAlphaFactor ) return Context3D.ONE_MINUS_SRC_ALPHA;
-        if ( p === THREE.DstAlphaFactor ) return Context3D.DST_ALPHA;
-        if ( p === THREE.OneMinusDstAlphaFactor ) return Context3D.ONE_MINUS_DST_ALPHA;
+		if ( p === THREE.ZeroFactor ) return _gl.ZERO;
+		if ( p === THREE.OneFactor ) return _gl.ONE;
+		if ( p === THREE.SrcColorFactor ) return _gl.SRC_COLOR;
+		if ( p === THREE.OneMinusSrcColorFactor ) return _gl.ONE_MINUS_SRC_COLOR;
+		if ( p === THREE.SrcAlphaFactor ) return _gl.SRC_ALPHA;
+		if ( p === THREE.OneMinusSrcAlphaFactor ) return _gl.ONE_MINUS_SRC_ALPHA;
+		if ( p === THREE.DstAlphaFactor ) return _gl.DST_ALPHA;
+		if ( p === THREE.OneMinusDstAlphaFactor ) return _gl.ONE_MINUS_DST_ALPHA;
 
-        if ( p === THREE.DstColorFactor ) return Context3D.DST_COLOR;
-        if ( p === THREE.OneMinusDstColorFactor ) return Context3D.ONE_MINUS_DST_COLOR;
-        if ( p === THREE.SrcAlphaSaturateFactor ) return Context3D.SRC_ALPHA_SATURATE;
+		if ( p === THREE.DstColorFactor ) return _gl.DST_COLOR;
+		if ( p === THREE.OneMinusDstColorFactor ) return _gl.ONE_MINUS_DST_COLOR;
+		if ( p === THREE.SrcAlphaSaturateFactor ) return _gl.SRC_ALPHA_SATURATE;
 
 		if ( _glExtensionCompressedTextureS3TC !== undefined ) {
 
@@ -6058,7 +6057,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			//  - limit here is ANGLE's 254 max uniform vectors
 			//    (up to 54 should be safe)
 
-            var nVertexUniforms = _gl.getParameter( Context3D.MAX_VERTEX_UNIFORM_VECTORS );
+			var nVertexUniforms = _gl.getParameter( _gl.MAX_VERTEX_UNIFORM_VECTORS );
 			var nVertexMatrices = Math.floor( ( nVertexUniforms - 20 ) / 4 );
 
 			var maxBones = nVertexMatrices;
@@ -6215,16 +6214,16 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		_gl.clearDepth( 1 );
 		_gl.clearStencil( 0 );
 
-        _gl.enable( Context3D.DEPTH_TEST );
-        _gl.depthFunc( Context3D.LEQUAL );
+		_gl.enable( _gl.DEPTH_TEST );
+		_gl.depthFunc( _gl.LEQUAL );
 
-        _gl.frontFace( Context3D.CCW );
-        _gl.cullFace( Context3D.BACK );
-        _gl.enable( Context3D.CULL_FACE );
+		_gl.frontFace( _gl.CCW );
+		_gl.cullFace( _gl.BACK );
+		_gl.enable( _gl.CULL_FACE );
 
-        _gl.enable( Context3D.BLEND );
-        _gl.blendEquation( Context3D.FUNC_ADD );
-        _gl.blendFunc( Context3D.SRC_ALPHA, Context3D.ONE_MINUS_SRC_ALPHA );
+		_gl.enable( _gl.BLEND );
+		_gl.blendEquation( _gl.FUNC_ADD );
+		_gl.blendFunc( _gl.SRC_ALPHA, _gl.ONE_MINUS_SRC_ALPHA );
 
 		_gl.viewport( _viewportX, _viewportY, _viewportWidth, _viewportHeight );
 		
