@@ -6057,7 +6057,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			//  - limit here is ANGLE's 254 max uniform vectors
 			//    (up to 54 should be safe)
 
-			var nVertexUniforms = _gl.getParameter( _gl.MAX_VERTEX_UNIFORM_VECTORS );
+            var nVertexUniforms = _gl.getParameter( _gl.MAX_VERTEX_UNIFORM_VECTORS );
 			var nVertexMatrices = Math.floor( ( nVertexUniforms - 20 ) / 4 );
 
 			var maxBones = nVertexMatrices;
@@ -6233,8 +6233,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// default plugins (order is important)
 
-    //this.shadowMapPlugin = new THREE.ShadowMapPlugin();
-    //this.addPrePlugin( this.shadowMapPlugin );
+    this.shadowMapPlugin = new THREE.ShadowMapPlugin();
+    this.addPrePlugin( this.shadowMapPlugin );
 
     //this.addPostPlugin( new THREE.SpritePlugin() );
     //this.addPostPlugin( new THREE.LensFlarePlugin() );

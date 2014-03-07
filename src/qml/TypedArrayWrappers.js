@@ -9,6 +9,13 @@ function Int8Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt8Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int8Array.prototype = {
@@ -62,6 +69,13 @@ function Uint8Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint8Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint8Array.prototype = {
@@ -116,6 +130,13 @@ function Int16Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt16Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int16Array.prototype = {
@@ -170,6 +191,13 @@ function Uint16Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint16Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint16Array.prototype = {
@@ -224,6 +252,13 @@ function Int32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int32Array.prototype = {
@@ -278,6 +313,13 @@ function Uint32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint32Array.prototype = {
@@ -333,6 +375,13 @@ function Float32Array(initValue) {
     }
 
     this._internalArray = Arrays.newFloat32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Float32Array.prototype = {
@@ -389,6 +438,13 @@ function Float64Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newFloat64Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Float64Array.prototype = {
@@ -445,6 +501,13 @@ function Int32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int32Array.prototype = {
@@ -499,6 +562,13 @@ function Uint8ClampedArray(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint8ClampedArray(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint8ClampedArray.prototype = {

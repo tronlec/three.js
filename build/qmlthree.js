@@ -170,6 +170,13 @@ function Int8Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt8Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int8Array.prototype = {
@@ -223,6 +230,13 @@ function Uint8Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint8Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint8Array.prototype = {
@@ -277,6 +291,13 @@ function Int16Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt16Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int16Array.prototype = {
@@ -331,6 +352,13 @@ function Uint16Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint16Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint16Array.prototype = {
@@ -385,6 +413,13 @@ function Int32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int32Array.prototype = {
@@ -439,6 +474,13 @@ function Uint32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint32Array.prototype = {
@@ -494,6 +536,13 @@ function Float32Array(initValue) {
     }
 
     this._internalArray = Arrays.newFloat32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Float32Array.prototype = {
@@ -550,6 +599,13 @@ function Float64Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newFloat64Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Float64Array.prototype = {
@@ -606,6 +662,13 @@ function Int32Array(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newInt32Array(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Int32Array.prototype = {
@@ -660,6 +723,13 @@ function Uint8ClampedArray(initValue) {
         this._length = initValue;
     }
     this._internalArray = Arrays.newUint8ClampedArray(this._length);
+    for (var i = 0; i < this._length; i++) {
+        this[i] = 0;
+    }
+
+    this.__defineGetter__("length", function(){
+        return this._length;
+    });
 }
 
 Uint8ClampedArray.prototype = {
@@ -7909,7 +7979,7 @@ THREE.Object3D.prototype = {
 
 	clone: function ( object, recursive ) {
 
-        if ( object === undefined ) object = new THREE.Object3D();
+		if ( object === undefined ) object = new THREE.Object3D();
 		if ( recursive === undefined ) recursive = true;
 
 		object.name = this.name;
@@ -14989,7 +15059,7 @@ THREE.MeshNormalMaterial.prototype.clone = function () {
 
 THREE.MeshFaceMaterial = function ( materials ) {
 
-	this.materials = materials instanceof Array ? materials : [];
+    this.materials = materials instanceof Array ? materials : [];
 
 };
 
@@ -25935,7 +26005,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			//  - limit here is ANGLE's 254 max uniform vectors
 			//    (up to 54 should be safe)
 
-			var nVertexUniforms = _gl.getParameter( _gl.MAX_VERTEX_UNIFORM_VECTORS );
+            var nVertexUniforms = _gl.getParameter( _gl.MAX_VERTEX_UNIFORM_VECTORS );
 			var nVertexMatrices = Math.floor( ( nVertexUniforms - 20 ) / 4 );
 
 			var maxBones = nVertexMatrices;
@@ -26111,8 +26181,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// default plugins (order is important)
 
-    //this.shadowMapPlugin = new THREE.ShadowMapPlugin();
-    //this.addPrePlugin( this.shadowMapPlugin );
+    this.shadowMapPlugin = new THREE.ShadowMapPlugin();
+    this.addPrePlugin( this.shadowMapPlugin );
 
     //this.addPostPlugin( new THREE.SpritePlugin() );
     //this.addPostPlugin( new THREE.LensFlarePlugin() );
