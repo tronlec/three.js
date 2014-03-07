@@ -77,7 +77,7 @@ THREE.Loader.prototype = {
 
 		for ( var i = 0; i < materials.length; ++ i ) {
 
-			array[ i ] = THREE.Loader.prototype.createMaterial( materials[ i ], texturePath );
+            array[ i ] = this.createMaterial( materials[ i ], texturePath );
 
 		}
 
@@ -119,11 +119,10 @@ THREE.Loader.prototype = {
 
 		function load_image( where, url ) {
 
-            var texLoader = new Three.TextureLoader();
+            var texLoader = new THREE.TextureLoader();
             // TODO: FIXME!
             texLoader.load(url, function ( image ) {
-
-				if ( !is_pow2( this.width ) || !is_pow2( this.height ) ) {
+                if ( !is_pow2( this.width ) || !is_pow2( this.height ) ) {
 
 					var width = nearest_pow2( this.width );
 					var height = nearest_pow2( this.height );
@@ -330,7 +329,7 @@ THREE.Loader.prototype = {
 
 		// textures
 
-		if ( m.mapDiffuse && texturePath ) {
+        if ( m.mapDiffuse && texturePath !== undefined && texturePath !== null ) {
 
 			create_texture( mpars, "map", m.mapDiffuse, m.mapDiffuseRepeat, m.mapDiffuseOffset, m.mapDiffuseWrap, m.mapDiffuseAnisotropy );
 
