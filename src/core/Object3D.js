@@ -46,6 +46,13 @@ THREE.Object3D = function () {
 
 	this.userData = {};
 
+    this._q1 = new THREE.Quaternion();
+    this._v1 = new THREE.Vector3();
+    this._vx = new THREE.Vector3( 1, 0, 0 );
+    this._vy = new THREE.Vector3( 0, 1, 0 );
+    this._vz = new THREE.Vector3( 0, 0, 1 );
+    this._m1 = new THREE.Matrix4();
+
     this.__defineGetter__("rotation", function(){
         return this._rotation;
     });

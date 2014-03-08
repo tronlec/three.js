@@ -3475,12 +3475,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	};
 
 	function renderPlugins( plugins, scene, camera ) {
-
 		if ( ! plugins.length ) return;
 
 		for ( var i = 0, il = plugins.length; i < il; i ++ ) {
 
-			// reset state for plugin (to start from clean slate)
+            // reset state for plugin (to start from clean slate)
 
 			_currentProgram = null;
 			_currentCamera = null;
@@ -4992,7 +4991,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-				_gl.uniform1iv( location, uniform._array.typedArray() );
+                _gl.uniform1iva( location, uniform._array );
 
 				for( i = 0, il = uniform.value.length; i < il; i ++ ) {
 
@@ -6236,7 +6235,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
     this.shadowMapPlugin = new THREE.ShadowMapPlugin();
     this.addPrePlugin( this.shadowMapPlugin );
 
-    //this.addPostPlugin( new THREE.SpritePlugin() );
-    //this.addPostPlugin( new THREE.LensFlarePlugin() );
+    this.addPostPlugin( new THREE.SpritePlugin() );
+    this.addPostPlugin( new THREE.LensFlarePlugin() );
 
 };

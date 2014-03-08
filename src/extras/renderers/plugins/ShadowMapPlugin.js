@@ -17,7 +17,7 @@ THREE.ShadowMapPlugin = function () {
 	_matrixPosition = new THREE.Vector3();
 
 	this.init = function ( renderer ) {
-
+        console.log("init ShadowMapPlugin");
 		_gl = renderer.context;
 		_renderer = renderer;
 
@@ -38,9 +38,9 @@ THREE.ShadowMapPlugin = function () {
 
 	this.render = function ( scene, camera ) {
 
-		if ( ! ( _renderer.shadowMapEnabled && _renderer.shadowMapAutoUpdate ) ) return;
+        if ( ! ( _renderer.shadowMapEnabled && _renderer.shadowMapAutoUpdate ) ) return;
 
-		this.update( scene, camera );
+        this.update( scene, camera );
 
 	};
 
@@ -61,18 +61,18 @@ THREE.ShadowMapPlugin = function () {
 		// set GL state for depth map
 
 		_gl.clearColor( 1, 1, 1, 1 );
-        _gl.disable( Context3D.BLEND );
+		_gl.disable( _gl.BLEND );
 
-        _gl.enable( Context3D.CULL_FACE );
-        _gl.frontFace( Context3D.CCW );
+		_gl.enable( _gl.CULL_FACE );
+		_gl.frontFace( _gl.CCW );
 
 		if ( _renderer.shadowMapCullFace === THREE.CullFaceFront ) {
 
-            _gl.cullFace( Context3D.FRONT );
+			_gl.cullFace( _gl.FRONT );
 
 		} else {
 
-            _gl.cullFace( Context3D.BACK );
+			_gl.cullFace( _gl.BACK );
 
 		}
 
@@ -339,11 +339,11 @@ THREE.ShadowMapPlugin = function () {
 		clearAlpha = _renderer.getClearAlpha();
 
 		_gl.clearColor( clearColor.r, clearColor.g, clearColor.b, clearAlpha );
-        _gl.enable( Context3D.BLEND );
+		_gl.enable( _gl.BLEND );
 
 		if ( _renderer.shadowMapCullFace === THREE.CullFaceFront ) {
 
-            _gl.cullFace( Context3D.BACK );
+			_gl.cullFace( _gl.BACK );
 
 		}
 

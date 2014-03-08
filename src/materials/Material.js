@@ -46,14 +46,14 @@ THREE.Material.prototype = {
 
 		if ( values === undefined ) return;
 
-		for ( var key in values ) {
+        for ( var key in values ) {
 
 			var newValue = values[ key ];
 
-			if ( newValue === undefined ) {
+            if ( newValue === undefined ) {
 
-				console.warn( 'THREE.Material: \'' + key + '\' parameter is undefined.' );
-				continue;
+                console.warn( 'THREE.Material: \'' + key + '\' parameter is undefined.' );
+                continue;
 
 			}
 

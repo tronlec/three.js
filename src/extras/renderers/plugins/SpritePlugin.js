@@ -66,17 +66,8 @@ THREE.SpritePlugin = function () {
 			alphaTest:			_gl.getUniformLocation( program, 'alphaTest' )
 		};
 
-		var canvas = document.createElement( 'canvas' );
-		canvas.width = 8;
-		canvas.height = 8;
-
-		var context = canvas.getContext( '2d' );
-		context.fillStyle = '#ffffff';
-		context.fillRect( 0, 0, canvas.width, canvas.height );
-
-		_texture = new THREE.Texture( canvas );
-		_texture.needsUpdate = true;
-
+        _texture = new THREE.Texture( undefined );
+        _texture.needsUpdate = false;
 	};
 
 	this.render = function ( scene, camera, viewportWidth, viewportHeight ) {
