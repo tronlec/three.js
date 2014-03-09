@@ -3,6 +3,7 @@
         "src/qml/TypedArrayWrappers.js",
         "src/qml/QmlImageElement.js",
         "src/qml/QmlHtmlElements.js",
+        "src/qml/ContextShim.js",
         "src/math/Color.js",
         "src/math/Quaternion.js",
         "src/math/Vector2.js",
