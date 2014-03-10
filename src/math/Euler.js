@@ -9,41 +9,40 @@ THREE.Euler = function ( x, y, z, order ) {
 	this._x = x || 0;
 	this._y = y || 0;
 	this._z = z || 0;
+    this.__q = new THREE.Quaternion();
 	this._order = order || THREE.Euler.DefaultOrder;
     this._quaternion = undefined;
 
-    var _this = this;
-
     this.__defineGetter__("x", function(){
-        return _this._x;
+        return this._x;
     });
     this.__defineSetter__("x", function(value){
-        _this._x = value;
-        _this._updateQuaternion();
+        this._x = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("y", function(){
-        return _this._y;
+        return this._y;
     });
     this.__defineSetter__("y", function(value){
-        _this._y = value;
-        _this._updateQuaternion();
+        this._y = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("z", function(){
-        return _this._z;
+        return this._z;
     });
     this.__defineSetter__("z", function(value){
-        _this._z = value;
-        _this._updateQuaternion();
+        this._z = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("order", function(){
-        return _this._order;
+        return this._order;
     });
     this.__defineSetter__("order", function(value){
-        _this._order = value;
-        _this._updateQuaternion();
+        this._order = value;
+        this._updateQuaternion();
     });
 };
 
@@ -283,7 +282,7 @@ THREE.Euler.prototype = {
 
 		// WARNING: this discards revolution information -bhouston
 
-		var q = new THREE.Quaternion();
+        var q = this.__q;
 
 			q.setFromEuler( this );
 			this.setFromQuaternion( q, newOrder );

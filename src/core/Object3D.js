@@ -53,32 +53,31 @@ THREE.Object3D = function () {
     this._vz = new THREE.Vector3( 0, 0, 1 );
     this._m1 = new THREE.Matrix4();
 
-    var _this = this;
     this.__defineGetter__("rotation", function(){
-        return _this._rotation;
+        return this._rotation;
     });
     this.__defineSetter__("rotation", function(value){
-        _this._rotation = value;
-        _this._rotation._quaternion = _this._quaternion;
-        _this._quaternion._euler = _this._rotation;
-        _this._rotation._updateQuaternion();
+        this._rotation = value;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._euler = this._rotation;
+        this._rotation._updateQuaternion();
     });
     this.__defineGetter__("quaternion", function(){
-        return _this._quaternion;
+        return this._quaternion;
     });
     this.__defineSetter__("quaternion", function(value){
-        _this._quaternion = value;
-        _this._quaternion._euler = _this._rotation;
-        _this._rotation._quaternion = _this._quaternion;
-        _this._quaternion._updateEuler();
+        this._quaternion = value;
+        this._quaternion._euler = this._rotation;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._updateEuler();
     });
     this.__defineGetter__("eulerOrder", function(){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        return _this.rotation.order;
+        return this.rotation.order;
     });
     this.__defineSetter__("eulerOrder", function(value){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        _this.rotation.order = value;
+        this.rotation.order = value;
     });
     this.__defineGetter__("useQuaternion", function(){
         console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );

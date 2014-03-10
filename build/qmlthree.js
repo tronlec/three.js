@@ -1805,34 +1805,33 @@ THREE.Quaternion = function ( x, y, z, w ) {
 	this._z = z || 0;
 	this._w = ( w !== undefined ) ? w : 1;
 
-    var _this = this;
     this.__defineGetter__("x", function(){
-        return _this._x;
+        return this._x;
     });
     this.__defineSetter__("x", function(value){
-        _this._x = value;
-        _this._updateEuler();
+        this._x = value;
+        this._updateEuler();
     });
     this.__defineGetter__("y", function(){
-        return _this._y;
+        return this._y;
     });
     this.__defineSetter__("y", function(value){
-        _this._y = value;
-        _this._updateEuler();
+        this._y = value;
+        this._updateEuler();
     });
     this.__defineGetter__("z", function(){
-        return _this._z;
+        return this._z;
     });
     this.__defineSetter__("z", function(value){
-        _this._z = value;
-        _this._updateEuler();
+        this._z = value;
+        this._updateEuler();
     });
     this.__defineGetter__("w", function(){
-        return _this._w;
+        return this._w;
     });
     this.__defineSetter__("w", function(value){
-        _this._w = value;
-        _this._updateEuler();
+        this._w = value;
+        this._updateEuler();
     });
 };
 
@@ -4041,41 +4040,40 @@ THREE.Euler = function ( x, y, z, order ) {
 	this._x = x || 0;
 	this._y = y || 0;
 	this._z = z || 0;
+    this.__q = new THREE.Quaternion();
 	this._order = order || THREE.Euler.DefaultOrder;
     this._quaternion = undefined;
 
-    var _this = this;
-
     this.__defineGetter__("x", function(){
-        return _this._x;
+        return this._x;
     });
     this.__defineSetter__("x", function(value){
-        _this._x = value;
-        _this._updateQuaternion();
+        this._x = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("y", function(){
-        return _this._y;
+        return this._y;
     });
     this.__defineSetter__("y", function(value){
-        _this._y = value;
-        _this._updateQuaternion();
+        this._y = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("z", function(){
-        return _this._z;
+        return this._z;
     });
     this.__defineSetter__("z", function(value){
-        _this._z = value;
-        _this._updateQuaternion();
+        this._z = value;
+        this._updateQuaternion();
     });
 
     this.__defineGetter__("order", function(){
-        return _this._order;
+        return this._order;
     });
     this.__defineSetter__("order", function(value){
-        _this._order = value;
-        _this._updateQuaternion();
+        this._order = value;
+        this._updateQuaternion();
     });
 };
 
@@ -4087,9 +4085,9 @@ THREE.Euler.prototype = {
 
 	constructor: THREE.Euler,
 
-    _updateQuaternion: function () {
+	_updateQuaternion: function () {
 
-        if ( this._quaternion !== undefined ) {
+		if ( this._quaternion !== undefined ) {
 
 			this._quaternion.setFromEuler( this, false );
 
@@ -4315,7 +4313,7 @@ THREE.Euler.prototype = {
 
 		// WARNING: this discards revolution information -bhouston
 
-		var q = new THREE.Quaternion();
+        var q = this.__q;
 
 			q.setFromEuler( this );
 			this.setFromQuaternion( q, newOrder );
@@ -7960,32 +7958,31 @@ THREE.Object3D = function () {
     this._vz = new THREE.Vector3( 0, 0, 1 );
     this._m1 = new THREE.Matrix4();
 
-    var _this = this;
     this.__defineGetter__("rotation", function(){
-        return _this._rotation;
+        return this._rotation;
     });
     this.__defineSetter__("rotation", function(value){
-        _this._rotation = value;
-        _this._rotation._quaternion = _this._quaternion;
-        _this._quaternion._euler = _this._rotation;
-        _this._rotation._updateQuaternion();
+        this._rotation = value;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._euler = this._rotation;
+        this._rotation._updateQuaternion();
     });
     this.__defineGetter__("quaternion", function(){
-        return _this._quaternion;
+        return this._quaternion;
     });
     this.__defineSetter__("quaternion", function(value){
-        _this._quaternion = value;
-        _this._quaternion._euler = _this._rotation;
-        _this._rotation._quaternion = _this._quaternion;
-        _this._quaternion._updateEuler();
+        this._quaternion = value;
+        this._quaternion._euler = this._rotation;
+        this._rotation._quaternion = this._quaternion;
+        this._quaternion._updateEuler();
     });
     this.__defineGetter__("eulerOrder", function(){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        return _this.rotation.order;
+        return this.rotation.order;
     });
     this.__defineSetter__("eulerOrder", function(value){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        _this.rotation.order = value;
+        this.rotation.order = value;
     });
     this.__defineGetter__("useQuaternion", function(){
         console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );
@@ -8352,6 +8349,7 @@ THREE.Object3D.prototype = {
 	updateMatrix: function () {
 
 		this.matrix.compose( this.position, this.quaternion, this.scale );
+
 		this.matrixWorldNeedsUpdate = true;
 
 	},
