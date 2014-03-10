@@ -38,15 +38,16 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 	this._needsUpdate = false;
 	this.onUpdate = null;
 
+    var _this = this;
     this.__defineGetter__("needsUpdate", function(){
-        return this._needsUpdate;
+        return _this._needsUpdate;
     });
 
     this.__defineSetter__("needsUpdate", function(value){
 
         if ( value === true )
-            this.update();
-        this._needsUpdate = value;
+            _this.update();
+        _this._needsUpdate = value;
     });
 };
 

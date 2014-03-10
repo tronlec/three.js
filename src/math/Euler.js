@@ -10,7 +10,41 @@ THREE.Euler = function ( x, y, z, order ) {
 	this._y = y || 0;
 	this._z = z || 0;
 	this._order = order || THREE.Euler.DefaultOrder;
+    this._quaternion = undefined;
 
+    var _this = this;
+
+    this.__defineGetter__("x", function(){
+        return _this._x;
+    });
+    this.__defineSetter__("x", function(value){
+        _this._x = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("y", function(){
+        return _this._y;
+    });
+    this.__defineSetter__("y", function(value){
+        _this._y = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("z", function(){
+        return _this._z;
+    });
+    this.__defineSetter__("z", function(value){
+        _this._z = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("order", function(){
+        return _this._order;
+    });
+    this.__defineSetter__("order", function(value){
+        _this._order = value;
+        _this._updateQuaternion();
+    });
 };
 
 THREE.Euler.RotationOrders = [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ];
@@ -21,10 +55,6 @@ THREE.Euler.prototype = {
 
 	constructor: THREE.Euler,
 
-	_x: 0, _y: 0, _z: 0, _order: THREE.Euler.DefaultOrder,
-
-	_quaternion: undefined,
-
 	_updateQuaternion: function () {
 
 		if ( this._quaternion !== undefined ) {
@@ -32,58 +62,6 @@ THREE.Euler.prototype = {
 			this._quaternion.setFromEuler( this, false );
 
 		}
-
-	},
-
-	get x () {
-
-		return this._x;
-
-	},
-
-	set x ( value ) {
-
-		this._x = value;
-		this._updateQuaternion();
-
-	},
-
-	get y () {
-
-		return this._y;
-
-	},
-
-	set y ( value ) {
-
-		this._y = value;
-		this._updateQuaternion();
-
-	},
-
-	get z () {
-
-		return this._z;
-
-	},
-
-	set z ( value ) {
-
-		this._z = value;
-		this._updateQuaternion();
-
-	},
-
-	get order () {
-
-		return this._order;
-
-	},
-
-	set order ( value ) {
-
-		this._order = value;
-		this._updateQuaternion();
 
 	},
 

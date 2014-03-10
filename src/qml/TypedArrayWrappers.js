@@ -13,8 +13,9 @@ function Int8Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -73,8 +74,9 @@ function Uint8Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -134,8 +136,9 @@ function Int16Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -195,8 +198,9 @@ function Uint16Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -256,8 +260,9 @@ function Int32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -317,8 +322,9 @@ function Uint32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -379,8 +385,9 @@ function Float32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -442,8 +449,9 @@ function Float64Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -505,8 +513,9 @@ function Int32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -566,8 +575,9 @@ function Uint8ClampedArray(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 

@@ -26,19 +26,19 @@ function Image () {
     var _this = this;
 
     this.__defineGetter__("src", function(){
-        return this._src;
+        return _this._src;
     });
 
     this.__defineSetter__("src", function(url){
-        if (url && url !== '' && url !== this._src) {
-            this._texImage = textureImageLoader.loadTexture(url);
-            __texImageToImageMap[""+this._texImage.id()] = _this;
+        if (url && url !== '' && url !== _this._src) {
+            _this._texImage = textureImageLoader.loadTexture(url);
+            __texImageToImageMap[""+_this._texImage.id()] = _this;
         }
         this._src = url;
     });
 
     this.__defineGetter__("width", function(){
-        return (this._texImage !== undefined)?this._texImage.width:0;
+        return (_this._texImage !== undefined)?_this._texImage.width:0;
     });
 
     this.__defineSetter__("width", function(url){
@@ -46,7 +46,7 @@ function Image () {
     });
 
     this.__defineGetter__("height", function(){
-        return (this._texImage !== undefined)?this._texImage.height:0;
+        return (_this._texImage !== undefined)?_this._texImage.height:0;
     });
 
     this.__defineSetter__("height", function(url){

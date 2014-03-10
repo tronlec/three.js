@@ -174,8 +174,9 @@ function Int8Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -234,8 +235,9 @@ function Uint8Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -295,8 +297,9 @@ function Int16Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -356,8 +359,9 @@ function Uint16Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -417,8 +421,9 @@ function Int32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -478,8 +483,9 @@ function Uint32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -540,8 +546,9 @@ function Float32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -603,8 +610,9 @@ function Float64Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -666,8 +674,9 @@ function Int32Array(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -727,8 +736,9 @@ function Uint8ClampedArray(initValue) {
         this[i] = 0;
     }
 
+    var _this = this;
     this.__defineGetter__("length", function(){
-        return this._length;
+        return _this._length;
     });
 }
 
@@ -801,19 +811,19 @@ function Image () {
     var _this = this;
 
     this.__defineGetter__("src", function(){
-        return this._src;
+        return _this._src;
     });
 
     this.__defineSetter__("src", function(url){
-        if (url && url !== '' && url !== this._src) {
-            this._texImage = textureImageLoader.loadTexture(url);
-            __texImageToImageMap[""+this._texImage.id()] = _this;
+        if (url && url !== '' && url !== _this._src) {
+            _this._texImage = textureImageLoader.loadTexture(url);
+            __texImageToImageMap[""+_this._texImage.id()] = _this;
         }
         this._src = url;
     });
 
     this.__defineGetter__("width", function(){
-        return (this._texImage !== undefined)?this._texImage.width:0;
+        return (_this._texImage !== undefined)?_this._texImage.width:0;
     });
 
     this.__defineSetter__("width", function(url){
@@ -821,7 +831,7 @@ function Image () {
     });
 
     this.__defineGetter__("height", function(){
-        return (this._texImage !== undefined)?this._texImage.height:0;
+        return (_this._texImage !== undefined)?_this._texImage.height:0;
     });
 
     this.__defineSetter__("height", function(url){
@@ -4055,7 +4065,41 @@ THREE.Euler = function ( x, y, z, order ) {
 	this._y = y || 0;
 	this._z = z || 0;
 	this._order = order || THREE.Euler.DefaultOrder;
+    this._quaternion = undefined;
 
+    var _this = this;
+
+    this.__defineGetter__("x", function(){
+        return _this._x;
+    });
+    this.__defineSetter__("x", function(value){
+        _this._x = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("y", function(){
+        return _this._y;
+    });
+    this.__defineSetter__("y", function(value){
+        _this._y = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("z", function(){
+        return _this._z;
+    });
+    this.__defineSetter__("z", function(value){
+        _this._z = value;
+        _this._updateQuaternion();
+    });
+
+    this.__defineGetter__("order", function(){
+        return _this._order;
+    });
+    this.__defineSetter__("order", function(value){
+        _this._order = value;
+        _this._updateQuaternion();
+    });
 };
 
 THREE.Euler.RotationOrders = [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ];
@@ -4066,10 +4110,6 @@ THREE.Euler.prototype = {
 
 	constructor: THREE.Euler,
 
-	_x: 0, _y: 0, _z: 0, _order: THREE.Euler.DefaultOrder,
-
-	_quaternion: undefined,
-
 	_updateQuaternion: function () {
 
 		if ( this._quaternion !== undefined ) {
@@ -4077,58 +4117,6 @@ THREE.Euler.prototype = {
 			this._quaternion.setFromEuler( this, false );
 
 		}
-
-	},
-
-	get x () {
-
-		return this._x;
-
-	},
-
-	set x ( value ) {
-
-		this._x = value;
-		this._updateQuaternion();
-
-	},
-
-	get y () {
-
-		return this._y;
-
-	},
-
-	set y ( value ) {
-
-		this._y = value;
-		this._updateQuaternion();
-
-	},
-
-	get z () {
-
-		return this._z;
-
-	},
-
-	set z ( value ) {
-
-		this._z = value;
-		this._updateQuaternion();
-
-	},
-
-	get order () {
-
-		return this._order;
-
-	},
-
-	set order ( value ) {
-
-		this._order = value;
-		this._updateQuaternion();
 
 	},
 
@@ -7995,33 +7983,32 @@ THREE.Object3D = function () {
     this._vz = new THREE.Vector3( 0, 0, 1 );
     this._m1 = new THREE.Matrix4();
 
+    var _this = this;
     this.__defineGetter__("rotation", function(){
-        return this._rotation;
+        return _this._rotation;
     });
     this.__defineSetter__("rotation", function(value){
-        this._rotation = value;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._euler = this._rotation;
-        this._rotation._updateQuaternion();
+        _this._rotation = value;
+        _this._rotation._quaternion = _this._quaternion;
+        _this._quaternion._euler = _this._rotation;
+        _this._rotation._updateQuaternion();
     });
     this.__defineGetter__("quaternion", function(){
-        return this._quaternion;
+        return _this._quaternion;
     });
     this.__defineSetter__("quaternion", function(value){
-        this._quaternion = value;
-        this._quaternion._euler = this._rotation;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._updateEuler();
+        _this._quaternion = value;
+        _this._quaternion._euler = _this._rotation;
+        _this._rotation._quaternion = _this._quaternion;
+        _this._quaternion._updateEuler();
     });
     this.__defineGetter__("eulerOrder", function(){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-
-        return this.rotation.order;
+        return _this.rotation.order;
     });
     this.__defineSetter__("eulerOrder", function(value){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-
-        this.rotation.order = value;
+        _this.rotation.order = value;
     });
     this.__defineGetter__("useQuaternion", function(){
         console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );
@@ -9696,7 +9683,7 @@ THREE.BufferGeometry.prototype = {
 		var box = new THREE.Box3();
 		var vector = new THREE.Vector3();
 
-		return function () {
+//		return function () {
 
 			if ( this.boundingSphere === null ) {
 
@@ -9734,9 +9721,9 @@ THREE.BufferGeometry.prototype = {
 
 			}
 
-		}
+//		}
 
-	}(),
+    },
 
 	computeVertexNormals: function () {
 
@@ -10269,7 +10256,7 @@ THREE.BufferGeometry.prototype = {
 
 		var geometry = new THREE.BufferGeometry();
 
-		var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
+        var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
 
 		for ( var attr in this.attributes ) {
 
@@ -10288,7 +10275,7 @@ THREE.BufferGeometry.prototype = {
 				var type = types[ i ];
 
 				if ( sourceArray instanceof type ) {
-
+                    console.log("Cloning to type "+type+" name "+type.name+" constructor "+type.constructor);
 					attribute.array = new type( sourceArray );
 					break;
 
@@ -11164,7 +11151,7 @@ THREE.BufferGeometry.prototype = {
 		var box = new THREE.Box3();
 		var vector = new THREE.Vector3();
 
-		return function () {
+//		return function () {
 
 			if ( this.boundingSphere === null ) {
 
@@ -11202,9 +11189,9 @@ THREE.BufferGeometry.prototype = {
 
 			}
 
-		}
+//		}
 
-	}(),
+    },
 
 	computeVertexNormals: function () {
 
@@ -11737,7 +11724,7 @@ THREE.BufferGeometry.prototype = {
 
 		var geometry = new THREE.BufferGeometry();
 
-		var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
+        var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
 
 		for ( var attr in this.attributes ) {
 
@@ -11756,7 +11743,7 @@ THREE.BufferGeometry.prototype = {
 				var type = types[ i ];
 
 				if ( sourceArray instanceof type ) {
-
+                    console.log("Cloning to type "+type+" name "+type.name+" constructor "+type.constructor);
 					attribute.array = new type( sourceArray );
 					break;
 
@@ -16784,15 +16771,16 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 	this._needsUpdate = false;
 	this.onUpdate = null;
 
+    var _this = this;
     this.__defineGetter__("needsUpdate", function(){
-        return this._needsUpdate;
+        return _this._needsUpdate;
     });
 
     this.__defineSetter__("needsUpdate", function(value){
 
         if ( value === true )
-            this.update();
-        this._needsUpdate = value;
+            _this.update();
+        _this._needsUpdate = value;
     });
 };
 
@@ -22501,8 +22489,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			attribute.buffer = _gl.createBuffer();
 
 			_gl.bindBuffer( bufferType, attribute.buffer );
-            _gl.bufferData( bufferType, attribute.array.typedArray(), Context3D.STATIC_DRAW );
-
+            if (attribute.array instanceof Array || attribute.array instanceof Function) {
+                _gl.bufferData( bufferType, attribute.array, Context3D.STATIC_DRAW );
+            } else {
+                _gl.bufferData( bufferType, attribute.array.typedArray(), Context3D.STATIC_DRAW );
+            }
 		}
 
 	}

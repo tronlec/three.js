@@ -1141,8 +1141,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			attribute.buffer = _gl.createBuffer();
 
 			_gl.bindBuffer( bufferType, attribute.buffer );
-            _gl.bufferData( bufferType, attribute.array.typedArray(), Context3D.STATIC_DRAW );
-
+            if (attribute.array instanceof Array || attribute.array instanceof Function) {
+                _gl.bufferData( bufferType, attribute.array, Context3D.STATIC_DRAW );
+            } else {
+                _gl.bufferData( bufferType, attribute.array.typedArray(), Context3D.STATIC_DRAW );
+            }
 		}
 
 	}
