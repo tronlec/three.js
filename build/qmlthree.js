@@ -1805,6 +1805,35 @@ THREE.Quaternion = function ( x, y, z, w ) {
 	this._z = z || 0;
 	this._w = ( w !== undefined ) ? w : 1;
 
+    var _this = this;
+    this.__defineGetter__("x", function(){
+        return _this._x;
+    });
+    this.__defineSetter__("x", function(value){
+        _this._x = value;
+        _this._updateEuler();
+    });
+    this.__defineGetter__("y", function(){
+        return _this._y;
+    });
+    this.__defineSetter__("y", function(value){
+        _this._y = value;
+        _this._updateEuler();
+    });
+    this.__defineGetter__("z", function(){
+        return _this._z;
+    });
+    this.__defineSetter__("z", function(value){
+        _this._z = value;
+        _this._updateEuler();
+    });
+    this.__defineGetter__("w", function(){
+        return _this._w;
+    });
+    this.__defineSetter__("w", function(value){
+        _this._w = value;
+        _this._updateEuler();
+    });
 };
 
 THREE.Quaternion.prototype = {
@@ -1819,61 +1848,9 @@ THREE.Quaternion.prototype = {
 
 		if ( this._euler !== undefined ) {
 
-			this._euler.setFromQuaternion( this, undefined, false );
+            this._euler.setFromQuaternion( this, undefined, false );
 
 		}
-
-	},
-
-	get x () {
-
-		return this._x;
-
-	},
-
-	set x ( value ) {
-
-		this._x = value;
-		this._updateEuler();
-
-	},
-
-	get y () {
-
-		return this._y;
-
-	},
-
-	set y ( value ) {
-
-		this._y = value;
-		this._updateEuler();
-
-	},
-
-	get z () {
-
-		return this._z;
-
-	},
-
-	set z ( value ) {
-
-		this._z = value;
-		this._updateEuler();
-
-	},
-
-	get w () {
-
-		return this._w;
-
-	},
-
-	set w ( value ) {
-
-		this._w = value;
-		this._updateEuler();
 
 	},
 
@@ -4110,9 +4087,9 @@ THREE.Euler.prototype = {
 
 	constructor: THREE.Euler,
 
-	_updateQuaternion: function () {
+    _updateQuaternion: function () {
 
-		if ( this._quaternion !== undefined ) {
+        if ( this._quaternion !== undefined ) {
 
 			this._quaternion.setFromEuler( this, false );
 
@@ -7954,8 +7931,8 @@ THREE.Object3D = function () {
 
 	// keep rotation and quaternion in sync
 
-	this._rotation._quaternion = this.quaternion;
-	this._quaternion._euler = this.rotation;
+    this._rotation._quaternion = this._quaternion;
+    this._quaternion._euler = this._rotation;
 
 	this.renderDepth = null;
 
@@ -8375,7 +8352,6 @@ THREE.Object3D.prototype = {
 	updateMatrix: function () {
 
 		this.matrix.compose( this.position, this.quaternion, this.scale );
-
 		this.matrixWorldNeedsUpdate = true;
 
 	},

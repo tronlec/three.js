@@ -24,8 +24,8 @@ THREE.Object3D = function () {
 
 	// keep rotation and quaternion in sync
 
-	this._rotation._quaternion = this.quaternion;
-	this._quaternion._euler = this.rotation;
+    this._rotation._quaternion = this._quaternion;
+    this._quaternion._euler = this._rotation;
 
 	this.renderDepth = null;
 
