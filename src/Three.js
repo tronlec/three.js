@@ -13,6 +13,7 @@ THREE.REVISION = '67dev';
 THREE.qmlImageLoader = null;
 
 // GL STATE CONSTANTS
+
 THREE.CullFaceNone = 0;
 THREE.CullFaceBack = 1;
 THREE.CullFaceFront = 2;

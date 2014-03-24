@@ -198,6 +198,12 @@ THREE.BufferGeometry.prototype = {
 
     },
 
+	computeFaceNormals: function () {
+
+		// backwards compatibility
+
+	},
+
 	computeVertexNormals: function () {
 
 		if ( this.attributes[ "position" ] ) {
@@ -729,7 +735,7 @@ THREE.BufferGeometry.prototype = {
 
 		var geometry = new THREE.BufferGeometry();
 
-        var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
+		var types = [ Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array ];
 
 		for ( var attr in this.attributes ) {
 
@@ -748,7 +754,7 @@ THREE.BufferGeometry.prototype = {
 				var type = types[ i ];
 
 				if ( sourceArray instanceof type ) {
-                    console.log("Cloning to type "+type+" name "+type.name+" constructor "+type.constructor);
+
 					attribute.array = new type( sourceArray );
 					break;
 

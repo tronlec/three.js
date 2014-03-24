@@ -7,7 +7,6 @@
 THREE.Matrix3 = function ( n11, n12, n13, n21, n22, n23, n31, n32, n33 ) {
 
 	this.elements = new Float32Array(9);
-    this.elements.name = "THREE.Matrix3_array";
 
 	this.set(
 
@@ -78,11 +77,11 @@ THREE.Matrix3.prototype = {
 
 	},
 
-    applyToVector3Array: function( a ) {
+	applyToVector3Array: function( a ) {
 
 		var v1 = new THREE.Vector3();
 
-
+		return function ( a ) {
 
 			for ( var i = 0, il = a.length; i < il; i += 3 ) {
 
@@ -100,8 +99,9 @@ THREE.Matrix3.prototype = {
 
 			return a;
 
+		//};
 
-    },
+	},
 
 	multiplyScalar: function ( s ) {
 

@@ -483,10 +483,11 @@ THREE.Vector4.prototype = {
 
 	},
 
-    clampScalar: function ( minVal, maxVal ) {
+	clampScalar: function ( minVal, maxVal ) {
 
 		var min, max;
 
+		//return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -500,8 +501,9 @@ THREE.Vector4.prototype = {
 
 			return this.clamp( min, max );
 
+		//};
 
-    },
+	},
 
     floor: function () {
 

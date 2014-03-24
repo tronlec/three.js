@@ -127,10 +127,11 @@ THREE.SkinnedMesh.prototype.addBone = function( bone ) {
 
 };
 
-THREE.SkinnedMesh.prototype.updateMatrixWorld = function (force) {
+THREE.SkinnedMesh.prototype.updateMatrixWorld = function ( force ) {
 
 	var offsetMatrix = new THREE.Matrix4();
 
+	//return function ( force ) {
 
 		this.matrixAutoUpdate && this.updateMatrix();
 
@@ -210,6 +211,8 @@ THREE.SkinnedMesh.prototype.updateMatrixWorld = function (force) {
 			this.boneTexture.needsUpdate = true;
 
 		}
+
+	//};
 
 };
 

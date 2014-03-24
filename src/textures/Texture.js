@@ -45,8 +45,7 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 
     this.__defineSetter__("needsUpdate", function(value){
 
-        if ( value === true )
-            _this.update();
+        if ( value === true ) _this.update();
         _this._needsUpdate = value;
     });
 };

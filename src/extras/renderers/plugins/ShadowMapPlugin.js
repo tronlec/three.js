@@ -17,7 +17,7 @@ THREE.ShadowMapPlugin = function () {
 	_matrixPosition = new THREE.Vector3();
 
 	this.init = function ( renderer ) {
-        console.log("init ShadowMapPlugin");
+
 		_gl = renderer.context;
 		_renderer = renderer;
 
@@ -38,9 +38,9 @@ THREE.ShadowMapPlugin = function () {
 
 	this.render = function ( scene, camera ) {
 
-        if ( ! ( _renderer.shadowMapEnabled && _renderer.shadowMapAutoUpdate ) ) return;
+		if ( ! ( _renderer.shadowMapEnabled && _renderer.shadowMapAutoUpdate ) ) return;
 
-        this.update( scene, camera );
+		this.update( scene, camera );
 
 	};
 

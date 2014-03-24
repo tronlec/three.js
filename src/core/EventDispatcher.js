@@ -2,110 +2,106 @@
  * https://github.com/mrdoob/eventdispatcher.js/
  */
 
-THREE.EventDispatcher = function () {
-    this._array = [];
-}
+THREE.EventDispatcher = function () {}
 
 THREE.EventDispatcher.prototype = {
 
-    constructor: THREE.EventDispatcher,
+	constructor: THREE.EventDispatcher,
 
-    apply: function ( object ) {
+	apply: function ( object ) {
 
-        object.addEventListener = THREE.EventDispatcher.prototype.addEventListener;
-        object.hasEventListener = THREE.EventDispatcher.prototype.hasEventListener;
-        object.removeEventListener = THREE.EventDispatcher.prototype.removeEventListener;
-        object.dispatchEvent = THREE.EventDispatcher.prototype.dispatchEvent;
+		object.addEventListener = THREE.EventDispatcher.prototype.addEventListener;
+		object.hasEventListener = THREE.EventDispatcher.prototype.hasEventListener;
+		object.removeEventListener = THREE.EventDispatcher.prototype.removeEventListener;
+		object.dispatchEvent = THREE.EventDispatcher.prototype.dispatchEvent;
 
-    },
+	},
 
-    addEventListener: function ( type, listener ) {
+	addEventListener: function ( type, listener ) {
 
-        if ( this._listeners === undefined ) this._listeners = {};
+		if ( this._listeners === undefined ) this._listeners = {};
 
-        var listeners = this._listeners;
+		var listeners = this._listeners;
 
-        if ( listeners[ type ] === undefined ) {
+		if ( listeners[ type ] === undefined ) {
 
-            listeners[ type ] = [];
+			listeners[ type ] = [];
 
-        }
+		}
 
-        if ( listeners[ type ].indexOf( listener ) === - 1 ) {
+		if ( listeners[ type ].indexOf( listener ) === - 1 ) {
 
-            listeners[ type ].push( listener );
+			listeners[ type ].push( listener );
 
-        }
+		}
 
-    },
+	},
 
-    hasEventListener: function ( type, listener ) {
+	hasEventListener: function ( type, listener ) {
 
-        if ( this._listeners === undefined ) return false;
+		if ( this._listeners === undefined ) return false;
 
-        var listeners = this._listeners;
+		var listeners = this._listeners;
 
-        if ( listeners[ type ] !== undefined && listeners[ type ].indexOf( listener ) !== - 1 ) {
+		if ( listeners[ type ] !== undefined && listeners[ type ].indexOf( listener ) !== - 1 ) {
 
-            return true;
+			return true;
 
-        }
+		}
 
-        return false;
+		return false;
 
-    },
+	},
 
-    removeEventListener: function ( type, listener ) {
+	removeEventListener: function ( type, listener ) {
 
-        if ( this._listeners === undefined ) return;
+		if ( this._listeners === undefined ) return;
 
-        var listeners = this._listeners;
-        var listenerArray = listeners[ type ];
+		var listeners = this._listeners;
+		var listenerArray = listeners[ type ];
 
-        if ( listenerArray !== undefined ) {
+		if ( listenerArray !== undefined ) {
 
-            var index = listenerArray.indexOf( listener );
+			var index = listenerArray.indexOf( listener );
 
-            if ( index !== - 1 ) {
+			if ( index !== - 1 ) {
 
-                listenerArray.splice( index, 1 );
+				listenerArray.splice( index, 1 );
 
-            }
+			}
 
-        }
+		}
 
-    },
+	},
 
-    dispatchEvent: function ( event ) {
+	dispatchEvent: function ( event ) {
+			
+		if ( this._listeners === undefined ) return;
 
-        var array = this._array;
+		var listeners = this._listeners;
+		var listenerArray = listeners[ event.type ];
 
+		if ( listenerArray !== undefined ) {
 
-        if ( this._listeners === undefined ) return;
+			event.target = this;
 
-        var listeners = this._listeners;
-        var listenerArray = listeners[ event.type ];
+			var array = [];
+			var length = listenerArray.length;
 
-        if ( listenerArray !== undefined ) {
+			for ( var i = 0; i < length; i ++ ) {
 
-            event.target = this;
+				array[ i ] = listenerArray[ i ];
 
-            var length = listenerArray.length;
+			}
 
-            for ( var i = 0; i < length; i ++ ) {
+			for ( var i = 0; i < length; i ++ ) {
 
-                array[ i ] = listenerArray[ i ];
+				array[ i ].call( this, event );
 
-            }
+			}
 
-            for ( var i = 0; i < length; i ++ ) {
+		}
 
-                array[ i ].call( this, event );
-
-            }
-
-        }
-
-    }
+	}
 
 };

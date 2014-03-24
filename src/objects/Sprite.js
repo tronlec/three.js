@@ -11,11 +11,14 @@ THREE.Sprite = function ( material ) {
 	var geometry = new THREE.BufferGeometry();
 	geometry.addAttribute( 'position', vertices );
 
+	//return function ( material ) {
 
 		THREE.Object3D.call( this );
 
 		this.geometry = geometry;
 		this.material = ( material !== undefined ) ? material : new THREE.SpriteMaterial();
+
+	//};
 
 };
 

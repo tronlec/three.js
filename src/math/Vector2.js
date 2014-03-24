@@ -133,11 +133,29 @@ THREE.Vector2.prototype = {
 		return this;
 
 	},
+	
+	multiply: function ( v ) {
+
+		this.x *= v.x;
+		this.y *= v.y;
+
+		return this;
+
+	},
 
 	multiplyScalar: function ( s ) {
 
 		this.x *= s;
 		this.y *= s;
+
+		return this;
+
+	},
+
+	divide: function ( v ) {
+
+		this.x /= v.x;
+		this.y /= v.y;
 
 		return this;
 
@@ -226,10 +244,11 @@ THREE.Vector2.prototype = {
 		return this;
 	},
 
-    clampScalar: function ( minVal, maxVal ) {
+	clampScalar: function ( minVal, maxVal ) {
 
 		var min, max;
 
+		//return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -243,8 +262,9 @@ THREE.Vector2.prototype = {
 
 			return this.clamp( min, max );
 
-
-    },
+		//};
+		
+	},
 
 	floor: function () {
 

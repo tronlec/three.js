@@ -72,9 +72,11 @@ THREE.Frustum.prototype = {
 
 	},
 
-    intersectsObject: function ( object ) {
+	intersectsObject: function ( object ) {
 
 		var sphere = new THREE.Sphere();
+
+		//return function ( object ) {
 
 			var geometry = object.geometry;
 
@@ -84,7 +86,10 @@ THREE.Frustum.prototype = {
 			sphere.applyMatrix4( object.matrixWorld );
 
 			return this.intersectsSphere( sphere );
-    },
+
+		//};
+
+	},
 
 	intersectsSphere: function ( sphere ) {
 
@@ -108,10 +113,12 @@ THREE.Frustum.prototype = {
 
 	},
 
-    intersectsBox : function( box ) {
+	intersectsBox : function( box ) {
 
 		var p1 = new THREE.Vector3(),
 			p2 = new THREE.Vector3();
+
+		//return function( box ) {
 
 			var planes = this.planes;
 			
@@ -139,7 +146,9 @@ THREE.Frustum.prototype = {
 			}
 
 			return true;
-    },
+		//};
+
+	},
 
 
 	containsPoint: function ( point ) {

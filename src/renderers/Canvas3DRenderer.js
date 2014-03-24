@@ -30,6 +30,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	_antialias = parameters.antialias !== undefined ? parameters.antialias : false,
 	_premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true,
 	_preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false,
+    _logarithmicDepthBuffer = parameters.logarithmicDepthBuffer !== undefined ? parameters.logarithmicDepthBuffer : false,
 
 	_clearColor = new THREE.Color( 0x000000 ),
 	_clearAlpha = 0;
@@ -229,7 +230,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	var _glExtensionTextureFilterAnisotropic;
 	var _glExtensionCompressedTextureS3TC;
 	var _glExtensionElementIndexUint;
-	
+    var _glExtensionFragDepth;
+
 
 	initGL();
 
@@ -2766,7 +2768,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else if ( object instanceof THREE.Line ) {
 
-            var primitives = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
+            var mode = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
 
 			setLineWidth( material.linewidth );
 
@@ -2848,7 +2850,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				var position = geometryAttributes[ "position" ];
 
-				_gl.drawArrays( primitives, 0, position.array.length / 3 );
+                _gl.drawArrays( mode, 0, position.array.length / 3 );
 
 				_this.info.render.calls ++;
 				_this.info.render.points += position.array.length / 3;
@@ -3067,11 +3069,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else if ( object instanceof THREE.Line ) {
 
-            var primitives = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
+            var mode = ( object.type === THREE.LineStrip ) ? Context3D.LINE_STRIP : Context3D.LINES;
 
 			setLineWidth( material.linewidth );
 
-			_gl.drawArrays( primitives, 0, geometryGroup.__webglLineCount );
+            _gl.drawArrays( mode, 0, geometryGroup.__webglLineCount );
 
 			_this.info.render.calls ++;
 
@@ -4174,6 +4176,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			fogExp: fog instanceof THREE.FogExp2,
 
 			sizeAttenuation: material.sizeAttenuation,
+            logarithmicDepthBuffer: _logarithmicDepthBuffer,
 
 			skinning: material.skinning,
 			maxBones: maxBones,
@@ -4373,7 +4376,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			_gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
-			if ( camera !== _currentCamera ) _currentCamera = camera;
+            if ( _logarithmicDepthBuffer ) {
+
+                _gl.uniform1f(p_uniforms.logDepthBufFC, 2.0 / (Math.log(camera.far + 1.0) / Math.LN2));
+
+            }
+
+            if ( camera !== _currentCamera ) _currentCamera = camera;
 
 		}
 
@@ -4581,7 +4590,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		var uvScaleMap;
 
-		if ( material.map ) {
+        if ( material.map ) {
 
 			uvScaleMap = material.map;
 
@@ -6206,7 +6215,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 		}
-	};
+
+        if ( _logarithmicDepthBuffer ) {
+
+            _glExtensionFragDepth = _gl.getExtension( 'EXT_frag_depth' );
+
+        }
+
+    };
 
 	function setDefaultGLState () {
 

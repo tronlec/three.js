@@ -4,7 +4,7 @@
 
 THREE.MeshFaceMaterial = function ( materials ) {
 
-    this.materials = materials instanceof Array ? materials : [];
+	this.materials = materials instanceof Array ? materials : [];
 
 };
 

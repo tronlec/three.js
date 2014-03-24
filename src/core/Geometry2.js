@@ -2,17 +2,13 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
-THREE.Geometry2 = function ( size ) {
+THREE.Geometry2 = function ( vertices, normals, uvs ) {
 
 	THREE.BufferGeometry.call( this );
 
-	this.vertices = new THREE.Float32Attribute( size, 3 );
-	this.normals = new THREE.Float32Attribute( size, 3 );
-	this.uvs = new THREE.Float32Attribute( size, 2 );
-
-	this.addAttribute( 'position', this.vertices );
-	this.addAttribute( 'normal', this.normals );
-	this.addAttribute( 'uv', this.uvs );
+	this.attributes[ 'position' ] = { array: vertices, itemSize: 3 };
+	this.attributes[ 'normal' ] = { array: normals, itemSize: 3 };
+	this.attributes[ 'uv' ] = { array: uvs, itemSize: 2 };	
 
 };
 

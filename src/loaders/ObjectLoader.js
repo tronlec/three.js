@@ -49,7 +49,6 @@ THREE.ObjectLoader.prototype = {
 		if ( json !== undefined ) {
 
 			var geometryLoader = new THREE.JSONLoader();
-			var geometry2Loader = new THREE.Geometry2Loader();
 			var bufferGeometryLoader = new THREE.BufferGeometryLoader();
 
 			for ( var i = 0, l = json.length; i < l; i ++ ) {
@@ -161,12 +160,6 @@ THREE.ObjectLoader.prototype = {
 
 						break;
 
-					case 'Geometry2':
-
-						geometry = geometry2Loader.parse( data.data );
-
-						break;
-
 					case 'Geometry':
 
 						geometry = geometryLoader.parse( data.data ).geometry;
@@ -218,8 +211,9 @@ THREE.ObjectLoader.prototype = {
 
     parseObject: function (data, geometries, materials) {
 
-        var matrix = this.__matrix;
+		var matrix = this.__matrix;
 
+		//return function ( data, geometries, materials ) {
 
 			var object;
 
@@ -346,5 +340,7 @@ THREE.ObjectLoader.prototype = {
 			return object;
 
 		}
+
+	//}()
 
 };

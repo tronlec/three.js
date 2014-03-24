@@ -24,8 +24,8 @@ THREE.Object3D = function () {
 
 	// keep rotation and quaternion in sync
 
-    this._rotation._quaternion = this._quaternion;
-    this._quaternion._euler = this._rotation;
+	this._rotation._quaternion = this.quaternion;
+	this._quaternion._euler = this.rotation;
 
 	this.renderDepth = null;
 
@@ -73,11 +73,11 @@ THREE.Object3D = function () {
     });
     this.__defineGetter__("eulerOrder", function(){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        return this.rotation.order;
+        return this._rotation.order;
     });
     this.__defineSetter__("eulerOrder", function(value){
         console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        this.rotation.order = value;
+        this._rotation.order = value;
     });
     this.__defineGetter__("useQuaternion", function(){
         console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );

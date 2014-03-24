@@ -7,6 +7,8 @@ THREE.Loader = function ( showStatus ) {
 	this.showStatus = showStatus;
 	this.statusDomElement = showStatus ? THREE.Loader.prototype.addStatusElement() : null;
 
+	this.imageLoader = new THREE.ImageLoader();
+
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
 	this.onLoadComplete = function () {};
@@ -101,7 +103,7 @@ THREE.Loader.prototype = {
 
 	createMaterial: function ( m, texturePath ) {
 
-		var _this = this;
+		var scope = this;
 
 		function nearest_pow2( n ) {
 
@@ -112,7 +114,7 @@ THREE.Loader.prototype = {
 
 		function create_texture( where, name, sourceFile, repeat, offset, wrap, anisotropy ) {
 
-            var isCompressed = /\.dds$/i.test( sourceFile );
+			var isCompressed = /\.dds$/i.test( sourceFile );
 
 			var fullPath = texturePath + sourceFile;
 
@@ -126,7 +128,7 @@ THREE.Loader.prototype = {
 
                 var texture = THREE.ImageUtils.loadTexture( fullPath );
 
-				where[ name ] = texture;
+				where[ name ] = new THREE.Texture( texture );
 
 			}
 
@@ -165,6 +167,35 @@ THREE.Loader.prototype = {
 
 			}
 
+			if ( ! isCompressed ) {
+
+				var texture = where[ name ];
+
+				scope.imageLoader.crossOrigin = scope.crossOrigin;
+				scope.imageLoader.load( fullPath, function ( image ) {
+
+					if ( THREE.Math.isPowerOfTwo( image.width ) === false ||
+						 THREE.Math.isPowerOfTwo( image.height ) === false ) {
+
+						var width = nearest_pow2( image.width );
+						var height = nearest_pow2( image.height );
+
+						texture.image.width = width;
+						texture.image.height = height;
+						//texture.image.getContext( '2d' ).drawImage( image, 0, 0, width, height );
+
+					} else {
+
+						texture.image = image;
+
+					}
+
+					texture.needsUpdate = true;
+
+				} );
+
+			}
+
 		}
 
 		function rgb2hex( rgb ) {
@@ -188,8 +219,6 @@ THREE.Loader.prototype = {
 			else if ( shading === "basic" ) mtype = "MeshBasicMaterial";
 
 		}
-
-        console.log("Material type "+mtype);
 
 		if ( m.blending !== undefined && THREE[ m.blending ] !== undefined ) {
 
@@ -292,31 +321,32 @@ THREE.Loader.prototype = {
 		}
 
 		// textures
-        if ( m.mapDiffuse && texturePath !== undefined ) {
+
+		if ( m.mapDiffuse && texturePath !== undefined ) {
 
 			create_texture( mpars, "map", m.mapDiffuse, m.mapDiffuseRepeat, m.mapDiffuseOffset, m.mapDiffuseWrap, m.mapDiffuseAnisotropy );
 
 		}
 
-        if ( m.mapLight && texturePath !== undefined ) {
+		if ( m.mapLight && texturePath !== undefined ) {
 
 			create_texture( mpars, "lightMap", m.mapLight, m.mapLightRepeat, m.mapLightOffset, m.mapLightWrap, m.mapLightAnisotropy );
 
 		}
 
-        if ( m.mapBump && texturePath !== undefined ) {
+		if ( m.mapBump && texturePath !== undefined ) {
 
 			create_texture( mpars, "bumpMap", m.mapBump, m.mapBumpRepeat, m.mapBumpOffset, m.mapBumpWrap, m.mapBumpAnisotropy );
 
 		}
 
-        if ( m.mapNormal && texturePath !== undefined ) {
+		if ( m.mapNormal && texturePath !== undefined ) {
 
 			create_texture( mpars, "normalMap", m.mapNormal, m.mapNormalRepeat, m.mapNormalOffset, m.mapNormalWrap, m.mapNormalAnisotropy );
 
 		}
 
-        if ( m.mapSpecular && texturePath !== undefined ) {
+		if ( m.mapSpecular && texturePath !== undefined ) {
 
 			create_texture( mpars, "specularMap", m.mapSpecular, m.mapSpecularRepeat, m.mapSpecularOffset, m.mapSpecularWrap, m.mapSpecularAnisotropy );
 
