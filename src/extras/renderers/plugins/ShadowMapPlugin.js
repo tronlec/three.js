@@ -61,18 +61,18 @@ THREE.ShadowMapPlugin = function () {
 		// set GL state for depth map
 
 		_gl.clearColor( 1, 1, 1, 1 );
-		_gl.disable( _gl.BLEND );
+		_gl.disable( Context3D.BLEND );
 
-		_gl.enable( _gl.CULL_FACE );
-		_gl.frontFace( _gl.CCW );
+		_gl.enable( Context3D.CULL_FACE );
+		_gl.frontFace( Context3D.CCW );
 
 		if ( _renderer.shadowMapCullFace === THREE.CullFaceFront ) {
 
-			_gl.cullFace( _gl.FRONT );
+			_gl.cullFace( Context3D.FRONT );
 
 		} else {
 
-			_gl.cullFace( _gl.BACK );
+			_gl.cullFace( Context3D.BACK );
 
 		}
 
@@ -339,11 +339,11 @@ THREE.ShadowMapPlugin = function () {
 		clearAlpha = _renderer.getClearAlpha();
 
 		_gl.clearColor( clearColor.r, clearColor.g, clearColor.b, clearAlpha );
-		_gl.enable( _gl.BLEND );
+		_gl.enable( Context3D.BLEND );
 
 		if ( _renderer.shadowMapCullFace === THREE.CullFaceFront ) {
 
-			_gl.cullFace( _gl.BACK );
+			_gl.cullFace( Context3D.BACK );
 
 		}
 

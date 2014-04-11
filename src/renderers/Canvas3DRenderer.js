@@ -5562,8 +5562,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-			_gl.activeTexture( _gl.TEXTURE0 + slot );
-			_gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
+			_gl.activeTexture( Context3D.TEXTURE0 + slot );
+			_gl.bindTexture( Context3D.TEXTURE_2D, texture.__webglTexture );
 
             _gl.pixelStorei( Context3D.UNPACK_FLIP_Y_WEBGL, texture.flipY );
             _gl.pixelStorei( Context3D.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );
@@ -5574,7 +5574,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			glFormat = paramThreeToGL( texture.format ),
 			glType = paramThreeToGL( texture.type );
 
-			setTextureParameters( _gl.TEXTURE_2D, texture, isImagePowerOfTwo );
+			setTextureParameters( Context3D.TEXTURE_2D, texture, isImagePowerOfTwo );
 
 			var mipmap, mipmaps = texture.mipmaps;
 
@@ -5589,7 +5589,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 						mipmap = mipmaps[ i ];
-						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+						_gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
 					}
 
@@ -5597,7 +5597,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-					_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
+					_gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
 
 				}
 
@@ -5607,9 +5607,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					mipmap = mipmaps[ i ];
 					if ( texture.format!==THREE.RGBAFormat ) {
-						_gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
+						_gl.compressedTexImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
 					} else {
-						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+						_gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 					}
 
 				}
@@ -5625,7 +5625,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 						mipmap = mipmaps[ i ];
-						_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
+						_gl.texImage2D( Context3D.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
 
 					}
 
@@ -5633,13 +5633,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-					_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
+					_gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 				}
 
 			}
 
-			if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
+			if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( Context3D.TEXTURE_2D );
 
 			texture.needsUpdate = false;
 
@@ -5647,8 +5647,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else {
 
-			_gl.activeTexture( _gl.TEXTURE0 + slot );
-			_gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
+			_gl.activeTexture( Context3D.TEXTURE0 + slot );
+			_gl.bindTexture( Context3D.TEXTURE_2D, texture.__webglTexture );
 
 		}
 
@@ -5684,7 +5684,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-				_gl.activeTexture( _gl.TEXTURE0 + slot );
+				_gl.activeTexture( Context3D.TEXTURE0 + slot );
                 _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube.texImage() );
 
                 _gl.pixelStorei( Context3D.UNPACK_FLIP_Y_WEBGL, texture.flipY );
@@ -5751,7 +5751,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-				_gl.activeTexture( _gl.TEXTURE0 + slot );
+				_gl.activeTexture( Context3D.TEXTURE0 + slot );
                 _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube );
 
 			}
@@ -5762,7 +5762,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function setCubeTextureDynamic ( texture, slot ) {
 
-		_gl.activeTexture( _gl.TEXTURE0 + slot );
+		_gl.activeTexture( Context3D.TEXTURE0 + slot );
         _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.__webglTexture );
 
 	};
@@ -5772,7 +5772,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	function setupFrameBuffer ( framebuffer, renderTarget, textureTarget ) {
 
         _gl.bindFramebuffer( Context3D.FRAMEBUFFER, framebuffer );
-        _gl.framebufferTexture2D( Context3D.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, textureTarget, renderTarget.__webglTexture, 0 );
+        _gl.framebufferTexture2D( Context3D.FRAMEBUFFER, Context3D.COLOR_ATTACHMENT0, textureTarget, renderTarget.__webglTexture, 0 );
 
 	};
 
@@ -5782,13 +5782,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( renderTarget.depthBuffer && ! renderTarget.stencilBuffer ) {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, _gl.DEPTH_COMPONENT16, renderTarget.width, renderTarget.height );
+            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.DEPTH_COMPONENT16, renderTarget.width, renderTarget.height );
             _gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.DEPTH_ATTACHMENT, Context3D.RENDERBUFFER, renderbuffer );
 
 		/* For some reason this is not working. Defaulting to RGBA4.
 		} else if( ! renderTarget.depthBuffer && renderTarget.stencilBuffer ) {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, _gl.STENCIL_INDEX8, renderTarget.width, renderTarget.height );
+            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.STENCIL_INDEX8, renderTarget.width, renderTarget.height );
             _gl.framebufferRenderbuffer( Context3D.FRAMEBUFFER, Context3D.STENCIL_ATTACHMENT, Context3D.RENDERBUFFER, renderbuffer );
 		*/
 		} else if ( renderTarget.depthBuffer && renderTarget.stencilBuffer ) {
@@ -5798,7 +5798,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else {
 
-            _gl.renderbufferStorage( Context3D.RENDERBUFFER, _gl.RGBA4, renderTarget.width, renderTarget.height );
+            _gl.renderbufferStorage( Context3D.RENDERBUFFER, Context3D.RGBA4, renderTarget.width, renderTarget.height );
 
 		}
 
@@ -5861,12 +5861,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-				_gl.bindTexture( _gl.TEXTURE_2D, renderTarget.__webglTexture );
-				setTextureParameters( _gl.TEXTURE_2D, renderTarget, isTargetPowerOfTwo );
+				_gl.bindTexture( Context3D.TEXTURE_2D, renderTarget.__webglTexture );
+				setTextureParameters( Context3D.TEXTURE_2D, renderTarget, isTargetPowerOfTwo );
 
-				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
+				_gl.texImage2D( Context3D.TEXTURE_2D, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
-				setupFrameBuffer( renderTarget.__webglFramebuffer, renderTarget, _gl.TEXTURE_2D );
+				setupFrameBuffer( renderTarget.__webglFramebuffer, renderTarget, Context3D.TEXTURE_2D );
 
 				if ( renderTarget.shareDepthFrom ) {
 
@@ -5886,7 +5886,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				}
 
-				if ( isTargetPowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
+				if ( isTargetPowerOfTwo ) _gl.generateMipmap( Context3D.TEXTURE_2D );
 
 			}
 
@@ -5898,7 +5898,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-				_gl.bindTexture( _gl.TEXTURE_2D, null );
+				_gl.bindTexture( Context3D.TEXTURE_2D, null );
 
 			}
 
@@ -5963,9 +5963,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		} else {
 
-			_gl.bindTexture( _gl.TEXTURE_2D, renderTarget.__webglTexture );
-			_gl.generateMipmap( _gl.TEXTURE_2D );
-			_gl.bindTexture( _gl.TEXTURE_2D, null );
+			_gl.bindTexture( Context3D.TEXTURE_2D, renderTarget.__webglTexture );
+			_gl.generateMipmap( Context3D.TEXTURE_2D );
+			_gl.bindTexture( Context3D.TEXTURE_2D, null );
 
 		}
 
@@ -6002,9 +6002,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
         if ( p === THREE.LinearMipMapLinearFilter ) return Context3D.LINEAR_MIPMAP_LINEAR;
 
         if ( p === THREE.UnsignedByteType ) return Context3D.UNSIGNED_BYTE;
-		if ( p === THREE.UnsignedShort4444Type ) return _gl.UNSIGNED_SHORT_4_4_4_4;
-		if ( p === THREE.UnsignedShort5551Type ) return _gl.UNSIGNED_SHORT_5_5_5_1;
-		if ( p === THREE.UnsignedShort565Type ) return _gl.UNSIGNED_SHORT_5_6_5;
+		if ( p === THREE.UnsignedShort4444Type ) return Context3D.UNSIGNED_SHORT_4_4_4_4;
+		if ( p === THREE.UnsignedShort5551Type ) return Context3D.UNSIGNED_SHORT_5_5_5_1;
+		if ( p === THREE.UnsignedShort565Type ) return Context3D.UNSIGNED_SHORT_5_6_5;
 
         if ( p === THREE.ByteType ) return Context3D.BYTE;
         if ( p === THREE.ShortType ) return Context3D.SHORT;
