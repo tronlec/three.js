@@ -9,7 +9,7 @@ console.log("THREE Start");
 function THREE() {
 };
 
-THREE.REVISION = '67dev';
+THREE.REVISION = '68dev';
 THREE.qmlImageLoader = null;
 
 // GL STATE CONSTANTS
@@ -159,5 +159,3 @@ THREE.RGB_PVRTC_2BPPV1_Format = 2101;
 THREE.RGBA_PVRTC_4BPPV1_Format = 2102;
 THREE.RGBA_PVRTC_2BPPV1_Format = 2103;
 */
-
-

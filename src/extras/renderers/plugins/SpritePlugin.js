@@ -67,7 +67,7 @@ THREE.SpritePlugin = function () {
 		};
 
         _texture = new THREE.Texture( undefined );
-        _texture.needsUpdate = false;
+        _texture.needsUpdate = true;
 	};
 
 	this.render = function ( scene, camera, viewportWidth, viewportHeight ) {

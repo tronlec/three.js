@@ -17,7 +17,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("x", function(value){
         this._x = value;
-        this._updateQuaternion();
+        this.onChangeCallback();
     });
 
     this.__defineGetter__("y", function(){
@@ -25,7 +25,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("y", function(value){
         this._y = value;
-        this._updateQuaternion();
+        this.onChangeCallback();
     });
 
     this.__defineGetter__("z", function(){
@@ -33,7 +33,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("z", function(value){
         this._z = value;
-        this._updateQuaternion();
+        this.onChangeCallback();
     });
 
     this.__defineGetter__("order", function(){
@@ -41,7 +41,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("order", function(value){
         this._order = value;
-        this._updateQuaternion();
+        this.onChangeCallback();
     });
 };
 
@@ -55,18 +55,6 @@ THREE.Euler.prototype = {
 
 	_x: 0, _y: 0, _z: 0, _order: THREE.Euler.DefaultOrder,
 
-	_quaternion: undefined,
-
-	_updateQuaternion: function () {
-
-		if ( this._quaternion !== undefined ) {
-
-			this._quaternion.setFromEuler( this, false );
-
-		}
-
-	},
-
 	set: function ( x, y, z, order ) {
 
 		this._x = x;
@@ -74,7 +62,7 @@ THREE.Euler.prototype = {
 		this._z = z;
 		this._order = order || this._order;
 
-		this._updateQuaternion();
+		this.onChangeCallback();
 
 		return this;
 
@@ -87,7 +75,7 @@ THREE.Euler.prototype = {
 		this._z = euler._z;
 		this._order = euler._order;
 
-		this._updateQuaternion();
+		this.onChangeCallback();
 
 		return this;
 
@@ -210,7 +198,7 @@ THREE.Euler.prototype = {
 
 		this._order = order;
 
-		this._updateQuaternion();
+		this.onChangeCallback();
 
 		return this;
 
@@ -275,7 +263,7 @@ THREE.Euler.prototype = {
 
 		this._order = order;
 
-		if ( update !== false ) this._updateQuaternion();
+		if ( update !== false ) this.onChangeCallback();
 
 		return this;
 
@@ -297,6 +285,12 @@ THREE.Euler.prototype = {
 
 	},
 
+	equals: function ( euler ) {
+
+		return ( euler._x === this._x ) && ( euler._y === this._y ) && ( euler._z === this._z ) && ( euler._order === this._order );
+
+	},
+
 	fromArray: function ( array ) {
 
 		this._x = array[ 0 ];
@@ -304,7 +298,7 @@ THREE.Euler.prototype = {
 		this._z = array[ 2 ];
 		if ( array[ 3 ] !== undefined ) this._order = array[ 3 ];
 
-		this._updateQuaternion();
+		this.onChangeCallback();
 
 		return this;
 
@@ -316,11 +310,15 @@ THREE.Euler.prototype = {
 
 	},
 
-	equals: function ( euler ) {
+	onChange: function ( callback ) {
 
-		return ( euler._x === this._x ) && ( euler._y === this._y ) && ( euler._z === this._z ) && ( euler._order === this._order );
+		this.onChangeCallback = callback;
+
+		return this;
 
 	},
+
+	onChangeCallback: function () {},
 
 	clone: function () {
 

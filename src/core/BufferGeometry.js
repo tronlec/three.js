@@ -149,6 +149,12 @@ THREE.BufferGeometry.prototype = {
 
 		}
 
+		if ( isNaN( this.boundingBox.min.x ) || isNaN( this.boundingBox.min.y ) || isNaN( this.boundingBox.min.z ) ) {
+
+			console.error( 'THREE.BufferGeometry.computeBoundingBox()', 'Computed min/max have NaN values. The "position" attribute is likely to have NaN values.' );
+
+		}
+
 	},
 
 	computeBoundingSphere: function () {
@@ -181,6 +187,9 @@ THREE.BufferGeometry.prototype = {
 
 				box.center( center );
 
+				// hoping to find a boundingSphere with a radius smaller than the
+				// boundingSphere of the boundingBox:  sqrt(3) smaller in the best case
+
 				var maxRadiusSq = 0;
 
 				for ( var i = 0, il = positions.length; i < il; i += 3 ) {
@@ -191,6 +200,12 @@ THREE.BufferGeometry.prototype = {
 				}
 
 				this.boundingSphere.radius = Math.sqrt( maxRadiusSq );
+
+				if ( isNaN( this.boundingSphere.radius ) ) {
+
+					console.error( 'THREE.BufferGeometry.computeBoundingSphere()', 'Computed radius is NaN. The "position" attribute is likely to have NaN values.' );
+
+				}
 
 			}
 
@@ -252,7 +267,7 @@ THREE.BufferGeometry.prototype = {
 
 				var indices = this.attributes[ "index" ].array;
 
-				var offsets = this.offsets;
+				var offsets = (this.offsets.length > 0 ? this.offsets : [ { start: 0, count: indices.length, index: 0 } ]);
 
 				for ( j = 0, jl = offsets.length; j < jl; ++ j ) {
 
@@ -345,28 +360,6 @@ THREE.BufferGeometry.prototype = {
 			this.normalizeNormals();
 
 			this.normalsNeedUpdate = true;
-
-		}
-
-	},
-
-	normalizeNormals: function () {
-
-		var normals = this.attributes[ "normal" ].array;
-
-		var x, y, z, n;
-
-		for ( var i = 0, il = normals.length; i < il; i += 3 ) {
-
-			x = normals[ i ];
-			y = normals[ i + 1 ];
-			z = normals[ i + 2 ];
-
-			n = 1.0 / Math.sqrt( x * x + y * y + z * z );
-
-			normals[ i     ] *= n;
-			normals[ i + 1 ] *= n;
-			normals[ i + 2 ] *= n;
 
 		}
 
@@ -680,6 +673,34 @@ THREE.BufferGeometry.prototype = {
 		*/
 
 		return offsets;
+	},
+
+	merge: function () {
+
+		console.log( 'BufferGeometry.merge(): TODO' );
+
+	},
+
+	normalizeNormals: function () {
+
+		var normals = this.attributes[ "normal" ].array;
+
+		var x, y, z, n;
+
+		for ( var i = 0, il = normals.length; i < il; i += 3 ) {
+
+			x = normals[ i ];
+			y = normals[ i + 1 ];
+			z = normals[ i + 2 ];
+
+			n = 1.0 / Math.sqrt( x * x + y * y + z * z );
+
+			normals[ i     ] *= n;
+			normals[ i + 1 ] *= n;
+			normals[ i + 2 ] *= n;
+
+		}
+
 	},
 
 	/*

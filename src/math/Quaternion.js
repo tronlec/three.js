@@ -17,28 +17,28 @@ THREE.Quaternion = function ( x, y, z, w ) {
     });
     this.__defineSetter__("x", function(value){
         this._x = value;
-        this._updateEuler();
+        this.onChangeCallback();
     });
     this.__defineGetter__("y", function(){
         return this._y;
     });
     this.__defineSetter__("y", function(value){
         this._y = value;
-        this._updateEuler();
+        this.onChangeCallback();
     });
     this.__defineGetter__("z", function(){
         return this._z;
     });
     this.__defineSetter__("z", function(value){
         this._z = value;
-        this._updateEuler();
+        this.onChangeCallback();
     });
     this.__defineGetter__("w", function(){
         return this._w;
     });
     this.__defineSetter__("w", function(value){
         this._w = value;
-        this._updateEuler();
+        this.onChangeCallback();
     });
 };
 
@@ -48,17 +48,6 @@ THREE.Quaternion.prototype = {
 
 	_x: 0,_y: 0, _z: 0, _w: 0,
 
-	_euler: undefined,
-
-	_updateEuler: function ( callback ) {
-
-		if ( this._euler !== undefined ) {
-
-			this._euler.setFromQuaternion( this, undefined, false );
-
-		}
-
-	},
 
 	set: function ( x, y, z, w ) {
 
@@ -67,7 +56,7 @@ THREE.Quaternion.prototype = {
 		this._z = z;
 		this._w = w;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -80,7 +69,7 @@ THREE.Quaternion.prototype = {
 		this._z = quaternion._z;
 		this._w = quaternion._w;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -148,7 +137,7 @@ THREE.Quaternion.prototype = {
 
 		}
 
-		if ( update !== false ) this._updateEuler();
+		if ( update !== false ) this.onChangeCallback();
 
 		return this;
 
@@ -167,7 +156,7 @@ THREE.Quaternion.prototype = {
 		this._z = axis.z * s;
 		this._w = Math.cos( halfAngle );
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -226,7 +215,7 @@ THREE.Quaternion.prototype = {
 
 		}
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -268,9 +257,12 @@ THREE.Quaternion.prototype = {
 
 			}
 
-			this.set( v1.x, v1.y, v1.z, r ).normalize();
+			this._x = v1.x;
+			this._y = v1.y;
+			this._z = v1.z;
+			this._w = r;
 
-			this._updateEuler();
+			this.normalize();
 
 			return this;
 
@@ -292,7 +284,7 @@ THREE.Quaternion.prototype = {
 		this._y *= -1;
 		this._z *= -1;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -332,6 +324,8 @@ THREE.Quaternion.prototype = {
 
 		}
 
+		this.onChangeCallback();
+
 		return this;
 
 	},
@@ -361,7 +355,7 @@ THREE.Quaternion.prototype = {
 		this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
 		this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -430,7 +424,7 @@ THREE.Quaternion.prototype = {
 		this._y = ( y * ratioA + this._y * ratioB );
 		this._z = ( z * ratioA + this._z * ratioB );
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -449,7 +443,7 @@ THREE.Quaternion.prototype = {
 		this._z = array[ 2 ];
 		this._w = array[ 3 ];
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -460,6 +454,16 @@ THREE.Quaternion.prototype = {
 		return [ this._x, this._y, this._z, this._w ];
 
 	},
+
+	onChange: function ( callback ) {
+
+		this.onChangeCallback = callback;
+
+		return this;
+
+	},
+
+	onChangeCallback: function () {},
 
 	clone: function () {
 

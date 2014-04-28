@@ -1,4 +1,4 @@
 #!/bin/sh
 
-python build.py --include qml --output ../../build/qmlthree.js
-#python build.py --include qml --minify --output ../../build/qml.three.min.js
+python build.py --include qml --include common --include extras --output ../../build/three.js
+#python build.py --include qml --include common --include extras --minify --output ../../build/three.min.js

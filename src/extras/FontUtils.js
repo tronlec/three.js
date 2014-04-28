@@ -224,7 +224,6 @@ THREE.FontUtils = {
 
 };
 
-
 THREE.FontUtils.generateShapes = function( text, parameters ) {
 
 	// Parameters 
@@ -277,14 +276,14 @@ THREE.FontUtils.generateShapes = function( text, parameters ) {
  *
  */
 
-
-( function( namespace ) {
+//( function( namespace ) {
+THREE.FontUtils.process = function( contour, indices ) {
 
 	var EPSILON = 0.0000000001;
 
 	// takes in an contour array and returns
 
-	var process = function( contour, indices ) {
+    //var process = function( contour, indices ) {
 
 		var n = contour.length;
 
@@ -380,9 +379,9 @@ THREE.FontUtils.generateShapes = function( text, parameters ) {
 
 	};
 
-	// calculate area of the contour polygon
-
-	var area = function ( contour ) {
+    // calculate area of the contour polygon
+THREE.FontUtils.area = function( contour ) {
+    //var area = function ( contour ) {
 
 		var n = contour.length;
 		var a = 0.0;
@@ -397,7 +396,8 @@ THREE.FontUtils.generateShapes = function( text, parameters ) {
 
 	};
 
-	var snip = function ( contour, u, v, w, n, verts ) {
+THREE.FontUtils.snip = function( contour, u, v, w, n, verts ) {
+    //var snip = function ( contour, u, v, w, n, verts ) {
 
 		var p;
 		var ax, ay, bx, by;
@@ -450,13 +450,13 @@ THREE.FontUtils.generateShapes = function( text, parameters ) {
 	};
 
 
-	namespace.Triangulate = process;
-	namespace.Triangulate.area = area;
+//	namespace.Triangulate = process;
+//	namespace.Triangulate.area = area;
 
-	return namespace;
+//	return namespace;
 
-})(THREE.FontUtils);
+//})(THREE.FontUtils);
 
 // To use the typeface.js face files, hook up the API
-self._typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-THREE.typeface_js = self._typeface_js;
+THREE._typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
+//THREE.typeface_js = self._typeface_js;
