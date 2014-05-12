@@ -30,11 +30,11 @@ THREE.SpritePlugin = function () {
 		vertexBuffer  = _gl.createBuffer();
 		elementBuffer = _gl.createBuffer();
 
-        _gl.bindBuffer( Context3D.ARRAY_BUFFER, vertexBuffer );
-        _gl.bufferData( Context3D.ARRAY_BUFFER, vertices.typedArray(), Context3D.STATIC_DRAW );
+		_gl.bindBuffer( _gl.ARRAY_BUFFER, vertexBuffer );
+		_gl.bufferData( _gl.ARRAY_BUFFER, vertices.typedArray(), _gl.STATIC_DRAW );
 
-        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
-        _gl.bufferData( Context3D.ELEMENT_ARRAY_BUFFER, faces.typedArray(), Context3D.STATIC_DRAW );
+		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
+		_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faces.typedArray(), _gl.STATIC_DRAW );
 
 		program = createProgram();
 
@@ -66,8 +66,17 @@ THREE.SpritePlugin = function () {
 			alphaTest:			_gl.getUniformLocation( program, 'alphaTest' )
 		};
 
-        _texture = new THREE.Texture( undefined );
-        _texture.needsUpdate = true;
+		//var canvas = document.createElement( 'canvas' );
+		//canvas.width = 8;
+		//canvas.height = 8;
+
+		//var context = canvas.getContext( '2d' );
+		//context.fillStyle = '#ffffff';
+		//context.fillRect( 0, 0, canvas.width, canvas.height );
+
+		_texture = new THREE.Texture();
+		_texture.needsUpdate = true;
+
 	};
 
 	this.render = function ( scene, camera, viewportWidth, viewportHeight ) {
@@ -84,18 +93,18 @@ THREE.SpritePlugin = function () {
 		_gl.enableVertexAttribArray( attributes.position );
 		_gl.enableVertexAttribArray( attributes.uv );
 
-        _gl.disable( Context3D.CULL_FACE );
-        _gl.enable( Context3D.BLEND );
+		_gl.disable( _gl.CULL_FACE );
+		_gl.enable( _gl.BLEND );
 
-        _gl.bindBuffer( Context3D.ARRAY_BUFFER, vertexBuffer );
-        _gl.vertexAttribPointer( attributes.position, 2, Context3D.FLOAT, false, 2 * 8, 0 );
-        _gl.vertexAttribPointer( attributes.uv, 2, Context3D.FLOAT, false, 2 * 8, 8 );
+		_gl.bindBuffer( _gl.ARRAY_BUFFER, vertexBuffer );
+		_gl.vertexAttribPointer( attributes.position, 2, _gl.FLOAT, false, 2 * 8, 0 );
+		_gl.vertexAttribPointer( attributes.uv, 2, _gl.FLOAT, false, 2 * 8, 8 );
 
-        _gl.bindBuffer( Context3D.ELEMENT_ARRAY_BUFFER, elementBuffer );
+		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
-        _gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
+		_gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
 
-        _gl.activeTexture( Context3D.TEXTURE0 );
+		_gl.activeTexture( _gl.TEXTURE0 );
 		_gl.uniform1i( uniforms.map, 0 );
 
 		var oldFogType = 0;
@@ -163,7 +172,7 @@ THREE.SpritePlugin = function () {
 			material = sprite.material;
 
 			_gl.uniform1f( uniforms.alphaTest, material.alphaTest );
-            _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements.typedArray() );
+			_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
 
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;
@@ -217,13 +226,13 @@ THREE.SpritePlugin = function () {
 
 			}
 
-            _gl.drawElements( Context3D.TRIANGLES, 6, Context3D.UNSIGNED_SHORT, 0 );
+			_gl.drawElements( _gl.TRIANGLES, 6, _gl.UNSIGNED_SHORT, 0 );
 
 		}
 
 		// restore gl
 
-        _gl.enable( Context3D.CULL_FACE );
+		_gl.enable( _gl.CULL_FACE );
 
 	};
 
@@ -231,8 +240,8 @@ THREE.SpritePlugin = function () {
 
 		var program = _gl.createProgram();
 
-        var vertexShader = _gl.createShader( Context3D.VERTEX_SHADER );
-        var fragmentShader = _gl.createShader( Context3D.FRAGMENT_SHADER );
+		var vertexShader = _gl.createShader( _gl.VERTEX_SHADER );
+		var fragmentShader = _gl.createShader( _gl.FRAGMENT_SHADER );
 
 		_gl.shaderSource( vertexShader, [
 

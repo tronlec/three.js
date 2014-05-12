@@ -107,7 +107,7 @@ THREE.ImageUtils = {
 			
 			images[ i ] = cubeImage;
 		}
-
+		
 		return texture;
 
 	},

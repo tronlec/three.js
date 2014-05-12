@@ -55,7 +55,7 @@ THREE.DepthPassPlugin = function () {
 		// set GL state for depth map
 
 		_gl.clearColor( 1, 1, 1, 1 );
-		_gl.disable( Context3D.BLEND );
+		_gl.disable( _gl.BLEND );
 
 		_renderer.setDepthTest( true );
 
@@ -181,7 +181,7 @@ THREE.DepthPassPlugin = function () {
 		clearAlpha = _renderer.getClearAlpha();
 
 		_gl.clearColor( clearColor.r, clearColor.g, clearColor.b, clearAlpha );
-		_gl.enable( Context3D.BLEND );
+		_gl.enable( _gl.BLEND );
 
 	};
 

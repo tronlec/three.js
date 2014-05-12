@@ -224,6 +224,7 @@ THREE.FontUtils = {
 
 };
 
+
 THREE.FontUtils.generateShapes = function( text, parameters ) {
 
 	// Parameters 
@@ -283,7 +284,7 @@ THREE.FontUtils.process = function( contour, indices ) {
 
 	// takes in an contour array and returns
 
-    //var process = function( contour, indices ) {
+	//var process = function( contour, indices ) {
 
 		var n = contour.length;
 

@@ -70,7 +70,7 @@ THREE.Line3.prototype = {
 		var startP = new THREE.Vector3();
 		var startEnd = new THREE.Vector3();
 
-        //return function ( point, clampToLine ) {
+		//return function ( point, clampToLine ) {
 
 			startP.subVectors( point, this.start );
 			startEnd.subVectors( this.end, this.start );

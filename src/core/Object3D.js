@@ -253,9 +253,11 @@ THREE.Object3D.prototype = {
 
 	},
 
-    worldToLocal: function ( vector ) {
+	worldToLocal: function ( vector ) {
 
         var m1 = this._m1;
+
+		//return function ( vector ) {
 
 			return vector.applyMatrix4( m1.getInverse( this.matrixWorld ) );
 
@@ -267,11 +269,15 @@ THREE.Object3D.prototype = {
 
         var m1 = this._m1;
 
+		//return function ( vector ) {
+
 			m1.lookAt( vector, this.position, this.up );
 
 			this.quaternion.setFromRotationMatrix( m1 );
 
-    },
+		//};
+
+	},//(),
 
 	add: function ( object ) {
 

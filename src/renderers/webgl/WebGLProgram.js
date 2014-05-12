@@ -259,8 +259,8 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		}
 
-		var glVertexShader = new THREE.WebGLShader( _gl, Context3D.VERTEX_SHADER, prefix_vertex + vertexShader );
-		var glFragmentShader = new THREE.WebGLShader( _gl, Context3D.FRAGMENT_SHADER, prefix_fragment + fragmentShader );
+		var glVertexShader = new THREE.WebGLShader( _gl, _gl.VERTEX_SHADER, prefix_vertex + vertexShader );
+		var glFragmentShader = new THREE.WebGLShader( _gl, _gl.FRAGMENT_SHADER, prefix_fragment + fragmentShader );
 
 		_gl.attachShader( program, glVertexShader );
 		_gl.attachShader( program, glFragmentShader );
@@ -277,10 +277,10 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		_gl.linkProgram( program );
 
-		if ( _gl.getProgramParameter( program, Context3D.LINK_STATUS ) === false ) {
+		if ( _gl.getProgramParameter( program, _gl.LINK_STATUS ) === false ) {
 
 			console.error( 'Could not initialise shader' );
-			console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, Context3D.VALIDATE_STATUS ) );
+			console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, _gl.VALIDATE_STATUS ) );
 			console.error( 'gl.getError()', _gl.getError() );
 
 		}

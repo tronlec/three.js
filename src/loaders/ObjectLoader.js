@@ -209,7 +209,7 @@ THREE.ObjectLoader.prototype = {
 
 	},
 
-    parseObject: function (data, geometries, materials) {
+	parseObject: function ( data, geometries, materials ) {
 
 		var matrix = this.__matrix;
 

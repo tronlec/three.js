@@ -67,7 +67,7 @@ THREE.Box2.prototype = {
 
 	},
 
-    setFromCenterAndSize: function ( center, size ) {
+	setFromCenterAndSize: function ( center, size ) {
 
 		var v1 = new THREE.Vector2();
 

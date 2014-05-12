@@ -114,6 +114,7 @@ THREE.CameraHelper.prototype.update = function () {
     var camera = this._camera;
     var projector = this._projector;
 
+	//return function () {
 
 		var scope = this;
 
@@ -182,4 +183,6 @@ THREE.CameraHelper.prototype.update = function () {
 
 		this.geometry.verticesNeedUpdate = true;
 
-};
+	//};
+
+};//();

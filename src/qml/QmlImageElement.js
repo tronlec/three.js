@@ -13,43 +13,45 @@ function textureLoadError(texImage) {
 }
 
 function Image () {
-    this.crossOrigin = undefined;
-    this._src = undefined;
-    this._onSuccessCallback  = undefined;
-    this._onProgressCallback = undefined;
-    this._onErrorCallback    = undefined;
-    this._width  = 0;
-    this._height = 0;
-    this._texImage = undefined;
-
     // Setup mapping between the native QObject image and this image
-    var _this = this;
+    var _self = this;
 
-    this.__defineGetter__("src", function(){
-        return _this._src;
+    _self.crossOrigin = undefined;
+    _self._src = undefined;
+    _self._onSuccessCallback  = undefined;
+    _self._onProgressCallback = undefined;
+    _self._onErrorCallback    = undefined;
+    _self._width  = 0;
+    _self._height = 0;
+    _self._texImage = undefined;
+
+
+    _self.__defineGetter__("src", function(){
+        return _self._src;
     });
 
-    this.__defineSetter__("src", function(url){
-        if (url && url !== '' && url !== _this._src) {
-            _this._texImage = textureImageLoader.loadTexture(url);
-            __texImageToImageMap[""+_this._texImage.id()] = _this;
+    _self.__defineSetter__("src", function(url){
+        if (url && url !== '' && url !== _self._src) {
+            _self._texImage = textureImageLoader.loadTexture(url);
+            _self._texImage.name = url;
+            __texImageToImageMap[""+_self._texImage.id()] = _self;
         }
-        this._src = url;
+        _self._src = url;
     });
 
-    this.__defineGetter__("width", function(){
-        return (_this._texImage !== undefined)?_this._texImage.width:0;
+    _self.__defineGetter__("width", function(){
+        return (_self._texImage !== undefined)?_self._texImage.width:0;
     });
 
-    this.__defineSetter__("width", function(url){
+    _self.__defineSetter__("width", function(url){
         console.log("TODO: Implement image resize");
     });
 
-    this.__defineGetter__("height", function(){
-        return (_this._texImage !== undefined)?_this._texImage.height:0;
+    _self.__defineGetter__("height", function(){
+        return (_self._texImage !== undefined)?_self._texImage.height:0;
     });
 
-    this.__defineSetter__("height", function(url){
+    _self.__defineSetter__("height", function(url){
         console.log("TODO: Implement image resize");
     });
 };

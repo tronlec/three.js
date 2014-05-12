@@ -4955,7 +4955,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else if ( type === "m3") { // single THREE.Matrix3
 
-				_gl.uniformMatrix3fv( location, false, value.elements );
+                _gl.uniformMatrix3fv( location, false, value.elements.typedArray() );
 
 			} else if ( type === "m3v" ) { // array of THREE.Matrix3
 
