@@ -6233,8 +6233,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// default plugins (order is important)
 
-//    this.shadowMapPlugin = new THREE.ShadowMapPlugin();
-//    this.addPrePlugin( this.shadowMapPlugin );
+    this.shadowMapPlugin = new THREE.ShadowMapPlugin();
+    this.addPrePlugin( this.shadowMapPlugin );
 
 //    this.addPostPlugin( new THREE.SpritePlugin() );
 //    this.addPostPlugin( new THREE.LensFlarePlugin() );
