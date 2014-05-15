@@ -626,7 +626,6 @@ var __texImageToImageMap = {};
 
 function textureLoaded(texImage) {
     var target = __texImageToImageMap[""+texImage.id()];
-    console.log("loaded tex image "+texImage.id()+" has target "+target);
     if (target)
         target.notifySuccess(texImage);
 }
@@ -6465,7 +6464,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				}
 
 				_gl.activeTexture( _gl.TEXTURE0 + slot );
-                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube.texImage() );
+                _gl.bindTexture( Context3D.TEXTURE_CUBE_MAP, texture.image.__webglTextureCube );
 
                 _gl.pixelStorei( Context3D.UNPACK_FLIP_Y_WEBGL, texture.flipY );
 
