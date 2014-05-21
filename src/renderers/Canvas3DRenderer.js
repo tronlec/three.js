@@ -4531,7 +4531,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( p_uniforms.modelMatrix !== null ) {
 
-			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray );
+            _gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray() );
 
 		}
 
@@ -4966,7 +4966,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( !texture ) continue;
 
 				if ( texture.image instanceof Array && texture.image.length === 6 ) {
-
+                    console.log("Recognized cube texture");
 					setCubeTexture( texture, textureUnit );
 
 				} else if ( texture instanceof THREE.WebGLRenderTargetCube ) {
@@ -5668,7 +5668,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( ! texture.image.__webglTextureCube ) {
 
 					texture.addEventListener( 'dispose', onTextureDispose );
-
+                    console.log("Create texture.image.__webglTextureCube");
 					texture.image.__webglTextureCube = _gl.createTexture();
 
 					_this.info.memory.textures ++;
@@ -5708,7 +5708,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					if( !isCompressed ) {
-
+                        console.log("_gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + " + i + ", 0, " + glFormat + ", " + glFormat + ", " + glType + ", "+cubeImage[ i ].texImage()+")");
                         _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 					} else {
