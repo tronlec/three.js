@@ -10,7 +10,7 @@ THREE.HemisphereLightHelper = function ( light, sphereSize, arrowLength, domeSiz
 	this.light = light;
 	this.light.updateMatrixWorld();
 
-	this.matrixWorld = light.matrixWorld;
+	this.matrix = light.matrixWorld;
 	this.matrixAutoUpdate = false;
 
 	this.colors = [ new THREE.Color(), new THREE.Color() ];
@@ -30,7 +30,6 @@ THREE.HemisphereLightHelper = function ( light, sphereSize, arrowLength, domeSiz
 	this.add( this.lightSphere );
 
 	this.update();
-    this._vector = new THREE.Vector3();
 
 };
 
@@ -43,7 +42,7 @@ THREE.HemisphereLightHelper.prototype.dispose = function () {
 
 THREE.HemisphereLightHelper.prototype.update = function () {
 
-	var vector = this._vector;
+	var vector = new THREE.Vector3();
 
 	//return function () {
 
@@ -56,4 +55,3 @@ THREE.HemisphereLightHelper.prototype.update = function () {
 	//}
 
 };
-

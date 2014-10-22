@@ -65,7 +65,7 @@ THREE.Line3.prototype = {
 
 	},
 
-	closestPointToPointParameter: function( point, clampToLine ) {
+	closestPointToPointParameter: function ( point, clampToLine ) {
 
 		var startP = new THREE.Vector3();
 		var startEnd = new THREE.Vector3();

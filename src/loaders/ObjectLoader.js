@@ -22,7 +22,7 @@ THREE.ObjectLoader.prototype = {
 
 			onLoad( scope.parse( JSON.parse( text ) ) );
 
-		} );
+		}, onProgress, onError );
 
 	},
 
@@ -70,7 +70,7 @@ THREE.ObjectLoader.prototype = {
 						break;
 
 					case 'BoxGeometry':
-					case 'CubeGeometry': // DEPRECATED
+					case 'CubeGeometry': // backwards compatible
 
 						geometry = new THREE.BoxGeometry(
 							data.width,
@@ -302,6 +302,12 @@ THREE.ObjectLoader.prototype = {
 
 					break;
 
+				case 'Group':
+
+					object = new THREE.Group();
+
+					break;
+
 				default:
 
 					object = new THREE.Object3D();
@@ -339,8 +345,8 @@ THREE.ObjectLoader.prototype = {
 
 			return object;
 
-		}
+		//}
 
-	//}()
+	}
 
 };

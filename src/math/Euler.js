@@ -9,7 +9,6 @@ THREE.Euler = function ( x, y, z, order ) {
 	this._x = x || 0;
 	this._y = y || 0;
 	this._z = z || 0;
-    this.__q = new THREE.Quaternion();
 	this._order = order || THREE.Euler.DefaultOrder;
 
     this.__defineGetter__("x", function(){
@@ -17,7 +16,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("x", function(value){
         this._x = value;
-        this.onChangeCallback();
+		this.onChangeCallback();
     });
 
     this.__defineGetter__("y", function(){
@@ -25,7 +24,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("y", function(value){
         this._y = value;
-        this.onChangeCallback();
+		this.onChangeCallback();
     });
 
     this.__defineGetter__("z", function(){
@@ -33,7 +32,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("z", function(value){
         this._z = value;
-        this.onChangeCallback();
+		this.onChangeCallback();
     });
 
     this.__defineGetter__("order", function(){
@@ -41,7 +40,7 @@ THREE.Euler = function ( x, y, z, order ) {
     });
     this.__defineSetter__("order", function(value){
         this._order = value;
-        this.onChangeCallback();
+		this.onChangeCallback();
     });
 };
 
@@ -88,15 +87,15 @@ THREE.Euler.prototype = {
 		// assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
 		var te = m.elements;
-		var m11 = te[0], m12 = te[4], m13 = te[8];
-		var m21 = te[1], m22 = te[5], m23 = te[9];
-		var m31 = te[2], m32 = te[6], m33 = te[10];
+		var m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ];
+		var m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ];
+		var m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
 
 		order = order || this._order;
 
 		if ( order === 'XYZ' ) {
 
-			this._y = Math.asin( clamp( m13, -1, 1 ) );
+			this._y = Math.asin( clamp( m13, - 1, 1 ) );
 
 			if ( Math.abs( m13 ) < 0.99999 ) {
 
@@ -112,7 +111,7 @@ THREE.Euler.prototype = {
 
 		} else if ( order === 'YXZ' ) {
 
-			this._x = Math.asin( - clamp( m23, -1, 1 ) );
+			this._x = Math.asin( - clamp( m23, - 1, 1 ) );
 
 			if ( Math.abs( m23 ) < 0.99999 ) {
 
@@ -128,7 +127,7 @@ THREE.Euler.prototype = {
 
 		} else if ( order === 'ZXY' ) {
 
-			this._x = Math.asin( clamp( m32, -1, 1 ) );
+			this._x = Math.asin( clamp( m32, - 1, 1 ) );
 
 			if ( Math.abs( m32 ) < 0.99999 ) {
 
@@ -144,7 +143,7 @@ THREE.Euler.prototype = {
 
 		} else if ( order === 'ZYX' ) {
 
-			this._y = Math.asin( - clamp( m31, -1, 1 ) );
+			this._y = Math.asin( - clamp( m31, - 1, 1 ) );
 
 			if ( Math.abs( m31 ) < 0.99999 ) {
 
@@ -160,7 +159,7 @@ THREE.Euler.prototype = {
 
 		} else if ( order === 'YZX' ) {
 
-			this._z = Math.asin( clamp( m21, -1, 1 ) );
+			this._z = Math.asin( clamp( m21, - 1, 1 ) );
 
 			if ( Math.abs( m21 ) < 0.99999 ) {
 
@@ -176,7 +175,7 @@ THREE.Euler.prototype = {
 
 		} else if ( order === 'XZY' ) {
 
-			this._z = Math.asin( - clamp( m12, -1, 1 ) );
+			this._z = Math.asin( - clamp( m12, - 1, 1 ) );
 
 			if ( Math.abs( m12 ) < 0.99999 ) {
 
@@ -192,7 +191,7 @@ THREE.Euler.prototype = {
 
 		} else {
 
-			console.warn( 'WARNING: Euler.setFromRotationMatrix() given unsupported order: ' + order )
+			console.warn( 'THREE.Euler: .setFromRotationMatrix() given unsupported order: ' + order )
 
 		}
 
@@ -222,42 +221,42 @@ THREE.Euler.prototype = {
 		if ( order === 'XYZ' ) {
 
 			this._x = Math.atan2( 2 * ( q.x * q.w - q.y * q.z ), ( sqw - sqx - sqy + sqz ) );
-			this._y = Math.asin(  clamp( 2 * ( q.x * q.z + q.y * q.w ), -1, 1 ) );
+			this._y = Math.asin(  clamp( 2 * ( q.x * q.z + q.y * q.w ), - 1, 1 ) );
 			this._z = Math.atan2( 2 * ( q.z * q.w - q.x * q.y ), ( sqw + sqx - sqy - sqz ) );
 
 		} else if ( order ===  'YXZ' ) {
 
-			this._x = Math.asin(  clamp( 2 * ( q.x * q.w - q.y * q.z ), -1, 1 ) );
+			this._x = Math.asin(  clamp( 2 * ( q.x * q.w - q.y * q.z ), - 1, 1 ) );
 			this._y = Math.atan2( 2 * ( q.x * q.z + q.y * q.w ), ( sqw - sqx - sqy + sqz ) );
 			this._z = Math.atan2( 2 * ( q.x * q.y + q.z * q.w ), ( sqw - sqx + sqy - sqz ) );
 
 		} else if ( order === 'ZXY' ) {
 
-			this._x = Math.asin(  clamp( 2 * ( q.x * q.w + q.y * q.z ), -1, 1 ) );
+			this._x = Math.asin(  clamp( 2 * ( q.x * q.w + q.y * q.z ), - 1, 1 ) );
 			this._y = Math.atan2( 2 * ( q.y * q.w - q.z * q.x ), ( sqw - sqx - sqy + sqz ) );
 			this._z = Math.atan2( 2 * ( q.z * q.w - q.x * q.y ), ( sqw - sqx + sqy - sqz ) );
 
 		} else if ( order === 'ZYX' ) {
 
 			this._x = Math.atan2( 2 * ( q.x * q.w + q.z * q.y ), ( sqw - sqx - sqy + sqz ) );
-			this._y = Math.asin(  clamp( 2 * ( q.y * q.w - q.x * q.z ), -1, 1 ) );
+			this._y = Math.asin(  clamp( 2 * ( q.y * q.w - q.x * q.z ), - 1, 1 ) );
 			this._z = Math.atan2( 2 * ( q.x * q.y + q.z * q.w ), ( sqw + sqx - sqy - sqz ) );
 
 		} else if ( order === 'YZX' ) {
 
 			this._x = Math.atan2( 2 * ( q.x * q.w - q.z * q.y ), ( sqw - sqx + sqy - sqz ) );
 			this._y = Math.atan2( 2 * ( q.y * q.w - q.x * q.z ), ( sqw + sqx - sqy - sqz ) );
-			this._z = Math.asin(  clamp( 2 * ( q.x * q.y + q.z * q.w ), -1, 1 ) );
+			this._z = Math.asin(  clamp( 2 * ( q.x * q.y + q.z * q.w ), - 1, 1 ) );
 
 		} else if ( order === 'XZY' ) {
 
 			this._x = Math.atan2( 2 * ( q.x * q.w + q.y * q.z ), ( sqw - sqx + sqy - sqz ) );
 			this._y = Math.atan2( 2 * ( q.x * q.z + q.y * q.w ), ( sqw + sqx - sqy - sqz ) );
-			this._z = Math.asin(  clamp( 2 * ( q.z * q.w - q.x * q.y ), -1, 1 ) );
+			this._z = Math.asin(  clamp( 2 * ( q.z * q.w - q.x * q.y ), - 1, 1 ) );
 
 		} else {
 
-			console.warn( 'WARNING: Euler.setFromQuaternion() given unsupported order: ' + order )
+			console.warn( 'THREE.Euler: .setFromQuaternion() given unsupported order: ' + order )
 
 		}
 
@@ -269,21 +268,21 @@ THREE.Euler.prototype = {
 
 	},
 
-	reorder: function ( newOrder ) {
+	reorder: function () {
 
 		// WARNING: this discards revolution information -bhouston
 
-		var q = this.__q;
+		var q = new THREE.Quaternion();
 
-		//return function ( newOrder ) {
+		return function ( newOrder ) {
 
 			q.setFromEuler( this );
 			this.setFromQuaternion( q, newOrder );
 
-		//};
+		};
 
 
-	},
+	}(),
 
 	equals: function ( euler ) {
 

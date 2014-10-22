@@ -7,7 +7,9 @@ THREE.SpritePlugin = function () {
 
 	var _gl, _renderer, _texture;
 
-	var vertices, faces, vertexBuffer, elementBuffer;
+	var sprites = [];
+
+	var vertexBuffer, elementBuffer;
 	var program, attributes, uniforms;
 
 	this.init = function ( renderer ) {
@@ -15,14 +17,14 @@ THREE.SpritePlugin = function () {
 		_gl = renderer.context;
 		_renderer = renderer;
 
-		vertices = new Float32Array( [
-			- 0.5, - 0.5, 0, 0, 
-			  0.5, - 0.5, 1, 0,
-			  0.5,   0.5, 1, 1,
-			- 0.5,   0.5, 0, 1
+		var vertices = new Float32Array( [
+			- 0.5, - 0.5,  0, 0,
+			  0.5, - 0.5,  1, 0,
+			  0.5,   0.5,  1, 1,
+			- 0.5,   0.5,  0, 1
 		] );
 
-		faces = new Uint16Array( [
+		var faces = new Uint16Array( [
 			0, 1, 2,
 			0, 2, 3
 		] );
@@ -31,10 +33,10 @@ THREE.SpritePlugin = function () {
 		elementBuffer = _gl.createBuffer();
 
 		_gl.bindBuffer( _gl.ARRAY_BUFFER, vertexBuffer );
-		_gl.bufferData( _gl.ARRAY_BUFFER, vertices.typedArray(), _gl.STATIC_DRAW );
+		_gl.bufferData( _gl.ARRAY_BUFFER, vertices, _gl.STATIC_DRAW );
 
 		_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
-		_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faces.typedArray(), _gl.STATIC_DRAW );
+		_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faces, _gl.STATIC_DRAW );
 
 		program = createProgram();
 
@@ -66,25 +68,34 @@ THREE.SpritePlugin = function () {
 			alphaTest:			_gl.getUniformLocation( program, 'alphaTest' )
 		};
 
-		//var canvas = document.createElement( 'canvas' );
-		//canvas.width = 8;
-		//canvas.height = 8;
+		var canvas = document.createElement( 'canvas' );
+		canvas.width = 8;
+		canvas.height = 8;
 
-		//var context = canvas.getContext( '2d' );
-		//context.fillStyle = '#ffffff';
-		//context.fillRect( 0, 0, canvas.width, canvas.height );
+		var context = canvas.getContext( '2d' );
+		context.fillStyle = 'white';
+		context.fillRect( 0, 0, 8, 8 );
 
-		_texture = new THREE.Texture();
+		_texture = new THREE.Texture( canvas );
 		_texture.needsUpdate = true;
 
 	};
 
 	this.render = function ( scene, camera, viewportWidth, viewportHeight ) {
 
-		var sprites = scene.__webglSprites,
-			nSprites = sprites.length;
+		sprites.length = 0;
 
-		if ( ! nSprites ) return;
+		scene.traverseVisible( function ( child ) {
+
+			if ( child instanceof THREE.Sprite ) {
+
+				sprites.push( child );
+
+			}
+
+		} );
+
+		if ( sprites.length === 0 ) return;
 
 		// setup gl
 
@@ -145,14 +156,10 @@ THREE.SpritePlugin = function () {
 
 		// update positions and sort
 
-		var i, sprite, material, fogType, scale = [];
+		for ( var i = 0, l = sprites.length; i < l; i ++ ) {
 
-		for( i = 0; i < nSprites; i ++ ) {
-
-			sprite = sprites[ i ];
-			material = sprite.material;
-
-			if ( sprite.visible === false ) continue;
+			var sprite = sprites[ i ];
+			var material = sprite.material;
 
 			sprite._modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, sprite.matrixWorld );
 			sprite.z = - sprite._modelViewMatrix.elements[ 14 ];
@@ -163,13 +170,12 @@ THREE.SpritePlugin = function () {
 
 		// render all sprites
 
-		for( i = 0; i < nSprites; i ++ ) {
+		var scale = [];
 
-			sprite = sprites[ i ];
+		for ( var i = 0, l = sprites.length; i < l; i ++ ) {
 
-			if ( sprite.visible === false ) continue;
-
-			material = sprite.material;
+			var sprite = sprites[ i ];
+			var material = sprite.material;
 
 			_gl.uniform1f( uniforms.alphaTest, material.alphaTest );
 			_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
@@ -177,13 +183,11 @@ THREE.SpritePlugin = function () {
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;
 
+			var fogType = 0;
+
 			if ( scene.fog && material.fog ) {
 
 				fogType = sceneFogType;
-
-			} else {
-
-				fogType = 0;
 
 			}
 
@@ -233,6 +237,8 @@ THREE.SpritePlugin = function () {
 		// restore gl
 
 		_gl.enable( _gl.CULL_FACE );
+		
+		_renderer.resetGLState();
 
 	};
 

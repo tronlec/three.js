@@ -4,17 +4,12 @@
 
 THREE.IcosahedronGeometry = function ( radius, detail ) {
 
-	this.parameters = {
-		radius: radius,
-		detail: detail
-	};
-
 	var t = ( 1 + Math.sqrt( 5 ) ) / 2;
 
 	var vertices = [
-		-1,  t,  0,    1,  t,  0,   -1, -t,  0,    1, -t,  0,
-		 0, -1,  t,    0,  1,  t,    0, -1, -t,    0,  1, -t,
-		 t,  0, -1,    t,  0,  1,   -t,  0, -1,   -t,  0,  1
+		- 1,  t,  0,    1,  t,  0,   - 1, - t,  0,    1, - t,  0,
+		 0, - 1,  t,    0,  1,  t,    0, - 1, - t,    0,  1, - t,
+		 t,  0, - 1,    t,  0,  1,   - t,  0, - 1,   - t,  0,  1
 	];
 
 	var indices = [
@@ -26,6 +21,12 @@ THREE.IcosahedronGeometry = function ( radius, detail ) {
 
 	THREE.PolyhedronGeometry.call( this, vertices, indices, radius, detail );
 
+	this.type = 'IcosahedronGeometry';
+
+	this.parameters = {
+		radius: radius,
+		detail: detail
+	};
 };
 
 THREE.IcosahedronGeometry.prototype = Object.create( THREE.Geometry.prototype );

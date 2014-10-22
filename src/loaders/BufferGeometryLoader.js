@@ -22,7 +22,7 @@ THREE.BufferGeometryLoader.prototype = {
 
 			onLoad( scope.parse( JSON.parse( text ) ) );
 
-		} );
+		}, onProgress, onError );
 
 	},
 
@@ -37,25 +37,25 @@ THREE.BufferGeometryLoader.prototype = {
 		var geometry = new THREE.BufferGeometry();
 
 		var attributes = json.attributes;
-		var offsets = json.offsets;
-		var boundingSphere = json.boundingSphere;
 
 		for ( var key in attributes ) {
 
 			var attribute = attributes[ key ];
+			var typedArray = new self[ attribute.type ]( attribute.array );
 
-			geometry.attributes[ key ] = {
-				itemSize: attribute.itemSize,
-				array: new self[ attribute.type ]( attribute.array )
-			}
+			geometry.addAttribute( key, new THREE.BufferAttribute( typedArray, attribute.itemSize ) );
 
 		}
+
+		var offsets = json.offsets;
 
 		if ( offsets !== undefined ) {
 
 			geometry.offsets = JSON.parse( JSON.stringify( offsets ) );
 
 		}
+
+		var boundingSphere = json.boundingSphere;
 
 		if ( boundingSphere !== undefined ) {
 

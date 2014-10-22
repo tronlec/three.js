@@ -94,13 +94,10 @@ THREE.CameraHelper = function ( camera ) {
 	THREE.Line.call( this, geometry, material, THREE.LinePieces );
 
 	this.camera = camera;
-	this.matrixWorld = camera.matrixWorld;
+	this.matrix = camera.matrixWorld;
 	this.matrixAutoUpdate = false;
 
 	this.pointMap = pointMap;
-    this._vector = new THREE.Vector3();
-    this._camera = new THREE.Camera();
-    this._projector = new THREE.Projector();
 
 	this.update();
 
@@ -110,9 +107,8 @@ THREE.CameraHelper.prototype = Object.create( THREE.Line.prototype );
 
 THREE.CameraHelper.prototype.update = function () {
 
-    var vector = this._vector;
-    var camera = this._camera;
-    var projector = this._projector;
+	var vector = new THREE.Vector3();
+	var camera = new THREE.Camera();
 
 	//return function () {
 
@@ -127,45 +123,44 @@ THREE.CameraHelper.prototype.update = function () {
 
 		// center / target
 
-		setPoint( "c", 0, 0, -1 );
+		setPoint( "c", 0, 0, - 1 );
 		setPoint( "t", 0, 0,  1 );
 
 		// near
 
-		setPoint( "n1", -w, -h, -1 );
-		setPoint( "n2",  w, -h, -1 );
-		setPoint( "n3", -w,  h, -1 );
-		setPoint( "n4",  w,  h, -1 );
+		setPoint( "n1", - w, - h, - 1 );
+		setPoint( "n2",  w, - h, - 1 );
+		setPoint( "n3", - w,  h, - 1 );
+		setPoint( "n4",  w,  h, - 1 );
 
 		// far
 
-		setPoint( "f1", -w, -h, 1 );
-		setPoint( "f2",  w, -h, 1 );
-		setPoint( "f3", -w,  h, 1 );
+		setPoint( "f1", - w, - h, 1 );
+		setPoint( "f2",  w, - h, 1 );
+		setPoint( "f3", - w,  h, 1 );
 		setPoint( "f4",  w,  h, 1 );
 
 		// up
 
-		setPoint( "u1",  w * 0.7, h * 1.1, -1 );
-		setPoint( "u2", -w * 0.7, h * 1.1, -1 );
-		setPoint( "u3",        0, h * 2,   -1 );
+		setPoint( "u1",  w * 0.7, h * 1.1, - 1 );
+		setPoint( "u2", - w * 0.7, h * 1.1, - 1 );
+		setPoint( "u3",        0, h * 2,   - 1 );
 
 		// cross
 
-		setPoint( "cf1", -w,  0, 1 );
+		setPoint( "cf1", - w,  0, 1 );
 		setPoint( "cf2",  w,  0, 1 );
-		setPoint( "cf3",  0, -h, 1 );
+		setPoint( "cf3",  0, - h, 1 );
 		setPoint( "cf4",  0,  h, 1 );
 
-		setPoint( "cn1", -w,  0, -1 );
-		setPoint( "cn2",  w,  0, -1 );
-		setPoint( "cn3",  0, -h, -1 );
-		setPoint( "cn4",  0,  h, -1 );
+		setPoint( "cn1", - w,  0, - 1 );
+		setPoint( "cn2",  w,  0, - 1 );
+		setPoint( "cn3",  0, - h, - 1 );
+		setPoint( "cn4",  0,  h, - 1 );
 
 		function setPoint( point, x, y, z ) {
 
-			vector.set( x, y, z );
-			projector.unprojectVector( vector, camera );
+			vector.set( x, y, z ).unproject( camera );
 
 			var points = scope.pointMap[ point ];
 
@@ -185,4 +180,4 @@ THREE.CameraHelper.prototype.update = function () {
 
 	//};
 
-};//();
+};

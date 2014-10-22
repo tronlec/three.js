@@ -14,6 +14,7 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 	};
 
+	//return function ( gl, type, string ) {
 
 		var shader = gl.createShader( type ); 
 
@@ -28,8 +29,8 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 		if ( gl.getShaderInfoLog( shader ) !== '' ) {
 
-			console.error( 'THREE.WebGLShader:', 'gl.getShaderInfoLog()', gl.getShaderInfoLog( shader ) );
-			console.error( addLineNumbers( string ) );
+			console.warn( 'THREE.WebGLShader: gl.getShaderInfoLog()', gl.getShaderInfoLog( shader ) );
+			console.warn( addLineNumbers( string ) );
 
 		}
 
@@ -38,4 +39,6 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 		return shader;
 
-	};
+	//};
+
+};
