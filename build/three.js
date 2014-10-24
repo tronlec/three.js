@@ -787,7 +787,7 @@ var debug_renderer = true;
 
 THREE.Canvas3DRenderer = function ( parameters ) {
 
-	console.log( 'THREE.WebGLRenderer', THREE.REVISION );
+    console.log( 'THREE.Canvas3DRenderer', THREE.REVISION );
 
 	parameters = parameters || {};
 
@@ -999,7 +999,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	};
 
 	// initialize
-    var _gl, _glshim;
+    var _gl;
 
 	var _glExtensionTextureFloat;
 	var _glExtensionTextureFloatLinear;
@@ -1691,7 +1691,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			normalType = bufferGuessNormalType( material ),
 			vertexColorType = bufferGuessVertexColorType( material );
 
-		// console.log( "uvType", uvType, "normalType", normalType, "vertexColorType", vertexColorType, object, geometryGroup, material );
 
 		geometryGroup.__vertexArray = new Float32Array( nvertices * 3 );
         geometryGroup.__vertexArray.name = "geometryGroup.__vertexArray";
@@ -5744,7 +5743,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( !texture ) continue;
 
 				if ( texture.image instanceof Array && texture.image.length === 6 ) {
-                    console.log("Recognized cube texture");
 					setCubeTexture( texture, textureUnit );
 
 				} else if ( texture instanceof THREE.WebGLRenderTargetCube ) {
@@ -6446,7 +6444,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( ! texture.image.__webglTextureCube ) {
 
 					texture.addEventListener( 'dispose', onTextureDispose );
-                    console.log("Create texture.image.__webglTextureCube");
 					texture.image.__webglTextureCube = _gl.createTexture();
 
 					_this.info.memory.textures ++;
@@ -6486,7 +6483,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					if( !isCompressed ) {
-                        console.log("_gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + " + i + ", 0, " + glFormat + ", " + glFormat + ", " + glType + ", "+cubeImage[ i ].texImage()+")");
                         _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 					} else {
@@ -6918,7 +6914,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			};
 
 			_gl = _context || _canvas.getContext( 'webgl', attributes ) || _canvas.getContext( 'experimental-webgl', attributes );
-            _glshim = new ContextShim(_gl);
 			if ( _gl === null ) {
 
 				throw 'Error creating WebGL context.';
@@ -7024,8 +7019,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
  * @author Larry Battle / http://bateru.com/news
  * @author bhouston / http://exocortex.com
  */
-
-console.log("THREE Start");
 
 function THREE() {
 };
@@ -17922,8 +17915,6 @@ THREE.Loader.prototype = {
 			else if ( shading === "basic" ) mtype = "MeshBasicMaterial";
 
 		}
-
-        console.log("Material type "+mtype);
 
 		if ( m.blending !== undefined && THREE[ m.blending ] !== undefined ) {
 
@@ -33367,8 +33358,6 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		}
 
-        console.log( "building new program " );
-
 		//
 
 		var customDefines = generateDefines( defines );
@@ -34822,7 +34811,6 @@ THREE.SceneUtils = {
  *		http://www.sakri.net/blog/2009/06/12/an-approach-to-triangulating-polygons-with-holes/
  *
  */
-console.log("FontUtils Start");
 
 THREE.FontUtils = {
 
@@ -35253,8 +35241,6 @@ var EPSILON = 0.0000000001;
 
 // To use the typeface.js face files, hook up the API
 THREE.typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-
-console.log("FontUtils Done");
 
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
@@ -40368,7 +40354,6 @@ THREE.SphereGeometry = function ( radius, widthSegments, heightSegments, phiStar
 };
 
 THREE.SphereGeometry.prototype = Object.create( THREE.Geometry.prototype );
-console.log("THREE END");
 
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
@@ -43257,7 +43242,6 @@ THREE.ShadowMapPlugin = function () {
 	_matrixPosition = new THREE.Vector3();
 
 	this.init = function ( renderer ) {
-        console.log("init ShadowMapPlugin");
 		_gl = renderer.context;
 		_renderer = renderer;
 
@@ -44479,8 +44463,6 @@ THREE.ShaderFlares = {
  * @author Larry Battle / http://bateru.com/news
  * @author bhouston / http://exocortex.com
  */
-
-console.log("THREE Start");
 
 function THREE() {
 };

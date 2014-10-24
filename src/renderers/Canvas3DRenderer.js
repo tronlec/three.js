@@ -9,7 +9,7 @@ var debug_renderer = true;
 
 THREE.Canvas3DRenderer = function ( parameters ) {
 
-	console.log( 'THREE.WebGLRenderer', THREE.REVISION );
+    console.log( 'THREE.Canvas3DRenderer', THREE.REVISION );
 
 	parameters = parameters || {};
 
@@ -221,7 +221,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	};
 
 	// initialize
-    var _gl, _glshim;
+    var _gl;
 
 	var _glExtensionTextureFloat;
 	var _glExtensionTextureFloatLinear;
@@ -913,7 +913,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			normalType = bufferGuessNormalType( material ),
 			vertexColorType = bufferGuessVertexColorType( material );
 
-		// console.log( "uvType", uvType, "normalType", normalType, "vertexColorType", vertexColorType, object, geometryGroup, material );
 
 		geometryGroup.__vertexArray = new Float32Array( nvertices * 3 );
         geometryGroup.__vertexArray.name = "geometryGroup.__vertexArray";
@@ -4966,7 +4965,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( !texture ) continue;
 
 				if ( texture.image instanceof Array && texture.image.length === 6 ) {
-                    console.log("Recognized cube texture");
 					setCubeTexture( texture, textureUnit );
 
 				} else if ( texture instanceof THREE.WebGLRenderTargetCube ) {
@@ -5668,7 +5666,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( ! texture.image.__webglTextureCube ) {
 
 					texture.addEventListener( 'dispose', onTextureDispose );
-                    console.log("Create texture.image.__webglTextureCube");
 					texture.image.__webglTextureCube = _gl.createTexture();
 
 					_this.info.memory.textures ++;
@@ -5708,7 +5705,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					if( !isCompressed ) {
-                        console.log("_gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + " + i + ", 0, " + glFormat + ", " + glFormat + ", " + glType + ", "+cubeImage[ i ].texImage()+")");
                         _gl.texImage2D( Context3D.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 					} else {
@@ -6140,7 +6136,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			};
 
 			_gl = _context || _canvas.getContext( 'webgl', attributes ) || _canvas.getContext( 'experimental-webgl', attributes );
-            _glshim = new ContextShim(_gl);
 			if ( _gl === null ) {
 
 				throw 'Error creating WebGL context.';

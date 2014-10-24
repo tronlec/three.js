@@ -4,8 +4,6 @@
  * @author bhouston / http://exocortex.com
  */
 
-console.log("THREE Start");
-
 function THREE() {
 };
 

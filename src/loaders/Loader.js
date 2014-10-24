@@ -189,8 +189,6 @@ THREE.Loader.prototype = {
 
 		}
 
-        console.log("Material type "+mtype);
-
 		if ( m.blending !== undefined && THREE[ m.blending ] !== undefined ) {
 
 			mpars.blending = THREE[ m.blending ];

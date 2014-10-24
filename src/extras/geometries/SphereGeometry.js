@@ -98,4 +98,3 @@ THREE.SphereGeometry = function ( radius, widthSegments, heightSegments, phiStar
 };
 
 THREE.SphereGeometry.prototype = Object.create( THREE.Geometry.prototype );
-console.log("THREE END");

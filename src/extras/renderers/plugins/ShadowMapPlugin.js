@@ -17,7 +17,6 @@ THREE.ShadowMapPlugin = function () {
 	_matrixPosition = new THREE.Vector3();
 
 	this.init = function ( renderer ) {
-        console.log("init ShadowMapPlugin");
 		_gl = renderer.context;
 		_renderer = renderer;
 

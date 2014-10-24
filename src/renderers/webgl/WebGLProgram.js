@@ -83,8 +83,6 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		}
 
-        console.log( "building new program " );
-
 		//
 
 		var customDefines = generateDefines( defines );

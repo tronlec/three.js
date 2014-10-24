@@ -18,7 +18,6 @@
  *		http://www.sakri.net/blog/2009/06/12/an-approach-to-triangulating-polygons-with-holes/
  *
  */
-console.log("FontUtils Start");
 
 THREE.FontUtils = {
 
@@ -449,5 +448,3 @@ var EPSILON = 0.0000000001;
 
 // To use the typeface.js face files, hook up the API
 THREE.typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-
-console.log("FontUtils Done");
