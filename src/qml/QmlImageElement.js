@@ -64,10 +64,6 @@ Image.prototype = {
         if (this._onSuccessCallback !== undefined) {
             this._onSuccessCallback(new Event());
         }
-
-        if (this.onload !== undefined) {
-            this.onload(new Event());
-        }
     },
 
     notifyProgress: function(image) {

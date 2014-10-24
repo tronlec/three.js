@@ -624,18 +624,6 @@ Uint8ClampedArray.prototype = {
 
 var __texImageToImageMap = {};
 
-function textureLoaded(texImage) {
-    var target = __texImageToImageMap[""+texImage.id()];
-    if (target)
-        target.notifySuccess(texImage);
-}
-
-function textureLoadError(texImage) {
-    var target = __texImageToImageMap[""+texImage.id()];
-    if (target)
-        target.notifyError(texImage);
-}
-
 function Image () {
     this.crossOrigin = undefined;
     this._src = undefined;
@@ -644,10 +632,14 @@ function Image () {
     this._onErrorCallback    = undefined;
     this._width  = 0;
     this._height = 0;
-    this._texImage = undefined;
+    this._texImage = TextureImageFactory.newTexImage();
+    __texImageToImageMap[""+this._texImage.id()] = this;
 
     // Setup mapping between the native QObject image and this image
     var _this = this;
+
+    this._texImage.imageLoaded.connect(function() { _this.notifySuccess() });
+    this._texImage.imageLoadingFailed.connect(function() { _this.notifyError() });
 
     this.__defineGetter__("src", function(){
         return _this._src;
@@ -655,8 +647,7 @@ function Image () {
 
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
-            _this._texImage = textureImageLoader.loadTexture(url);
-            __texImageToImageMap[""+_this._texImage.id()] = _this;
+            _this._texImage.src = "qrc:/"+url;
         }
         this._src = url;
     });
@@ -701,16 +692,15 @@ Image.prototype = {
         }
     },
 
-    notifyProgress: function(image) {
-        if (this._onProgressCallback !== undefined) {
-            this._onProgressCallback(new Event());
+    notifyError: function(image) {
+        if (this._onErrorCallback !== undefined) {
+            this._onErrorCallback(new Event());
         }
     },
 
-    notifyError: function(image) {
-        console.log("Image.notifyError()");
-        if (this._onErrorCallback !== undefined) {
-            this._onErrorCallback(new Event());
+    notifyProgress: function(image) {
+        if (this._onProgressCallback !== undefined) {
+            this._onProgressCallback(new Event());
         }
     },
 
@@ -7041,7 +7031,6 @@ function THREE() {
 };
 
 THREE.REVISION = '67dev';
-THREE.qmlImageLoader = null;
 
 // GL STATE CONSTANTS
 THREE.CullFaceNone = 0;
@@ -18304,7 +18293,7 @@ THREE.JSONLoader.prototype.load = function ( url, callback, texturePath ) {
 
 	// todo: unify load API to for easier SceneLoader use
 
-    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === "string" ) ? texturePath : "";
+    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === "string" ) ? texturePath : "qrc:/";
 
 	this.onLoadStart();
 	this.loadAjaxJSON( this, url, callback, texturePath );
@@ -44497,7 +44486,6 @@ function THREE() {
 };
 
 THREE.REVISION = '67dev';
-THREE.qmlImageLoader = null;
 
 // GL STATE CONSTANTS
 THREE.CullFaceNone = 0;
