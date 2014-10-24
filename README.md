@@ -1,15 +1,16 @@
 three.js
 ========
 
+#### About This Branch ####
+
+This branch adds support for using the three.js library with the new [QtCanvas3D](https://codereview.qt-project.org/#/admin/projects/qt/qtcanvas3d) Qt component that allows porting of WebGL content to the QtQuick JavaScript environment.
+A ready built three.js file can be found inside the build folder or alternatively you can use the utils/build/build_qml.sh script to rebuild the library.
+
 #### JavaScript 3D library ####
 
 The aim of the project is to create a lightweight 3D library with a very low level of complexity — in other words, for dummies. The library provides &lt;canvas&gt;, &lt;svg&gt;, CSS3D and WebGL renderers.
 
 [Examples](http://threejs.org/) — [Documentation](http://threejs.org/docs/) — [Migrating](https://github.com/mrdoob/three.js/wiki/Migration) — [Help](http://stackoverflow.com/questions/tagged/three.js)
-
-#### About This Branch ####
-
-This branch adds support for using the three.js library with the new [QtCanvas3D](https://codereview.qt-project.org/#/admin/projects/qt/qtcanvas3d) Qt component that allows porting of WebGL content to the QtQuick JavaScript environment.
 
 ### Usage ###
 
