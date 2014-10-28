@@ -40,8 +40,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	this.context = null;
 	this.devicePixelRatio = parameters.devicePixelRatio !== undefined
 				? parameters.devicePixelRatio
-				: self.devicePixelRatio !== undefined
-					? self.devicePixelRatio
+                : this.devicePixelRatio !== undefined
+                    ? this.devicePixelRatio
 					: 1;
 
 	// clearing
