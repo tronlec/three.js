@@ -2,6 +2,5 @@
         "src/qml/TypedArrayWrappers.js",
         "src/qml/QmlImageElement.js",
         "src/qml/QmlHtmlElements.js",
-        "src/qml/ContextShim.js",
         "src/renderers/Canvas3DRenderer.js"
 ]

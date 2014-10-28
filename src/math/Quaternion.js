@@ -220,7 +220,7 @@ THREE.Quaternion.prototype = {
 
 	},
 
-	setFromUnitVectors: function () {
+    setFromUnitVectors: function ( vFrom, vTo ) {
 
 		// http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
 
@@ -230,7 +230,7 @@ THREE.Quaternion.prototype = {
 
 		var EPS = 0.000001;
 
-		return function ( vFrom, vTo ) {
+        //return function ( vFrom, vTo ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -265,9 +265,9 @@ THREE.Quaternion.prototype = {
 
 			return this;
 
-		}
+        //}
 
-	}(),
+    },
 
 	inverse: function () {
 

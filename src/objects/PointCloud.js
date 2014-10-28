@@ -17,12 +17,12 @@ THREE.PointCloud = function ( geometry, material ) {
 
 THREE.PointCloud.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.PointCloud.prototype.raycast = ( function () {
+THREE.PointCloud.prototype.raycast = function ( raycaster, intersects ) {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
 
-	return function ( raycaster, intersects ) {
+    //return function ( raycaster, intersects ) {
 
 		var object = this;
 		var geometry = object.geometry;
@@ -144,9 +144,9 @@ THREE.PointCloud.prototype.raycast = ( function () {
 
 		}
 
-	};
+    //};
 
-}() );
+};
 
 THREE.PointCloud.prototype.clone = function ( object ) {
 

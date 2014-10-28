@@ -436,11 +436,11 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	applyToVector3Array: function () {
+    applyToVector3Array: function ( array, offset, length ) {
 
 		var v1 = new THREE.Vector3();
 
-		return function ( array, offset, length ) {
+        //return function ( array, offset, length ) {
 
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
@@ -461,9 +461,9 @@ THREE.Matrix4.prototype = {
 
 			return array;
 
-		};
+        //};
 
-	}(),
+    },
 
 	rotateAxis: function ( v ) {
 
