@@ -1,16 +1,17 @@
 /**
  * @author mrdoob / http://mrdoob.com/
  */
+function THREE() {};
 
-var THREE = { REVISION: '69dev' };
+THREE.REVISION = '69dev'
 
 // browserify support
 
-if ( typeof module === 'object' ) {
+//if ( typeof module === 'object' ) {
 
-	module.exports = THREE;
+//	module.exports = THREE;
 
-}
+//}
 
 // polyfills
 

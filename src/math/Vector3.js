@@ -633,7 +633,7 @@ THREE.Vector3.prototype = {
 
 		var v1, dot;
 
-		return function ( vector ) {
+        //return function ( vector ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -647,7 +647,7 @@ THREE.Vector3.prototype = {
 
 	},
 
-	projectOnPlane: function ( planeNormal ) {
+    projectOnPlane: function ( planeNormal ) {
 
 		var v1;
 

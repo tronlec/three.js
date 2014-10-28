@@ -53,8 +53,8 @@ def main(argv=None):
 		with open('includes/' + include + '.json','r', encoding='utf-8') as f:
 			files = json.load(f)
 		for filename in files:
-			tmp.write('// File:' + filename)
-			tmp.write(u'\n\n')
+			tmp.write('console.log(\"File:' + filename)
+			tmp.write('\");'u'\n\n')
 			filename = '../../' + filename
 			sources.append(filename)
 			with open(filename, 'r', encoding='utf-8') as f:
