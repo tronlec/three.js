@@ -49,10 +49,17 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	this.domElement = _canvas;
 	this.context = null;
 	this.devicePixelRatio = parameters.devicePixelRatio !== undefined
+<<<<<<< HEAD
 				 ? parameters.devicePixelRatio
 				 : self.devicePixelRatio !== undefined
 					 ? self.devicePixelRatio
 					 : 1;
+=======
+				? parameters.devicePixelRatio
+                : this.devicePixelRatio !== undefined
+                    ? this.devicePixelRatio
+					: 1;
+>>>>>>> Fixed references to undefined variable
 
 	// clearing
 
