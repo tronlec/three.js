@@ -107,7 +107,7 @@ THREE.CameraHelper.prototype = Object.create( THREE.Line.prototype );
 
 THREE.CameraHelper.prototype.update = function () {
 
-	var vector = new THREE.Vector3();
+    var vector = new THREE.Vector3();
 	var camera = new THREE.Camera();
 
 	//return function () {

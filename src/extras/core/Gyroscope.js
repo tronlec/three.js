@@ -22,7 +22,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = function ( force ) {
 
 	//return function ( force ) {
 
-		this.matrixAutoUpdate && this.updateMatrix();
+        if (this.matrixAutoUpdate) this.updateMatrix();
 
 		// update matrixWorld
 

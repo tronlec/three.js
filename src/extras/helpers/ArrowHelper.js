@@ -48,11 +48,11 @@ THREE.ArrowHelper = function ( dir, origin, length, color, headLength, headWidth
 
 	//}
 
-} );
+};
 
 THREE.ArrowHelper.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.ArrowHelper.prototype.setDirection = function ( dir )) {
+THREE.ArrowHelper.prototype.setDirection = function ( dir ) {
 
 	var axis = new THREE.Vector3();
 	var radians;

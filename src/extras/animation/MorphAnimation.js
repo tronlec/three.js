@@ -28,12 +28,12 @@ THREE.MorphAnimation.prototype = {
 
 	},
 
-	update: ( function () {
+    update: function ( delta ) {
 
 		var lastFrame = 0;
 		var currentFrame = 0;
 
-		return function ( delta ) {
+        //return function ( delta ) {
 
 			if ( this.isPlaying === false ) return;
 
@@ -66,6 +66,6 @@ THREE.MorphAnimation.prototype = {
 
 		}
 
-	} )()
+    //}
 
 };

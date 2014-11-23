@@ -168,12 +168,12 @@ Editor.prototype = {
 
 	//
 
-	addHelper: function () {
+    addHelper: function ( object ) {
 
 		var geometry = new THREE.SphereGeometry( 20, 4, 2 );
 		var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 
-		return function ( object ) {
+        //return function ( object ) {
 
 			var helper;
 
@@ -215,9 +215,9 @@ Editor.prototype = {
 
 			this.signals.helperAdded.dispatch( helper );
 
-		};
+        //};
 
-	}(),
+    },
 
 	removeHelper: function ( object ) {
 

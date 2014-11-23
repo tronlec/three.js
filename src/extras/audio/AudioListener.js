@@ -14,7 +14,7 @@ THREE.AudioListener = function () {
 
 THREE.AudioListener.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.AudioListener.prototype.updateMatrixWorld = ( function () {
+THREE.AudioListener.prototype.updateMatrixWorld = function ( force ) {
 
 	var position = new THREE.Vector3();
 	var quaternion = new THREE.Quaternion();
@@ -25,7 +25,7 @@ THREE.AudioListener.prototype.updateMatrixWorld = ( function () {
 
 	var positionPrev = new THREE.Vector3();
 
-	return function ( force ) {
+    //return function ( force ) {
 
 		THREE.Object3D.prototype.updateMatrixWorld.call( this, force );
 
@@ -42,6 +42,6 @@ THREE.AudioListener.prototype.updateMatrixWorld = ( function () {
 
 		positionPrev.copy( position );
 
-	};
+    //};
 
-} )();
+};

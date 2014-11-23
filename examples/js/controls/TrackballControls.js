@@ -112,13 +112,13 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	};
 
-	this.getMouseProjectionOnBall = (function(){
+    this.getMouseProjectionOnBall = function( pageX, pageY, projection ){
 
 		var objectUp = new THREE.Vector3(),
 		    mouseOnBall = new THREE.Vector3();
 
 
-		return function ( pageX, pageY, projection ) {
+        //return function ( pageX, pageY, projection ) {
 
 			mouseOnBall.set(
 				( pageX - _this.screen.width * 0.5 - _this.screen.left ) / (_this.screen.width*.5),
@@ -157,17 +157,17 @@ THREE.TrackballControls = function ( object, domElement ) {
 			projection.add( _eye.setLength( mouseOnBall.z ) );
 
 			return projection;
-		}
+        //}
 
-	}());
+    };
 
-	this.rotateCamera = (function(){
+    this.rotateCamera = function(){
 
 		var axis = new THREE.Vector3(),
 			quaternion = new THREE.Quaternion();
 
 
-		return function () {
+        //return function () {
 
 			var angle = Math.acos( _rotateStart.dot( _rotateEnd ) / _rotateStart.length() / _rotateEnd.length() );
 
@@ -196,9 +196,9 @@ THREE.TrackballControls = function ( object, domElement ) {
 				}
 
 			}
-		}
+        //}
 
-	}());
+    };
 
 	this.zoomCamera = function () {
 
@@ -232,13 +232,13 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	};
 
-	this.panCamera = (function(){
+    this.panCamera = function(){
 
 		var mouseChange = new THREE.Vector2(),
 			objectUp = new THREE.Vector3(),
 			pan = new THREE.Vector3();
 
-		return function () {
+        //return function () {
 
 			mouseChange.copy( _panEnd ).sub( _panStart );
 
@@ -263,9 +263,9 @@ THREE.TrackballControls = function ( object, domElement ) {
 				}
 
 			}
-		}
+        //}
 
-	}());
+    };
 
 	this.checkDistances = function () {
 

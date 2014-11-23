@@ -87,9 +87,9 @@ THREE.Frustum.prototype = {
 
 			return this.intersectsSphere( sphere );
 
-		};
+        //};
 
-	}//(),
+    },
 
 	intersectsSphere: function ( sphere ) {
 

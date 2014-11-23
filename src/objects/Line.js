@@ -20,7 +20,7 @@ THREE.LinePieces = 1;
 
 THREE.Line.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Line.prototype.raycast = ( function ( raycaster, intersects ) {
+THREE.Line.prototype.raycast = function ( raycaster, intersects ) {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
