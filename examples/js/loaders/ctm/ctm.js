@@ -28,6 +28,13 @@ References:
 
 var CTM = CTM || {};
 
+// browserify support
+if ( typeof module === 'object' ) {
+
+	module.exports = CTM;
+
+}
+
 CTM.CompressionMethod = {
   RAW: 0x00574152,
   MG1: 0x0031474d,
@@ -554,7 +561,7 @@ CTM.calcSmoothNormals = function(indices, vertices){
 CTM.isLittleEndian = (function(){
   var buffer = new ArrayBuffer(2),
       bytes = new Uint8Array(buffer),
-      ints = Arrays.newUint16Array(buffer);
+      ints = new Uint16Array(buffer);
 
   bytes[0] = 1;
 

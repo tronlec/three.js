@@ -62,14 +62,15 @@
 				scene = new THREE.Scene();
 
 				var geometry = new THREE.BufferGeometry();
-				var material = new THREE.LineBasicMaterial({ vertexColors: true });
+				var material = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
 
 				var positions = [];
 				var next_positions_index = 0;
 				var colors = [];
 				var indices_array = [];
 
-				// --------------------------------
+				//
+
 				var iteration_count = 4;
 				var rangle = 60 * Math.PI / 180.0;
 
@@ -181,19 +182,12 @@
 				);
 				// --------------------------------
 
-				geometry.addAttribute( 'position', Float32Array, positions.length, 3 );
-				geometry.attributes.position.array = new Float32Array(positions);
-
-				geometry.addAttribute( 'color', Float32Array, colors.length, 3 );
-				geometry.attributes.color.array = new Float32Array(colors);
-
-				geometry.addAttribute( 'index', Uint16Array, indices_array.length, 1 );
-				geometry.attributes.index.array = new Uint16Array(indices_array);
-				geometry.offsets = [ {start:0, index:0, count:indices_array.length} ];
-
+				geometry.addAttribute( 'index', new THREE.BufferAttribute( new Uint16Array( indices_array ), 1 ) );
+				geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( positions ), 3 ) );
+				geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors ), 3 ) );
 				geometry.computeBoundingSphere();
 
-				mesh = new THREE.Line( geometry, material, THREE.LinePieces);
+				mesh = new THREE.Line( geometry, material, THREE.LinePieces );
 				mesh.position.x -= 1200;
 				mesh.position.y -= 1200;
 

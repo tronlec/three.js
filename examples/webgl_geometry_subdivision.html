@@ -206,8 +206,6 @@
 
 				// mergeVertices(); is run in case of duplicated vertices
 				smooth.mergeVertices();
-
-				smooth.computeCentroids();
 				smooth.computeFaceNormals();
 				smooth.computeVertexNormals();
 
@@ -240,7 +238,7 @@
 
 				}
 
-				group = new THREE.Object3D();
+				group = new THREE.Group();
 				scene.add( group );
 
 				var material = new THREE.MeshBasicMaterial( { color: 0xfefefe, wireframe: true, opacity: 0.5 } );
@@ -282,8 +280,6 @@
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.z = 500;
 
-				controls = new THREE.OrbitControls( camera );
-
 				scene = new THREE.Scene();
 
 				var light = new THREE.PointLight( 0xffffff, 1.5 );
@@ -304,6 +300,8 @@
 				container.appendChild( stats.domElement );
 
 				//
+
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
