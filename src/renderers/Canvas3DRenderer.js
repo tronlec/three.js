@@ -5,11 +5,10 @@
  * @author szimek / https://github.com/szimek/
  * @author pasikeranen / pasi.keranen@theqtcompany.com
  */
-var BUFFER_BELONGS_TO_ATTRIBUTE = 0;
 
 THREE.Canvas3DRenderer = function ( parameters ) {
 
-    console.log( 'THREE.Canvas3DRenderer', THREE.REVISION );
+	console.log( 'THREE.Canvas3DRenderer', THREE.REVISION );
 
     if (parameters === undefined) parameters = {};
 
@@ -18,8 +17,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
         return;
     }
 
-    var _context = parameters.context !== undefined ? parameters.context : null;
     var _canvas = parameters.canvas,
+    _context = parameters.context !== undefined ? parameters.context : null,
 
 	_precision = parameters.precision !== undefined ? parameters.precision : 'highp',
 
@@ -50,7 +49,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	this.domElement = _canvas;
 	this.context = null;
 	this.devicePixelRatio = parameters.devicePixelRatio !== undefined
-                ? parameters.devicePixelRatio : 1;
+				 ? parameters.devicePixelRatio
+				 : self.devicePixelRatio !== undefined
+					 ? self.devicePixelRatio
+					 : 1;
 
 	// clearing
 
@@ -116,100 +118,60 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// internal state cache
 
-    _currentProgram,
-    _currentFramebuffer,
-    _currentMaterialId,
-    _currentGeometryGroupHash,
-    _currentCamera,
+	_currentProgram = null,
+	_currentFramebuffer = null,
+	_currentMaterialId = - 1,
+	_currentGeometryGroupHash = - 1,
+	_currentCamera = null,
 
-    _usedTextureUnits,
+	_usedTextureUnits = 0,
 
 	// GL state cache
 
-    _oldDoubleSided,
-    _oldFlipSided,
+	_oldDoubleSided = - 1,
+	_oldFlipSided = - 1,
 
-    _oldBlending,
+	_oldBlending = - 1,
 
-    _oldBlendEquation,
-    _oldBlendSrc,
-    _oldBlendDst,
+	_oldBlendEquation = - 1,
+	_oldBlendSrc = - 1,
+	_oldBlendDst = - 1,
 
-    _oldDepthTest,
-    _oldDepthWrite,
+	_oldDepthTest = - 1,
+	_oldDepthWrite = - 1,
 
-    _oldPolygonOffset,
-    _oldPolygonOffsetFactor,
-    _oldPolygonOffsetUnits,
+	_oldPolygonOffset = null,
+	_oldPolygonOffsetFactor = null,
+	_oldPolygonOffsetUnits = null,
 
-    _oldLineWidth,
+	_oldLineWidth = null,
 
-    _viewportX,
-    _viewportY,
-    _viewportWidth,
-    _viewportHeight,
-    _currentWidth,
-    _currentHeight,
+	_viewportX = 0,
+	_viewportY = 0,
+	_viewportWidth = _canvas.width,
+	_viewportHeight = _canvas.height,
+	_currentWidth = 0,
+	_currentHeight = 0,
 
-    _newAttributes,
-    _enabledAttributes,
+	_newAttributes = new Uint8Array( 16 ),
+	_enabledAttributes = new Uint8Array( 16 ),
 
 	// frustum
 
-    _frustum,
+	_frustum = new THREE.Frustum(),
 
 	 // camera matrices cache
 
-    _projScreenMatrix,
-    _projScreenMatrixPS,
+	_projScreenMatrix = new THREE.Matrix4(),
+	_projScreenMatrixPS = new THREE.Matrix4(),
 
-    _vector3,
+	_vector3 = new THREE.Vector3(),
 
 	// light arrays cache
 
-    _direction,
+	_direction = new THREE.Vector3(),
 
-    _lightsNeedUpdate,
-
-    _lights;
-
-    // internal state cache
-    _currentProgram = null;
-    _currentFramebuffer = null;
-    _currentMaterialId = -1;
-    _currentGeometryGroupHash = null;
-    _currentCamera = null;
-    _usedTextureUnits = 0;
-	// GL state cache
-    _oldDoubleSided = -1;
-    _oldFlipSided = -1;
-    _oldBlending = -1;
-    _oldBlendEquation = -1;
-    _oldBlendSrc = -1;
-    _oldBlendDst = -1;
-    _oldDepthTest = -1;
-    _oldDepthWrite = -1;
-    _oldPolygonOffset = null;
-    _oldPolygonOffsetFactor = null;
-    _oldPolygonOffsetUnits = null;
-    _oldLineWidth = null;
-    _viewportX = 0;
-    _viewportY = 0;
-    _viewportWidth = _canvas.width;
-    _viewportHeight = _canvas.height;
-    _currentWidth = 0;
-    _currentHeight = 0;
-    _newAttributes = new Uint8Array( 16 );
-    _enabledAttributes = [];
-    for (var aidx = 0; aidx < 16; aidx++) {
-        _enabledAttributes[aidx] = 0;
-    }
-    _frustum = new THREE.Frustum();
-    _projScreenMatrix = new THREE.Matrix4();
-    _projScreenMatrixPS = new THREE.Matrix4();
-    _vector3 = new THREE.Vector3();
-    _direction = new THREE.Vector3();
-    _lightsNeedUpdate = true;
+	_lightsNeedUpdate = true,
 
 	_lights = {
 
@@ -333,11 +295,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	var _fragmentShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.MEDIUM_FLOAT );
 	var _fragmentShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.LOW_FLOAT );
 
-    var getCompressedTextureFormats = function () {
+	var getCompressedTextureFormats = ( function () {
 
 		var array;
 
-        //return function () {
+		return function () {
 
 			if ( array !== undefined ) {
 
@@ -361,9 +323,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			
 			return array;
 
-        //};
+		};
 
-    };
+	} )();
 
 	// clamp precision to maximum available
 
@@ -375,12 +337,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( mediumpAvailable ) {
 
 			_precision = 'mediump';
-            console.warn( 'THREE.Canvas3DRenderer: highp not supported, using mediump.' );
+			console.warn( 'THREE.Canvas3DRenderer: highp not supported, using mediump.' );
 
 		} else {
 
 			_precision = 'lowp';
-            console.warn( 'THREE.Canvas3DRenderer: highp and mediump not supported, using lowp.' );
+			console.warn( 'THREE.Canvas3DRenderer: highp and mediump not supported, using lowp.' );
 
 		}
 
@@ -389,7 +351,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	if ( _precision === 'mediump' && ! mediumpAvailable ) {
 
 		_precision = 'lowp';
-        console.warn( 'THREE.Canvas3DRenderer: mediump not supported, using lowp.' );
+		console.warn( 'THREE.Canvas3DRenderer: mediump not supported, using lowp.' );
 
 	}
 
@@ -444,11 +406,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	};
 
-    this.getMaxAnisotropy = function () {
+	this.getMaxAnisotropy = ( function () {
 
 		var value;
 
-        //return function () {
+		return function () {
 
 			if ( value !== undefined ) {
 
@@ -462,9 +424,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			return value;
 
-        //}
+		}
 
-    };
+	} )();
 
 	this.getPrecision = function () {
 
@@ -533,7 +495,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.setClearColorHex = function ( hex, alpha ) {
 
-        console.warn( 'THREE.Canvas3DRenderer: .setClearColorHex() is being removed. Use .setClearColor() instead.' );
+		console.warn( 'THREE.Canvas3DRenderer: .setClearColorHex() is being removed. Use .setClearColor() instead.' );
 		this.setClearColor( hex, alpha );
 
 	};
@@ -589,7 +551,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// Reset
 
-    this.resetGLState = function () {
+	this.resetGLState = function () {
 
 		_currentProgram = null;
 		_currentCamera = null;
@@ -1034,7 +996,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
                     attribute.array.name = ""+attribute+"attribute.array";
 
 					attribute.buffer = _gl.createBuffer();
-                    attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] = name;
+					attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] = name;
 
 					attribute.needsUpdate = true;
 
@@ -1203,7 +1165,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					attribute.array = new Float32Array( nvertices * size );
 
 					attribute.buffer = _gl.createBuffer();
-                    attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] = name;
+					attribute.buffer[BUFFER_BELONGS_TO_ATTRIBUTE] = name;
 
 					originalAttribute.needsUpdate = true;
 					attribute.__original = originalAttribute;
@@ -3397,10 +3359,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	// Rendering
 
 	this.render = function ( scene, camera, renderTarget, forceClear ) {
-        console.log("render(scene="+scene+", camera="+camera+", renderTarget="+renderTarget+", forceClear="+forceClear+")")
+
 		if ( camera instanceof THREE.Camera === false ) {
 
-            console.error( 'THREE.Canvas3DRenderer.render: camera is not an instance of THREE.Camera.' );
+			console.error( 'THREE.Canvas3DRenderer.render: camera is not an instance of THREE.Camera.' );
 			return;
 
 		}
@@ -4140,7 +4102,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		}
 
-    };
+	}
 
 	// Objects updates - custom attributes check
 
@@ -4154,7 +4116,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		return false;
 
-    };
+	}
 
 	function clearCustomAttributes( material ) {
 
@@ -4164,7 +4126,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		}
 
-    };
+	}
 
 	// Objects removal
 
@@ -4188,7 +4150,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		delete object.__webglActive;
 
-    };
+	}
 
 	function removeInstances( objlist, object ) {
 
@@ -4977,7 +4939,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( textureUnit >= _maxTextures ) {
 
-            console.warn( 'Canvas3DRenderer: trying to use ' + textureUnit + ' texture units while this GPU supports only ' + _maxTextures );
+			console.warn( 'Canvas3DRenderer: trying to use ' + textureUnit + ' texture units while this GPU supports only ' + _maxTextures );
 
 		}
 
@@ -5351,7 +5313,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				default:
 
-                    console.warn( 'THREE.Canvas3DRenderer: Unknown uniform type: ' + type );
+					console.warn( 'THREE.Canvas3DRenderer: Unknown uniform type: ' + type );
 
 			}
 
@@ -5761,7 +5723,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	}
 
-    this.setBlending = function ( blending, blendEquation, blendSrc, blendDst ) {
+	this.setBlending = function ( blending, blendEquation, blendSrc, blendDst ) {
 
 		if ( blending !== _oldBlending ) {
 
@@ -6016,7 +5978,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			var canvas = image.resize( canvasWith, canvasHeight );
 
 
-
             console.log( 'THREE.Canvas3DRenderer:', image, 'is too big (' + image.width + 'x' + image.height + '). Resized to ' + canvasWidth + 'x' + canvasHeight + '.' );
 
 			return canvas;
@@ -6185,7 +6146,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	}
 
-    this.setRenderTarget = function ( renderTarget ) {
+	this.setRenderTarget = function ( renderTarget ) {
 
 		var isCube = ( renderTarget instanceof THREE.WebGLRenderTargetCube );
 
@@ -6483,7 +6444,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( maxBones < object.skeleton.bones.length ) {
 
-                    console.warn( 'Canvas3DRenderer: too many bones - ' + object.skeleton.bones.length + ', this GPU supports just ' + maxBones + ' (try OpenGL instead of ANGLE)' );
+					console.warn( 'Canvas3DRenderer: too many bones - ' + object.skeleton.bones.length + ', this GPU supports just ' + maxBones + ' (try OpenGL instead of ANGLE)' );
 
 				}
 
