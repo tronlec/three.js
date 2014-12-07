@@ -12,6 +12,7 @@ THREE.Loader = function ( showStatus ) {
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
 	this.onLoadComplete = function () {};
+	this.extractUrlBase = function ( url ) { return ""; }
 
 };
 

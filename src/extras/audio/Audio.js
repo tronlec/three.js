@@ -63,11 +63,11 @@ THREE.Audio.prototype.setRolloffFactor = function ( value ) {
 
 };
 
-THREE.Audio.prototype.updateMatrixWorld = function ( force ) {
+THREE.Audio.prototype.updateMatrixWorld = ( function () {
 
 	var position = new THREE.Vector3();
 
-    //return function ( force ) {
+	return function ( force ) {
 
 		THREE.Object3D.prototype.updateMatrixWorld.call( this, force );
 
@@ -75,6 +75,6 @@ THREE.Audio.prototype.updateMatrixWorld = function ( force ) {
 
 		this.panner.setPosition( position.x, position.y, position.z );
 
-    //};
+	};
 
-};
+} )();

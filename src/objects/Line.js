@@ -20,13 +20,13 @@ THREE.LinePieces = 1;
 
 THREE.Line.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Line.prototype.raycast = function ( raycaster, intersects ) {
+THREE.Line.prototype.raycast = ( function () {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
 	var sphere = new THREE.Sphere();
 
-	//return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		var precision = raycaster.linePrecision;
 		var precisionSq = precision * precision;
@@ -85,9 +85,9 @@ THREE.Line.prototype.raycast = function ( raycaster, intersects ) {
 
 		}
 
-	//};
+	};
 
-};
+}() );
 
 THREE.Line.prototype.clone = function ( object ) {
 

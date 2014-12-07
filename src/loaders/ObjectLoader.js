@@ -5,7 +5,7 @@
 THREE.ObjectLoader = function ( manager ) {
 
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-    this.__matrix = new THREE.Matrix4();
+
 };
 
 THREE.ObjectLoader.prototype = {
@@ -209,11 +209,11 @@ THREE.ObjectLoader.prototype = {
 
 	},
 
-	parseObject: function ( data, geometries, materials ) {
+	parseObject: function () {
 
-		var matrix = this.__matrix;
+		var matrix = new THREE.Matrix4();
 
-		//return function ( data, geometries, materials ) {
+		return function ( data, geometries, materials ) {
 
 			var object;
 
@@ -366,8 +366,8 @@ THREE.ObjectLoader.prototype = {
 
 			return object;
 
-		//}
+		}
 
-	}
+	}()
 
 };

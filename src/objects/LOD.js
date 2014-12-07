@@ -52,11 +52,11 @@ THREE.LOD.prototype.getObjectForDistance = function ( distance ) {
 
 };
 
-THREE.LOD.prototype.raycast = function ( raycaster, intersects ) {
+THREE.LOD.prototype.raycast = ( function () {
 
 	var matrixPosition = new THREE.Vector3();
 
-    //return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		matrixPosition.setFromMatrixPosition( this.matrixWorld );
 
@@ -64,16 +64,16 @@ THREE.LOD.prototype.raycast = function ( raycaster, intersects ) {
 
 		this.getObjectForDistance( distance ).raycast( raycaster, intersects );
 
-    //};
+	};
 
-};
+}() );
 
-THREE.LOD.prototype.update = function ( camera ) {
+THREE.LOD.prototype.update = function () {
 
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
-	//return function ( camera ) {
+	return function ( camera ) {
 
 		if ( this.objects.length > 1 ) {
 
@@ -107,9 +107,9 @@ THREE.LOD.prototype.update = function ( camera ) {
 
 		}
 
-	//};
+	};
 
-};
+}();
 
 THREE.LOD.prototype.clone = function ( object ) {
 

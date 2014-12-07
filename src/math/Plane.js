@@ -40,12 +40,12 @@ THREE.Plane.prototype = {
 
 	},
 
-    setFromCoplanarPoints: function( a, b, c ) {
+	setFromCoplanarPoints: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 
-		//return function ( a, b, c ) {
+		return function ( a, b, c ) {
 
 			var normal = v1.subVectors( c, b ).cross( v2.subVectors( a, b ) ).normalize();
 
@@ -55,9 +55,9 @@ THREE.Plane.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 
 	copy: function ( plane ) {
@@ -128,11 +128,11 @@ THREE.Plane.prototype = {
 
 	},
 
-	intersectLine: function ( line, optionalTarget ) {
+	intersectLine: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( line, optionalTarget ) {
+		return function ( line, optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Vector3();
 
@@ -164,9 +164,9 @@ THREE.Plane.prototype = {
 
 			return result.copy( direction ).multiplyScalar( t ).add( line.start );
 
-		//};
+		};
 
-	},
+	}(),
 
 
 	coplanarPoint: function ( optionalTarget ) {
@@ -176,13 +176,13 @@ THREE.Plane.prototype = {
 
 	},
 
-	applyMatrix4: function ( matrix, optionalNormalMatrix ) {
+	applyMatrix4: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 		var m1 = new THREE.Matrix3();
 
-		//return function ( matrix, optionalNormalMatrix ) {
+		return function ( matrix, optionalNormalMatrix ) {
 
 			// compute new normal based on theory here:
 			// http://www.songho.ca/opengl/gl_normaltransform.html
@@ -196,9 +196,9 @@ THREE.Plane.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	translate: function ( offset ) {
 

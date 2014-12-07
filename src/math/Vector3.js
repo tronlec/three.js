@@ -190,11 +190,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	applyEuler: function ( euler ) {
+	applyEuler: function () {
 
 		var quaternion;
 
-		//return function ( euler ) {
+		return function ( euler ) {
 
 			if ( euler instanceof THREE.Euler === false ) {
 
@@ -208,15 +208,15 @@ THREE.Vector3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
-	applyAxisAngle: function ( axis, angle ) {
+	applyAxisAngle: function () {
 
 		var quaternion;
 
-		//return function ( axis, angle ) {
+		return function ( axis, angle ) {
 
 			if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
 
@@ -224,9 +224,9 @@ THREE.Vector3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	applyMatrix3: function ( m ) {
 
@@ -305,35 +305,35 @@ THREE.Vector3.prototype = {
 
 	},
 
-	project: function ( camera ) {
+	project: function () {
 
 		var matrix;
 
-		//return function ( camera ) {
+		return function ( camera ) {
 
 			if ( matrix === undefined ) matrix = new THREE.Matrix4();
 
 			matrix.multiplyMatrices( camera.projectionMatrix, matrix.getInverse( camera.matrixWorld ) );
 			return this.applyProjection( matrix );
 
-		//};
+		};
 
-	},
+	}(),
 
-	unproject: function ( camera ) {
+	unproject: function () {
 
 		var matrix;
 
-		//return function ( camera ) {
+		return function ( camera ) {
 
 			if ( matrix === undefined ) matrix = new THREE.Matrix4();
 
 			matrix.multiplyMatrices( camera.matrixWorld, matrix.getInverse( camera.projectionMatrix ) );
 			return this.applyProjection( matrix );
 
-		//};
+		};
 
-	},
+	}(),
 
 	transformDirection: function ( m ) {
 
@@ -472,11 +472,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	clampScalar: function ( minVal, maxVal ) {
+	clampScalar: ( function () {
 
 		var min, max;
 
-		//return function ( minVal, maxVal ) {
+		return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -490,9 +490,9 @@ THREE.Vector3.prototype = {
 
 			return this.clamp( min, max );
 
-		//};
+		};
 
-	},
+	} )(),
 
 	floor: function () {
 
@@ -629,11 +629,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	projectOnVector: function ( vector ) {
+	projectOnVector: function () {
 
 		var v1, dot;
 
-        //return function ( vector ) {
+		return function ( vector ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -643,15 +643,15 @@ THREE.Vector3.prototype = {
 
 			return this.copy( v1 ).multiplyScalar( dot );
 
-		//};
+		};
 
-	},
+	}(),
 
-    projectOnPlane: function ( planeNormal ) {
+	projectOnPlane: function () {
 
 		var v1;
 
-		//return function ( planeNormal ) {
+		return function ( planeNormal ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -659,26 +659,26 @@ THREE.Vector3.prototype = {
 
 			return this.sub( v1 );
 
-		//}
+		}
 
-	},
+	}(),
 
-	reflect: function ( normal ) {
+	reflect: function () {
 
 		// reflect incident vector off plane orthogonal to normal
 		// normal is assumed to have unit length
 
 		var v1;
 
-		//return function ( normal ) {
+		return function ( normal ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
 			return this.sub( v1.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
 
-		//}
+		}
 
-	},
+	}(),
 
 	angleTo: function ( v ) {
 

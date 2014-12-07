@@ -55,7 +55,7 @@ THREE.Mesh.prototype.getMorphTargetIndexByName = function ( name ) {
 };
 
 
-THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
+THREE.Mesh.prototype.raycast = ( function () {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
@@ -65,7 +65,7 @@ THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
 	var vB = new THREE.Vector3();
 	var vC = new THREE.Vector3();
 
-	//return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		var geometry = this.geometry;
 
@@ -309,9 +309,9 @@ THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
 
 		}
 
-	//};
+	};
 
-};
+}() );
 
 THREE.Mesh.prototype.clone = function ( object, recursive ) {
 

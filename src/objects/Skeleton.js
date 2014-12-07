@@ -150,11 +150,11 @@ THREE.Skeleton.prototype.pose = function () {
 
 };
 
-THREE.Skeleton.prototype.update = function () {
+THREE.Skeleton.prototype.update = ( function () {
 
 	var offsetMatrix = new THREE.Matrix4();
 	
-    //return function () {
+	return function () {
 
 		// flatten bone matrices to array
 
@@ -175,7 +175,7 @@ THREE.Skeleton.prototype.update = function () {
 
 		}
 		
-    //};
+	};
 
-};
+} )();
 

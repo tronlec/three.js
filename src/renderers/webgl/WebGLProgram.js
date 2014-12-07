@@ -1,4 +1,4 @@
-THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
+THREE.WebGLProgram = ( function () {
 
 	var programIdCount = 0;
 
@@ -50,7 +50,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 	};
 
-	//return function ( renderer, code, material, parameters ) {
+	return function ( renderer, code, material, parameters ) {
 
 		var _this = renderer;
 		var _gl = _this.context;
@@ -374,6 +374,6 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		return this;
 
-	//};
+	};
 
-};
+} )();

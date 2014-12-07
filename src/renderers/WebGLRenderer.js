@@ -289,11 +289,11 @@ THREE.WebGLRenderer = function ( parameters ) {
 	var _fragmentShaderPrecisionMediumpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.MEDIUM_FLOAT );
 	var _fragmentShaderPrecisionLowpFloat = _gl.getShaderPrecisionFormat( _gl.FRAGMENT_SHADER, _gl.LOW_FLOAT );
 
-    var getCompressedTextureFormats = function () {
+	var getCompressedTextureFormats = ( function () {
 
 		var array;
 
-        //return function () {
+		return function () {
 
 			if ( array !== undefined ) {
 
@@ -317,9 +317,9 @@ THREE.WebGLRenderer = function ( parameters ) {
 			
 			return array;
 
-        //};
+		};
 
-    };
+	} )();
 
 	// clamp precision to maximum available
 
@@ -400,11 +400,11 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	};
 
-    this.getMaxAnisotropy = function () {
+	this.getMaxAnisotropy = ( function () {
 
 		var value;
 
-        //return function () {
+		return function () {
 
 			if ( value !== undefined ) {
 
@@ -418,9 +418,9 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			return value;
 
-        //}
+		}
 
-    };
+	} )();
 
 	this.getPrecision = function () {
 

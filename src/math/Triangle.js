@@ -11,11 +11,11 @@ THREE.Triangle = function ( a, b, c ) {
 
 };
 
-THREE.Triangle.normal = function ( a, b, c, optionalTarget ) {
+THREE.Triangle.normal = function () {
 
 	var v0 = new THREE.Vector3();
 
-	//return function ( a, b, c, optionalTarget ) {
+	return function ( a, b, c, optionalTarget ) {
 
 		var result = optionalTarget || new THREE.Vector3();
 
@@ -32,19 +32,19 @@ THREE.Triangle.normal = function ( a, b, c, optionalTarget ) {
 
 		return result.set( 0, 0, 0 );
 
-	//};
+	};
 
-};
+}();
 
 // static/instance method to calculate barycoordinates
 // based on: http://www.blackpawn.com/texts/pointinpoly/default.html
-THREE.Triangle.barycoordFromPoint = function ( point, a, b, c, optionalTarget ) {
+THREE.Triangle.barycoordFromPoint = function () {
 
 	var v0 = new THREE.Vector3();
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
-	//return function ( point, a, b, c, optionalTarget ) {
+	return function ( point, a, b, c, optionalTarget ) {
 
 		v0.subVectors( c, a );
 		v1.subVectors( b, a );
@@ -74,23 +74,23 @@ THREE.Triangle.barycoordFromPoint = function ( point, a, b, c, optionalTarget ) 
 		// barycoordinates must always sum to 1
 		return result.set( 1 - u - v, v, u );
 
-	//};
+	};
 
-};
+}();
 
-THREE.Triangle.containsPoint = function ( point, a, b, c ) {
+THREE.Triangle.containsPoint = function () {
 
 	var v1 = new THREE.Vector3();
 
-	//return function ( point, a, b, c ) {
+	return function ( point, a, b, c ) {
 
 		var result = THREE.Triangle.barycoordFromPoint( point, a, b, c, v1 );
 
 		return ( result.x >= 0 ) && ( result.y >= 0 ) && ( ( result.x + result.y ) <= 1 );
 
-	//};
+	};
 
-};
+}();
 
 THREE.Triangle.prototype = {
 
@@ -131,16 +131,16 @@ THREE.Triangle.prototype = {
 		var v0 = new THREE.Vector3();
 		var v1 = new THREE.Vector3();
 
-		//return function () {
+		return function () {
 
 			v0.subVectors( this.c, this.b );
 			v1.subVectors( this.a, this.b );
 
 			return v0.cross( v1 ).length() * 0.5;
 
-		//};
+		};
 
-	},
+	}(),
 
 	midpoint: function ( optionalTarget ) {
 

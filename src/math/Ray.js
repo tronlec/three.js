@@ -39,19 +39,19 @@ THREE.Ray.prototype = {
 
 	},
 
-	recast: function ( t ) {
+	recast: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( t ) {
+		return function ( t ) {
 
 			this.origin.copy( this.at( t, v1 ) );
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	closestPointToPoint: function ( point, optionalTarget ) {
 
@@ -69,11 +69,11 @@ THREE.Ray.prototype = {
 
 	},
 
-	distanceToPoint: function ( point ) {
+	distanceToPoint: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( point ) {
+		return function ( point ) {
 
 			var directionDistance = v1.subVectors( point, this.origin ).dot( this.direction );
 
@@ -89,9 +89,9 @@ THREE.Ray.prototype = {
 
 			return v1.distanceTo( point );
 
-		//};
+		};
 
-	},
+	}(),
 
 	distanceSqToSegment: function ( v0, v1, optionalPointOnRay, optionalPointOnSegment ) {
 
@@ -217,13 +217,13 @@ THREE.Ray.prototype = {
 
 	},
 
-	intersectSphere: function ( sphere, optionalTarget ) {
+	intersectSphere: function () {
 
 		// from http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-7-intersecting-simple-shapes/ray-sphere-intersection/
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( sphere, optionalTarget ) {
+		return function ( sphere, optionalTarget ) {
 
 			v1.subVectors( sphere.center, this.origin );
 
@@ -254,9 +254,9 @@ THREE.Ray.prototype = {
 			// else t0 is in front of the ray, so return the first collision point scaled by t0 
 			return this.at( t0, optionalTarget );
 
-		//}
+		}
 
-	},
+	}(),
 
 	isIntersectionPlane: function ( plane ) {
 
@@ -323,17 +323,17 @@ THREE.Ray.prototype = {
 
 	},
 
-	isIntersectionBox: function ( box ) {
+	isIntersectionBox: function () {
 
 		var v = new THREE.Vector3();
 
-		//return function ( box ) {
+		return function ( box ) {
 
 			return this.intersectBox( box, v ) !== null;
 
-		//};
+		};
 
-	},
+	}(),
 
 	intersectBox: function ( box , optionalTarget ) {
 
@@ -403,7 +403,7 @@ THREE.Ray.prototype = {
 
 	},
 
-	intersectTriangle: function ( a, b, c, backfaceCulling, optionalTarget ) {
+	intersectTriangle: function () {
 
 		// Compute the offset origin, edges, and normal.
 		var diff = new THREE.Vector3();
@@ -411,7 +411,7 @@ THREE.Ray.prototype = {
 		var edge2 = new THREE.Vector3();
 		var normal = new THREE.Vector3();
 
-		//return function ( a, b, c, backfaceCulling, optionalTarget ) {
+		return function ( a, b, c, backfaceCulling, optionalTarget ) {
 
 			// from http://www.geometrictools.com/LibMathematics/Intersection/Wm5IntrRay3Triangle3.cpp
 
@@ -482,9 +482,9 @@ THREE.Ray.prototype = {
 			// Ray intersects triangle.
 			return this.at( QdN / DdN, optionalTarget );
 
-		//};
+		};
 
-	},
+	}(),
 
 	applyMatrix4: function ( matrix4 ) {
 

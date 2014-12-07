@@ -37,11 +37,11 @@ THREE.Box3.prototype = {
 
 	},
 
-	setFromCenterAndSize: function ( center, size ) {
+	setFromCenterAndSize: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( center, size ) {
+		return function ( center, size ) {
 
 			var halfSize = v1.copy( size ).multiplyScalar( 0.5 );
 
@@ -50,18 +50,18 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
-	setFromObject: function ( object ) {
+	setFromObject: function () {
 
 		// Computes the world-axis-aligned bounding box of an object (including its children),
 		// accounting for both the object's, and childrens', world transforms
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( object ) {
+		return function ( object ) {
 
 			var scope = this;
 
@@ -111,9 +111,9 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	copy: function ( box ) {
 
@@ -248,24 +248,24 @@ THREE.Box3.prototype = {
 
 	},
 
-	distanceToPoint: function ( point ) {
+	distanceToPoint: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( point ) {
+		return function ( point ) {
 
 			var clampedPoint = v1.copy( point ).clamp( this.min, this.max );
 			return clampedPoint.sub( point ).length();
 
-		//};
+		};
 
-	},
+	}(),
 
-	getBoundingSphere: function ( optionalTarget ) {
+	getBoundingSphere: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Sphere();
 
@@ -274,9 +274,9 @@ THREE.Box3.prototype = {
 
 			return result;
 
-		//};
+		};
 
-	},
+	}(),
 
 	intersect: function ( box ) {
 
@@ -296,7 +296,7 @@ THREE.Box3.prototype = {
 
 	},
 
-	applyMatrix4: function ( matrix ) {
+	applyMatrix4: function () {
 
 		var points = [
 			new THREE.Vector3(),
@@ -309,7 +309,7 @@ THREE.Box3.prototype = {
 			new THREE.Vector3()
 		];
 
-		//return function ( matrix ) {
+		return function ( matrix ) {
 
 			// NOTE: I am using a binary pattern to specify all 2^3 combinations below
 			points[ 0 ].set( this.min.x, this.min.y, this.min.z ).applyMatrix4( matrix ); // 000
@@ -326,9 +326,9 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	translate: function ( offset ) {
 

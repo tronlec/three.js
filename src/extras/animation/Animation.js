@@ -121,7 +121,7 @@ THREE.Animation.prototype.resetBlendWeights = function () {
 
 };
 
-THREE.Animation.prototype.update = function( delta ){
+THREE.Animation.prototype.update = (function(){
 
 	var points = [];
 	var target = new THREE.Vector3();
@@ -170,7 +170,7 @@ THREE.Animation.prototype.update = function( delta ){
 
 	};
 
-    //return function ( delta ) {
+	return function ( delta ) {
 
 		if ( this.isPlaying === false ) return;
 
@@ -337,9 +337,9 @@ THREE.Animation.prototype.update = function( delta ){
 
 		return true;
 
-    //};
+	};
 
-};
+})();
 
 
 

@@ -8172,7 +8172,7 @@ THREE.Quaternion.prototype = {
 
 	},
 
-    setFromUnitVectors: function ( vFrom, vTo ) {
+	setFromUnitVectors: function () {
 
 		// http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
 
@@ -8182,7 +8182,7 @@ THREE.Quaternion.prototype = {
 
 		var EPS = 0.000001;
 
-        //return function ( vFrom, vTo ) {
+		return function ( vFrom, vTo ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -8217,9 +8217,9 @@ THREE.Quaternion.prototype = {
 
 			return this;
 
-        //}
+		}
 
-    },
+	}(),
 
 	inverse: function () {
 
@@ -8396,12 +8396,14 @@ THREE.Quaternion.prototype = {
 
 	},
 
-	fromArray: function ( array ) {
+	fromArray: function ( array, offset ) {
 
-		this._x = array[ 0 ];
-		this._y = array[ 1 ];
-		this._z = array[ 2 ];
-		this._w = array[ 3 ];
+		if ( offset === undefined ) offset = 0;
+
+		this._x = array[ offset ];
+		this._y = array[ offset + 1 ];
+		this._z = array[ offset + 2 ];
+		this._w = array[ offset + 3 ];
 
 		this.onChangeCallback();
 
@@ -8409,9 +8411,17 @@ THREE.Quaternion.prototype = {
 
 	},
 
-	toArray: function () {
+	toArray: function ( array, offset ) {
 
-		return [ this._x, this._y, this._z, this._w ];
+		if ( array === undefined ) array = [];
+		if ( offset === undefined ) offset = 0;
+
+		array[ offset ] = this._x;
+		array[ offset + 1 ] = this._y;
+		array[ offset + 2 ] = this._z;
+		array[ offset + 3 ] = this._w;
+
+		return array;
 
 	},
 
@@ -8686,11 +8696,11 @@ THREE.Vector2.prototype = {
 		return this;
 	},
 
-	clampScalar: function ( minVal, maxVal ) {
+	clampScalar: ( function () {
 
 		var min, max;
 
-		//return function ( minVal, maxVal ) {
+		return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -8704,9 +8714,9 @@ THREE.Vector2.prototype = {
 
 			return this.clamp( min, max );
 
-		//};
+		};
 
-	},
+	} )(),
 
 	floor: function () {
 
@@ -9043,11 +9053,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	applyEuler: function ( euler ) {
+	applyEuler: function () {
 
 		var quaternion;
 
-		//return function ( euler ) {
+		return function ( euler ) {
 
 			if ( euler instanceof THREE.Euler === false ) {
 
@@ -9061,15 +9071,15 @@ THREE.Vector3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
-	applyAxisAngle: function ( axis, angle ) {
+	applyAxisAngle: function () {
 
 		var quaternion;
 
-		//return function ( axis, angle ) {
+		return function ( axis, angle ) {
 
 			if ( quaternion === undefined ) quaternion = new THREE.Quaternion();
 
@@ -9077,9 +9087,9 @@ THREE.Vector3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	applyMatrix3: function ( m ) {
 
@@ -9158,35 +9168,35 @@ THREE.Vector3.prototype = {
 
 	},
 
-	project: function ( camera ) {
+	project: function () {
 
 		var matrix;
 
-		//return function ( camera ) {
+		return function ( camera ) {
 
 			if ( matrix === undefined ) matrix = new THREE.Matrix4();
 
 			matrix.multiplyMatrices( camera.projectionMatrix, matrix.getInverse( camera.matrixWorld ) );
 			return this.applyProjection( matrix );
 
-		//};
+		};
 
-	},
+	}(),
 
-	unproject: function ( camera ) {
+	unproject: function () {
 
 		var matrix;
 
-		//return function ( camera ) {
+		return function ( camera ) {
 
 			if ( matrix === undefined ) matrix = new THREE.Matrix4();
 
 			matrix.multiplyMatrices( camera.matrixWorld, matrix.getInverse( camera.projectionMatrix ) );
 			return this.applyProjection( matrix );
 
-		//};
+		};
 
-	},
+	}(),
 
 	transformDirection: function ( m ) {
 
@@ -9325,11 +9335,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	clampScalar: function ( minVal, maxVal ) {
+	clampScalar: ( function () {
 
 		var min, max;
 
-		//return function ( minVal, maxVal ) {
+		return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -9343,9 +9353,9 @@ THREE.Vector3.prototype = {
 
 			return this.clamp( min, max );
 
-		//};
+		};
 
-	},
+	} )(),
 
 	floor: function () {
 
@@ -9482,11 +9492,11 @@ THREE.Vector3.prototype = {
 
 	},
 
-	projectOnVector: function ( vector ) {
+	projectOnVector: function () {
 
 		var v1, dot;
 
-        //return function ( vector ) {
+		return function ( vector ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -9496,15 +9506,15 @@ THREE.Vector3.prototype = {
 
 			return this.copy( v1 ).multiplyScalar( dot );
 
-		//};
+		};
 
-	},
+	}(),
 
-    projectOnPlane: function ( planeNormal ) {
+	projectOnPlane: function () {
 
 		var v1;
 
-		//return function ( planeNormal ) {
+		return function ( planeNormal ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
@@ -9512,26 +9522,26 @@ THREE.Vector3.prototype = {
 
 			return this.sub( v1 );
 
-		//}
+		}
 
-	},
+	}(),
 
-	reflect: function ( normal ) {
+	reflect: function () {
 
 		// reflect incident vector off plane orthogonal to normal
 		// normal is assumed to have unit length
 
 		var v1;
 
-		//return function ( normal ) {
+		return function ( normal ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
 			return this.sub( v1.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
 
-		//}
+		}
 
-	},
+	}(),
 
 	angleTo: function ( v ) {
 
@@ -10157,11 +10167,11 @@ THREE.Vector4.prototype = {
 
 	},
 
-	clampScalar: function ( minVal, maxVal ) {
+	clampScalar: ( function () {
 
 		var min, max;
 
-		//return function ( minVal, maxVal ) {
+		return function ( minVal, maxVal ) {
 
 			if ( min === undefined ) {
 
@@ -10175,9 +10185,9 @@ THREE.Vector4.prototype = {
 
 			return this.clamp( min, max );
 
-		//};
+		};
 
-	},
+	} )(),
 
     floor: function () {
 
@@ -10602,21 +10612,21 @@ THREE.Euler.prototype = {
 
 	},
 
-    reorder: function ( newOrder ) {
+	reorder: function () {
 
 		// WARNING: this discards revolution information -bhouston
 
 		var q = new THREE.Quaternion();
 
-        //return function ( newOrder ) {
+		return function ( newOrder ) {
 
 			q.setFromEuler( this );
 			this.setFromQuaternion( q, newOrder );
 
-        //};
+		};
 
 
-    },
+	}(),
 
 	equals: function ( euler ) {
 
@@ -10730,12 +10740,12 @@ THREE.Line3.prototype = {
 
 	},
 
-	closestPointToPointParameter: function ( point, clampToLine ) {
+	closestPointToPointParameter: function () {
 
 		var startP = new THREE.Vector3();
 		var startEnd = new THREE.Vector3();
 
-		//return function ( point, clampToLine ) {
+		return function ( point, clampToLine ) {
 
 			startP.subVectors( point, this.start );
 			startEnd.subVectors( this.end, this.start );
@@ -10753,9 +10763,9 @@ THREE.Line3.prototype = {
 
 			return t;
 
-		//};
+		};
 
-	},
+	}(),
 
 	closestPointToPoint: function ( point, clampToLine, optionalTarget ) {
 
@@ -10830,11 +10840,11 @@ THREE.Box2.prototype = {
 
 	},
 
-	setFromCenterAndSize: function ( center, size ) {
+	setFromCenterAndSize: function () {
 
 		var v1 = new THREE.Vector2();
 
-		//return function ( center, size ) {
+		return function ( center, size ) {
 
 			var halfSize = v1.copy( size ).multiplyScalar( 0.5 );
 			this.min.copy( center ).sub( halfSize );
@@ -10842,9 +10852,9 @@ THREE.Box2.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	copy: function ( box ) {
 
@@ -10972,18 +10982,18 @@ THREE.Box2.prototype = {
 
 	},
 
-	distanceToPoint: function ( point ) {
+	distanceToPoint: function () {
 
 		var v1 = new THREE.Vector2();
 
-		//return function ( point ) {
+		return function ( point ) {
 
 			var clampedPoint = v1.copy( point ).clamp( this.min, this.max );
 			return clampedPoint.sub( point ).length();
 
-		//};
+		};
 
-	},
+	}(),
 
 	intersect: function ( box ) {
 
@@ -11067,11 +11077,11 @@ THREE.Box3.prototype = {
 
 	},
 
-	setFromCenterAndSize: function ( center, size ) {
+	setFromCenterAndSize: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( center, size ) {
+		return function ( center, size ) {
 
 			var halfSize = v1.copy( size ).multiplyScalar( 0.5 );
 
@@ -11080,18 +11090,18 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
-	setFromObject: function ( object ) {
+	setFromObject: function () {
 
 		// Computes the world-axis-aligned bounding box of an object (including its children),
 		// accounting for both the object's, and childrens', world transforms
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( object ) {
+		return function ( object ) {
 
 			var scope = this;
 
@@ -11141,9 +11151,9 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	copy: function ( box ) {
 
@@ -11278,24 +11288,24 @@ THREE.Box3.prototype = {
 
 	},
 
-	distanceToPoint: function ( point ) {
+	distanceToPoint: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( point ) {
+		return function ( point ) {
 
 			var clampedPoint = v1.copy( point ).clamp( this.min, this.max );
 			return clampedPoint.sub( point ).length();
 
-		//};
+		};
 
-	},
+	}(),
 
-	getBoundingSphere: function ( optionalTarget ) {
+	getBoundingSphere: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Sphere();
 
@@ -11304,9 +11314,9 @@ THREE.Box3.prototype = {
 
 			return result;
 
-		//};
+		};
 
-	},
+	}(),
 
 	intersect: function ( box ) {
 
@@ -11326,7 +11336,7 @@ THREE.Box3.prototype = {
 
 	},
 
-	applyMatrix4: function ( matrix ) {
+	applyMatrix4: function () {
 
 		var points = [
 			new THREE.Vector3(),
@@ -11339,7 +11349,7 @@ THREE.Box3.prototype = {
 			new THREE.Vector3()
 		];
 
-		//return function ( matrix ) {
+		return function ( matrix ) {
 
 			// NOTE: I am using a binary pattern to specify all 2^3 combinations below
 			points[ 0 ].set( this.min.x, this.min.y, this.min.z ).applyMatrix4( matrix ); // 000
@@ -11356,9 +11366,9 @@ THREE.Box3.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	translate: function ( offset ) {
 
@@ -11469,11 +11479,11 @@ THREE.Matrix3.prototype = {
 
 	},
 
-    applyToVector3Array: function ( array, offset, length ) {
+	applyToVector3Array: function () {
 
 		var v1 = new THREE.Vector3();
 
-        //return function ( array, offset, length ) {
+		return function ( array, offset, length ) {
 
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
@@ -11494,9 +11504,9 @@ THREE.Matrix3.prototype = {
 
 			return array;
 
-        //};
+		};
 
-    },
+	}(),
 
 	multiplyScalar: function ( s ) {
 
@@ -12667,19 +12677,19 @@ THREE.Ray.prototype = {
 
 	},
 
-	recast: function ( t ) {
+	recast: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( t ) {
+		return function ( t ) {
 
 			this.origin.copy( this.at( t, v1 ) );
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	closestPointToPoint: function ( point, optionalTarget ) {
 
@@ -12697,11 +12707,11 @@ THREE.Ray.prototype = {
 
 	},
 
-	distanceToPoint: function ( point ) {
+	distanceToPoint: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( point ) {
+		return function ( point ) {
 
 			var directionDistance = v1.subVectors( point, this.origin ).dot( this.direction );
 
@@ -12717,9 +12727,9 @@ THREE.Ray.prototype = {
 
 			return v1.distanceTo( point );
 
-		//};
+		};
 
-	},
+	}(),
 
 	distanceSqToSegment: function ( v0, v1, optionalPointOnRay, optionalPointOnSegment ) {
 
@@ -12845,13 +12855,13 @@ THREE.Ray.prototype = {
 
 	},
 
-	intersectSphere: function ( sphere, optionalTarget ) {
+	intersectSphere: function () {
 
 		// from http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-7-intersecting-simple-shapes/ray-sphere-intersection/
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( sphere, optionalTarget ) {
+		return function ( sphere, optionalTarget ) {
 
 			v1.subVectors( sphere.center, this.origin );
 
@@ -12882,9 +12892,9 @@ THREE.Ray.prototype = {
 			// else t0 is in front of the ray, so return the first collision point scaled by t0 
 			return this.at( t0, optionalTarget );
 
-		//}
+		}
 
-	},
+	}(),
 
 	isIntersectionPlane: function ( plane ) {
 
@@ -12951,17 +12961,17 @@ THREE.Ray.prototype = {
 
 	},
 
-	isIntersectionBox: function ( box ) {
+	isIntersectionBox: function () {
 
 		var v = new THREE.Vector3();
 
-		//return function ( box ) {
+		return function ( box ) {
 
 			return this.intersectBox( box, v ) !== null;
 
-		//};
+		};
 
-	},
+	}(),
 
 	intersectBox: function ( box , optionalTarget ) {
 
@@ -13031,7 +13041,7 @@ THREE.Ray.prototype = {
 
 	},
 
-	intersectTriangle: function ( a, b, c, backfaceCulling, optionalTarget ) {
+	intersectTriangle: function () {
 
 		// Compute the offset origin, edges, and normal.
 		var diff = new THREE.Vector3();
@@ -13039,7 +13049,7 @@ THREE.Ray.prototype = {
 		var edge2 = new THREE.Vector3();
 		var normal = new THREE.Vector3();
 
-		//return function ( a, b, c, backfaceCulling, optionalTarget ) {
+		return function ( a, b, c, backfaceCulling, optionalTarget ) {
 
 			// from http://www.geometrictools.com/LibMathematics/Intersection/Wm5IntrRay3Triangle3.cpp
 
@@ -13110,9 +13120,9 @@ THREE.Ray.prototype = {
 			// Ray intersects triangle.
 			return this.at( QdN / DdN, optionalTarget );
 
-		//};
+		};
 
-	},
+	}(),
 
 	applyMatrix4: function ( matrix4 ) {
 
@@ -13164,11 +13174,11 @@ THREE.Sphere.prototype = {
 		return this;
 	},
 
-	setFromPoints: function ( points, optionalCenter ) {
+	setFromPoints: function () {
 
 		var box = new THREE.Box3();
 
-		//return function ( points, optionalCenter )  {
+		return function ( points, optionalCenter )  {
 
 			var center = this.center;
 
@@ -13194,9 +13204,9 @@ THREE.Sphere.prototype = {
 
 			return this;
 
- 		//};
+ 		};
 
-	},
+	}(),
 
 	copy: function ( sphere ) {
 
@@ -13369,11 +13379,11 @@ THREE.Frustum.prototype = {
 
 	},
 
-	intersectsObject: function ( object ) {
+	intersectsObject: function () {
 
 		var sphere = new THREE.Sphere();
 
-		//return function ( object ) {
+		return function ( object ) {
 
 			var geometry = object.geometry;
 
@@ -13384,9 +13394,9 @@ THREE.Frustum.prototype = {
 
 			return this.intersectsSphere( sphere );
 
-        //};
+		};
 
-    },
+	}(),
 
 	intersectsSphere: function ( sphere ) {
 
@@ -13410,12 +13420,12 @@ THREE.Frustum.prototype = {
 
 	},
 
-	intersectsBox: function ( box ) {
+	intersectsBox: function () {
 
 		var p1 = new THREE.Vector3(),
 			p2 = new THREE.Vector3();
 
-		//return function ( box ) {
+		return function ( box ) {
 
 			var planes = this.planes;
 
@@ -13443,9 +13453,9 @@ THREE.Frustum.prototype = {
 			}
 
 			return true;
-		//};
+		};
 
-	},
+	}(),
 
 
 	containsPoint: function ( point ) {
@@ -13518,12 +13528,12 @@ THREE.Plane.prototype = {
 
 	},
 
-    setFromCoplanarPoints: function( a, b, c ) {
+	setFromCoplanarPoints: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 
-		//return function ( a, b, c ) {
+		return function ( a, b, c ) {
 
 			var normal = v1.subVectors( c, b ).cross( v2.subVectors( a, b ) ).normalize();
 
@@ -13533,9 +13543,9 @@ THREE.Plane.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 
 	copy: function ( plane ) {
@@ -13606,11 +13616,11 @@ THREE.Plane.prototype = {
 
 	},
 
-	intersectLine: function ( line, optionalTarget ) {
+	intersectLine: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( line, optionalTarget ) {
+		return function ( line, optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Vector3();
 
@@ -13642,9 +13652,9 @@ THREE.Plane.prototype = {
 
 			return result.copy( direction ).multiplyScalar( t ).add( line.start );
 
-		//};
+		};
 
-	},
+	}(),
 
 
 	coplanarPoint: function ( optionalTarget ) {
@@ -13654,13 +13664,13 @@ THREE.Plane.prototype = {
 
 	},
 
-	applyMatrix4: function ( matrix, optionalNormalMatrix ) {
+	applyMatrix4: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 		var m1 = new THREE.Matrix3();
 
-		//return function ( matrix, optionalNormalMatrix ) {
+		return function ( matrix, optionalNormalMatrix ) {
 
 			// compute new normal based on theory here:
 			// http://www.songho.ca/opengl/gl_normaltransform.html
@@ -13674,9 +13684,9 @@ THREE.Plane.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	translate: function ( offset ) {
 
@@ -13717,7 +13727,7 @@ THREE.Math = {
 		var uuid = new Array( 36 );
 		var rnd = 0, r;
 
-        //return function () {
+		return function () {
 
 			for ( var i = 0; i < 36; i ++ ) {
 
@@ -13741,9 +13751,9 @@ THREE.Math = {
 
 			return uuid.join( '' );
 
-        //};
+		};
 
-    },
+	}(),
 
 	// Clamp value to range <a, b>
 
@@ -13826,29 +13836,29 @@ THREE.Math = {
 
 	},
 
-    degToRad: function ( degrees ) {
+	degToRad: function () {
 
 		var degreeToRadiansFactor = Math.PI / 180;
 
-        //return function ( degrees ) {
+		return function ( degrees ) {
 
 			return degrees * degreeToRadiansFactor;
 
-        //};
+		};
 
-    },
+	}(),
 
-    radToDeg: function ( radians ) {
+	radToDeg: function () {
 
 		var radianToDegreesFactor = 180 / Math.PI;
 
-        //return function ( radians ) {
+		return function ( radians ) {
 
 			return radians * radianToDegreesFactor;
 
-        //};
+		};
 
-    },
+	}(),
 
 	isPowerOfTwo: function ( value ) {
 
@@ -14052,11 +14062,11 @@ THREE.Triangle = function ( a, b, c ) {
 
 };
 
-THREE.Triangle.normal = function ( a, b, c, optionalTarget ) {
+THREE.Triangle.normal = function () {
 
 	var v0 = new THREE.Vector3();
 
-	//return function ( a, b, c, optionalTarget ) {
+	return function ( a, b, c, optionalTarget ) {
 
 		var result = optionalTarget || new THREE.Vector3();
 
@@ -14073,19 +14083,19 @@ THREE.Triangle.normal = function ( a, b, c, optionalTarget ) {
 
 		return result.set( 0, 0, 0 );
 
-	//};
+	};
 
-};
+}();
 
 // static/instance method to calculate barycoordinates
 // based on: http://www.blackpawn.com/texts/pointinpoly/default.html
-THREE.Triangle.barycoordFromPoint = function ( point, a, b, c, optionalTarget ) {
+THREE.Triangle.barycoordFromPoint = function () {
 
 	var v0 = new THREE.Vector3();
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
-	//return function ( point, a, b, c, optionalTarget ) {
+	return function ( point, a, b, c, optionalTarget ) {
 
 		v0.subVectors( c, a );
 		v1.subVectors( b, a );
@@ -14115,23 +14125,23 @@ THREE.Triangle.barycoordFromPoint = function ( point, a, b, c, optionalTarget ) 
 		// barycoordinates must always sum to 1
 		return result.set( 1 - u - v, v, u );
 
-	//};
+	};
 
-};
+}();
 
-THREE.Triangle.containsPoint = function ( point, a, b, c ) {
+THREE.Triangle.containsPoint = function () {
 
 	var v1 = new THREE.Vector3();
 
-	//return function ( point, a, b, c ) {
+	return function ( point, a, b, c ) {
 
 		var result = THREE.Triangle.barycoordFromPoint( point, a, b, c, v1 );
 
 		return ( result.x >= 0 ) && ( result.y >= 0 ) && ( ( result.x + result.y ) <= 1 );
 
-	//};
+	};
 
-};
+}();
 
 THREE.Triangle.prototype = {
 
@@ -14172,16 +14182,16 @@ THREE.Triangle.prototype = {
 		var v0 = new THREE.Vector3();
 		var v1 = new THREE.Vector3();
 
-		//return function () {
+		return function () {
 
 			v0.subVectors( this.c, this.b );
 			v1.subVectors( this.a, this.b );
 
 			return v0.cross( v1 ).length() * 0.5;
 
-		//};
+		};
 
-	},
+	}(),
 
 	midpoint: function ( optionalTarget ) {
 
@@ -18301,6 +18311,7 @@ THREE.Loader = function ( showStatus ) {
 	this.onLoadStart = function () {};
 	this.onLoadProgress = function () {};
 	this.onLoadComplete = function () {};
+	this.extractUrlBase = function ( url ) { return ""; }
 
 };
 
@@ -18950,7 +18961,7 @@ THREE.JSONLoader.prototype.load = function ( url, callback, texturePath ) {
 
 	// todo: unify load API to for easier SceneLoader use
 
-    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === "string" ) ? texturePath : "";
+    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === 'string' ) ? texturePath : "";
 
 	this.onLoadStart();
 	this.loadAjaxJSON( this, url, callback, texturePath );
@@ -19680,7 +19691,7 @@ console.log("File:src/loaders/ObjectLoader.js");
 THREE.ObjectLoader = function ( manager ) {
 
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-    this.__matrix = new THREE.Matrix4();
+
 };
 
 THREE.ObjectLoader.prototype = {
@@ -19884,11 +19895,11 @@ THREE.ObjectLoader.prototype = {
 
 	},
 
-	parseObject: function ( data, geometries, materials ) {
+	parseObject: function () {
 
-		var matrix = this.__matrix;
+		var matrix = new THREE.Matrix4();
 
-		//return function ( data, geometries, materials ) {
+		return function ( data, geometries, materials ) {
 
 			var object;
 
@@ -20041,9 +20052,9 @@ THREE.ObjectLoader.prototype = {
 
 			return object;
 
-		//}
+		}
 
-	}
+	}()
 
 };
 
@@ -21474,11 +21485,13 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 
     this.__defineSetter__("needsUpdate", function(value){
 
-        if ( value === true )
-            _this.update();
+        if ( value === true ) _this.update();
         _this._needsUpdate = value;
     });
 };
+
+THREE.Texture.DEFAULT_IMAGE = undefined;
+THREE.Texture.DEFAULT_MAPPING = new THREE.UVMapping();
 
 THREE.Texture.prototype = {
 
@@ -21694,12 +21707,12 @@ THREE.PointCloud = function ( geometry, material ) {
 
 THREE.PointCloud.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.PointCloud.prototype.raycast = function ( raycaster, intersects ) {
+THREE.PointCloud.prototype.raycast = ( function () {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
 
-    //return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		var object = this;
 		var geometry = object.geometry;
@@ -21817,9 +21830,9 @@ THREE.PointCloud.prototype.raycast = function ( raycaster, intersects ) {
 
 		}
 
-    //};
+	};
 
-};
+}() );
 
 THREE.PointCloud.prototype.clone = function ( object ) {
 
@@ -21866,13 +21879,13 @@ THREE.LinePieces = 1;
 
 THREE.Line.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Line.prototype.raycast = function ( raycaster, intersects ) {
+THREE.Line.prototype.raycast = ( function () {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
 	var sphere = new THREE.Sphere();
 
-	//return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		var precision = raycaster.linePrecision;
 		var precisionSq = precision * precision;
@@ -21931,9 +21944,9 @@ THREE.Line.prototype.raycast = function ( raycaster, intersects ) {
 
 		}
 
-	//};
+	};
 
-};
+}() );
 
 THREE.Line.prototype.clone = function ( object ) {
 
@@ -22004,7 +22017,7 @@ THREE.Mesh.prototype.getMorphTargetIndexByName = function ( name ) {
 };
 
 
-THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
+THREE.Mesh.prototype.raycast = ( function () {
 
 	var inverseMatrix = new THREE.Matrix4();
 	var ray = new THREE.Ray();
@@ -22014,7 +22027,7 @@ THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
 	var vB = new THREE.Vector3();
 	var vC = new THREE.Vector3();
 
-	//return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		var geometry = this.geometry;
 
@@ -22258,9 +22271,9 @@ THREE.Mesh.prototype.raycast = function ( raycaster, intersects ) {
 
 		}
 
-	//};
+	};
 
-};
+}() );
 
 THREE.Mesh.prototype.clone = function ( object, recursive ) {
 
@@ -22445,11 +22458,11 @@ THREE.Skeleton.prototype.pose = function () {
 
 };
 
-THREE.Skeleton.prototype.update = function () {
+THREE.Skeleton.prototype.update = ( function () {
 
 	var offsetMatrix = new THREE.Matrix4();
 	
-    //return function () {
+	return function () {
 
 		// flatten bone matrices to array
 
@@ -22470,9 +22483,9 @@ THREE.Skeleton.prototype.update = function () {
 
 		}
 		
-    //};
+	};
 
-};
+} )();
 
 
 console.log("File:src/objects/SkinnedMesh.js");
@@ -22919,11 +22932,11 @@ THREE.LOD.prototype.getObjectForDistance = function ( distance ) {
 
 };
 
-THREE.LOD.prototype.raycast = function ( raycaster, intersects ) {
+THREE.LOD.prototype.raycast = ( function () {
 
 	var matrixPosition = new THREE.Vector3();
 
-    //return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		matrixPosition.setFromMatrixPosition( this.matrixWorld );
 
@@ -22931,16 +22944,16 @@ THREE.LOD.prototype.raycast = function ( raycaster, intersects ) {
 
 		this.getObjectForDistance( distance ).raycast( raycaster, intersects );
 
-    //};
+	};
 
-};
+}() );
 
-THREE.LOD.prototype.update = function ( camera ) {
+THREE.LOD.prototype.update = function () {
 
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
-	//return function ( camera ) {
+	return function ( camera ) {
 
 		if ( this.objects.length > 1 ) {
 
@@ -22974,9 +22987,9 @@ THREE.LOD.prototype.update = function ( camera ) {
 
 		}
 
-	//};
+	};
 
-};
+}();
 
 THREE.LOD.prototype.clone = function ( object ) {
 
@@ -23001,7 +23014,7 @@ console.log("File:src/objects/Sprite.js");
  * @author alteredq / http://alteredqualia.com/
  */
 
-THREE.Sprite = function ( material ) {
+THREE.Sprite = ( function () {
 
 	var indices = new Uint16Array( [ 0, 1, 2,  0, 2, 3 ] );
 	var vertices = new Float32Array( [ - 0.5, - 0.5, 0,   0.5, - 0.5, 0,   0.5, 0.5, 0,   - 0.5, 0.5, 0 ] );
@@ -23012,7 +23025,7 @@ THREE.Sprite = function ( material ) {
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 	geometry.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 2 ) );
 
-	//return function ( material ) {
+	return function ( material ) {
 
 		THREE.Object3D.call( this );
 
@@ -23021,17 +23034,17 @@ THREE.Sprite = function ( material ) {
 		this.geometry = geometry;
 		this.material = ( material !== undefined ) ? material : new THREE.SpriteMaterial();
 
-	//};
+	};
 
-};
+} )();
 
 THREE.Sprite.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Sprite.prototype.raycast = function ( raycaster, intersects ) {
+THREE.Sprite.prototype.raycast = ( function () {
 
 	var matrixPosition = new THREE.Vector3();
 
-	//return function ( raycaster, intersects ) {
+	return function ( raycaster, intersects ) {
 
 		matrixPosition.setFromMatrixPosition( this.matrixWorld );
 
@@ -23052,9 +23065,9 @@ THREE.Sprite.prototype.raycast = function ( raycaster, intersects ) {
 
 		} );
 
-	//};
+	};
 
-};
+}() );
 
 THREE.Sprite.prototype.clone = function ( object ) {
 
@@ -25130,7 +25143,7 @@ THREE.WebGLExtensions = function ( gl ) {
 
 console.log("File:src/renderers/webgl/WebGLProgram.js");
 
-THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
+THREE.WebGLProgram = ( function () {
 
 	var programIdCount = 0;
 
@@ -25182,7 +25195,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 	};
 
-	//return function ( renderer, code, material, parameters ) {
+	return function ( renderer, code, material, parameters ) {
 
 		var _this = renderer;
 		var _gl = _this.context;
@@ -25506,13 +25519,13 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		return this;
 
-	//};
+	};
 
-};
+} )();
 
 console.log("File:src/renderers/webgl/WebGLShader.js");
 
-THREE.WebGLShader = function ( gl, type, string ) {
+THREE.WebGLShader = ( function () {
 
 	var addLineNumbers = function ( string ) {
 
@@ -25528,7 +25541,7 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 	};
 
-	//return function ( gl, type, string ) {
+	return function ( gl, type, string ) {
 
 		var shader = gl.createShader( type ); 
 
@@ -25553,9 +25566,9 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 		return shader;
 
-	//};
+	};
 
-};
+} )();
 
 console.log("File:src/renderers/webgl/plugins/LensFlarePlugin.js");
 
@@ -27250,252 +27263,252 @@ console.log("File:src/extras/FontUtils.js");
 
 THREE.FontUtils = {
 
-    faces: {},
+	faces: {},
 
-    // Just for now. face[weight][style]
+	// Just for now. face[weight][style]
 
-    face: 'helvetiker',
-    weight: 'normal',
-    style: 'normal',
-    size: 150,
-    divisions: 10,
+	face: 'helvetiker',
+	weight: 'normal',
+	style: 'normal',
+	size: 150,
+	divisions: 10,
 
-    getFace: function () {
+	getFace: function () {
 
-        try {
+		try {
 
-            return this.faces[ this.face ][ this.weight ][ this.style ];
+			return this.faces[ this.face ][ this.weight ][ this.style ];
 
-        } catch (e) {
+		} catch (e) {
 
-            throw "The font " + this.face + " with " + this.weight + " weight and " + this.style + " style is missing."
+			throw "The font " + this.face + " with " + this.weight + " weight and " + this.style + " style is missing."
 
-        }
+		};
 
-    },
+	},
 
-    loadFace: function ( data ) {
+	loadFace: function ( data ) {
 
-        var family = data.familyName.toLowerCase();
+		var family = data.familyName.toLowerCase();
 
-        var ThreeFont = this;
+		var ThreeFont = this;
 
-        ThreeFont.faces[ family ] = ThreeFont.faces[ family ] || {};
+		ThreeFont.faces[ family ] = ThreeFont.faces[ family ] || {};
 
-        ThreeFont.faces[ family ][ data.cssFontWeight ] = ThreeFont.faces[ family ][ data.cssFontWeight ] || {};
-        ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
+		ThreeFont.faces[ family ][ data.cssFontWeight ] = ThreeFont.faces[ family ][ data.cssFontWeight ] || {};
+		ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
 
-        var face = ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
+		var face = ThreeFont.faces[ family ][ data.cssFontWeight ][ data.cssFontStyle ] = data;
 
-        return data;
+		return data;
 
-    },
+	},
 
-    drawText: function ( text ) {
+	drawText: function ( text ) {
 
-        var characterPts = [], allPts = [];
+		var characterPts = [], allPts = [];
 
-        // RenderText
+		// RenderText
 
-        var i, p,
-                face = this.getFace(),
-                scale = this.size / face.resolution,
-                offset = 0,
-                chars = String( text ).split( '' ),
-                length = chars.length;
+		var i, p,
+			face = this.getFace(),
+			scale = this.size / face.resolution,
+			offset = 0,
+			chars = String( text ).split( '' ),
+			length = chars.length;
 
-        var fontPaths = [];
+		var fontPaths = [];
 
-        for ( i = 0; i < length; i ++ ) {
+		for ( i = 0; i < length; i ++ ) {
 
-            var path = new THREE.Path();
+			var path = new THREE.Path();
 
-            var ret = this.extractGlyphPoints( chars[ i ], face, scale, offset, path );
-            offset += ret.offset;
+			var ret = this.extractGlyphPoints( chars[ i ], face, scale, offset, path );
+			offset += ret.offset;
 
-            fontPaths.push( ret.path );
+			fontPaths.push( ret.path );
 
-        }
+		}
 
-        // get the width
+		// get the width
 
-        var width = offset / 2;
-        //
-        // for ( p = 0; p < allPts.length; p++ ) {
-        //
-        // 	allPts[ p ].x -= width;
-        //
-        // }
+		var width = offset / 2;
+		//
+		// for ( p = 0; p < allPts.length; p++ ) {
+		//
+		// 	allPts[ p ].x -= width;
+		//
+		// }
 
-        //var extract = this.extractPoints( allPts, characterPts );
-        //extract.contour = allPts;
+		//var extract = this.extractPoints( allPts, characterPts );
+		//extract.contour = allPts;
 
-        //extract.paths = fontPaths;
-        //extract.offset = width;
+		//extract.paths = fontPaths;
+		//extract.offset = width;
 
-        return { paths: fontPaths, offset: width };
+		return { paths: fontPaths, offset: width };
 
-    },
+	},
 
 
 
 
-    extractGlyphPoints: function ( c, face, scale, offset, path ) {
+	extractGlyphPoints: function ( c, face, scale, offset, path ) {
 
-        var pts = [];
+		var pts = [];
 
-        var i, i2, divisions,
-                outline, action, length,
-                scaleX, scaleY,
-                x, y, cpx, cpy, cpx0, cpy0, cpx1, cpy1, cpx2, cpy2,
-                laste,
-                glyph = face.glyphs[ c ] || face.glyphs[ '?' ];
+		var i, i2, divisions,
+			outline, action, length,
+			scaleX, scaleY,
+			x, y, cpx, cpy, cpx0, cpy0, cpx1, cpy1, cpx2, cpy2,
+			laste,
+			glyph = face.glyphs[ c ] || face.glyphs[ '?' ];
 
-        if ( ! glyph ) return;
+		if ( ! glyph ) return;
 
-        if ( glyph.o ) {
+		if ( glyph.o ) {
 
-            outline = glyph._cachedOutline || ( glyph._cachedOutline = glyph.o.split( ' ' ) );
-            length = outline.length;
+			outline = glyph._cachedOutline || ( glyph._cachedOutline = glyph.o.split( ' ' ) );
+			length = outline.length;
 
-            scaleX = scale;
-            scaleY = scale;
+			scaleX = scale;
+			scaleY = scale;
 
-            for ( i = 0; i < length; ) {
+			for ( i = 0; i < length; ) {
 
-                action = outline[ i ++ ];
+				action = outline[ i ++ ];
 
-                //console.log( action );
+				//console.log( action );
 
-                switch ( action ) {
+				switch ( action ) {
 
-                case 'm':
+				case 'm':
 
-                    // Move To
+					// Move To
 
-                    x = outline[ i ++ ] * scaleX + offset;
-                    y = outline[ i ++ ] * scaleY;
+					x = outline[ i ++ ] * scaleX + offset;
+					y = outline[ i ++ ] * scaleY;
 
-                    path.moveTo( x, y );
-                    break;
+					path.moveTo( x, y );
+					break;
 
-                case 'l':
+				case 'l':
 
-                    // Line To
+					// Line To
 
-                    x = outline[ i ++ ] * scaleX + offset;
-                    y = outline[ i ++ ] * scaleY;
-                    path.lineTo( x,y );
-                    break;
+					x = outline[ i ++ ] * scaleX + offset;
+					y = outline[ i ++ ] * scaleY;
+					path.lineTo( x,y );
+					break;
 
-                case 'q':
+				case 'q':
 
-                    // QuadraticCurveTo
+					// QuadraticCurveTo
 
-                    cpx  = outline[ i ++ ] * scaleX + offset;
-                    cpy  = outline[ i ++ ] * scaleY;
-                    cpx1 = outline[ i ++ ] * scaleX + offset;
-                    cpy1 = outline[ i ++ ] * scaleY;
+					cpx  = outline[ i ++ ] * scaleX + offset;
+					cpy  = outline[ i ++ ] * scaleY;
+					cpx1 = outline[ i ++ ] * scaleX + offset;
+					cpy1 = outline[ i ++ ] * scaleY;
 
-                    path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
+					path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
 
-                    laste = pts[ pts.length - 1 ];
+					laste = pts[ pts.length - 1 ];
 
-                    if ( laste ) {
+					if ( laste ) {
 
-                        cpx0 = laste.x;
-                        cpy0 = laste.y;
+						cpx0 = laste.x;
+						cpy0 = laste.y;
 
-                        for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
+						for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
 
-                            var t = i2 / divisions;
-                            var tx = THREE.Shape.Utils.b2( t, cpx0, cpx1, cpx );
-                            var ty = THREE.Shape.Utils.b2( t, cpy0, cpy1, cpy );
-                        }
+							var t = i2 / divisions;
+							var tx = THREE.Shape.Utils.b2( t, cpx0, cpx1, cpx );
+							var ty = THREE.Shape.Utils.b2( t, cpy0, cpy1, cpy );
+					  }
 
-                    }
+				  }
 
-                    break;
+				  break;
 
-                case 'b':
+				case 'b':
 
-                    // Cubic Bezier Curve
+					// Cubic Bezier Curve
 
-                    cpx  = outline[ i ++ ] *  scaleX + offset;
-                    cpy  = outline[ i ++ ] *  scaleY;
-                    cpx1 = outline[ i ++ ] *  scaleX + offset;
-                    cpy1 = outline[ i ++ ] *  scaleY;
-                    cpx2 = outline[ i ++ ] *  scaleX + offset;
-                    cpy2 = outline[ i ++ ] *  scaleY;
+					cpx  = outline[ i ++ ] *  scaleX + offset;
+					cpy  = outline[ i ++ ] *  scaleY;
+					cpx1 = outline[ i ++ ] *  scaleX + offset;
+					cpy1 = outline[ i ++ ] *  scaleY;
+					cpx2 = outline[ i ++ ] *  scaleX + offset;
+					cpy2 = outline[ i ++ ] *  scaleY;
 
-                    path.bezierCurveTo( cpx1, cpy1, cpx2, cpy2, cpx, cpy );
+					path.bezierCurveTo( cpx1, cpy1, cpx2, cpy2, cpx, cpy );
 
-                    laste = pts[ pts.length - 1 ];
+					laste = pts[ pts.length - 1 ];
 
-                    if ( laste ) {
+					if ( laste ) {
 
-                        cpx0 = laste.x;
-                        cpy0 = laste.y;
+						cpx0 = laste.x;
+						cpy0 = laste.y;
 
-                        for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
+						for ( i2 = 1, divisions = this.divisions; i2 <= divisions; i2 ++ ) {
 
-                            var t = i2 / divisions;
-                            var tx = THREE.Shape.Utils.b3( t, cpx0, cpx1, cpx2, cpx );
-                            var ty = THREE.Shape.Utils.b3( t, cpy0, cpy1, cpy2, cpy );
+							var t = i2 / divisions;
+							var tx = THREE.Shape.Utils.b3( t, cpx0, cpx1, cpx2, cpx );
+							var ty = THREE.Shape.Utils.b3( t, cpy0, cpy1, cpy2, cpy );
 
-                        }
+						}
 
-                    }
+					}
 
-                    break;
+					break;
 
-                }
+				}
 
-            }
-        }
+			}
+		}
 
 
 
-        return { offset: glyph.ha * scale, path:path };
-    }
+		return { offset: glyph.ha * scale, path:path };
+	}
 
 };
 
 
 THREE.FontUtils.generateShapes = function ( text, parameters ) {
 
-    // Parameters
+	// Parameters 
 
-    parameters = parameters || {};
+	parameters = parameters || {};
 
-    var size = parameters.size !== undefined ? parameters.size : 100;
-    var curveSegments = parameters.curveSegments !== undefined ? parameters.curveSegments : 4;
+	var size = parameters.size !== undefined ? parameters.size : 100;
+	var curveSegments = parameters.curveSegments !== undefined ? parameters.curveSegments : 4;
 
-    var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
-    var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
-    var style = parameters.style !== undefined ? parameters.style : 'normal';
+	var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
+	var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
+	var style = parameters.style !== undefined ? parameters.style : 'normal';
 
-    THREE.FontUtils.size = size;
-    THREE.FontUtils.divisions = curveSegments;
+	THREE.FontUtils.size = size;
+	THREE.FontUtils.divisions = curveSegments;
 
-    THREE.FontUtils.face = font;
-    THREE.FontUtils.weight = weight;
-    THREE.FontUtils.style = style;
+	THREE.FontUtils.face = font;
+	THREE.FontUtils.weight = weight;
+	THREE.FontUtils.style = style;
 
-    // Get a Font data json object
+	// Get a Font data json object
 
-    var data = THREE.FontUtils.drawText( text );
+	var data = THREE.FontUtils.drawText( text );
 
-    var paths = data.paths;
-    var shapes = [];
+	var paths = data.paths;
+	var shapes = [];
 
-    for ( var p = 0, pl = paths.length; p < pl; p ++ ) {
+	for ( var p = 0, pl = paths.length; p < pl; p ++ ) {
 
-        Array.prototype.push.apply( shapes, paths[ p ].toShapes() );
+		Array.prototype.push.apply( shapes, paths[ p ].toShapes() );
 
-    }
+	}
 
-    return shapes;
+	return shapes;
 
 };
 
@@ -27514,176 +27527,177 @@ THREE.FontUtils.generateShapes = function ( text, parameters ) {
  *
  */
 
+
 //( function ( namespace ) {
 
-var EPSILON = 0.0000000001;
+	var EPSILON = 0.0000000001;
 
-// takes in an contour array and returns
+	// takes in an contour array and returns
 
 THREE.FontUtils.process = function ( contour, indices ) {
 
-    var n = contour.length;
+		var n = contour.length;
 
-    if ( n < 3 ) return null;
+		if ( n < 3 ) return null;
 
-    var result = [],
-            verts = [],
-            vertIndices = [];
+		var result = [],
+			verts = [],
+			vertIndices = [];
 
-    /* we want a counter-clockwise polygon in verts */
+		/* we want a counter-clockwise polygon in verts */
 
-    var u, v, w;
+		var u, v, w;
 
-    if ( area( contour ) > 0.0 ) {
+		if ( area( contour ) > 0.0 ) {
 
-        for ( v = 0; v < n; v ++ ) verts[ v ] = v;
+			for ( v = 0; v < n; v ++ ) verts[ v ] = v;
 
-    } else {
+		} else {
 
-        for ( v = 0; v < n; v ++ ) verts[ v ] = ( n - 1 ) - v;
+			for ( v = 0; v < n; v ++ ) verts[ v ] = ( n - 1 ) - v;
 
-    }
+		}
 
-    var nv = n;
+		var nv = n;
 
-    /*  remove nv - 2 vertices, creating 1 triangle every time */
+		/*  remove nv - 2 vertices, creating 1 triangle every time */
 
-    var count = 2 * nv;   /* error detection */
+		var count = 2 * nv;   /* error detection */
 
-    for ( v = nv - 1; nv > 2; ) {
+		for ( v = nv - 1; nv > 2; ) {
 
-        /* if we loop, it is probably a non-simple polygon */
+			/* if we loop, it is probably a non-simple polygon */
 
-        if ( ( count -- ) <= 0 ) {
+			if ( ( count -- ) <= 0 ) {
 
-            //** Triangulate: ERROR - probable bad polygon!
+				//** Triangulate: ERROR - probable bad polygon!
 
-            //throw ( "Warning, unable to triangulate polygon!" );
-            //return null;
-            // Sometimes warning is fine, especially polygons are triangulated in reverse.
-            console.log( 'Warning, unable to triangulate polygon!' );
+				//throw ( "Warning, unable to triangulate polygon!" );
+				//return null;
+				// Sometimes warning is fine, especially polygons are triangulated in reverse.
+				console.log( 'Warning, unable to triangulate polygon!' );
 
-            if ( indices ) return vertIndices;
-            return result;
+				if ( indices ) return vertIndices;
+				return result;
 
-        }
+			}
 
-        /* three consecutive vertices in current polygon, <u,v,w> */
+			/* three consecutive vertices in current polygon, <u,v,w> */
 
-        u = v; 	 	if ( nv <= u ) u = 0;     /* previous */
-        v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
-        w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
+			u = v; 	 	if ( nv <= u ) u = 0;     /* previous */
+			v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
+			w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
 
-        if ( snip( contour, u, v, w, nv, verts ) ) {
+			if ( snip( contour, u, v, w, nv, verts ) ) {
 
-            var a, b, c, s, t;
+				var a, b, c, s, t;
 
-            /* true names of the vertices */
+				/* true names of the vertices */
 
-            a = verts[ u ];
-            b = verts[ v ];
-            c = verts[ w ];
+				a = verts[ u ];
+				b = verts[ v ];
+				c = verts[ w ];
 
-            /* output Triangle */
+				/* output Triangle */
 
-            result.push( [ contour[ a ],
-                          contour[ b ],
-                          contour[ c ] ] );
+				result.push( [ contour[ a ],
+					contour[ b ],
+					contour[ c ] ] );
 
 
-            vertIndices.push( [ verts[ u ], verts[ v ], verts[ w ] ] );
+				vertIndices.push( [ verts[ u ], verts[ v ], verts[ w ] ] );
 
-            /* remove v from the remaining polygon */
+				/* remove v from the remaining polygon */
 
-            for ( s = v, t = v + 1; t < nv; s++, t++ ) {
+				for ( s = v, t = v + 1; t < nv; s++, t++ ) {
 
-                verts[ s ] = verts[ t ];
+					verts[ s ] = verts[ t ];
 
-            }
+				}
 
-            nv --;
+				nv --;
 
-            /* reset error detection counter */
+				/* reset error detection counter */
 
-            count = 2 * nv;
+				count = 2 * nv;
 
-        }
+			}
 
-    }
+		}
 
-    if ( indices ) return vertIndices;
-    return result;
+		if ( indices ) return vertIndices;
+		return result;
 
-};
+	};
 
-// calculate area of the contour polygon
+	// calculate area of the contour polygon
 
 THREE.FontUtils.area = function ( contour ) {
 
-    var n = contour.length;
-    var a = 0.0;
+		var n = contour.length;
+		var a = 0.0;
 
-    for ( var p = n - 1, q = 0; q < n; p = q ++ ) {
+		for ( var p = n - 1, q = 0; q < n; p = q ++ ) {
 
-        a += contour[ p ].x * contour[ q ].y - contour[ q ].x * contour[ p ].y;
+			a += contour[ p ].x * contour[ q ].y - contour[ q ].x * contour[ p ].y;
 
-    }
+		}
 
-    return a * 0.5;
+		return a * 0.5;
 
-};
+	};
 
 THREE.FontUtils.snip = function ( contour, u, v, w, n, verts ) {
 
-    var p;
-    var ax, ay, bx, by;
-    var cx, cy, px, py;
+		var p;
+		var ax, ay, bx, by;
+		var cx, cy, px, py;
 
-    ax = contour[ verts[ u ] ].x;
-    ay = contour[ verts[ u ] ].y;
+		ax = contour[ verts[ u ] ].x;
+		ay = contour[ verts[ u ] ].y;
 
-    bx = contour[ verts[ v ] ].x;
-    by = contour[ verts[ v ] ].y;
+		bx = contour[ verts[ v ] ].x;
+		by = contour[ verts[ v ] ].y;
 
-    cx = contour[ verts[ w ] ].x;
-    cy = contour[ verts[ w ] ].y;
+		cx = contour[ verts[ w ] ].x;
+		cy = contour[ verts[ w ] ].y;
 
-    if ( EPSILON > ( ( ( bx - ax ) * ( cy - ay ) ) - ( ( by - ay ) * ( cx - ax ) ) ) ) return false;
+		if ( EPSILON > ( ( ( bx - ax ) * ( cy - ay ) ) - ( ( by - ay ) * ( cx - ax ) ) ) ) return false;
 
-    var aX, aY, bX, bY, cX, cY;
-    var apx, apy, bpx, bpy, cpx, cpy;
-    var cCROSSap, bCROSScp, aCROSSbp;
+		var aX, aY, bX, bY, cX, cY;
+		var apx, apy, bpx, bpy, cpx, cpy;
+		var cCROSSap, bCROSScp, aCROSSbp;
 
-    aX = cx - bx;  aY = cy - by;
-    bX = ax - cx;  bY = ay - cy;
-    cX = bx - ax;  cY = by - ay;
+		aX = cx - bx;  aY = cy - by;
+		bX = ax - cx;  bY = ay - cy;
+		cX = bx - ax;  cY = by - ay;
 
-    for ( p = 0; p < n; p ++ ) {
+		for ( p = 0; p < n; p ++ ) {
 
-        px = contour[ verts[ p ] ].x
-        py = contour[ verts[ p ] ].y
+			px = contour[ verts[ p ] ].x
+			py = contour[ verts[ p ] ].y
 
-        if ( ( ( px === ax ) && ( py === ay ) ) ||
-                ( ( px === bx ) && ( py === by ) ) ||
-                ( ( px === cx ) && ( py === cy ) ) )	continue;
+			if ( ( ( px === ax ) && ( py === ay ) ) ||
+				 ( ( px === bx ) && ( py === by ) ) ||
+				 ( ( px === cx ) && ( py === cy ) ) )	continue;
 
-        apx = px - ax;  apy = py - ay;
-        bpx = px - bx;  bpy = py - by;
-        cpx = px - cx;  cpy = py - cy;
+			apx = px - ax;  apy = py - ay;
+			bpx = px - bx;  bpy = py - by;
+			cpx = px - cx;  cpy = py - cy;
 
-        // see if p is inside triangle abc
+			// see if p is inside triangle abc
 
-        aCROSSbp = aX * bpy - aY * bpx;
-        cCROSSap = cX * apy - cY * apx;
-        bCROSScp = bX * cpy - bY * cpx;
+			aCROSSbp = aX * bpy - aY * bpx;
+			cCROSSap = cX * apy - cY * apx;
+			bCROSScp = bX * cpy - bY * cpx;
 
-        if ( ( aCROSSbp >= - EPSILON ) && ( bCROSScp >= - EPSILON ) && ( cCROSSap >= - EPSILON ) ) return false;
+			if ( ( aCROSSbp >= - EPSILON ) && ( bCROSScp >= - EPSILON ) && ( cCROSSap >= - EPSILON ) ) return false;
 
-    }
+		}
 
-    return true;
+		return true;
 
-};
+	};
 
 
 THREE.FontUtils.Triangulate = THREE.FontUtils.process;
@@ -27764,11 +27778,11 @@ THREE.Audio.prototype.setRolloffFactor = function ( value ) {
 
 };
 
-THREE.Audio.prototype.updateMatrixWorld = function ( force ) {
+THREE.Audio.prototype.updateMatrixWorld = ( function () {
 
 	var position = new THREE.Vector3();
 
-    //return function ( force ) {
+	return function ( force ) {
 
 		THREE.Object3D.prototype.updateMatrixWorld.call( this, force );
 
@@ -27776,9 +27790,9 @@ THREE.Audio.prototype.updateMatrixWorld = function ( force ) {
 
 		this.panner.setPosition( position.x, position.y, position.z );
 
-    //};
+	};
 
-};
+} )();
 
 console.log("File:src/extras/audio/AudioListener.js");
 
@@ -27798,7 +27812,7 @@ THREE.AudioListener = function () {
 
 THREE.AudioListener.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.AudioListener.prototype.updateMatrixWorld = function ( force ) {
+THREE.AudioListener.prototype.updateMatrixWorld = ( function () {
 
 	var position = new THREE.Vector3();
 	var quaternion = new THREE.Quaternion();
@@ -27809,7 +27823,7 @@ THREE.AudioListener.prototype.updateMatrixWorld = function ( force ) {
 
 	var positionPrev = new THREE.Vector3();
 
-    //return function ( force ) {
+	return function ( force ) {
 
 		THREE.Object3D.prototype.updateMatrixWorld.call( this, force );
 
@@ -27826,9 +27840,9 @@ THREE.AudioListener.prototype.updateMatrixWorld = function ( force ) {
 
 		positionPrev.copy( position );
 
-    //};
+	};
 
-};
+} )();
 
 console.log("File:src/extras/core/Curve.js");
 
@@ -28510,7 +28524,7 @@ THREE.Gyroscope = function () {
 
 THREE.Gyroscope.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Gyroscope.prototype.updateMatrixWorld = function ( force ) {
+THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
 
 	var translationObject = new THREE.Vector3();
 	var quaternionObject = new THREE.Quaternion();
@@ -28520,9 +28534,9 @@ THREE.Gyroscope.prototype.updateMatrixWorld = function ( force ) {
 	var quaternionWorld = new THREE.Quaternion();
 	var scaleWorld = new THREE.Vector3();
 
-	//return function ( force ) {
+	return function ( force ) {
 
-        if (this.matrixAutoUpdate) this.updateMatrix();
+		this.matrixAutoUpdate && this.updateMatrix();
 
 		// update matrixWorld
 
@@ -28559,9 +28573,9 @@ THREE.Gyroscope.prototype.updateMatrixWorld = function ( force ) {
 
 		}
 
-	//};
+	};
 	
-};
+}() );
 
 console.log("File:src/extras/core/Path.js");
 
@@ -30553,7 +30567,7 @@ THREE.Animation.prototype.resetBlendWeights = function () {
 
 };
 
-THREE.Animation.prototype.update = function( delta ){
+THREE.Animation.prototype.update = (function(){
 
 	var points = [];
 	var target = new THREE.Vector3();
@@ -30602,7 +30616,7 @@ THREE.Animation.prototype.update = function( delta ){
 
 	};
 
-    //return function ( delta ) {
+	return function ( delta ) {
 
 		if ( this.isPlaying === false ) return;
 
@@ -30769,9 +30783,9 @@ THREE.Animation.prototype.update = function( delta ){
 
 		return true;
 
-    //};
+	};
 
-};
+})();
 
 
 
@@ -31119,12 +31133,12 @@ THREE.MorphAnimation.prototype = {
 
 	},
 
-    update: function ( delta ) {
+	update: ( function () {
 
 		var lastFrame = 0;
 		var currentFrame = 0;
 
-        //return function ( delta ) {
+		return function ( delta ) {
 
 			if ( this.isPlaying === false ) return;
 
@@ -31157,7 +31171,7 @@ THREE.MorphAnimation.prototype = {
 
 		}
 
-    //}
+	} )()
 
 };
 
@@ -33859,7 +33873,7 @@ console.log("File:src/extras/helpers/ArrowHelper.js");
  *  headWidth - Number
  */
 
-THREE.ArrowHelper = function ( dir, origin, length, color, headLength, headWidth ) {
+THREE.ArrowHelper = ( function () {
 
 	var lineGeometry = new THREE.Geometry();
 	lineGeometry.vertices.push( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 1, 0 ) );
@@ -33867,7 +33881,7 @@ THREE.ArrowHelper = function ( dir, origin, length, color, headLength, headWidth
 	var coneGeometry = new THREE.CylinderGeometry( 0, 0.5, 1, 5, 1 );
 	coneGeometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, - 0.5, 0 ) );
 
-	//return function ( dir, origin, length, color, headLength, headWidth ) {
+	return function ( dir, origin, length, color, headLength, headWidth ) {
 
 		// dir is assumed to be normalized
 
@@ -33891,18 +33905,18 @@ THREE.ArrowHelper = function ( dir, origin, length, color, headLength, headWidth
 		this.setDirection( dir );
 		this.setLength( length, headLength, headWidth );
 
-	//}
+	}
 
-};
+}() );
 
 THREE.ArrowHelper.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.ArrowHelper.prototype.setDirection = function ( dir ) {
+THREE.ArrowHelper.prototype.setDirection = ( function () {
 
 	var axis = new THREE.Vector3();
 	var radians;
 
-    //return function ( dir ) {
+	return function ( dir ) {
 
 		// dir is assumed to be normalized
 
@@ -33924,9 +33938,9 @@ THREE.ArrowHelper.prototype.setDirection = function ( dir ) {
 
 		}
 
-    //};
+	};
 
-};
+}() );
 
 THREE.ArrowHelper.prototype.setLength = function ( length, headLength, headWidth ) {
 
@@ -34322,9 +34336,6 @@ THREE.DirectionalLightHelper = function ( light, size ) {
 
 	this.update();
 
-    this._v1 = new THREE.Vector3();
-    this._v2 = new THREE.Vector3();
-    this._v3 = new THREE.Vector3();
 };
 
 THREE.DirectionalLightHelper.prototype = Object.create( THREE.Object3D.prototype );
@@ -34339,11 +34350,11 @@ THREE.DirectionalLightHelper.prototype.dispose = function () {
 
 THREE.DirectionalLightHelper.prototype.update = function () {
 
-    var v1 = this._v1;
-    var v2 = this._v2;
-    var v3 = this._v3;
+	var v1 = new THREE.Vector3();
+	var v2 = new THREE.Vector3();
+	var v3 = new THREE.Vector3();
 
-	//return function () {
+	return function () {
 
 		v1.setFromMatrixPosition( this.light.matrixWorld );
 		v2.setFromMatrixPosition( this.light.target.matrixWorld );
@@ -34356,9 +34367,9 @@ THREE.DirectionalLightHelper.prototype.update = function () {
 		this.targetLine.geometry.verticesNeedUpdate = true;
 		this.targetLine.material.color.copy( this.lightPlane.material.color );
 
-	//};
+	};
 
-};
+}();
 
 console.log("File:src/extras/helpers/EdgesHelper.js");
 
@@ -34614,7 +34625,7 @@ THREE.HemisphereLightHelper.prototype.update = function () {
 
 	var vector = new THREE.Vector3();
 
-	//return function () {
+	return function () {
 
 		this.colors[ 0 ].copy( this.light.color ).multiplyScalar( this.light.intensity );
 		this.colors[ 1 ].copy( this.light.groundColor ).multiplyScalar( this.light.intensity );
@@ -34622,9 +34633,9 @@ THREE.HemisphereLightHelper.prototype.update = function () {
 		this.lightSphere.lookAt( vector.setFromMatrixPosition( this.light.matrixWorld ).negate() );
 		this.lightSphere.geometry.colorsNeedUpdate = true;
 
-	//}
+	}
 
-};
+}();
 
 console.log("File:src/extras/helpers/PointLightHelper.js");
 
@@ -34844,7 +34855,7 @@ THREE.SpotLightHelper.prototype.update = function () {
 	var vector = new THREE.Vector3();
 	var vector2 = new THREE.Vector3();
 
-	//return function () {
+	return function () {
 
 		var coneLength = this.light.distance ? this.light.distance : 10000;
 		var coneWidth = coneLength * Math.tan( this.light.angle );
@@ -34858,9 +34869,9 @@ THREE.SpotLightHelper.prototype.update = function () {
 
 		this.cone.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
-	//};
+	};
 
-};
+}();
 
 console.log("File:src/extras/helpers/VertexNormalsHelper.js");
 
@@ -34909,11 +34920,11 @@ THREE.VertexNormalsHelper = function ( object, size, hex, linewidth ) {
 
 THREE.VertexNormalsHelper.prototype = Object.create( THREE.Line.prototype );
 
-THREE.VertexNormalsHelper.prototype.update = function ( object ) {
+THREE.VertexNormalsHelper.prototype.update = ( function ( object ) {
 
 	var v1 = new THREE.Vector3();
 
-    //return function( object ) {
+	return function( object ) {
 
 		var keys = [ 'a', 'b', 'c', 'd' ];
 
@@ -34960,9 +34971,9 @@ THREE.VertexNormalsHelper.prototype.update = function ( object ) {
 
 		return this;
 
-    //}
+	}
 
-};
+}());
 
 console.log("File:src/extras/helpers/VertexTangentsHelper.js");
 
@@ -35010,11 +35021,11 @@ THREE.VertexTangentsHelper = function ( object, size, hex, linewidth ) {
 
 THREE.VertexTangentsHelper.prototype = Object.create( THREE.Line.prototype );
 
-THREE.VertexTangentsHelper.prototype.update = function ( object ) {
+THREE.VertexTangentsHelper.prototype.update = ( function ( object ) {
 
 	var v1 = new THREE.Vector3();
 
-    //return function( object ) {
+	return function( object ) {
 
 		var keys = [ 'a', 'b', 'c', 'd' ];
 
@@ -35059,9 +35070,9 @@ THREE.VertexTangentsHelper.prototype.update = function ( object ) {
 
 		return this;
 
-    //}
+	}
 
-};
+}());
 
 console.log("File:src/extras/helpers/WireframeHelper.js");
 

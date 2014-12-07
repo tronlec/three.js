@@ -82,11 +82,11 @@ THREE.Matrix3.prototype = {
 
 	},
 
-    applyToVector3Array: function ( array, offset, length ) {
+	applyToVector3Array: function () {
 
 		var v1 = new THREE.Vector3();
 
-        //return function ( array, offset, length ) {
+		return function ( array, offset, length ) {
 
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
@@ -107,9 +107,9 @@ THREE.Matrix3.prototype = {
 
 			return array;
 
-        //};
+		};
 
-    },
+	}(),
 
 	multiplyScalar: function ( s ) {
 
