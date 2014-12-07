@@ -14,8 +14,8 @@ function Image () {
     // Setup mapping between the native QObject image and this image
     var _this = this;
 
-    this._texImage.imageLoaded.connect(function() { _this.notifySuccess() });
-    this._texImage.imageLoadingFailed.connect(function() { _this.notifyError() });
+    this._texImage.imageLoaded.connect(function() { _this.notifySuccess(_this) });
+    this._texImage.imageLoadingFailed.connect(function() { _this.notifyError(_this) });
 
     this.__defineGetter__("src", function(){
         return _this._src;
@@ -23,7 +23,7 @@ function Image () {
 
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
-            _this._texImage.src = "qrc:/"+url;
+            _this._texImage.src = ""+url;
         }
         this._src = url;
     });
@@ -59,6 +59,8 @@ Image.prototype = {
     },
 
     notifySuccess: function(image) {
+        console.log("NotifySuccess"+image+" source "+image.src);
+        console.log("Teximage"+this._texImage);
         if (this._onSuccessCallback !== undefined) {
             this._onSuccessCallback(new Event());
         }
@@ -71,6 +73,7 @@ Image.prototype = {
     },
 
     notifyError: function(image) {
+        console.log("NotifyError"+image+" source "+image.src);
         if (this._onErrorCallback !== undefined) {
             this._onErrorCallback(new Event());
         }

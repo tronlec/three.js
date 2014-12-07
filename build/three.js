@@ -10,16 +10,22 @@ console.log("File:src/qml/TypedArrayWrappers.js");
 //Uint8ClampedArray
 
 function Int8Array(initValue) {
+    var i;
     if (initValue instanceof Int8Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newInt8Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newInt8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -71,16 +77,22 @@ Int8Array.prototype = {
 }
 
 function Uint8Array(initValue) {
+    var i;
     if (initValue instanceof Uint8Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newUint8Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newUint8Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -133,16 +145,22 @@ Uint8Array.prototype = {
 }
 
 function Int16Array(initValue) {
+    var i;
     if (initValue instanceof Int16Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newInt16Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newInt16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -195,16 +213,22 @@ Int16Array.prototype = {
 }
 
 function Uint16Array(initValue) {
+    var i;
     if (initValue instanceof Uint16Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = iniValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = iniValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newUint16Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newUint16Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -257,16 +281,22 @@ Uint16Array.prototype = {
 }
 
 function Int32Array(initValue) {
+    var i;
     if (initValue instanceof Int32Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newInt32Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -319,16 +349,22 @@ Int32Array.prototype = {
 }
 
 function Uint32Array(initValue) {
+    var i;
     if (initValue instanceof Uint32Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newUint32Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newUint32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -381,17 +417,22 @@ Uint32Array.prototype = {
 }
 
 function Float32Array(initValue) {
+    var i;
     if (initValue instanceof Float32Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newFloat32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newFloat32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-
-    this._internalArray = Arrays.newFloat32Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newFloat32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -446,16 +487,22 @@ Float32Array.prototype = {
 }
 
 function Float64Array(initValue) {
+    var i;
     if (initValue instanceof Float64Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newFloat64Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newFloat64Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newFloat64Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newFloat64Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -510,16 +557,22 @@ Float64Array.prototype = {
 }
 
 function Int32Array(initValue) {
+    var i;
     if (initValue instanceof Int32Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newInt32Array(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newInt32Array(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -572,16 +625,22 @@ Int32Array.prototype = {
 }
 
 function Uint8ClampedArray(initValue) {
+    var i;
     if (initValue instanceof Uint8ClampedArray) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint8ClampedArray(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
+        this._internalArray = Arrays.newUint8ClampedArray(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = initValue[i];
     } else {
         this._length = initValue;
-    }
-    this._internalArray = Arrays.newUint8ClampedArray(this._length);
-    for (var i = 0; i < this._length; i++) {
-        this[i] = 0;
+        this._internalArray = Arrays.newUint8ClampedArray(this._length);
+        for (i = 0; i < this._length; i++)
+            this[i] = 0;
     }
 
     var _this = this;
@@ -649,8 +708,8 @@ function Image () {
     // Setup mapping between the native QObject image and this image
     var _this = this;
 
-    this._texImage.imageLoaded.connect(function() { _this.notifySuccess() });
-    this._texImage.imageLoadingFailed.connect(function() { _this.notifyError() });
+    this._texImage.imageLoaded.connect(function() { _this.notifySuccess(_this) });
+    this._texImage.imageLoadingFailed.connect(function() { _this.notifyError(_this) });
 
     this.__defineGetter__("src", function(){
         return _this._src;
@@ -658,7 +717,7 @@ function Image () {
 
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
-            _this._texImage.src = "qrc:/"+url;
+            _this._texImage.src = ""+url;
         }
         this._src = url;
     });
@@ -694,6 +753,8 @@ Image.prototype = {
     },
 
     notifySuccess: function(image) {
+        console.log("NotifySuccess"+image+" source "+image.src);
+        console.log("Teximage"+this._texImage);
         if (this._onSuccessCallback !== undefined) {
             this._onSuccessCallback(new Event());
         }
@@ -706,6 +767,7 @@ Image.prototype = {
     },
 
     notifyError: function(image) {
+        console.log("NotifyError"+image+" source "+image.src);
         if (this._onErrorCallback !== undefined) {
             this._onErrorCallback(new Event());
         }
@@ -6723,7 +6785,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image );
+                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 			}
 
@@ -6834,7 +6896,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 						} else {
 
-							_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ] );
+                            _gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 						}
 
@@ -22975,7 +23037,7 @@ console.log("File:src/objects/Sprite.js");
  * @author alteredq / http://alteredqualia.com/
  */
 
-THREE.Sprite = ( function () {
+THREE.Sprite = function (material) {
 
 	var indices = new Uint16Array( [ 0, 1, 2,  0, 2, 3 ] );
 	var vertices = new Float32Array( [ - 0.5, - 0.5, 0,   0.5, - 0.5, 0,   0.5, 0.5, 0,   - 0.5, 0.5, 0 ] );
@@ -22986,7 +23048,7 @@ THREE.Sprite = ( function () {
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 	geometry.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 2 ) );
 
-	return function ( material ) {
+//	return function ( material ) {
 
 		THREE.Object3D.call( this );
 
@@ -22995,9 +23057,9 @@ THREE.Sprite = ( function () {
 		this.geometry = geometry;
 		this.material = ( material !== undefined ) ? material : new THREE.SpriteMaterial();
 
-	};
+//	};
 
-} )();
+};
 
 THREE.Sprite.prototype = Object.create( THREE.Object3D.prototype );
 
@@ -26947,7 +27009,7 @@ THREE.ImageUtils = {
 	loadTexture: function ( url, mapping, onLoad, onError ) {
 
 		var loader = new THREE.ImageLoader();
-		loader.crossOrigin = this.crossOrigin;
+        //loader.crossOrigin = this.crossOrigin;
 
 		var texture = new THREE.Texture( undefined, mapping );
 

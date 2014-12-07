@@ -3,7 +3,7 @@
  * @author alteredq / http://alteredqualia.com/
  */
 
-THREE.Sprite = ( function () {
+THREE.Sprite = function (material) {
 
 	var indices = new Uint16Array( [ 0, 1, 2,  0, 2, 3 ] );
 	var vertices = new Float32Array( [ - 0.5, - 0.5, 0,   0.5, - 0.5, 0,   0.5, 0.5, 0,   - 0.5, 0.5, 0 ] );
@@ -14,7 +14,7 @@ THREE.Sprite = ( function () {
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 	geometry.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 2 ) );
 
-	return function ( material ) {
+//	return function ( material ) {
 
 		THREE.Object3D.call( this );
 
@@ -23,9 +23,9 @@ THREE.Sprite = ( function () {
 		this.geometry = geometry;
 		this.material = ( material !== undefined ) ? material : new THREE.SpriteMaterial();
 
-	};
+//	};
 
-} )();
+};
 
 THREE.Sprite.prototype = Object.create( THREE.Object3D.prototype );
 
