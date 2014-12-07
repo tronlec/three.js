@@ -3,7 +3,7 @@
  */
 function THREE() {};
 
-THREE.REVISION = '69dev'
+THREE.REVISION = '69'
 
 // browserify support
 

@@ -75,46 +75,6 @@ THREE.Object3D = function () {
 
 	this.userData = {};
 
-    this._q1 = new THREE.Quaternion();
-    this._v1 = new THREE.Vector3();
-    this._vx = new THREE.Vector3( 1, 0, 0 );
-    this._vy = new THREE.Vector3( 0, 1, 0 );
-    this._vz = new THREE.Vector3( 0, 0, 1 );
-    this._m1 = new THREE.Matrix4();
-
-    this.__defineGetter__("rotation", function(){
-        return this._rotation;
-    });
-    this.__defineSetter__("rotation", function(value){
-        this._rotation = value;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._euler = this._rotation;
-        this._rotation._updateQuaternion();
-    });
-    this.__defineGetter__("quaternion", function(){
-        return this._quaternion;
-    });
-    this.__defineSetter__("quaternion", function(value){
-        this._quaternion = value;
-        this._quaternion._euler = this._rotation;
-        this._rotation._quaternion = this._quaternion;
-        this._quaternion._updateEuler();
-    });
-    this.__defineGetter__("eulerOrder", function(){
-        console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        return this.rotation.order;
-    });
-    this.__defineSetter__("eulerOrder", function(value){
-        console.warn( 'DEPRECATED: Object3D\'s .eulerOrder has been moved to Object3D\'s .rotation.order.' );
-        this.rotation.order = value;
-    });
-    this.__defineGetter__("useQuaternion", function(){
-        console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );
-    });
-    this.__defineSetter__("useQuaternion", function(value){
-        console.warn( 'DEPRECATED: Object3D\'s .useQuaternion has been removed. The library now uses quaternions by default.' );
-    });
-
 };
 
 THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 1, 0 );
@@ -123,6 +83,33 @@ THREE.Object3D.prototype = {
 
 	constructor: THREE.Object3D,
 
+	get eulerOrder () {
+
+		console.warn( 'THREE.Object3D: .eulerOrder has been moved to .rotation.order.' );
+
+		return this.rotation.order;
+
+	},
+
+	set eulerOrder ( value ) {
+
+		console.warn( 'THREE.Object3D: .eulerOrder has been moved to .rotation.order.' );
+
+		this.rotation.order = value;
+
+	},
+
+	get useQuaternion () {
+
+		console.warn( 'THREE.Object3D: .useQuaternion has been removed. The library now uses quaternions by default.' );
+
+	},
+
+	set useQuaternion ( value ) {
+
+		console.warn( 'THREE.Object3D: .useQuaternion has been removed. The library now uses quaternions by default.' );
+
+	},
 
 	applyMatrix: function ( matrix ) {
 
@@ -162,14 +149,14 @@ THREE.Object3D.prototype = {
 
 	},
 
-	rotateOnAxis: function( axis, angle ) {
+	rotateOnAxis: function () {
 
 		// rotate object on axis in object space
 		// axis is assumed to be normalized
 
-        var q1 = this._q1;
+		var q1 = new THREE.Quaternion();
 
-		//return function ( axis, angle ) {
+		return function ( axis, angle ) {
 
 			q1.setFromAxisAngle( axis, angle );
 
@@ -177,54 +164,54 @@ THREE.Object3D.prototype = {
 
 			return this;
 
-		//}
+		}
 
-	},
+	}(),
 
-	rotateX: function ( angle ) {
+	rotateX: function () {
 
-        var v1 = this._vx;
+		var v1 = new THREE.Vector3( 1, 0, 0 );
 
-		//return function ( angle ) {
-
-			return this.rotateOnAxis( v1, angle );
-
-		//};
-
-	},
-
-	rotateY: function ( angle ) {
-
-		var v1 = this._vy;
-
-		//return function ( angle ) {
+		return function ( angle ) {
 
 			return this.rotateOnAxis( v1, angle );
 
-		//};
+		};
 
-	},
+	}(),
 
-	rotateZ: function ( angle ) {
+	rotateY: function () {
 
-		var v1 = this._vz;
+		var v1 = new THREE.Vector3( 0, 1, 0 );
 
-		//return function ( angle ) {
+		return function ( angle ) {
 
 			return this.rotateOnAxis( v1, angle );
 
-        //};
+		};
 
-	},
+	}(),
 
-	translateOnAxis: function ( axis, distance ) {
+	rotateZ: function () {
+
+		var v1 = new THREE.Vector3( 0, 0, 1 );
+
+		return function ( angle ) {
+
+			return this.rotateOnAxis( v1, angle );
+
+		};
+
+	}(),
+
+	translateOnAxis: function () {
 
 		// translate object by distance along axis in object space
 		// axis is assumed to be normalized
 
-		var v1 = this._v1;
+		var v1 = new THREE.Vector3();
 
-		//return function ( axis, distance ) {
+		return function ( axis, distance ) {
 
 			v1.copy( axis ).applyQuaternion( this.quaternion );
 
@@ -232,9 +219,9 @@ THREE.Object3D.prototype = {
 
 			return this;
 
-		//}
+		}
 
-	},
+	}(),
 
 	translate: function ( distance, axis ) {
 
@@ -243,41 +230,41 @@ THREE.Object3D.prototype = {
 
 	},
 
-	translateX: function ( distance ) {
+	translateX: function () {
 
-		var v1 = this._vx;
+		var v1 = new THREE.Vector3( 1, 0, 0 );
 
-		//return function ( distance ) {
-
-			return this.translateOnAxis( v1, distance );
-
-		//};
-
-    },
-
-    translateY: function ( distance ) {
-
-        var v1 = this._vy;
-
-		//return function ( distance ) {
+		return function ( distance ) {
 
 			return this.translateOnAxis( v1, distance );
 
-		//};
+		};
 
-    },
+	}(),
 
-    translateZ: function ( distance ) {
+	translateY: function () {
 
-        var v1 = this._vz;
+		var v1 = new THREE.Vector3( 0, 1, 0 );
 
-		//return function ( distance ) {
+		return function ( distance ) {
 
 			return this.translateOnAxis( v1, distance );
 
-		//};
+		};
 
-	},
+	}(),
+
+	translateZ: function () {
+
+		var v1 = new THREE.Vector3( 0, 0, 1 );
+
+		return function ( distance ) {
+
+			return this.translateOnAxis( v1, distance );
+
+		};
+
+	}(),
 
 	localToWorld: function ( vector ) {
 
@@ -285,33 +272,33 @@ THREE.Object3D.prototype = {
 
 	},
 
-    worldToLocal: function ( vector ) {
+	worldToLocal: function () {
 
-        var m1 = this._m1;
+		var m1 = new THREE.Matrix4();
 
-		//return function ( vector ) {
+		return function ( vector ) {
 
 			return vector.applyMatrix4( m1.getInverse( this.matrixWorld ) );
 
-		//};
+		};
 
-	},
+	}(),
 
 	lookAt: function () {
 
 		// This routine does not support objects with rotated and/or translated parent(s)
 
-        var m1 = this._m1;
+		var m1 = new THREE.Matrix4();
 
-		//return function ( vector ) {
+		return function ( vector ) {
 
 			m1.lookAt( vector, this.position, this.up );
 
 			this.quaternion.setFromRotationMatrix( m1 );
 
-		//};
+		};
 
-	},
+	}(),
 
 	add: function ( object ) {
 
@@ -442,12 +429,12 @@ THREE.Object3D.prototype = {
 
 	},
 
-	getWorldQuaternion: function (optionalTarget) {
+	getWorldQuaternion: function () {
 
 		var position = new THREE.Vector3();
 		var scale = new THREE.Vector3();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Quaternion();
 
@@ -457,15 +444,15 @@ THREE.Object3D.prototype = {
 
 			return result;
 
-		//}
+		}
 
-	},
+	}(),
 
-	getWorldRotation: function (optionalTarget) {
+	getWorldRotation: function () {
 
 		var quaternion = new THREE.Quaternion();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Euler();
 
@@ -473,16 +460,16 @@ THREE.Object3D.prototype = {
 
 			return result.setFromQuaternion( quaternion, this.rotation.order, false );
 
-		//}
+		}
 
-	},
+	}(),
 
-	getWorldScale: function (optionalTarget) {
+	getWorldScale: function () {
 
 		var position = new THREE.Vector3();
 		var quaternion = new THREE.Quaternion();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Vector3();
 
@@ -492,15 +479,15 @@ THREE.Object3D.prototype = {
 
 			return result;
 
-		//}
+		}
 
-	},
+	}(),
 
-	getWorldDirection: function (optionalTarget) {
+	getWorldDirection: function () {
 
 		var quaternion = new THREE.Quaternion();
 
-		//return function ( optionalTarget ) {
+		return function ( optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Vector3();
 
@@ -508,9 +495,9 @@ THREE.Object3D.prototype = {
 
 			return result.set( 0, 0, 1 ).applyQuaternion( quaternion );
 
-		//}
+		}
 
-	},
+	}(),
 
 	raycast: function () {},
 
@@ -704,6 +691,11 @@ THREE.Object3D.prototype = {
 				data.groundColor = object.groundColor.getHex();
 
 			} else if ( object instanceof THREE.Mesh ) {
+
+				data.geometry = parseGeometry( object.geometry );
+				data.material = parseMaterial( object.material );
+
+			} else if ( object instanceof THREE.Line ) {
 
 				data.geometry = parseGeometry( object.geometry );
 				data.material = parseMaterial( object.material );

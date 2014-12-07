@@ -90,11 +90,11 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	extractRotation: function ( m ) {
+	extractRotation: function () {
 
 		var v1 = new THREE.Vector3();
 
-		//return function ( m ) {
+		return function ( m ) {
 
 			var te = this.elements;
 			var me = m.elements;
@@ -117,9 +117,9 @@ THREE.Matrix4.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	makeRotationFromEuler: function ( euler ) {
 
@@ -294,13 +294,13 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	lookAt: function ( eye, target, up ) {
+	lookAt: function () {
 
 		var x = new THREE.Vector3();
 		var y = new THREE.Vector3();
 		var z = new THREE.Vector3();
 
-		//return function ( eye, target, up ) {
+		return function ( eye, target, up ) {
 
 			var te = this.elements;
 
@@ -330,9 +330,9 @@ THREE.Matrix4.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	multiply: function ( m, n ) {
 
@@ -436,11 +436,11 @@ THREE.Matrix4.prototype = {
 
 	},
 
-    applyToVector3Array: function ( array, offset, length ) {
+	applyToVector3Array: function () {
 
 		var v1 = new THREE.Vector3();
 
-        //return function ( array, offset, length ) {
+		return function ( array, offset, length ) {
 
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
@@ -461,9 +461,9 @@ THREE.Matrix4.prototype = {
 
 			return array;
 
-        //};
+		};
 
-    },
+	}(),
 
 	rotateAxis: function ( v ) {
 
@@ -579,16 +579,16 @@ THREE.Matrix4.prototype = {
 
 		var v1 = new THREE.Vector3();
 
-		//return function () {
+		return function () {
 
 			console.warn( 'THREE.Matrix4: .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.' );
 
 			var te = this.elements;
 			return v1.set( te[ 12 ], te[ 13 ], te[ 14 ] );
 
-		//};
+		};
 
-	},
+	}(),
 
 	setPosition: function ( v ) {
 
@@ -634,9 +634,7 @@ THREE.Matrix4.prototype = {
 
 		if ( det == 0 ) {
 
-            var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0 ";
-            for( var i = 0; i < 16; i++)
-                msg += " ["+me[i]+"]";
+			var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
 
 			if ( throwOnInvertible || false ) {
 
@@ -829,12 +827,12 @@ THREE.Matrix4.prototype = {
 
 	},
 
-    decompose: function ( position, quaternion, scale ) {
+	decompose: function () {
 
 		var vector = new THREE.Vector3();
 		var matrix = new THREE.Matrix4();
 
-		//return function ( position, quaternion, scale ) {
+		return function ( position, quaternion, scale ) {
 
 			var te = this.elements;
 
@@ -880,9 +878,9 @@ THREE.Matrix4.prototype = {
 
 			return this;
 
-		//};
+		};
 
-	},
+	}(),
 
 	makeFrustum: function ( left, right, bottom, top, near, far ) {
 
