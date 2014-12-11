@@ -28,21 +28,13 @@ function Int8Array(initValue) {
 Int8Array.prototype = {
     constructor: Int8Array,
 
-    set: function( array ) {
-        if (array instanceof Int8Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Int8Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -95,21 +87,13 @@ function Uint8Array(initValue) {
 Uint8Array.prototype = {
     constructor: Uint8Array,
 
-    set: function( array ) {
-        if (array instanceof Uint8Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Uint8Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -163,21 +147,13 @@ function Int16Array(initValue) {
 Int16Array.prototype = {
     constructor: Int16Array,
 
-    set: function( array ) {
-        if (array instanceof Int16Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Int16Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -231,21 +207,13 @@ function Uint16Array(initValue) {
 Uint16Array.prototype = {
     constructor: Uint16Array,
 
-    set: function( array ) {
-        if (array instanceof Uint16Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Uint16Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -299,21 +267,13 @@ function Int32Array(initValue) {
 Int32Array.prototype = {
     constructor: Int32Array,
 
-    set: function( array ) {
-        if (array instanceof Int32Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Int32Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -367,21 +327,13 @@ function Uint32Array(initValue) {
 Uint32Array.prototype = {
     constructor: Uint32Array,
 
-    set: function( array ) {
-        if (array instanceof Uint32Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Uint32Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -417,8 +369,9 @@ function Float32Array(initValue) {
     } else if (initValue instanceof Array) {
         this._length = initValue.length;
         this._internalArray = Arrays.newFloat32Array(this._length);
-        for (i = 0; i < this._length; i++)
+        for (i = 0; i < this._length; i++) {
             this[i] = initValue[i];
+        }
     } else {
         this._length = initValue;
         this._internalArray = Arrays.newFloat32Array(this._length);
@@ -435,21 +388,13 @@ function Float32Array(initValue) {
 Float32Array.prototype = {
     constructor: Float32Array,
 
-    set: function( array ) {
-        if (array instanceof Float32Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Float32Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -505,21 +450,13 @@ function Float64Array(initValue) {
 Float64Array.prototype = {
     constructor: Float64Array,
 
-    set: function( array ) {
-        if (array instanceof Float64Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Float64Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -575,21 +512,13 @@ function Int32Array(initValue) {
 Int32Array.prototype = {
     constructor: Int32Array,
 
-    set: function( array ) {
-        if (array instanceof Int32Array) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Int32Array) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
@@ -643,21 +572,13 @@ function Uint8ClampedArray(initValue) {
 Uint8ClampedArray.prototype = {
     constructor: Uint8ClampedArray,
 
-    set: function( array ) {
-        if (array instanceof Uint8ClampedArray) {
-            for (var i; i < this._length; i++) {
-                this[i] = array.get(i);
-            }
-
-        } else if (array instanceof Array) {
-            for (var j = 0; j < this._length; j++) {
-                this[j] = array[j];
-            }
-        }
-    },
-
     set: function( index, value ) {
-        this[index] = value;
+        if (index instanceof Array || index instanceof Uint8ClampedArray) {
+            for (var i = 0; i < this._length; i++)
+                this[i] = index[i];
+        } else {
+            this[index] = value;
+        }
     },
 
     get: function( index ) {
