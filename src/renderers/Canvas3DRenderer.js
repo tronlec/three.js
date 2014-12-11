@@ -436,8 +436,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.setSize = function ( width, height, updateStyle ) {
 
-		_canvas.width = width * this.devicePixelRatio;
-		_canvas.height = height * this.devicePixelRatio;
+        //_canvas.width = width * this.devicePixelRatio;
+        //_canvas.height = height * this.devicePixelRatio;
 
 
 
