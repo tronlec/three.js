@@ -104,7 +104,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 
 		gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
-		gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
+        gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
 		gl.activeTexture( gl.TEXTURE0 );
 		gl.uniform1i( uniforms.map, 0 );
@@ -177,7 +177,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 			var material = sprite.material;
 
 			gl.uniform1f( uniforms.alphaTest, material.alphaTest );
-			gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
+            gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements.typedArray() );
 
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;

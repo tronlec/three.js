@@ -5310,7 +5310,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( refreshProgram || camera !== _currentCamera ) {
 
-			_gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
+            _gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
 			if ( _logarithmicDepthBuffer ) {
 
@@ -5344,7 +5344,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( p_uniforms.viewMatrix !== null ) {
 
-					_gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements );
+                    _gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements.typedArray() );
 
 				}
 
@@ -5360,13 +5360,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( object.bindMatrix && p_uniforms.bindMatrix !== null ) {
 
-				_gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements );
+                _gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements.typedArray() );
 
 			}
 
 			if ( object.bindMatrixInverse && p_uniforms.bindMatrixInverse !== null ) {
 
-				_gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements );
+                _gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements.typedArray() );
 
 			}
 
@@ -5494,7 +5494,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( p_uniforms.modelMatrix !== null ) {
 
-			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements );
+            _gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray() );
 
 		}
 
@@ -5774,11 +5774,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function loadUniformsMatrices ( uniforms, object ) {
 
-		_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements );
+        _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements.typedArray() );
 
 		if ( uniforms.normalMatrix ) {
 
-			_gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements );
+            _gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements.typedArray() );
 
 		}
 
@@ -6052,7 +6052,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				case 'm3':
 
 					// single THREE.Matrix3
-					_gl.uniformMatrix3fv( location, false, value.elements );
+                    _gl.uniformMatrix3fv( location, false, value.elements.typedArray() );
 
 					break;
 
@@ -6079,7 +6079,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				case 'm4':
 
 					// single THREE.Matrix4
-					_gl.uniformMatrix4fv( location, false, value.elements );
+                    _gl.uniformMatrix4fv( location, false, value.elements.typedArray() );
 
 					break;
 
@@ -26698,7 +26698,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 
 		gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
-		gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
+        gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
 		gl.activeTexture( gl.TEXTURE0 );
 		gl.uniform1i( uniforms.map, 0 );
@@ -26771,7 +26771,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 			var material = sprite.material;
 
 			gl.uniform1f( uniforms.alphaTest, material.alphaTest );
-			gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
+            gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements.typedArray() );
 
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;
