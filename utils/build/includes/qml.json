@@ -1,4 +1,5 @@
 [
+        "src/qml/ThreeQML.js",
         "src/qml/TypedArrayWrappers.js",
         "src/qml/QmlImageElement.js",
         "src/qml/QmlHtmlElements.js",

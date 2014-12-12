@@ -7,7 +7,9 @@ THREE.AreaLight = function ( color, intensity ) {
 
 	THREE.Light.call( this, color );
 
-	this.normal = new THREE.Vector3( 0, -1, 0 );
+	this.type = 'AreaLight';
+
+	this.normal = new THREE.Vector3( 0, - 1, 0 );
 	this.right = new THREE.Vector3( 1, 0, 0 );
 
 	this.intensity = ( intensity !== undefined ) ? intensity : 1;

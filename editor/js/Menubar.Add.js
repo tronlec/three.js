@@ -1,32 +1,35 @@
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
 Menubar.Add = function ( editor ) {
 
 	var container = new UI.Panel();
 	container.setClass( 'menu' );
 
 	var title = new UI.Panel();
+	title.setClass( 'title' );
 	title.setTextContent( 'Add' );
-	title.setMargin( '0px' );
-	title.setPadding( '8px' );
 	container.add( title );
-
-	//
 
 	var options = new UI.Panel();
 	options.setClass( 'options' );
 	container.add( options );
 
+	//
+
 	var meshCount = 0;
 	var lightCount = 0;
 
-	// add object
+	// Group
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Object3D' );
+	option.setTextContent( 'Group' );
 	option.onClick( function () {
 
-		var mesh = new THREE.Object3D();
-		mesh.name = 'Object3D ' + ( ++ meshCount );
+		var mesh = new THREE.Group();
+		mesh.name = 'Group ' + ( ++ meshCount );
 
 		editor.addObject( mesh );
 		editor.select( mesh );
@@ -34,11 +37,11 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// divider
+	//
 
 	options.add( new UI.HorizontalRule() );
 
-	// add plane
+	// Plane
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -62,7 +65,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add box
+	// Box
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -87,7 +90,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add circle
+	// Circle
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -107,7 +110,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add cylinder
+	// Cylinder
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -131,7 +134,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add sphere
+	// Sphere
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -141,8 +144,12 @@ Menubar.Add = function ( editor ) {
 		var radius = 75;
 		var widthSegments = 32;
 		var heightSegments = 16;
+		var phiStart = 0;
+		var phiLength = Math.PI * 2;
+		var thetaStart = 0;
+		var thetaLength = Math.PI;
 
-		var geometry = new THREE.SphereGeometry( radius, widthSegments, heightSegments );
+		var geometry = new THREE.SphereGeometry( radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength );
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
 		mesh.name = 'Sphere ' + ( ++ meshCount );
 
@@ -152,7 +159,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add icosahedron
+	// Icosahedron
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -162,7 +169,7 @@ Menubar.Add = function ( editor ) {
 		var radius = 75;
 		var detail = 2;
 
-		var geometry = new THREE.IcosahedronGeometry ( radius, detail );
+		var geometry = new THREE.IcosahedronGeometry( radius, detail );
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial() );
 		mesh.name = 'Icosahedron ' + ( ++ meshCount );
 
@@ -172,7 +179,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add torus
+	// Torus
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -195,7 +202,7 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add torus knot
+	// TorusKnot
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -220,11 +227,11 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// divider
+	//
 
 	options.add( new UI.HorizontalRule() );
 
-	// add sprite
+	// Sprite
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
@@ -240,15 +247,15 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// divider
+	//
 
 	options.add( new UI.HorizontalRule() );
 
-	// add point light
+	// PointLight
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Point light' );
+	option.setTextContent( 'PointLight' );
 	option.onClick( function () {
 
 		var color = 0xffffff;
@@ -264,11 +271,11 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add spot light
+	// SpotLight
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Spot light' );
+	option.setTextContent( 'SpotLight' );
 	option.onClick( function () {
 
 		var color = 0xffffff;
@@ -281,7 +288,7 @@ Menubar.Add = function ( editor ) {
 		light.name = 'SpotLight ' + ( ++ lightCount );
 		light.target.name = 'SpotLight ' + ( lightCount ) + ' Target';
 
-		light.position.set( 0, 1, 0 ).multiplyScalar( 200 );
+		light.position.set( 0.5, 1, 0.75 ).multiplyScalar( 200 );
 
 		editor.addObject( light );
 		editor.select( light );
@@ -289,11 +296,11 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add directional light
+	// DirectionalLight
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Directional light' );
+	option.setTextContent( 'DirectionalLight' );
 	option.onClick( function () {
 
 		var color = 0xffffff;
@@ -303,7 +310,7 @@ Menubar.Add = function ( editor ) {
 		light.name = 'DirectionalLight ' + ( ++ lightCount );
 		light.target.name = 'DirectionalLight ' + ( lightCount ) + ' Target';
 
-		light.position.set( 1, 1, 1 ).multiplyScalar( 200 );
+		light.position.set( 0.5, 1, 0.75 ).multiplyScalar( 200 );
 
 		editor.addObject( light );
 		editor.select( light );
@@ -311,11 +318,11 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add hemisphere light
+	// HemisphereLight
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Hemisphere light' );
+	option.setTextContent( 'HemisphereLight' );
 	option.onClick( function () {
 
 		var skyColor = 0x00aaff;
@@ -325,7 +332,7 @@ Menubar.Add = function ( editor ) {
 		var light = new THREE.HemisphereLight( skyColor, groundColor, intensity );
 		light.name = 'HemisphereLight ' + ( ++ lightCount );
 
-		light.position.set( 1, 1, 1 ).multiplyScalar( 200 );
+		light.position.set( 0.5, 1, 0.75 ).multiplyScalar( 200 );
 
 		editor.addObject( light );
 		editor.select( light );
@@ -333,12 +340,12 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
-	// add ambient light
+	// AmbientLight
 
 	var option = new UI.Panel();
 	option.setClass( 'option' );
-	option.setTextContent( 'Ambient light' );
-	option.onClick( function () {
+	option.setTextContent( 'AmbientLight' );
+	option.onClick( function() {
 
 		var color = 0x222222;
 
@@ -350,8 +357,6 @@ Menubar.Add = function ( editor ) {
 
 	} );
 	options.add( option );
-
-	//
 
 	return container;
 

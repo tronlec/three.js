@@ -85,172 +85,166 @@ MAX_INFLUENCES = 2
 TEMPLATE_SCENE_ASCII = """\
 {
 
-"metadata" :
-{
-	"formatVersion" : 3.2,
-	"type"          : "scene",
-	"sourceFile"    : "%(fname)s",
-	"generatedBy"   : "Blender 2.65 Exporter",
-	"objects"       : %(nobjects)s,
-	"geometries"    : %(ngeometries)s,
-	"materials"     : %(nmaterials)s,
-	"textures"      : %(ntextures)s
-},
+	"urlBaseType": %(basetype)s,
 
-"urlBaseType" : %(basetype)s,
-
+	"metadata": {
+		"formatVersion" : 3.2,
+		"type"          : "scene",
+		"sourceFile"    : "%(fname)s",
+		"generatedBy"   : "Blender 2.7 Exporter",
+		"objects"       : %(nobjects)s,
+		"geometries"    : %(ngeometries)s,
+		"materials"     : %(nmaterials)s,
+		"textures"      : %(ntextures)s
+	},
 %(sections)s
+	"transform": {
+		"position" : %(position)s,
+		"rotation" : %(rotation)s,
+		"scale"    : %(scale)s
+	},
 
-"transform" :
-{
-	"position"  : %(position)s,
-	"rotation"  : %(rotation)s,
-	"scale"     : %(scale)s
-},
-
-"defaults" :
-{
-	"bgcolor" : %(bgcolor)s,
-	"bgalpha" : %(bgalpha)f,
-	"camera"  : %(defcamera)s
-}
+	"defaults": {
+		"bgcolor" : %(bgcolor)s,
+		"bgalpha" : %(bgalpha)f,
+		"camera"  : %(defcamera)s
+	}
 
 }
 """
 
 TEMPLATE_SECTION = """
-"%s" :
-{
+	"%s": {
 %s
-},
+	},
 """
 
 TEMPLATE_OBJECT = """\
-	%(object_id)s : {
-		"geometry"  : %(geometry_id)s,
-		"groups"    : [ %(group_id)s ],
-		"material"  : %(material_id)s,
-		"position"  : %(position)s,
-		"rotation"  : %(rotation)s,
-		"quaternion": %(quaternion)s,
-		"scale"     : %(scale)s,
-		"visible"       : %(visible)s,
-		"castShadow"    : %(castShadow)s,
-		"receiveShadow" : %(receiveShadow)s,
-		"doubleSided"   : %(doubleSided)s
-	}"""
+		%(object_id)s: {
+			"geometry"      : %(geometry_id)s,
+			"groups"        : [ %(group_id)s ],
+			"material"      : %(material_id)s,
+			"position"      : %(position)s,
+			"rotation"      : %(rotation)s,
+			"quaternion"    : %(quaternion)s,
+			"scale"         : %(scale)s,
+			"visible"       : %(visible)s,
+			"castShadow"    : %(castShadow)s,
+			"receiveShadow" : %(receiveShadow)s,
+			"doubleSided"   : %(doubleSided)s
+		}"""
 
 TEMPLATE_EMPTY = """\
-	%(object_id)s : {
-		"groups"    : [ %(group_id)s ],
-		"position"  : %(position)s,
-		"rotation"  : %(rotation)s,
-		"quaternion": %(quaternion)s,
-		"scale"     : %(scale)s
-	}"""
+		%(object_id)s: {
+			"groups"     : [ %(group_id)s ],
+			"position"   : %(position)s,
+			"rotation"   : %(rotation)s,
+			"quaternion" : %(quaternion)s,
+			"scale"      : %(scale)s
+		}"""
 
 TEMPLATE_GEOMETRY_LINK = """\
-	%(geometry_id)s : {
-		"type" : "ascii",
-		"url"  : %(model_file)s
-	}"""
+		%(geometry_id)s: {
+			"type" : "ascii",
+			"url"  : %(model_file)s
+		}"""
 
 TEMPLATE_GEOMETRY_EMBED = """\
-	%(geometry_id)s : {
-		"type" : "embedded",
-		"id"  : %(embed_id)s
-	}"""
+		%(geometry_id)s: {
+			"type" : "embedded",
+			"id"   : %(embed_id)s
+		}"""
 
 TEMPLATE_TEXTURE = """\
-	%(texture_id)s : {
-		"url": %(texture_file)s%(extras)s
-	}"""
+		%(texture_id)s: {
+			"url" : %(texture_file)s%(extras)s
+		}"""
 
 TEMPLATE_MATERIAL_SCENE = """\
-	%(material_id)s : {
-		"type": %(type)s,
-		"parameters": { %(parameters)s }
-	}"""
+		%(material_id)s: {
+			"type"       : %(type)s,
+			"parameters" : { %(parameters)s }
+		}"""
 
 TEMPLATE_CAMERA_PERSPECTIVE = """\
-	%(camera_id)s : {
-		"type"  : "PerspectiveCamera",
-		"fov"   : %(fov)f,
-		"aspect": %(aspect)f,
-		"near"  : %(near)f,
-		"far"   : %(far)f,
-		"position": %(position)s,
-		"target"  : %(target)s
-	}"""
+		%(camera_id)s: {
+			"type"     : "PerspectiveCamera",
+			"fov"      : %(fov)f,
+			"aspect"   : %(aspect)f,
+			"near"     : %(near)f,
+			"far"      : %(far)f,
+			"position" : %(position)s,
+			"target"   : %(target)s
+		}"""
 
 TEMPLATE_CAMERA_ORTHO = """\
-	%(camera_id)s : {
-		"type"  : "OrthographicCamera",
-		"left"  : %(left)f,
-		"right" : %(right)f,
-		"top"   : %(top)f,
-		"bottom": %(bottom)f,
-		"near"  : %(near)f,
-		"far"   : %(far)f,
-		"position": %(position)s,
-		"target"  : %(target)s
-	}"""
+		%(camera_id)s: {
+			"type"     : "OrthographicCamera",
+			"left"     : %(left)f,
+			"right"    : %(right)f,
+			"top"      : %(top)f,
+			"bottom"   : %(bottom)f,
+			"near"     : %(near)f,
+			"far"      : %(far)f,
+			"position" : %(position)s,
+			"target"   : %(target)s
+		}"""
 
 TEMPLATE_LIGHT_POINT = """\
-	%(light_id)s : {
-		"type"       : "PointLight",
-		"position"   : %(position)s,
-		"rotation"   : %(rotation)s,
-		"color"      : %(color)d,
-		"distance"   : %(distance).3f,
-		"intensity"  : %(intensity).3f
-	}"""
+		%(light_id)s: {
+			"type"      : "PointLight",
+			"position"  : %(position)s,
+			"rotation"  : %(rotation)s,
+			"color"     : %(color)d,
+			"distance"  : %(distance).3f,
+			"intensity" : %(intensity).3f
+		}"""
 
 TEMPLATE_LIGHT_SUN = """\
-	%(light_id)s : {
-		"type"       : "AmbientLight",
-		"position"   : %(position)s,
-		"rotation"   : %(rotation)s,
-		"color"      : %(color)d,
-		"distance"   : %(distance).3f,
-		"intensity"  : %(intensity).3f
-	}"""
+		%(light_id)s: {
+			"type"      : "AmbientLight",
+			"position"  : %(position)s,
+			"rotation"  : %(rotation)s,
+			"color"     : %(color)d,
+			"distance"  : %(distance).3f,
+			"intensity" : %(intensity).3f
+		}"""
 
 TEMPLATE_LIGHT_SPOT = """\
-	%(light_id)s : {
-		"type"       : "SpotLight",
-		"position"   : %(position)s,
-		"rotation"   : %(rotation)s,
-		"color"      : %(color)d,
-		"distance"   : %(distance).3f,
-		"intensity"  : %(intensity).3f,
-		"use_shadow" : %(use_shadow)d,
-		"angle"      : %(angle).3f
-	}"""
+		%(light_id)s: {
+			"type"       : "SpotLight",
+			"position"   : %(position)s,
+			"rotation"   : %(rotation)s,
+			"color"      : %(color)d,
+			"distance"   : %(distance).3f,
+			"intensity"  : %(intensity).3f,
+			"use_shadow" : %(use_shadow)d,
+			"angle"      : %(angle).3f
+		}"""
 
 TEMPLATE_LIGHT_HEMI = """\
-	%(light_id)s : {
-		"type"       : "HemisphereLight",
-		"position"   : %(position)s,
-		"rotation"   : %(rotation)s,
-		"color"      : %(color)d,
-		"distance"   : %(distance).3f,
-		"intensity"  : %(intensity).3f
-	}"""
+		%(light_id)s: {
+			"type"      : "HemisphereLight",
+			"position"  : %(position)s,
+			"rotation"  : %(rotation)s,
+			"color"     : %(color)d,
+			"distance"  : %(distance).3f,
+			"intensity" : %(intensity).3f
+		}"""
 
 TEMPLATE_LIGHT_AREA = """\
-	%(light_id)s : {
-		"type"       : "AreaLight",
-		"position"   : %(position)s,
-		"rotation"   : %(rotation)s,
-		"color"      : %(color)d,
-		"distance"   : %(distance).3f,
-		"intensity"  : %(intensity).3f,
-		"gamma"      : %(gamma).3f,
-		"shape"      : "%(shape)s",
-		"size"       : %(size).3f,
-		"size_y"     : %(size_y).3f
-	}"""
+		%(light_id)s: {
+			"type"      : "AreaLight",
+			"position"  : %(position)s,
+			"rotation"  : %(rotation)s,
+			"color"     : %(color)d,
+			"distance"  : %(distance).3f,
+			"intensity" : %(intensity).3f,
+			"gamma"     : %(gamma).3f,
+			"shape"     : "%(shape)s",
+			"size"      : %(size).3f,
+			"size_y"    : %(size_y).3f
+		}"""
 
 
 TEMPLATE_VEC4 = '[ %g, %g, %g, %g ]'
@@ -264,51 +258,45 @@ TEMPLATE_HEX = "0x%06x"
 # #####################################################
 
 TEMPLATE_FILE_ASCII = """\
-{
-
-	"metadata" :
 	{
-		"formatVersion" : 3.1,
-		"generatedBy"   : "Blender 2.65 Exporter",
-		"vertices"      : %(nvertex)d,
-		"faces"         : %(nface)d,
-		"normals"       : %(nnormal)d,
-		"colors"        : %(ncolor)d,
-		"uvs"           : [%(nuvs)s],
-		"materials"     : %(nmaterial)d,
-		"morphTargets"  : %(nmorphTarget)d,
-		"bones"         : %(nbone)d
-	},
+
+		"metadata": {
+			"formatVersion" : 3.1,
+			"generatedBy"   : "Blender 2.7 Exporter",
+			"vertices"      : %(nvertex)d,
+			"faces"         : %(nface)d,
+			"normals"       : %(nnormal)d,
+			"colors"        : %(ncolor)d,
+			"uvs"           : [%(nuvs)s],
+			"materials"     : %(nmaterial)d,
+			"morphTargets"  : %(nmorphTarget)d,
+			"bones"         : %(nbone)d
+		},
 
 %(model)s
 
-}
+	}
 """
 
 TEMPLATE_MODEL_ASCII = """\
-	"scale" : %(scale)f,
-
-	"materials" : [%(materials)s],
-
-	"vertices" : [%(vertices)s],
-
-	"morphTargets" : [%(morphTargets)s],
-
-	"normals" : [%(normals)s],
-
-	"colors" : [%(colors)s],
-
-	"uvs" : [%(uvs)s],
-
-	"faces" : [%(faces)s],
-
-	"bones" : [%(bones)s],
-
-	"skinIndices" : [%(indices)s],
-
-	"skinWeights" : [%(weights)s],
-
-	"animations" : [%(animations)s]
+			"scale" : %(scale)f,
+			
+			"vertices" : [%(vertices)s],
+			"faces"    : [%(faces)s],
+			"uvs"      : [%(uvs)s],
+			"normals"  : [%(normals)s],
+			
+			"skinIndices"  : [%(indices)s],
+			"skinWeights"  : [%(weights)s],
+			"morphTargets" : [%(morphTargets)s],
+			
+			"bones"      : [%(bones)s],
+			"animations" : [%(animations)s],
+			
+			"colors"    : [%(colors)s],
+			"materials" : [
+%(materials)s
+			]
 """
 
 TEMPLATE_VERTEX = "%g,%g,%g"
@@ -374,7 +362,7 @@ def rgb2int(rgb):
 # #####################################################
 
 def write_file(fname, content):
-    out = open(fname, "w")
+    out = open(fname, "w", encoding="utf-8")
     out.write(content)
     out.close()
 
@@ -762,44 +750,56 @@ def get_armature():
 # (only the first armature will exported)
 # ##############################################################################
 
-def generate_bones(option_bones, flipyz):
+def generate_bones(meshes, option_bones, flipyz):
 
     if not option_bones:
         return "", 0
 
-    armature, armatureObject = get_armature()
-    if armature is None or armatureObject is None:
+    armature, armature_object = get_armature()
+    if armature_object is None:
         return "", 0
 
     hierarchy = []
+    armature_matrix = armature_object.matrix_world
+    pose_bones = armature_object.pose.bones
+    #pose_bones = armature.bones
 
-    TEMPLATE_BONE = '{"parent":%d,"name":"%s","pos":[%g,%g,%g],"rotq":[0,0,0,1]}'
+    TEMPLATE_BONE = '{"parent":%d,"name":"%s","pos":[%g,%g,%g],"rotq":[%g,%g,%g,%g],"scl":[%g,%g,%g]}'
 
-    for bone in armature.bones:
-        bonePos = None
+    for pose_bone in pose_bones:
+        armature_bone = pose_bone.bone
+        #armature_bone = pose_bone
+        bonePos = armature_matrix * armature_bone.head_local
         boneIndex = None
-        if bone.parent is None:
-            bonePos = bone.head_local
-            boneIndex = -1
+
+        if armature_bone.parent is None:
+            bone_matrix = armature_matrix * armature_bone.matrix_local
+            bone_index = -1
         else:
-            bonePos = bone.head_local - bone.parent.head_local
-            boneIndex = i = 0
-            for parent in armature.bones:
-                if parent.name == bone.parent.name:
-                    boneIndex = i
+            parent_matrix = armature_matrix * armature_bone.parent.matrix_local
+            bone_matrix = armature_matrix * armature_bone.matrix_local
+            bone_matrix = parent_matrix.inverted() * bone_matrix
+
+            bone_index = i = 0
+            for pose_parent in pose_bones:
+                armature_parent = pose_parent.bone
+                #armature_parent = pose_parent
+                if armature_parent.name == armature_bone.parent.name:
+                    bone_index = i
                 i += 1
 
-        bonePosWorld = armatureObject.matrix_world * bonePos
+        pos, rot, scl = bone_matrix.decompose()
+
         if flipyz:
-            joint = TEMPLATE_BONE % (boneIndex, bone.name, bonePosWorld.x, bonePosWorld.z, -bonePosWorld.y)
+            joint = TEMPLATE_BONE % (bone_index, armature_bone.name, pos.x, pos.z, -pos.y, rot.x, rot.z, -rot.y, rot.w, scl.x, scl.z, scl.y)
             hierarchy.append(joint)
         else:
-            joint = TEMPLATE_BONE % (boneIndex, bone.name, bonePosWorld.x, bonePosWorld.y, bonePosWorld.z)
+            joint = TEMPLATE_BONE % (bone_index, armature_bone.name, pos.x, pos.y,  pos.z, rot.x, rot.y,  rot.z, rot.w, scl.x, scl.y, scl.z)
             hierarchy.append(joint)
-                
-    bones_string = ",".join(hierarchy)
 
-    return bones_string, len(armature.bones)
+    bones_string = ",".join(hierarchy)
+    
+    return bones_string, len(pose_bones)
 
 
 # ##############################################################################
@@ -814,7 +814,8 @@ def generate_indices_and_weights(meshes, option_skinning):
     indices = []
     weights = []
 
-    armature, armatureObject = get_armature()
+    armature, armature_object = get_armature()
+    bone_names = [bone.name for bone in armature_object.pose.bones]
 
     for mesh, object in meshes:
 
@@ -842,12 +843,13 @@ def generate_indices_and_weights(meshes, option_skinning):
 
             for group in vertex.groups:
                 index = group.group
-                weight = group.weight
+                if object.vertex_groups[index].name in bone_names:
+                    weight = group.weight 
 
-                bone_array.append( (index, weight) )
-
+                    bone_array.append( (index, weight) )
+                
             bone_array.sort(key = operator.itemgetter(1), reverse=True)
-
+            
             # select first N bones
 
             for i in range(MAX_INFLUENCES):
@@ -859,7 +861,7 @@ def generate_indices_and_weights(meshes, option_skinning):
                     index = bone_proxy[0]
                     weight = bone_proxy[1]
 
-                    for j, bone in enumerate(armature.bones):
+                    for j, bone in enumerate(armature_object.pose.bones):
                         if object.vertex_groups[index].name == bone.name:
                             indices.append('%d' % j)
                             weights.append('%g' % weight)
@@ -867,14 +869,14 @@ def generate_indices_and_weights(meshes, option_skinning):
                             break
 
                     if found != 1:
-                        indices.append('0')
+                        indices.append('-1')
                         weights.append('0')
 
                 else:
-                    indices.append('0')
+                    indices.append('-1')
                     weights.append('0')
-
-
+    
+    
     indices_string = ",".join(indices)
     weights_string = ",".join(weights)
 
@@ -886,23 +888,33 @@ def generate_indices_and_weights(meshes, option_skinning):
 # (only the first action will exported)
 # ##############################################################################
 
-def generate_animation(option_animation_skeletal, option_frame_step, flipyz, action_index):
+def generate_animation(option_animation_skeletal, option_frame_step, flipyz, option_frame_index_as_time, index):
 
-    if not option_animation_skeletal or len(bpy.data.actions) == 0 or len(bpy.data.actions) == 0:
+    if not option_animation_skeletal or len(bpy.data.actions) == 0:
         return ""
 
     # TODO: Add scaling influences
 
-    action = bpy.data.actions[action_index]
-    armature, armatureObject = get_armature()
-    if armature is None or armatureObject is None:
+    action = bpy.data.actions[index]
+    
+    # get current context and then switch to dopesheet temporarily
+    
+    current_context = bpy.context.area.type
+    
+    bpy.context.area.type = "DOPESHEET_EDITOR"
+    bpy.context.space_data.mode = "ACTION"    
+    
+    # set active action
+    bpy.context.area.spaces.active.action = action
+    
+    armature, armature_object = get_armature()
+    if armature_object is None or armature is None:
         return "", 0
-    armatureMat = armatureObject.matrix_world
-    l,r,s = armatureMat.decompose()
-    armatureRotMat = r.to_matrix()
-
-    parents = []
-    parent_index = -1
+        
+    #armature_object = bpy.data.objects['marine_rig']
+    
+        
+    armature_matrix = armature_object.matrix_world
 
     fps = bpy.data.scenes[0].render.fps
 
@@ -911,75 +923,180 @@ def generate_animation(option_animation_skeletal, option_frame_step, flipyz, act
 
     frame_length = end_frame - start_frame
 
-    TEMPLATE_KEYFRAME_FULL  = '{"time":%g,"pos":[%g,%g,%g],"rot":[%g,%g,%g,%g],"scl":[1,1,1]}'
-    TEMPLATE_KEYFRAME       = '{"time":%g,"pos":[%g,%g,%g],"rot":[%g,%g,%g,%g]}'
-    TEMPLATE_KEYFRAME_POS   = '{"time":%g,"pos":[%g,%g,%g]}'
-    TEMPLATE_KEYFRAME_ROT   = '{"time":%g,"rot":[%g,%g,%g,%g]}'
+    used_frames = int(frame_length / option_frame_step) + 1
 
-    for hierarchy in armature.bones:
+    TEMPLATE_KEYFRAME_FULL  = '{"time":%g,"pos":[%g,%g,%g],"rot":[%g,%g,%g,%g],"scl":[%g,%g,%g]}'
+    TEMPLATE_KEYFRAME_BEGIN = '{"time":%g'
+    TEMPLATE_KEYFRAME_END   = '}'
+    TEMPLATE_KEYFRAME_POS   = ',"pos":[%g,%g,%g]'
+    TEMPLATE_KEYFRAME_ROT   = ',"rot":[%g,%g,%g,%g]'
+    TEMPLATE_KEYFRAME_SCL   = ',"scl":[%g,%g,%g]'
 
-        keys = []
+    keys = []
+    channels_location = []
+    channels_rotation = []
+    channels_scale = []
+    
+    # Precompute per-bone data
+    for pose_bone in armature_object.pose.bones:
+        armature_bone = pose_bone.bone
+        keys.append([])
+        channels_location.append(  find_channels(action, armature_bone, "location"))
+        channels_rotation.append(  find_channels(action, armature_bone, "rotation_quaternion"))
+        channels_rotation.append(  find_channels(action, armature_bone, "rotation_euler"))
+        channels_scale.append(     find_channels(action, armature_bone, "scale"))
 
-        for frame in range(int(start_frame), int(end_frame / option_frame_step) + 1):
+    # Process all frames
+    for frame_i in range(0, used_frames):
 
-            pos, pchange = position(hierarchy, frame * option_frame_step, action, armatureMat)
-            rot, rchange = rotation(hierarchy, frame * option_frame_step, action, armatureRotMat)
+        #print("Processing frame %d/%d" % (frame_i, used_frames))
+        # Compute the index of the current frame (snap the last index to the end)
+        frame = start_frame + frame_i * option_frame_step
+        if frame_i == used_frames-1:
+            frame = end_frame
+
+        # Compute the time of the frame
+        if option_frame_index_as_time:
+            time = frame - start_frame
+        else:
+            time = (frame - start_frame) / fps
+
+        # Let blender compute the pose bone transformations
+        bpy.data.scenes[0].frame_set(frame)
+
+        # Process all bones for the current frame
+        bone_index = 0
+        for pose_bone in armature_object.pose.bones:
+
+            # Extract the bone transformations
+            if pose_bone.parent is None:
+                bone_matrix = armature_matrix * pose_bone.matrix
+            else:
+                parent_matrix = armature_matrix * pose_bone.parent.matrix
+                bone_matrix = armature_matrix * pose_bone.matrix
+                bone_matrix = parent_matrix.inverted() * bone_matrix
+            pos, rot, scl = bone_matrix.decompose()
+
+            pchange = True or has_keyframe_at(channels_location[bone_index], frame)
+            rchange = True or has_keyframe_at(channels_rotation[bone_index], frame)
+            schange = True or has_keyframe_at(channels_scale[bone_index], frame)
 
             if flipyz:
                 px, py, pz = pos.x, pos.z, -pos.y
                 rx, ry, rz, rw = rot.x, rot.z, -rot.y, rot.w
+                sx, sy, sz = scl.x, scl.z, scl.y
             else:
                 px, py, pz = pos.x, pos.y, pos.z
                 rx, ry, rz, rw = rot.x, rot.y, rot.z, rot.w
+                sx, sy, sz = scl.x, scl.y, scl.z
 
             # START-FRAME: needs pos, rot and scl attributes (required frame)
 
-            if frame == int(start_frame):
+            if frame == start_frame:
 
-                time = (frame * option_frame_step - start_frame) / fps
-                keyframe = TEMPLATE_KEYFRAME_FULL % (time, px, py, pz, rx, ry, rz, rw)
-                keys.append(keyframe)
+                keyframe = TEMPLATE_KEYFRAME_FULL % (time, px, py, pz, rx, ry, rz, rw, sx, sy, sz)
+                keys[bone_index].append(keyframe)
 
             # END-FRAME: needs pos, rot and scl attributes with animation length (required frame)
 
-            elif frame == int(end_frame / option_frame_step):
+            elif frame == end_frame:
 
-                time = frame_length / fps
-                keyframe = TEMPLATE_KEYFRAME_FULL % (time, px, py, pz, rx, ry, rz, rw)
-                keys.append(keyframe)
+                keyframe = TEMPLATE_KEYFRAME_FULL % (time, px, py, pz, rx, ry, rz, rw, sx, sy, sz)
+                keys[bone_index].append(keyframe)
 
             # MIDDLE-FRAME: needs only one of the attributes, can be an empty frame (optional frame)
 
             elif pchange == True or rchange == True:
 
-                time = (frame * option_frame_step - start_frame) / fps
+                keyframe = TEMPLATE_KEYFRAME_BEGIN % time
+                if pchange == True:
+                    keyframe = keyframe + TEMPLATE_KEYFRAME_POS % (px, py, pz)
+                if rchange == True:
+                    keyframe = keyframe + TEMPLATE_KEYFRAME_ROT % (rx, ry, rz, rw)
+                if schange == True:
+                    keyframe = keyframe + TEMPLATE_KEYFRAME_SCL % (sx, sy, sz)
+                keyframe = keyframe + TEMPLATE_KEYFRAME_END
 
-                if pchange == True and rchange == True:
-                    keyframe = TEMPLATE_KEYFRAME % (time, px, py, pz, rx, ry, rz, rw)
-                elif pchange == True:
-                    keyframe = TEMPLATE_KEYFRAME_POS % (time, px, py, pz)
-                elif rchange == True:
-                    keyframe = TEMPLATE_KEYFRAME_ROT % (time, rx, ry, rz, rw)
+                keys[bone_index].append(keyframe)
+            bone_index += 1
 
-                keys.append(keyframe)
-
-        keys_string = ",".join(keys)
+    # Gather data
+    parents = []
+    bone_index = 0
+    for pose_bone in armature_object.pose.bones:
+        keys_string = ",".join(keys[bone_index])
+        parent_index = bone_index - 1 # WTF? Also, this property is not used by three.js
         parent = '{"parent":%d,"keys":[%s]}' % (parent_index, keys_string)
-        parent_index += 1
+        bone_index += 1
         parents.append(parent)
-
     hierarchy_string = ",".join(parents)
-    animation_string = '"name":"%s","fps":%d,"length":%g,"hierarchy":[%s]' % (action.name, fps, (frame_length / fps), hierarchy_string)
 
+    if option_frame_index_as_time:
+        length = frame_length
+    else:
+        length = frame_length / fps
+
+    animation_string = '"name":"%s","fps":%d,"length":%g,"hierarchy":[%s]' % (action.name, fps, length, hierarchy_string)
+
+    bpy.data.scenes[0].frame_set(start_frame)
+
+    # reset context
+    
+    bpy.context.area.type = current_context
+    
     return animation_string
 
-def generate_all_animations(option_animation_skeletal, option_frame_step, flipyz):
+def find_channels(action, bone, channel_type):
+    bone_name = bone.name
+    ngroups = len(action.groups)
+    result = []
+
+    # Variant 1: channels grouped by bone names
+    if ngroups > 0:
+
+        # Find the channel group for the given bone
+        group_index = -1
+        for i in range(ngroups):
+            if action.groups[i].name == bone_name:
+                group_index = i
+
+        # Get all desired channels in that group
+        if group_index > -1:
+            for channel in action.groups[group_index].channels:
+                if channel_type in channel.data_path:
+                    result.append(channel)
+
+    # Variant 2: no channel groups, bone names included in channel names
+    else:
+
+        bone_label = '"%s"' % bone_name
+
+        for channel in action.fcurves:
+            data_path = channel.data_path
+            if bone_label in data_path and channel_type in data_path:
+                result.append(channel)
+
+    return result
+
+def find_keyframe_at(channel, frame):
+    for keyframe in channel.keyframe_points:
+        if keyframe.co[0] == frame:
+            return keyframe
+    return None
+
+def has_keyframe_at(channels, frame):
+    for channel in channels:
+        if not find_keyframe_at(channel, frame) is None:
+            return True
+    return False
+
+def generate_all_animations(option_animation_skeletal, option_frame_step, flipyz, option_frame_index_as_time):
     all_animations_string = ""
     if option_animation_skeletal:
         for index in range(0, len(bpy.data.actions)):
             if index != 0 :
                 all_animations_string += ", \n"
-            all_animations_string += "{" + generate_animation(option_animation_skeletal, option_frame_step, flipyz, index) + "}"
+            all_animations_string += "{" + generate_animation(option_animation_skeletal, option_frame_step, flipyz, option_frame_index_as_time,index) + "}"
     return all_animations_string
 
 def handle_position_channel(channel, frame, position):
@@ -1036,7 +1153,7 @@ def position(bone, frame, action, armatureMatrix):
 
     position = position * bone.matrix_local.inverted()
 
-    if bone.parent is None:
+    if bone.parent == None:
 
         position.x += bone.head.x
         position.y += bone.head.y
@@ -1189,11 +1306,11 @@ def generate_materials(mtl, materials, draw_type):
             mtl[m]['wireframe'] = True
             mtl[m]['DbgColor'] = 0xff0000
 
-        mtl_raw = ",\n".join(['\t\t"%s" : %s' % (n, value2string(v)) for n,v in sorted(mtl[m].items())])
-        mtl_string = "\t{\n%s\n\t}" % mtl_raw
+        mtl_raw = ",\n".join(['\t\t\t\t\t"%s": %s' % (n, value2string(v)) for n,v in sorted(mtl[m].items())])
+        mtl_string = "\t\t\t\t{\n%s\n\t\t\t\t}" % mtl_raw
         mtl_array.append([index, mtl_string])
 
-    return ",\n\n".join([m for i,m in sorted(mtl_array)]), len(mtl_array)
+    return ",\n".join([m for i,m in sorted(mtl_array)]), len(mtl_array)
 
 def extract_materials(mesh, scene, option_colors, option_copy_textures, filepath):
     world = scene.world
@@ -1215,6 +1332,10 @@ def extract_materials(mesh, scene, option_colors, option_copy_textures, filepath
             material['colorAmbient'] = [m.ambient * material['colorDiffuse'][0],
                                         m.ambient * material['colorDiffuse'][1],
                                         m.ambient * material['colorDiffuse'][2]]
+
+            material['colorEmissive'] = [m.emit * material['colorDiffuse'][0],
+                                         m.emit * material['colorDiffuse'][1],
+                                         m.emit * material['colorDiffuse'][2]]
 
             material['transparency'] = m.alpha
 
@@ -1340,6 +1461,7 @@ def generate_ascii_model(meshes, morphs,
                          filepath,
                          option_animation_morph,
                          option_animation_skeletal,
+                         option_frame_index_as_time,
                          option_frame_step):
 
     vertices = []
@@ -1417,10 +1539,10 @@ def generate_ascii_model(meshes, morphs,
 
     faces_string, nfaces = generate_faces(normals, uv_layers, colors, meshes, option_normals, option_colors, option_uv_coords, option_materials, option_faces)
 
-    bones_string, nbone = generate_bones(option_bones, flipyz)
+    bones_string, nbone = generate_bones(meshes, option_bones, flipyz)
     indices_string, weights_string = generate_indices_and_weights(meshes, option_skinning)
 
-    materials_string = ",\n\n".join(materials)
+    materials_string = ",\n".join(materials)
 
     model_string = TEMPLATE_MODEL_ASCII % {
     "scale" : option_scale,
@@ -1440,7 +1562,7 @@ def generate_ascii_model(meshes, morphs,
     "bones"     : bones_string,
     "indices"   : indices_string,
     "weights"   : weights_string,
-    "animations" : generate_all_animations(option_animation_skeletal, option_frame_step, flipyz)
+    "animations" : generate_all_animations(option_animation_skeletal, option_frame_step, flipyz, option_frame_index_as_time)
     }
 
     text = TEMPLATE_FILE_ASCII % {
@@ -1523,6 +1645,7 @@ def generate_mesh_string(objects, scene,
                 filepath,
                 option_animation_morph,
                 option_animation_skeletal,
+                option_frame_index_as_time,
                 option_frame_step):
 
     meshes = extract_meshes(objects, scene, export_single_model, option_scale, flipyz)
@@ -1587,6 +1710,7 @@ def generate_mesh_string(objects, scene,
                                 filepath,
                                 option_animation_morph,
                                 option_animation_skeletal,
+                                option_frame_index_as_time,
                                 option_frame_step)
 
     # remove temp meshes
@@ -1614,7 +1738,8 @@ def export_mesh(objects,
                 option_copy_textures,
                 option_animation_morph,
                 option_animation_skeletal,
-                option_frame_step):
+                option_frame_step,
+                option_frame_index_as_time):
 
     """Export single mesh"""
 
@@ -1637,6 +1762,7 @@ def export_mesh(objects,
                 filepath,
                 option_animation_morph,
                 option_animation_skeletal,
+                option_frame_index_as_time,
                 option_frame_step)
 
     write_file(filepath, text)
@@ -1676,7 +1802,7 @@ def generate_section(label, content):
 
 def get_mesh_filename(mesh):
     object_id = mesh["data"]["name"]
-    filename = "%s.js" % sanitize(object_id)
+    filename = "%s.json" % sanitize(object_id)
     return filename
 
 def generate_material_id_list(materials):
@@ -1745,7 +1871,7 @@ def generate_objects(data):
             receiveShadow = obj.THREE_receiveShadow
             doubleSided = obj.THREE_doubleSided
 
-            visible = True
+            visible = obj.THREE_visible
 
             geometry_string = generate_string(geometry_id)
 
@@ -1795,7 +1921,7 @@ def generate_objects(data):
             }
             chunks.append(object_string)
 
-    return ",\n\n".join(chunks), len(chunks)
+    return ",\n".join(chunks), len(chunks)
 
 # #####################################################
 # Scene exporter - geometries
@@ -1840,7 +1966,7 @@ def generate_geometries(data):
 
                 geo_set.add(name)
 
-    return ",\n\n".join(chunks), len(chunks)
+    return ",\n".join(chunks), len(chunks)
 
 # #####################################################
 # Scene exporter - textures
@@ -1877,7 +2003,7 @@ def generate_textures_scene(data):
                 if texture.use_mirror_y:
                     wrap_y = "mirror"
 
-                extras += ',\n        "wrap": ["%s", "%s"]' % (wrap_x, wrap_y)
+                extras += ',\n\t\t\t"wrap": ["%s", "%s"]' % (wrap_x, wrap_y)
 
             texture_string = TEMPLATE_TEXTURE % {
             "texture_id"   : generate_string(texture_id),
@@ -1886,7 +2012,7 @@ def generate_textures_scene(data):
             }
             chunks.append(texture_string)
 
-    return ",\n\n".join(chunks), len(chunks)
+    return ",\n".join(chunks), len(chunks)
 
 def extract_texture_filename(image):
     fn = bpy.path.abspath(image.filepath)
@@ -1927,6 +2053,10 @@ def extract_material_data(m, option_colors):
     material['colorAmbient'] = [m.ambient * material['colorDiffuse'][0],
                                 m.ambient * material['colorDiffuse'][1],
                                 m.ambient * material['colorDiffuse'][2]]
+
+    material['colorEmissive'] = [m.emit * material['colorDiffuse'][0],
+                                 m.emit * material['colorDiffuse'][1],
+                                 m.emit * material['colorDiffuse'][2]]
 
     material['transparency'] = m.alpha
 
@@ -2042,10 +2172,12 @@ def generate_material_string(material):
 
     parameters = '"color": %d' % rgb2int(material["colorDiffuse"])
     parameters += ', "ambient": %d' % rgb2int(material["colorDiffuse"])
+    parameters += ', "emissive": %d' % rgb2int(material["colorEmissive"])
     parameters += ', "opacity": %.2g' % material["transparency"]
 
     if shading == "Phong":
         parameters += ', "ambient": %d' % rgb2int(material["colorAmbient"])
+        parameters += ', "emissive": %d' % rgb2int(material["colorEmissive"])
         parameters += ', "specular": %d' % rgb2int(material["colorSpecular"])
         parameters += ', "shininess": %.1g' % material["specularCoef"]
 
@@ -2113,7 +2245,7 @@ def generate_materials_scene(data):
         material_string = generate_material_string(material)
         chunks.append(material_string)
 
-    return ",\n\n".join(chunks), len(chunks)
+    return ",\n".join(chunks), len(chunks)
 
 # #####################################################
 # Scene exporter - cameras
@@ -2161,16 +2293,12 @@ def generate_cameras(data):
         else:
 
             for cameraobj in cams:
-                camera = bpy.data.cameras[cameraobj.name]
+                camera = bpy.data.cameras[cameraobj.data.name]
 
-                # TODO:
-                #   Support more than perspective camera
-                #   Calculate a target/lookat
-                #   Get correct aspect ratio
                 if camera.id_data.type == "PERSP":
 
                     camera_string = TEMPLATE_CAMERA_PERSPECTIVE % {
-                    "camera_id" : generate_string(camera.name),
+                    "camera_id" : generate_string(cameraobj.name),
                     "fov"       : (camera.angle / 3.14) * 180.0,
                     "aspect"    : 1.333,
                     "near"      : camera.clip_start,
@@ -2179,9 +2307,23 @@ def generate_cameras(data):
                     "target"    : generate_vec3([0, 0, 0])
                     }
 
+                elif camera.id_data.type == "ORTHO":
+
+                    camera_string = TEMPLATE_CAMERA_ORTHO % {
+                    "camera_id" : generate_string(camera.name),
+                    "left"      : -(camera.angle_x * camera.ortho_scale),
+                    "right"     : (camera.angle_x * camera.ortho_scale),
+                    "top"       : (camera.angle_y * camera.ortho_scale),
+                    "bottom"    : -(camera.angle_y * camera.ortho_scale),
+                    "near"      : camera.clip_start,
+                    "far"       : camera.clip_end,
+                    "position"  : generate_vec3([cameraobj.location[0], -cameraobj.location[1], cameraobj.location[2]], data["flipyz"]),
+                    "target"    : generate_vec3([0, 0, 0])
+                    }
+                    
                 chunks.append(camera_string)
 
-    return ",\n\n".join(chunks), len(chunks)
+    return ",\n".join(chunks), len(chunks)
 
 # #####################################################
 # Scene exporter - lights
@@ -2255,8 +2397,7 @@ def generate_lights(data):
         if not lamps:
             lamps.append(DEFAULTS["light"])
 
-    return ",\n\n".join(chunks), len(chunks)
-
+    return ",\n".join(chunks), len(chunks)
 
 # #####################################################
 # Scene exporter - embedded meshes
@@ -2270,10 +2411,10 @@ def generate_embeds(data):
 
         for e in data["embeds"]:
 
-            embed = '"emb_%s": {%s}' % (e, data["embeds"][e])
+            embed = '\t\t"emb_%s": {\n%s\t\t}' % (e, data["embeds"][e])
             chunks.append(embed)
 
-        return ",\n\n".join(chunks)
+        return ",\n".join(chunks)
 
     return ""
 
@@ -2294,14 +2435,14 @@ def generate_ascii_scene(data):
 
     if nlights > 0:
         if nobjects > 0:
-            objects = objects + ",\n\n" + lights
+            objects = objects + ",\n" + lights
         else:
             objects = lights
         nobjects += nlights
 
     if ncameras > 0:
         if nobjects > 0:
-            objects = objects + ",\n\n" + cameras
+            objects = objects + ",\n" + cameras
         else:
             objects = cameras
         nobjects += ncameras
@@ -2326,7 +2467,7 @@ def generate_ascii_scene(data):
         if content:
             chunks.append(generate_section(label, content))
 
-    sections_string = "\n".join(chunks)
+    sections_string = "".join(chunks)
 
     default_camera = ""
     if data["use_cameras"]:
@@ -2417,11 +2558,12 @@ def save(operator, context, filepath = "",
          option_animation_morph = False,
          option_animation_skeletal = False,
          option_frame_step = 1,
-         option_all_meshes = True):
+         option_all_meshes = True,
+         option_frame_index_as_time = False):
 
     #print("URL TYPE", option_url_base_html)
 
-    filepath = ensure_extension(filepath, '.js')
+    filepath = ensure_extension(filepath, '.json')
 
     scene = context.scene
 
@@ -2481,6 +2623,7 @@ def save(operator, context, filepath = "",
                                                         filepath,
                                                         option_animation_morph,
                                                         option_animation_skeletal,
+                                                        option_frame_index_as_time,
                                                         option_frame_step)
 
                         embeds[object.data.name] = model_string
@@ -2506,7 +2649,8 @@ def save(operator, context, filepath = "",
                                     option_copy_textures,
                                     option_animation_morph,
                                     option_animation_skeletal,
-                                    option_frame_step)
+                                    option_frame_step,
+                                    option_frame_index_as_time)
 
                     geo_set.add(name)
 
@@ -2539,6 +2683,7 @@ def save(operator, context, filepath = "",
                     option_copy_textures,
                     option_animation_morph,
                     option_animation_skeletal,
-                    option_frame_step)
+                    option_frame_step,
+                    option_frame_index_as_time)
 
     return {'FINISHED'}

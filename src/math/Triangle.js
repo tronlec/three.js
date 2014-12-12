@@ -11,10 +11,11 @@ THREE.Triangle = function ( a, b, c ) {
 
 };
 
-THREE.Triangle.normal = function( a, b, c, optionalTarget ) {
+THREE.Triangle.normal = function () {
 
 	var v0 = new THREE.Vector3();
 
+	return function ( a, b, c, optionalTarget ) {
 
 		var result = optionalTarget || new THREE.Vector3();
 
@@ -23,23 +24,27 @@ THREE.Triangle.normal = function( a, b, c, optionalTarget ) {
 		result.cross( v0 );
 
 		var resultLengthSq = result.lengthSq();
-		if( resultLengthSq > 0 ) {
+		if ( resultLengthSq > 0 ) {
 
 			return result.multiplyScalar( 1 / Math.sqrt( resultLengthSq ) );
 
 		}
 
-    return result.set( 0, 0, 0 );
-};
+		return result.set( 0, 0, 0 );
+
+	};
+
+}();
 
 // static/instance method to calculate barycoordinates
 // based on: http://www.blackpawn.com/texts/pointinpoly/default.html
-THREE.Triangle.barycoordFromPoint = function( point, a, b, c, optionalTarget ) {
+THREE.Triangle.barycoordFromPoint = function () {
 
 	var v0 = new THREE.Vector3();
 	var v1 = new THREE.Vector3();
 	var v2 = new THREE.Vector3();
 
+	return function ( point, a, b, c, optionalTarget ) {
 
 		v0.subVectors( c, a );
 		v1.subVectors( b, a );
@@ -56,10 +61,10 @@ THREE.Triangle.barycoordFromPoint = function( point, a, b, c, optionalTarget ) {
 		var result = optionalTarget || new THREE.Vector3();
 
 		// colinear or singular triangle
-		if( denom == 0 ) {
+		if ( denom == 0 ) {
 			// arbitrary location outside of triangle?
 			// not sure if this is the best idea, maybe should be returning undefined
-			return result.set( -2, -1, -1 );
+			return result.set( - 2, - 1, - 1 );
 		}
 
 		var invDenom = 1 / denom;
@@ -71,17 +76,21 @@ THREE.Triangle.barycoordFromPoint = function( point, a, b, c, optionalTarget ) {
 
 	};
 
+}();
 
-THREE.Triangle.containsPoint = function( point, a, b, c ) {
+THREE.Triangle.containsPoint = function () {
 
 	var v1 = new THREE.Vector3();
 
+	return function ( point, a, b, c ) {
 
 		var result = THREE.Triangle.barycoordFromPoint( point, a, b, c, v1 );
 
 		return ( result.x >= 0 ) && ( result.y >= 0 ) && ( ( result.x + result.y ) <= 1 );
 
 	};
+
+}();
 
 THREE.Triangle.prototype = {
 
@@ -99,9 +108,9 @@ THREE.Triangle.prototype = {
 
 	setFromPointsAndIndices: function ( points, i0, i1, i2 ) {
 
-		this.a.copy( points[i0] );
-		this.b.copy( points[i1] );
-		this.c.copy( points[i2] );
+		this.a.copy( points[ i0 ] );
+		this.b.copy( points[ i1 ] );
+		this.c.copy( points[ i2 ] );
 
 		return this;
 
@@ -117,19 +126,21 @@ THREE.Triangle.prototype = {
 
 	},
 
-	area: function() {
+	area: function () {
 
 		var v0 = new THREE.Vector3();
 		var v1 = new THREE.Vector3();
 
+		return function () {
 
 			v0.subVectors( this.c, this.b );
 			v1.subVectors( this.a, this.b );
 
 			return v0.cross( v1 ).length() * 0.5;
 
+		};
 
-    },
+	}(),
 
 	midpoint: function ( optionalTarget ) {
 

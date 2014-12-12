@@ -11,7 +11,7 @@ THREE.DirectionalLightHelper = function ( light, size ) {
 	this.light = light;
 	this.light.updateMatrixWorld();
 
-	this.matrixWorld = light.matrixWorld;
+	this.matrix = light.matrixWorld;
 	this.matrixAutoUpdate = false;
 
 	size = size || 1;
@@ -45,15 +45,12 @@ THREE.DirectionalLightHelper = function ( light, size ) {
 
 	this.update();
 
-    this._v1 = new THREE.Vector3();
-    this._v2 = new THREE.Vector3();
-    this._v3 = new THREE.Vector3();
 };
 
 THREE.DirectionalLightHelper.prototype = Object.create( THREE.Object3D.prototype );
 
 THREE.DirectionalLightHelper.prototype.dispose = function () {
-	
+
 	this.lightPlane.geometry.dispose();
 	this.lightPlane.material.dispose();
 	this.targetLine.geometry.dispose();
@@ -62,20 +59,23 @@ THREE.DirectionalLightHelper.prototype.dispose = function () {
 
 THREE.DirectionalLightHelper.prototype.update = function () {
 
-    var v1 = this._v1;
-    var v2 = this._v2;
-    var v3 = this._v3;
+	var v1 = new THREE.Vector3();
+	var v2 = new THREE.Vector3();
+	var v3 = new THREE.Vector3();
 
+	return function () {
 
-    v1.setFromMatrixPosition( this.light.matrixWorld );
-    v2.setFromMatrixPosition( this.light.target.matrixWorld );
-    v3.subVectors( v2, v1 );
+		v1.setFromMatrixPosition( this.light.matrixWorld );
+		v2.setFromMatrixPosition( this.light.target.matrixWorld );
+		v3.subVectors( v2, v1 );
 
-    this.lightPlane.lookAt( v3 );
-    this.lightPlane.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
+		this.lightPlane.lookAt( v3 );
+		this.lightPlane.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
-    this.targetLine.geometry.vertices[ 1 ].copy( v3 );
-    this.targetLine.geometry.verticesNeedUpdate = true;
-    this.targetLine.material.color.copy( this.lightPlane.material.color );
-};
+		this.targetLine.geometry.vertices[ 1 ].copy( v3 );
+		this.targetLine.geometry.verticesNeedUpdate = true;
+		this.targetLine.material.color.copy( this.lightPlane.material.color );
 
+	};
+
+}();

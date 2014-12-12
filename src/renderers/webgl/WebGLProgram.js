@@ -1,7 +1,6 @@
-var programIdCount = 0;
+THREE.WebGLProgram = ( function () {
 
-THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
-
+	var programIdCount = 0;
 
 	var generateDefines = function ( defines ) {
 
@@ -51,16 +50,18 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 	};
 
-    //return function (  ) {
+	return function ( renderer, code, material, parameters ) {
 
 		var _this = renderer;
 		var _gl = _this.context;
 
-		var fragmentShader = material.fragmentShader;
-		var vertexShader = material.vertexShader;
-		var uniforms = material.uniforms;
-		var attributes = material.attributes;
 		var defines = material.defines;
+		var uniforms = material.__webglShader.uniforms;
+		var attributes = material.attributes;
+
+		var vertexShader = material.__webglShader.vertexShader;
+		var fragmentShader = material.__webglShader.fragmentShader;
+
 		var index0AttributeName = material.index0AttributeName;
 
 		if ( index0AttributeName === undefined && parameters.morphTargets === true ) {
@@ -82,6 +83,8 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 			shadowMapTypeDefine = "SHADOWMAP_TYPE_PCF_SOFT";
 
 		}
+
+		// console.log( "building new program " );
 
 		//
 
@@ -127,6 +130,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 				parameters.bumpMap ? "#define USE_BUMPMAP" : "",
 				parameters.normalMap ? "#define USE_NORMALMAP" : "",
 				parameters.specularMap ? "#define USE_SPECULARMAP" : "",
+				parameters.alphaMap ? "#define USE_ALPHAMAP" : "",
 				parameters.vertexColors ? "#define USE_COLOR" : "",
 
 				parameters.skinning ? "#define USE_SKINNING" : "",
@@ -144,6 +148,10 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 				parameters.shadowMapCascade ? "#define SHADOWMAP_CASCADE" : "",
 
 				parameters.sizeAttenuation ? "#define USE_SIZEATTENUATION" : "",
+
+				parameters.logarithmicDepthBuffer ? "#define USE_LOGDEPTHBUF" : "",
+				//_this._glExtensionFragDepth ? "#define USE_LOGDEPTHBUF_EXT" : "",
+
 
 				"uniform mat4 modelMatrix;",
 				"uniform mat4 modelViewMatrix;",
@@ -229,6 +237,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 				parameters.bumpMap ? "#define USE_BUMPMAP" : "",
 				parameters.normalMap ? "#define USE_NORMALMAP" : "",
 				parameters.specularMap ? "#define USE_SPECULARMAP" : "",
+				parameters.alphaMap ? "#define USE_ALPHAMAP" : "",
 				parameters.vertexColors ? "#define USE_COLOR" : "",
 
 				parameters.metal ? "#define METAL" : "",
@@ -241,6 +250,9 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 				parameters.shadowMapDebug ? "#define SHADOWMAP_DEBUG" : "",
 				parameters.shadowMapCascade ? "#define SHADOWMAP_CASCADE" : "",
 
+				parameters.logarithmicDepthBuffer ? "#define USE_LOGDEPTHBUF" : "",
+				//_this._glExtensionFragDepth ? "#define USE_LOGDEPTHBUF_EXT" : "",
+
 				"uniform mat4 viewMatrix;",
 				"uniform vec3 cameraPosition;",
 				""
@@ -249,8 +261,8 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		}
 
-        var glVertexShader = new THREE.WebGLShader( _gl, Context3D.VERTEX_SHADER, prefix_vertex + vertexShader );
-        var glFragmentShader = new THREE.WebGLShader( _gl, Context3D.FRAGMENT_SHADER, prefix_fragment + fragmentShader );
+		var glVertexShader = new THREE.WebGLShader( _gl, _gl.VERTEX_SHADER, prefix_vertex + vertexShader );
+		var glFragmentShader = new THREE.WebGLShader( _gl, _gl.FRAGMENT_SHADER, prefix_fragment + fragmentShader );
 
 		_gl.attachShader( program, glVertexShader );
 		_gl.attachShader( program, glFragmentShader );
@@ -267,17 +279,17 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		_gl.linkProgram( program );
 
-        if ( _gl.getProgramParameter( program, Context3D.LINK_STATUS ) === false ) {
+		if ( _gl.getProgramParameter( program, _gl.LINK_STATUS ) === false ) {
 
-			console.error( 'Could not initialise shader' );
-            console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, Context3D.VALIDATE_STATUS ) );
+			console.error( 'THREE.WebGLProgram: Could not initialise shader.' );
+			console.error( 'gl.VALIDATE_STATUS', _gl.getProgramParameter( program, _gl.VALIDATE_STATUS ) );
 			console.error( 'gl.getError()', _gl.getError() );
 
 		}
 
 		if ( _gl.getProgramInfoLog( program ) !== '' ) {
 
-			console.error( 'gl.getProgramInfoLog()', _gl.getProgramInfoLog( program ) );
+			console.warn( 'THREE.WebGLProgram: gl.getProgramInfoLog()', _gl.getProgramInfoLog( program ) );
 
 		}
 
@@ -290,8 +302,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		var identifiers = [
 
-			'viewMatrix', 'modelViewMatrix', 'projectionMatrix', 'normalMatrix', 'modelMatrix', 'cameraPosition',
-			'morphTargetInfluences'
+			'viewMatrix', 'modelViewMatrix', 'projectionMatrix', 'normalMatrix', 'modelMatrix', 'cameraPosition', 'morphTargetInfluences', 'bindMatrix', 'bindMatrixInverse'
 
 		];
 
@@ -306,6 +317,13 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 			identifiers.push( 'boneGlobalMatrices' );
 
 		}
+
+		if ( parameters.logarithmicDepthBuffer ) {
+
+			identifiers.push('logDepthBufFC');
+
+		}
+
 
 		for ( var u in uniforms ) {
 
@@ -343,6 +361,7 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 		}
 
 		this.attributes = cacheAttributeLocations( _gl, program, identifiers );
+		this.attributesKeys = Object.keys( this.attributes );
 
 		//
 
@@ -355,6 +374,6 @@ THREE.WebGLProgram = function ( renderer, code, material, parameters ) {
 
 		return this;
 
+	};
 
-
-};
+} )();

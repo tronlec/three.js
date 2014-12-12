@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file>materials.qml</file>
+        <file>materials.js</file>
+        <file alias="textures/land_ocean_ice_cloud_2048.jpg">../../examples/textures/land_ocean_ice_cloud_2048.jpg</file>
+    </qresource>
+</RCC>

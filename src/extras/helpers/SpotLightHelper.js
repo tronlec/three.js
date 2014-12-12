@@ -11,16 +11,16 @@ THREE.SpotLightHelper = function ( light ) {
 	this.light = light;
 	this.light.updateMatrixWorld();
 
-	this.matrixWorld = light.matrixWorld;
+	this.matrix = light.matrixWorld;
 	this.matrixAutoUpdate = false;
 
 	var geometry = new THREE.CylinderGeometry( 0, 1, 1, 8, 1, true );
 
-	geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, -0.5, 0 ) );
+	geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, - 0.5, 0 ) );
 	geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
 	var material = new THREE.MeshBasicMaterial( { wireframe: true, fog: false } );
-	
+
 	this.cone = new THREE.Mesh( geometry, material );
 	this.add( this.cone );
 
@@ -40,6 +40,8 @@ THREE.SpotLightHelper.prototype.update = function () {
 	var vector = new THREE.Vector3();
 	var vector2 = new THREE.Vector3();
 
+	return function () {
+
 		var coneLength = this.light.distance ? this.light.distance : 10000;
 		var coneWidth = coneLength * Math.tan( this.light.angle );
 
@@ -52,4 +54,6 @@ THREE.SpotLightHelper.prototype.update = function () {
 
 		this.cone.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
-};
+	};
+
+}();

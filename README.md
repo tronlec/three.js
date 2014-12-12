@@ -1,5 +1,8 @@
 three.js
 ========
+#### What this branch is about? ####
+
+This branch of the three.js includes changes and a new Renderer that allows it to run inside the Qt QML JavaScript environment and use the new preview state QtCanvas3D API for rendering. See https://qt.gitorious.org/qt/qtcanvas3d 
 
 #### About This Branch ####
 

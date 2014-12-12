@@ -1,6 +1,6 @@
 {
 	"name": "three.js",
-	"version": "0.0.66",
+	"version": "0.0.69",
 	"homepage": "http://threejs.org/",
 	"description": "JavaScript 3D library",
 	"main": "build/three.js",
@@ -15,7 +15,6 @@
 	"ignore": [
 		"**/.*",
 		"*.md",
-		"bower.json",
 		"docs",
 		"editor",
 		"examples",

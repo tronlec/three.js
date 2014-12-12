@@ -16,20 +16,17 @@ OTHER_FILES = qmldir \
     ../src/renderers/* \
     ../src/renderers/shaders/* \
     ../src/renderers/webgl/* \
-    ../src/renderers/renderables/* \
     ../src/extras/* \
-    ../src/extras/renderers/plugins/* \
+    ../src/extras/audio/* \
+    ../src/extras/core/* \
+    ../src/extras/curves/* \
+    ../src/extras/core/* \
     ../src/extras/animation/* \
-    ../src/extras/core/Gyroscope.js \
-    ../src/extras/helpers/CameraHelper.js \
-    ../src/extras/helpers/DirectionalLightHelper.js \
-    ../src/extras/helpers/HemisphereLightHelper.js \
-    ../src/extras/helpers/PointLightHelper.js \
-    ../src/extras/helpers/SpotLightHelper.js \
-    ../src/extras/objects/LensFlare.js \
-    ../src/extras/objects/ImmediateRenderObject.js \
-    ../src/extras/renderers/plugins/LensFlarePlugin.js \
-    ../src/extras/renderers/plugins/ShadowMapPlugin.js \
-    ../src/extras/renderers/plugins/SpritePlugin.js \
-    ../src/extras/shaders/ShaderFlares.js \
-    ../src/extras/geometries/*
+    ../src/extras/geometries/* \
+    ../src/extras/helpers/* \
+    ../src/extras/objects/* \
+    ../src/extras/renderers/plugins/* \
+    ../src/extras/shaders/* \
+    ../utils/build/includes/common.json \
+    ../utils/build/includes/extras.json \
+    ../utils/build/includes/math.json

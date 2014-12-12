@@ -339,7 +339,7 @@ THREE.Shape.Utils = {
 			function intersectsShapeEdge( inShapePt, inHolePt ) {
 				// checks for intersections with shape edges
 				var sIdx, nextIdx, intersection;
-				for ( sIdx = 0; sIdx < shape.length; sIdx++ ) {
+				for ( sIdx = 0; sIdx < shape.length; sIdx ++ ) {
 					nextIdx = sIdx+1; nextIdx %= shape.length;
 					intersection = intersect_segments_2D( inShapePt, inHolePt, shape[sIdx], shape[nextIdx], true );
 					if ( intersection.length > 0 )		return	true;
@@ -354,9 +354,9 @@ THREE.Shape.Utils = {
 				// checks for intersections with hole edges
 				var ihIdx, chkHole,
 					hIdx, nextIdx, intersection;
-				for ( ihIdx = 0; ihIdx < indepHoles.length; ihIdx++ ) {
+				for ( ihIdx = 0; ihIdx < indepHoles.length; ihIdx ++ ) {
 					chkHole = holes[indepHoles[ihIdx]];
-					for ( hIdx = 0; hIdx < chkHole.length; hIdx++ ) {
+					for ( hIdx = 0; hIdx < chkHole.length; hIdx ++ ) {
 						nextIdx = hIdx+1; nextIdx %= chkHole.length;
 						intersection = intersect_segments_2D( inShapePt, inHolePt, chkHole[hIdx], chkHole[nextIdx], true );
 						if ( intersection.length > 0 )		return	true;
@@ -377,6 +377,7 @@ THREE.Shape.Utils = {
 
 			}
 
+			var minShapeIndex = 0;
 			var counter = indepHoles.length * 2;
 			while ( indepHoles.length > 0 ) {
 				counter --;
@@ -387,10 +388,10 @@ THREE.Shape.Utils = {
 
 				// search for shape-vertex and hole-vertex,
 				// which can be connected without intersections
-				for ( shapeIndex = 0; shapeIndex < shape.length; shapeIndex++ ) {
+				for ( shapeIndex = minShapeIndex; shapeIndex < shape.length; shapeIndex ++ ) {
 
 					shapePt = shape[ shapeIndex ];
-					holeIndex	= -1;
+					holeIndex	= - 1;
 
 					// search for hole which can be reached without intersections
 					for ( var h = 0; h < indepHoles.length; h ++ ) {
@@ -416,6 +417,8 @@ THREE.Shape.Utils = {
 							tmpHole2 = hole.slice( 0, holeIndex+1 );
 
 							shape = tmpShape1.concat( tmpHole1 ).concat( tmpHole2 ).concat( tmpShape2 );
+
+							minShapeIndex = shapeIndex;
 
 							// Debug only, to show the selected cuts
 							// glob_CutLines.push( [ shapePt, holePt ] );

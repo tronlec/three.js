@@ -40,11 +40,12 @@ THREE.Plane.prototype = {
 
 	},
 
-    setFromCoplanarPoints: function( a, b, c ) {
+	setFromCoplanarPoints: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 
+		return function ( a, b, c ) {
 
 			var normal = v1.subVectors( c, b ).cross( v2.subVectors( a, b ) ).normalize();
 
@@ -54,8 +55,9 @@ THREE.Plane.prototype = {
 
 			return this;
 
+		};
 
-	},
+	}(),
 
 
 	copy: function ( plane ) {
@@ -81,7 +83,7 @@ THREE.Plane.prototype = {
 
 	negate: function () {
 
-		this.constant *= -1;
+		this.constant *= - 1;
 		this.normal.negate();
 
 		return this;
@@ -126,9 +128,11 @@ THREE.Plane.prototype = {
 
 	},
 
-    intersectLine: function( line, optionalTarget ) {
+	intersectLine: function () {
 
 		var v1 = new THREE.Vector3();
+
+		return function ( line, optionalTarget ) {
 
 			var result = optionalTarget || new THREE.Vector3();
 
@@ -139,7 +143,7 @@ THREE.Plane.prototype = {
 			if ( denominator == 0 ) {
 
 				// line is coplanar, return origin
-				if( this.distanceToPoint( line.start ) == 0 ) {
+				if ( this.distanceToPoint( line.start ) == 0 ) {
 
 					return result.copy( line.start );
 
@@ -152,7 +156,7 @@ THREE.Plane.prototype = {
 
 			var t = - ( line.start.dot( this.normal ) + this.constant ) / denominator;
 
-			if( t < 0 || t > 1 ) {
+			if ( t < 0 || t > 1 ) {
 
 				return undefined;
 
@@ -160,7 +164,9 @@ THREE.Plane.prototype = {
 
 			return result.copy( direction ).multiplyScalar( t ).add( line.start );
 
-    },
+		};
+
+	}(),
 
 
 	coplanarPoint: function ( optionalTarget ) {
@@ -170,24 +176,29 @@ THREE.Plane.prototype = {
 
 	},
 
-    applyMatrix4: function( matrix, optionalNormalMatrix ) {
+	applyMatrix4: function () {
 
 		var v1 = new THREE.Vector3();
 		var v2 = new THREE.Vector3();
 		var m1 = new THREE.Matrix3();
 
+		return function ( matrix, optionalNormalMatrix ) {
+
 			// compute new normal based on theory here:
 			// http://www.songho.ca/opengl/gl_normaltransform.html
 			var normalMatrix = optionalNormalMatrix || m1.getNormalMatrix( matrix );
 			var newNormal = v1.copy( this.normal ).applyMatrix3( normalMatrix );
-			
+
 			var newCoplanarPoint = this.coplanarPoint( v2 );
 			newCoplanarPoint.applyMatrix4( matrix );
 
 			this.setFromNormalAndCoplanarPoint( newNormal, newCoplanarPoint );
 
 			return this;
-    },
+
+		};
+
+	}(),
 
 	translate: function ( offset ) {
 

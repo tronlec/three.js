@@ -36,6 +36,9 @@
 		</div>
 
 		<script src="../build/three.min.js"></script>
+		<script src="js/loaders/DDSLoader.js"></script>
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
 
 		<script src="js/Detector.js"></script>
 		<script src="js/libs/stats.min.js"></script>
@@ -102,7 +105,7 @@
 				xm.map.needsUpdate = true;
 				xm.map.repeat.set( 10, 10 );
 
-				geometry = new THREE.PlaneGeometry( 100, 100, 15, 10 );
+				geometry = new THREE.PlaneBufferGeometry( 100, 100, 15, 10 );
 
 				mesh = new THREE.Mesh( geometry, xm );
 				mesh.position.set( 0, FLOOR, 0 );
@@ -182,6 +185,8 @@
 				bcanvas.addEventListener("click", toggleCanvas, false);
 				bwebgl.addEventListener("click", toggleWebGL, false);
 
+				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
 				var loader = new THREE.JSONLoader();
 				var callbackMale = function ( geometry, materials ) { createScene( geometry, materials, 90, FLOOR, 50, 105 ) };
 				var callbackFemale = function ( geometry, materials ) { createScene( geometry, materials, -80, FLOOR, 50, 0 ) };
@@ -225,7 +230,7 @@
 
 					// material
 
-					mesh = new THREE.Mesh( new THREE.PlaneGeometry( size, size ), materials[i] );
+					mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( size, size ), materials[i] );
 					mesh.position.x = i * (size + 5) - ( ( materials.length - 1 )* ( size + 5 )/2);
 					mesh.position.y = FLOOR + size/2 + bottom;
 					mesh.position.z = -100;
@@ -245,7 +250,7 @@
 					var xm = new THREE.MeshBasicMaterial( { map: new THREE.Texture( x ), transparent: true } );
 					xm.map.needsUpdate = true;
 
-					mesh = new THREE.Mesh( new THREE.PlaneGeometry( size, size ), xm );
+					mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( size, size ), xm );
 					mesh.position.x = i * ( size + 5 ) - ( ( materials.length - 1 )* ( size + 5 )/2);
 					mesh.position.y = FLOOR + size/2 + bottom;
 					mesh.position.z = -99;

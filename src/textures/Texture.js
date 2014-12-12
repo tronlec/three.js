@@ -6,15 +6,16 @@
 
 THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy ) {
 
-	this.id = THREE.TextureIdCount ++;
+	Object.defineProperty( this, 'id', { value: THREE.TextureIdCount ++ } );
+
 	this.uuid = THREE.Math.generateUUID();
 
 	this.name = '';
 
-	this.image = image;
+	this.image = image !== undefined ? image : THREE.Texture.DEFAULT_IMAGE;
 	this.mipmaps = [];
 
-	this.mapping = mapping !== undefined ? mapping : new THREE.UVMapping();
+	this.mapping = mapping !== undefined ? mapping : THREE.Texture.DEFAULT_MAPPING;
 
 	this.wrapS = wrapS !== undefined ? wrapS : THREE.ClampToEdgeWrapping;
 	this.wrapT = wrapT !== undefined ? wrapT : THREE.ClampToEdgeWrapping;
@@ -45,11 +46,13 @@ THREE.Texture = function ( image, mapping, wrapS, wrapT, magFilter, minFilter, f
 
     this.__defineSetter__("needsUpdate", function(value){
 
-        if ( value === true )
-            _this.update();
+        if ( value === true ) _this.update();
         _this._needsUpdate = value;
     });
 };
+
+THREE.Texture.DEFAULT_IMAGE = undefined;
+THREE.Texture.DEFAULT_MAPPING = new THREE.UVMapping();
 
 THREE.Texture.prototype = {
 
@@ -60,7 +63,7 @@ THREE.Texture.prototype = {
 		if ( texture === undefined ) texture = new THREE.Texture();
 
 		texture.image = this.image;
-		texture.mipmaps = this.mipmaps.slice(0);
+		texture.mipmaps = this.mipmaps.slice( 0 );
 
 		texture.mapping = this.mapping;
 

@@ -125,7 +125,7 @@
 
 			var shaderMaterial = new THREE.ShaderMaterial( {
 
-				uniforms: 		uniforms,
+				uniforms:       uniforms,
 				attributes:     attributes,
 				vertexShader:   document.getElementById( 'vertexshader' ).textContent,
 				fragmentShader: document.getElementById( 'fragmentshader' ).textContent
@@ -154,18 +154,17 @@
 
 			vc1 = geometry.vertices.length;
 
-			var m, dummyMaterial = new THREE.MeshFaceMaterial();
-
 			radius = 200;
 			var geometry2 = new THREE.BoxGeometry( radius, 0.1 * radius, 0.1 * radius, 50, 5, 5 );
 
 			function addGeo( geo, x, y, z, ry ) {
 
-				m = new THREE.Mesh( geo, dummyMaterial );
-				m.position.set( x, y, z );
-				m.rotation.y = ry;
+				var mesh = new THREE.Mesh( geo );
+				mesh.position.set( x, y, z );
+				mesh.rotation.y = ry;
+				mesh.updateMatrix();
 
-				THREE.GeometryUtils.merge( geometry, m );
+				geometry.merge( mesh.geometry, mesh.matrix );
 
 			}
 
@@ -194,8 +193,7 @@
 
 			// particle system
 
-			object = new THREE.ParticleSystem( geometry, shaderMaterial );
-			object.dynamic = true;
+			object = new THREE.PointCloud( geometry, shaderMaterial );
 
 			// custom attributes
 
@@ -204,7 +202,7 @@
 			var values_size = attributes.size.value;
 			var values_color = attributes.ca.value;
 
-			for( var v = 0; v < vertices.length; v ++ ) {
+			for ( var v = 0; v < vertices.length; v ++ ) {
 
 				values_size[ v ] = 10;
 				values_color[ v ] = new THREE.Color( 0xffffff );

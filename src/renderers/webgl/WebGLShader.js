@@ -1,4 +1,4 @@
-THREE.WebGLShader = function ( gl, type, string ) {
+THREE.WebGLShader = ( function () {
 
 	var addLineNumbers = function ( string ) {
 
@@ -14,14 +14,14 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 	};
 
-
+	return function ( gl, type, string ) {
 
 		var shader = gl.createShader( type ); 
 
 		gl.shaderSource( shader, string );
 		gl.compileShader( shader );
 
-        if ( gl.getShaderParameter( shader, Context3D.COMPILE_STATUS ) === false ) {
+		if ( gl.getShaderParameter( shader, gl.COMPILE_STATUS ) === false ) {
 
 			console.error( 'THREE.WebGLShader: Shader couldn\'t compile.' );
 
@@ -29,13 +29,16 @@ THREE.WebGLShader = function ( gl, type, string ) {
 
 		if ( gl.getShaderInfoLog( shader ) !== '' ) {
 
-			console.error( 'THREE.WebGLShader:', 'gl.getShaderInfoLog()', gl.getShaderInfoLog( shader ) );
-			console.error( addLineNumbers( string ) );
+			console.warn( 'THREE.WebGLShader: gl.getShaderInfoLog()', gl.getShaderInfoLog( shader ) );
+			console.warn( addLineNumbers( string ) );
 
 		}
 
+		// --enable-privileged-webgl-extension
+		// console.log( type, gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( shader ) );
+
 		return shader;
 
+	};
 
-
-};
+} )();

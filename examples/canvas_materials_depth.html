@@ -17,6 +17,9 @@
 
 		<script src="../build/three.min.js"></script>
 
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+
 		<script src="js/libs/stats.min.js"></script>
 
 		<script>
@@ -61,9 +64,9 @@
 
 				// Plane
 
-				var material = new THREE.MeshDepthMaterial( { side: THREE.DoubleSide, overdraw: true } );
+				var material = new THREE.MeshDepthMaterial( { side: THREE.DoubleSide, overdraw: 0.5 } );
 
-				plane = new THREE.Mesh( new THREE.PlaneGeometry( 1000, 1000, 10, 10 ), material );
+				plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1000, 1000, 10, 10 ), material );
 				plane.position.y = - 100;
 				plane.rotation.x = - Math.PI / 2;
 				scene.add( plane );
@@ -71,7 +74,7 @@
 				// Cubes
 
 				geometry = new THREE.BoxGeometry( 100, 100, 100 );
-				material = new THREE.MeshDepthMaterial( { overdraw: true } );
+				material = new THREE.MeshDepthMaterial( { overdraw: 0.5 } );
 
 				for ( var i = 0; i < 20; i ++ ) {
 

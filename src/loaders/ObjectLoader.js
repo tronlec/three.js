@@ -5,7 +5,7 @@
 THREE.ObjectLoader = function ( manager ) {
 
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-    this.__matrix = new THREE.Matrix4();
+
 };
 
 THREE.ObjectLoader.prototype = {
@@ -22,7 +22,7 @@ THREE.ObjectLoader.prototype = {
 
 			onLoad( scope.parse( JSON.parse( text ) ) );
 
-		} );
+		}, onProgress, onError );
 
 	},
 
@@ -49,7 +49,6 @@ THREE.ObjectLoader.prototype = {
 		if ( json !== undefined ) {
 
 			var geometryLoader = new THREE.JSONLoader();
-			var geometry2Loader = new THREE.Geometry2Loader();
 			var bufferGeometryLoader = new THREE.BufferGeometryLoader();
 
 			for ( var i = 0, l = json.length; i < l; i ++ ) {
@@ -71,7 +70,7 @@ THREE.ObjectLoader.prototype = {
 						break;
 
 					case 'BoxGeometry':
-					case 'CubeGeometry': // DEPRECATED
+					case 'CubeGeometry': // backwards compatible
 
 						geometry = new THREE.BoxGeometry(
 							data.width,
@@ -161,12 +160,6 @@ THREE.ObjectLoader.prototype = {
 
 						break;
 
-					case 'Geometry2':
-
-						geometry = geometry2Loader.parse( data.data );
-
-						break;
-
 					case 'Geometry':
 
 						geometry = geometryLoader.parse( data.data ).geometry;
@@ -216,10 +209,11 @@ THREE.ObjectLoader.prototype = {
 
 	},
 
-    parseObject: function (data, geometries, materials) {
+	parseObject: function () {
 
-        var matrix = this.__matrix;
+		var matrix = new THREE.Matrix4();
 
+		return function ( data, geometries, materials ) {
 
 			var object;
 
@@ -280,17 +274,38 @@ THREE.ObjectLoader.prototype = {
 
 					if ( geometry === undefined ) {
 
-						console.error( 'THREE.ObjectLoader: Undefined geometry ' + data.geometry );
+						console.warn( 'THREE.ObjectLoader: Undefined geometry', data.geometry );
 
 					}
 
 					if ( material === undefined ) {
 
-						console.error( 'THREE.ObjectLoader: Undefined material ' + data.material );
+						console.warn( 'THREE.ObjectLoader: Undefined material', data.material );
 
 					}
 
 					object = new THREE.Mesh( geometry, material );
+
+					break;
+
+				case 'Line':
+
+					var geometry = geometries[ data.geometry ];
+					var material = materials[ data.material ];
+
+					if ( geometry === undefined ) {
+
+						console.warn( 'THREE.ObjectLoader: Undefined geometry', data.geometry );
+
+					}
+
+					if ( material === undefined ) {
+
+						console.warn( 'THREE.ObjectLoader: Undefined material', data.material );
+
+					}
+
+					object = new THREE.Line( geometry, material );
 
 					break;
 
@@ -300,11 +315,17 @@ THREE.ObjectLoader.prototype = {
 
 					if ( material === undefined ) {
 
-						console.error( 'THREE.ObjectLoader: Undefined material ' + data.material );
+						console.warn( 'THREE.ObjectLoader: Undefined material', data.material );
 
 					}
 
 					object = new THREE.Sprite( material );
+
+					break;
+
+				case 'Group':
+
+					object = new THREE.Group();
 
 					break;
 
@@ -346,5 +367,7 @@ THREE.ObjectLoader.prototype = {
 			return object;
 
 		}
+
+	}()
 
 };

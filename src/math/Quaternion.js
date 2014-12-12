@@ -17,28 +17,28 @@ THREE.Quaternion = function ( x, y, z, w ) {
     });
     this.__defineSetter__("x", function(value){
         this._x = value;
-        this._updateEuler();
+		this.onChangeCallback();
     });
     this.__defineGetter__("y", function(){
         return this._y;
     });
     this.__defineSetter__("y", function(value){
         this._y = value;
-        this._updateEuler();
+		this.onChangeCallback();
     });
     this.__defineGetter__("z", function(){
         return this._z;
     });
     this.__defineSetter__("z", function(value){
         this._z = value;
-        this._updateEuler();
+		this.onChangeCallback();
     });
     this.__defineGetter__("w", function(){
         return this._w;
     });
     this.__defineSetter__("w", function(value){
         this._w = value;
-        this._updateEuler();
+		this.onChangeCallback();
     });
 };
 
@@ -48,18 +48,6 @@ THREE.Quaternion.prototype = {
 
 	_x: 0,_y: 0, _z: 0, _w: 0,
 
-	_euler: undefined,
-
-	_updateEuler: function ( callback ) {
-
-		if ( this._euler !== undefined ) {
-
-            this._euler.setFromQuaternion( this, undefined, false );
-
-		}
-
-	},
-
 	set: function ( x, y, z, w ) {
 
 		this._x = x;
@@ -67,7 +55,7 @@ THREE.Quaternion.prototype = {
 		this._z = z;
 		this._w = w;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -75,12 +63,12 @@ THREE.Quaternion.prototype = {
 
 	copy: function ( quaternion ) {
 
-		this._x = quaternion._x;
-		this._y = quaternion._y;
-		this._z = quaternion._z;
-		this._w = quaternion._w;
+		this._x = quaternion.x;
+		this._y = quaternion.y;
+		this._z = quaternion.z;
+		this._w = quaternion.w;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -90,7 +78,7 @@ THREE.Quaternion.prototype = {
 
 		if ( euler instanceof THREE.Euler === false ) {
 
-			throw new Error( 'ERROR: Quaternion\'s .setFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.' );
+			throw new Error( 'THREE.Quaternion: .setFromEuler() now expects a Euler rotation rather than a Vector3 and order.' );
 		}
 
 		// http://www.mathworks.com/matlabcentral/fileexchange/
@@ -148,7 +136,7 @@ THREE.Quaternion.prototype = {
 
 		}
 
-		if ( update !== false ) this._updateEuler();
+		if ( update !== false ) this.onChangeCallback();
 
 		return this;
 
@@ -167,7 +155,7 @@ THREE.Quaternion.prototype = {
 		this._z = axis.z * s;
 		this._w = Math.cos( halfAngle );
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -181,9 +169,9 @@ THREE.Quaternion.prototype = {
 
 		var te = m.elements,
 
-			m11 = te[0], m12 = te[4], m13 = te[8],
-			m21 = te[1], m22 = te[5], m23 = te[9],
-			m31 = te[2], m32 = te[6], m33 = te[10],
+			m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],
+			m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ],
+			m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ],
 
 			trace = m11 + m22 + m33,
 			s;
@@ -201,19 +189,19 @@ THREE.Quaternion.prototype = {
 
 			s = 2.0 * Math.sqrt( 1.0 + m11 - m22 - m33 );
 
-			this._w = (m32 - m23 ) / s;
+			this._w = ( m32 - m23 ) / s;
 			this._x = 0.25 * s;
-			this._y = (m12 + m21 ) / s;
-			this._z = (m13 + m31 ) / s;
+			this._y = ( m12 + m21 ) / s;
+			this._z = ( m13 + m31 ) / s;
 
 		} else if ( m22 > m33 ) {
 
 			s = 2.0 * Math.sqrt( 1.0 + m22 - m11 - m33 );
 
-			this._w = (m13 - m31 ) / s;
-			this._x = (m12 + m21 ) / s;
+			this._w = ( m13 - m31 ) / s;
+			this._x = ( m12 + m21 ) / s;
 			this._y = 0.25 * s;
-			this._z = (m23 + m32 ) / s;
+			this._z = ( m23 + m32 ) / s;
 
 		} else {
 
@@ -226,7 +214,7 @@ THREE.Quaternion.prototype = {
 
 		}
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -234,21 +222,46 @@ THREE.Quaternion.prototype = {
 
 	setFromUnitVectors: function () {
 
-		// http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors
+		// http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
 
 		// assumes direction vectors vFrom and vTo are normalized
 
-		var v1;
+		var v1, r;
 
-		return function( vFrom, vTo ) {
+		var EPS = 0.000001;
+
+		return function ( vFrom, vTo ) {
 
 			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
-			v1.crossVectors( vFrom, vTo );
+			r = vFrom.dot( vTo ) + 1;
 
-			this.set( v1.x, v1.y, v1.z, vFrom.dot( vTo ) + 1 ).normalize();
+			if ( r < EPS ) {
 
-			this._updateEuler();
+				r = 0;
+
+				if ( Math.abs( vFrom.x ) > Math.abs( vFrom.z ) ) {
+
+					v1.set( - vFrom.y, vFrom.x, 0 );
+
+				} else {
+
+					v1.set( 0, - vFrom.z, vFrom.y );
+
+				}
+
+			} else {
+
+				v1.crossVectors( vFrom, vTo );
+
+			}
+
+			this._x = v1.x;
+			this._y = v1.y;
+			this._z = v1.z;
+			this._w = r;
+
+			this.normalize();
 
 			return this;
 
@@ -266,13 +279,19 @@ THREE.Quaternion.prototype = {
 
 	conjugate: function () {
 
-		this._x *= -1;
-		this._y *= -1;
-		this._z *= -1;
+		this._x *= - 1;
+		this._y *= - 1;
+		this._z *= - 1;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
+
+	},
+
+	dot: function ( v ) {
+
+		return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
 
 	},
 
@@ -310,6 +329,8 @@ THREE.Quaternion.prototype = {
 
 		}
 
+		this.onChangeCallback();
+
 		return this;
 
 	},
@@ -318,7 +339,7 @@ THREE.Quaternion.prototype = {
 
 		if ( p !== undefined ) {
 
-			console.warn( 'DEPRECATED: Quaternion\'s .multiply() now only accepts one argument. Use .multiplyQuaternions( a, b ) instead.' );
+			console.warn( 'THREE.Quaternion: .multiply() now only accepts one argument. Use .multiplyQuaternions( a, b ) instead.' );
 			return this.multiplyQuaternions( q, p );
 
 		}
@@ -339,7 +360,7 @@ THREE.Quaternion.prototype = {
 		this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
 		this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -347,12 +368,15 @@ THREE.Quaternion.prototype = {
 
 	multiplyVector3: function ( vector ) {
 
-		console.warn( 'DEPRECATED: Quaternion\'s .multiplyVector3() has been removed. Use is now vector.applyQuaternion( quaternion ) instead.' );
+		console.warn( 'THREE.Quaternion: .multiplyVector3() has been removed. Use is now vector.applyQuaternion( quaternion ) instead.' );
 		return vector.applyQuaternion( this );
 
 	},
 
 	slerp: function ( qb, t ) {
+
+		if ( t === 0 ) return this;
+		if ( t === 1 ) return this.copy( qb );
 
 		var x = this._x, y = this._y, z = this._z, w = this._w;
 
@@ -362,12 +386,12 @@ THREE.Quaternion.prototype = {
 
 		if ( cosHalfTheta < 0 ) {
 
-			this._w = -qb._w;
-			this._x = -qb._x;
-			this._y = -qb._y;
-			this._z = -qb._z;
+			this._w = - qb._w;
+			this._x = - qb._x;
+			this._y = - qb._y;
+			this._z = - qb._z;
 
-			cosHalfTheta = -cosHalfTheta;
+			cosHalfTheta = - cosHalfTheta;
 
 		} else {
 
@@ -408,7 +432,7 @@ THREE.Quaternion.prototype = {
 		this._y = ( y * ratioA + this._y * ratioB );
 		this._z = ( z * ratioA + this._z * ratioB );
 
-		this._updateEuler();
+		this.onChangeCallback();
 
 		return this;
 
@@ -420,24 +444,44 @@ THREE.Quaternion.prototype = {
 
 	},
 
-	fromArray: function ( array ) {
+	fromArray: function ( array, offset ) {
 
-		this._x = array[ 0 ];
-		this._y = array[ 1 ];
-		this._z = array[ 2 ];
-		this._w = array[ 3 ];
+		if ( offset === undefined ) offset = 0;
 
-		this._updateEuler();
+		this._x = array[ offset ];
+		this._y = array[ offset + 1 ];
+		this._z = array[ offset + 2 ];
+		this._w = array[ offset + 3 ];
+
+		this.onChangeCallback();
 
 		return this;
 
 	},
 
-	toArray: function () {
+	toArray: function ( array, offset ) {
 
-		return [ this._x, this._y, this._z, this._w ];
+		if ( array === undefined ) array = [];
+		if ( offset === undefined ) offset = 0;
+
+		array[ offset ] = this._x;
+		array[ offset + 1 ] = this._y;
+		array[ offset + 2 ] = this._z;
+		array[ offset + 3 ] = this._w;
+
+		return array;
 
 	},
+
+	onChange: function ( callback ) {
+
+		this.onChangeCallback = callback;
+
+		return this;
+
+	},
+
+	onChangeCallback: function () {},
 
 	clone: function () {
 

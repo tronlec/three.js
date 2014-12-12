@@ -22,11 +22,11 @@ THREE.Sphere.prototype = {
 		return this;
 	},
 
-
-    setFromPoints: function ( points, optionalCenter ) {
+	setFromPoints: function () {
 
 		var box = new THREE.Box3();
 
+		return function ( points, optionalCenter )  {
 
 			var center = this.center;
 
@@ -50,9 +50,11 @@ THREE.Sphere.prototype = {
 
 			this.radius = Math.sqrt( maxRadiusSq );
 
-        return this;
+			return this;
 
-    },
+ 		};
+
+	}(),
 
 	copy: function ( sphere ) {
 
