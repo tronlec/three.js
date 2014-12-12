@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS += materials
+SUBDIRS += interactive-cubes \
+           materials
