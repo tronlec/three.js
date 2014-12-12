@@ -1218,7 +1218,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 
 
-		this.setViewport( 0, 0, width, height );
+        this.setViewport( 0, 0, width, height );
 
 	};
 
