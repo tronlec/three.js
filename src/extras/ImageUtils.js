@@ -179,9 +179,9 @@ THREE.ImageUtils = {
 
 				var idx = ( y * width + x ) * 4;
 
-                output[ idx ] = ( ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) ) & (-1);
-                output[ idx + 1 ] = ( ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) ) & (-1);
-                output[ idx + 2 ] = ( ( normal[ 2 ] * 255 ) ) & (-1);
+                output[ idx ] = ~~( ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) );
+                output[ idx + 1 ] = ~~( ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) );
+                output[ idx + 2 ] = ~~( ( normal[ 2 ] * 255 ) );
 				output[ idx + 3 ] = 255;
 
 			}
