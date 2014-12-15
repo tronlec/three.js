@@ -7761,7 +7761,7 @@ THREE.Color.prototype = {
 
 	getStyle: function () {
 
-		return 'rgb(' + ( ( this.r * 255 ) | 0 ) + ',' + ( ( this.g * 255 ) | 0 ) + ',' + ( ( this.b * 255 ) | 0 ) + ')';
+        return 'rgb(' + ( ~~( this.r * 255 ) ) + ',' + ( ~~( this.g * 255 ) ) + ',' + ( ~~( this.b * 255 ) ) + ')';
 
 	},
 
