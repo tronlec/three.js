@@ -1,3 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS += materials
+SUBDIRS += materials \
+           interactive-draggablecubes \
+           webgl-camera
