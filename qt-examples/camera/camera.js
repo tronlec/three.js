@@ -124,16 +124,6 @@ function changeProjection(projection) {
 
 }
 
-
-function animate() {
-
-    requestAnimationFrame( animate );
-
-    render();
-    stats.update();
-
-}
-
 function renderGL(canvas) {
     log("renderGL ENTER...");
 
