@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += camera \
+SUBDIRS += animation-cloth \
+           camera \
            interactive-draggablecubes \
            materials \
 
