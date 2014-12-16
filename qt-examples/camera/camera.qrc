@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file alias="three.js">../../build/three.js</file>
-        <file>webgl-camera.js</file>
-        <file>webgl-camera.qml</file>
+        <file>camera.js</file>
+        <file>camera.qml</file>
     </qresource>
 </RCC>
