@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtCanvas3D 1.0
 import QtQuick.Controls 1.2
 
-import "webgl-camera.js" as GLCode
+import "camera.js" as GLCode
 
 Item {
     id: mainview

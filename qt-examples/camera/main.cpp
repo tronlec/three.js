@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
     viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
                                                        QString::fromLatin1("qml")));
 
-    viewer.setSource(QUrl("qrc:/webgl-camera.qml"));
+    viewer.setSource(QUrl("qrc:/camera.qml"));
 
-    viewer.setTitle(QStringLiteral("Qt Canvas 3D + three.js Examples - WebGL Camera"));
+    viewer.setTitle(QStringLiteral("Qt Canvas 3D + three.js Examples - Camera"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
     viewer.show();
 
