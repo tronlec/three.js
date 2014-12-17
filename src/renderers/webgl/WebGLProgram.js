@@ -93,6 +93,7 @@ THREE.WebGLProgram = ( function () {
 		//
 
 		var program = _gl.createProgram();
+        program.name = "Program_"+material.type;
 
 		var prefix_vertex, prefix_fragment;
 
