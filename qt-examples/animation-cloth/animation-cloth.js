@@ -74,7 +74,6 @@ function togglePins() {
 
 }
 
-var container, stats;
 var camera, scene, renderer;
 
 var clothGeometry;
