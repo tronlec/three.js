@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file>buffergeometry.js</file>
+        <file>buffergeometry.qml</file>
+    </qresource>
+</RCC>
