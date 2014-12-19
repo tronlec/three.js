@@ -24,8 +24,9 @@ function Image () {
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
             _this._texImage.src = ""+url;
+            _this._texImage.name = ""+url;
         }
-        this._src = url;
+        _this._src = url;
     });
 
     this.__defineGetter__("width", function(){

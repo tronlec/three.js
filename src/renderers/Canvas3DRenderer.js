@@ -5296,7 +5296,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform1iv( location, uniform._array );
+                    _gl.uniform1iva( location, uniform._array );
 
 					for ( var i = 0, il = uniform.value.length; i < il; i ++ ) {
 
@@ -6158,6 +6158,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			renderTarget.addEventListener( 'dispose', onRenderTargetDispose );
 
 			renderTarget.__webglTexture = _gl.createTexture();
+            renderTarget.__webglTexture.name = "WebGLRenderTarget_Texture"+_this.info.memory.textures;
 
 			_this.info.memory.textures ++;
 
@@ -6178,7 +6179,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					renderTarget.__webglFramebuffer[ i ] = _gl.createFramebuffer();
+                    renderTarget.__webglFramebuffer[ i ].name = "WebGLRenderTarget_Framebuffer";
 					renderTarget.__webglRenderbuffer[ i ] = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer[ i ].name = "WebGLRenderTarget_Renderbuffer";
 
 					_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
@@ -6192,6 +6195,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			} else {
 
 				renderTarget.__webglFramebuffer = _gl.createFramebuffer();
+                renderTarget.__webglFramebuffer.name = "WebGLRenderTarget_Framebuffer";
 
 				if ( renderTarget.shareDepthFrom ) {
 
@@ -6200,6 +6204,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				} else {
 
 					renderTarget.__webglRenderbuffer = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer.name = "WebGLRenderTarget_Renderbuffer";
 
 				}
 
@@ -6212,7 +6217,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( renderTarget.shareDepthFrom ) {
 
-					if ( renderTarget.depthBuffer && ! renderTarget.stencilBuffer ) {
+                    if ( renderTarget.depthBuffer && !renderTarget.stencilBuffer ) {
 
 						_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, _gl.RENDERBUFFER, renderTarget.__webglRenderbuffer );
 
@@ -6281,8 +6286,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		}
 
-		if ( framebuffer !== _currentFramebuffer ) {
-
+        console.log("Current framebuffer "+_currentFramebuffer);
+        console.log("New Framebuffer "+framebuffer);
+        if ( framebuffer !== _currentFramebuffer ) {
+            console.log("Binding new framebuffer "+framebuffer)
 			_gl.bindFramebuffer( _gl.FRAMEBUFFER, framebuffer );
 			_gl.viewport( vx, vy, width, height );
 

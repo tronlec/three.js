@@ -639,8 +639,9 @@ function Image () {
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
             _this._texImage.src = ""+url;
+            _this._texImage.name = ""+url;
         }
-        this._src = url;
+        _this._src = url;
     });
 
     this.__defineGetter__("width", function(){
@@ -674,8 +675,6 @@ Image.prototype = {
     },
 
     notifySuccess: function(image) {
-        console.log("NotifySuccess"+image+" source "+image.src);
-        console.log("Teximage"+this._texImage);
         if (this._onSuccessCallback !== undefined) {
             this._onSuccessCallback(new Event());
         }
@@ -688,7 +687,6 @@ Image.prototype = {
     },
 
     notifyError: function(image) {
-        console.log("NotifyError"+image+" source "+image.src);
         if (this._onErrorCallback !== undefined) {
             this._onErrorCallback(new Event());
         }
@@ -6068,7 +6066,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform1iv( location, uniform._array );
+                    _gl.uniform1iva( location, uniform._array );
 
 					for ( var i = 0, il = uniform.value.length; i < il; i ++ ) {
 
@@ -6930,6 +6928,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			renderTarget.addEventListener( 'dispose', onRenderTargetDispose );
 
 			renderTarget.__webglTexture = _gl.createTexture();
+            renderTarget.__webglTexture.name = "WebGLRenderTarget_Texture"+_this.info.memory.textures;
 
 			_this.info.memory.textures ++;
 
@@ -6950,7 +6949,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					renderTarget.__webglFramebuffer[ i ] = _gl.createFramebuffer();
+                    renderTarget.__webglFramebuffer[ i ].name = "WebGLRenderTarget_Framebuffer";
 					renderTarget.__webglRenderbuffer[ i ] = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer[ i ].name = "WebGLRenderTarget_Renderbuffer";
 
 					_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
@@ -6964,6 +6965,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			} else {
 
 				renderTarget.__webglFramebuffer = _gl.createFramebuffer();
+                renderTarget.__webglFramebuffer.name = "WebGLRenderTarget_Framebuffer";
 
 				if ( renderTarget.shareDepthFrom ) {
 
@@ -6972,6 +6974,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				} else {
 
 					renderTarget.__webglRenderbuffer = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer.name = "WebGLRenderTarget_Renderbuffer";
 
 				}
 
@@ -6984,7 +6987,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( renderTarget.shareDepthFrom ) {
 
-					if ( renderTarget.depthBuffer && ! renderTarget.stencilBuffer ) {
+                    if ( renderTarget.depthBuffer && !renderTarget.stencilBuffer ) {
 
 						_gl.framebufferRenderbuffer( _gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, _gl.RENDERBUFFER, renderTarget.__webglRenderbuffer );
 
@@ -7053,8 +7056,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		}
 
-		if ( framebuffer !== _currentFramebuffer ) {
-
+        console.log("Current framebuffer "+_currentFramebuffer);
+        console.log("New Framebuffer "+framebuffer);
+        if ( framebuffer !== _currentFramebuffer ) {
+            console.log("Binding new framebuffer "+framebuffer)
 			_gl.bindFramebuffer( _gl.FRAMEBUFFER, framebuffer );
 			_gl.viewport( vx, vy, width, height );
 
@@ -25182,6 +25187,7 @@ THREE.WebGLProgram = ( function () {
 		//
 
 		var program = _gl.createProgram();
+        program.name = "Program_"+material.type;
 
 		var prefix_vertex, prefix_fragment;
 
@@ -25764,6 +25770,7 @@ THREE.LensFlarePlugin = function ( renderer, flares ) {
 		}
 
 		program = createProgram( shader );
+        program.name = "ShaderProgram_LensFlarePlugin";
 
 		attributes = {
 			vertex: gl.getAttribLocation ( program, "position" ),
@@ -26551,6 +26558,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 		gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, faces, gl.STATIC_DRAW );
 
 		program = createProgram();
+        program.name = "ShaderProgram_SpritePlugin";
 
 		attributes = {
 			position:			gl.getAttribLocation ( program, 'position' ),
@@ -26930,7 +26938,7 @@ THREE.ImageUtils = {
 	loadTexture: function ( url, mapping, onLoad, onError ) {
 
 		var loader = new THREE.ImageLoader();
-        //loader.crossOrigin = this.crossOrigin;
+		loader.crossOrigin = this.crossOrigin;
 
 		var texture = new THREE.Texture( undefined, mapping );
 
