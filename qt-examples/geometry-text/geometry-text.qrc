@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="helvetiker_regular.typeface.js">../../examples/fonts/helvetiker_regular.typeface.js</file>
+        <file>geometry-text.js</file>
+        <file>geometry-text.qml</file>
+    </qresource>
+</RCC>

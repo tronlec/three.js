@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+		<file alias="OrbitControls.js">../../examples/js/controls/OrbitControls.js</file>
+		<file alias="SubdivisionModifier.js">../../examples/js/modifiers/SubdivisionModifier.js</file>
+		<file alias="obj/WaltHeadLo.js">../../examples/obj/WaltHeadLo.js</file>
+		<file alias="obj/Suzanne.js">../../examples/obj/Suzanne.js</file>
+        <file>geometry-subdivision.js</file>
+        <file>geometry-subdivision.qml</file>
+    </qresource>
+</RCC>
