@@ -27,7 +27,7 @@ if ( Math.sign === undefined ) {
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.button
 
-THREE.MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2 };
+THREE.MOUSE = { LEFT: Qt.LeftButton, MIDDLE: Qt.MiddleButton, RIGHT: Qt.RightButton };
 
 // GL STATE CONSTANTS
 

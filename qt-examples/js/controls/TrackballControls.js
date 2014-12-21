@@ -4,20 +4,18 @@
  * @author Pasi Keränen / pasi.keranen@theqtcompany.com
  */
 
-THREE.TrackballControls = function ( object, canvas, mouseArea ) {
+THREE.TrackballControls = function ( object, controlEventSource ) {
     var _this = this;
     this._object = object;
-    this._canvas = canvas;
-    this._mouseArea = mouseArea;
+    this._controlEventSource = controlEventSource;
 
     var STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
-
 
     // API
 
     this.enabled = true;
 
-    this.screen = { left: 0, top: 0, width: 0, height: 0 };
+    this.area = { left: 0, top: 0, width: 0, height: 0 };
 
     this.rotateSpeed = 1.0;
     this.zoomSpeed = 1.2;
@@ -72,10 +70,12 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
     // methods
 
     this.handleResize = function () {
-        _this.screen.left = _this._canvas.x;
-        _this.screen.top = _this._canvas.y;
-        _this.screen.width = _this._canvas.width;
-        _this.screen.height = _this._canvas.height;
+
+        _this.area.left = 0;
+        _this.area.top = 0;
+        _this.area.width = _this._controlEventSource.width;
+        _this.area.height = _this._controlEventSource.height;
+
     };
 
     this.handleEvent = function ( event ) {
@@ -88,13 +88,13 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
     };
 
-    var getMouseOnScreen = ( function () {
+    var getMouseOnArea = ( function () {
 
         var vector = new THREE.Vector2();
         return function ( pageX, pageY ) {
             vector.set(
-                        ( pageX  ) / _this.screen.width,
-                        ( pageY ) / _this.screen.height
+                        ( pageX  ) / _this.area.width,
+                        ( pageY ) / _this.area.height
                         );
             return vector;
         };
@@ -108,8 +108,8 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
         return function ( pageX, pageY ) {
             mouseOnBall.set(
-                        ( pageX - _this.screen.width * 0.5 ) / (_this.screen.width*.5),
-                        ( _this.screen.height * 0.5 - pageY ) / (_this.screen.height*.5),
+                        ( pageX - _this.area.width * 0.5 ) / (_this.area.width*.5),
+                        ( _this.area.height * 0.5 - pageY ) / (_this.area.height*.5),
                         0.0
                         );
 
@@ -264,16 +264,16 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
         if ( _this.enabled === false ) return;
 
-        //window.removeEventListener( 'keydown', keydown );
+        _this._controlEventSource.removeEventListener( 'keydown', keydown );
 
         _prevState = _state;
         if ( _state !== STATE.NONE ) {
             return;
-        } else if ( event.keyCode === _this.keys[ STATE.ROTATE ] && !_this.noRotate ) {
+        } else if ( event.key === _this.keys[ STATE.ROTATE ] && !_this.noRotate ) {
             _state = STATE.ROTATE;
-        } else if ( event.keyCode === _this.keys[ STATE.ZOOM ] && !_this.noZoom ) {
+        } else if ( event.key === _this.keys[ STATE.ZOOM ] && !_this.noZoom ) {
             _state = STATE.ZOOM;
-        } else if ( event.keyCode === _this.keys[ STATE.PAN ] && !_this.noPan ) {
+        } else if ( event.key === _this.keys[ STATE.PAN ] && !_this.noPan ) {
             _state = STATE.PAN;
         }
     }
@@ -281,36 +281,41 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
     function keyup( event ) {
         if ( _this.enabled === false ) return;
         _state = _prevState;
-        //window.addEventListener( 'keydown', keydown, false );
+
+        _this._controlEventSource.addEventListener( 'keydown', keydown, false );
     }
 
-    function mousedown( mouseArea, canvas, x, y ) {
+    function mousedown( x, y, buttons ) {
+
         if ( _this.enabled === false ) return;
 
-        _this._mouseArea.mouseDown.disconnect(mousedown);
-
         if ( _state === STATE.NONE ) {
-            _state = STATE.ROTATE;
+            if (buttons & THREE.MOUSE.LEFT !== 0)
+                _state = STATE.ROTATE;
+            else if (buttons & THREE.MOUSE.MIDDLE !== 0)
+                _state = STATE.ZOOM;
+            else if (buttons & THREE.MOUSE.RIGHT !== 0)
+                _state = STATE.PAN;
         }
 
         if ( _state === STATE.ROTATE && !_this.noRotate ) {
             _rotateStart.copy( getMouseProjectionOnBall( x, y ) );
             _rotateEnd.copy( _rotateStart );
         } else if ( _state === STATE.ZOOM && !_this.noZoom ) {
-            _zoomStart.copy( getMouseOnScreen( x, y ) );
+            _zoomStart.copy( getMouseOnArea( x, y ) );
             _zoomEnd.copy(_zoomStart);
         } else if ( _state === STATE.PAN && !_this.noPan ) {
-            _panStart.copy( getMouseOnScreen( x, y ) );
+            _panStart.copy( getMouseOnArea( x, y ) );
             _panEnd.copy(_panStart)
         }
 
-        _this._mouseArea.mouseMove.connect(mousemove);
-        _this._mouseArea.mouseUp.connect(mouseup);
+        _this._controlEventSource.addEventListener( 'mousemove', mousemove, false );
+        _this._controlEventSource.addEventListener( 'mouseup', mouseup, false );
 
         _this.dispatchEvent( startEvent );
     }
 
-    function mousemove( mouseArea, canvas, x, y ) {
+    function mousemove( x, y ) {
 
         if ( _this.enabled === false ) return;
 
@@ -320,41 +325,37 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
         } else if ( _state === STATE.ZOOM && !_this.noZoom ) {
 
-            _zoomEnd.copy( getMouseOnScreen( x, y ) );
+            _zoomEnd.copy( getMouseOnArea( x, y ) );
 
         } else if ( _state === STATE.PAN && !_this.noPan ) {
 
-            _panEnd.copy( getMouseOnScreen( x, y ) );
+            _panEnd.copy( getMouseOnArea( x, y ) );
 
         }
 
     }
 
-    function mouseup( mouseArea, canvas, x, y ) {
+    function mouseup( x, y ) {
 
         if ( _this.enabled === false ) return;
 
         _state = STATE.NONE;
 
-        _this._mouseArea.mouseMove.disconnect(mousemove);
-        _this._mouseArea.mouseUp.disconnect(mouseup);
+        _this._controlEventSource.removeEventListener( 'mousemove', mousemove );
+        _this._controlEventSource.removeEventListener( 'mouseup', mouseup );
         _this.dispatchEvent( endEvent );
 
     }
 
-    function mousewheel( event ) {
+    function mousewheel( wheelDeltaX, wheelDeltaY ) {
 
-        if ( _this.enabled === false ) return;
+        if ( _this.enabled === false || ( wheelDeltaX === 0 && wheelDeltaY === 0)) return;
 
         var delta = 0;
 
-        if ( event.wheelDelta ) { // WebKit / Opera / Explorer 9
+        if ( wheelDeltaY ) { // WebKit / Opera / Explorer 9
 
-            delta = event.wheelDelta / 40;
-
-        } else if ( event.detail ) { // Firefox
-
-            delta = - event.detail / 3;
+            delta = wheelDeltaY / 40;
 
         }
 
@@ -364,27 +365,27 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
     }
 
-    function touchstart( event ) {
+    function touchstart( touches ) {
 
         if ( _this.enabled === false ) return;
 
-        switch ( event.touches.length ) {
+        switch ( touches.length ) {
 
         case 1:
             _state = STATE.TOUCH_ROTATE;
-            _rotateStart.copy( getMouseProjectionOnBall( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+            _rotateStart.copy( getMouseProjectionOnBall( touches[ 0 ].pageX, touches[ 0 ].pageY ) );
             _rotateEnd.copy( _rotateStart );
             break;
 
         case 2:
             _state = STATE.TOUCH_ZOOM_PAN;
-            var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
-            var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+            var dx = touches[ 0 ].pageX - touches[ 1 ].pageX;
+            var dy = touches[ 0 ].pageY - touches[ 1 ].pageY;
             _touchZoomDistanceEnd = _touchZoomDistanceStart = Math.sqrt( dx * dx + dy * dy );
 
-            var x = ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX ) / 2;
-            var y = ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY ) / 2;
-            _panStart.copy( getMouseOnScreen( x, y ) );
+            var x = ( touches[ 0 ].pageX + touches[ 1 ].pageX ) / 2;
+            var y = ( touches[ 0 ].pageY + touches[ 1 ].pageY ) / 2;
+            _panStart.copy( getMouseOnArea( x, y ) );
             _panEnd.copy( _panStart );
             break;
 
@@ -397,27 +398,27 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
     }
 
-    function touchmove( event ) {
+    function touchmove( touches ) {
 
         if ( _this.enabled === false ) return;
 
         event.preventDefault();
         event.stopPropagation();
 
-        switch ( event.touches.length ) {
+        switch ( touches.length ) {
 
         case 1:
-            _rotateEnd.copy( getMouseProjectionOnBall( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+            _rotateEnd.copy( getMouseProjectionOnBall( touches[ 0 ].pageX, touches[ 0 ].pageY ) );
             break;
 
         case 2:
-            var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
-            var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+            var dx = touches[ 0 ].pageX - touches[ 1 ].pageX;
+            var dy = touches[ 0 ].pageY - touches[ 1 ].pageY;
             _touchZoomDistanceEnd = Math.sqrt( dx * dx + dy * dy );
 
-            var x = ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX ) / 2;
-            var y = ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY ) / 2;
-            _panEnd.copy( getMouseOnScreen( x, y ) );
+            var x = ( touches[ 0 ].pageX + touches[ 1 ].pageX ) / 2;
+            var y = ( touches[ 0 ].pageY + touches[ 1 ].pageY ) / 2;
+            _panEnd.copy( getMouseOnArea( x, y ) );
             break;
 
         default:
@@ -427,23 +428,23 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
     }
 
-    function touchend( event ) {
+    function touchend( touches ) {
 
         if ( _this.enabled === false ) return;
 
-        switch ( event.touches.length ) {
+        switch ( touches.length ) {
 
         case 1:
-            _rotateEnd.copy( getMouseProjectionOnBall( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+            _rotateEnd.copy( getMouseProjectionOnBall( touches[ 0 ].pageX, touches[ 0 ].pageY ) );
             _rotateStart.copy( _rotateEnd );
             break;
 
         case 2:
             _touchZoomDistanceStart = _touchZoomDistanceEnd = 0;
 
-            var x = ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX ) / 2;
-            var y = ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY ) / 2;
-            _panEnd.copy( getMouseOnScreen( x, y ) );
+            var x = ( touches[ 0 ].pageX + touches[ 1 ].pageX ) / 2;
+            var y = ( touches[ 0 ].pageY + touches[ 1 ].pageY ) / 2;
+            _panEnd.copy( getMouseOnArea( x, y ) );
             _panStart.copy( _panEnd );
             break;
 
@@ -454,23 +455,22 @@ THREE.TrackballControls = function ( object, canvas, mouseArea ) {
 
     }
 
+    controlEventSource.widthChanged.connect( _this.handleResize );
+    controlEventSource.heightChanged.connect( _this.handleResize );
 
-    canvas.widthChanged.connect( _this.handleResize );
-    canvas.heightChanged.connect( _this.handleResize );
+    controlEventSource.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
 
-//    this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
+    controlEventSource.addEventListener( 'mousedown', mousedown, false );
 
-    _this._mouseArea.mouseDown.connect(mousedown);
+    controlEventSource.addEventListener( 'mousewheel', mousewheel, false );
+    controlEventSource.addEventListener( 'DOMMouseScroll', mousewheel, false ); // firefox
 
-//    this.domElement.addEventListener( 'mousewheel', mousewheel, false );
-//    this.domElement.addEventListener( 'DOMMouseScroll', mousewheel, false ); // firefox
+    controlEventSource.addEventListener( 'touchstart', touchstart, false );
+    controlEventSource.addEventListener( 'touchend', touchend, false );
+    controlEventSource.addEventListener( 'touchmove', touchmove, false );
 
-//    this.domElement.addEventListener( 'touchstart', touchstart, false );
-//    this.domElement.addEventListener( 'touchend', touchend, false );
-//    this.domElement.addEventListener( 'touchmove', touchmove, false );
-
-//    window.addEventListener( 'keydown', keydown, false );
-//    window.addEventListener( 'keyup', keyup, false );
+    controlEventSource.addEventListener( 'keydown', keydown, false );
+    controlEventSource.addEventListener( 'keyup', keyup, false );
 
     this.handleResize();
 

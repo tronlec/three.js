@@ -19,7 +19,7 @@ THREE.JSONLoader.prototype.load = function ( url, callback, texturePath ) {
 
 	// todo: unify load API to for easier SceneLoader use
 
-    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === 'string' ) ? texturePath : "";
+	texturePath = texturePath && ( typeof texturePath === 'string' ) ? texturePath : this.extractUrlBase( url );
 
 	this.onLoadStart();
 	this.loadAjaxJSON( this, url, callback, texturePath );

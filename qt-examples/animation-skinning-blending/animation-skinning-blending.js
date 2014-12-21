@@ -1,14 +1,13 @@
 //@author tiheikka / titta.heikkala@theqtcompany.com
 
 Qt.include("three.js")
-//Qt.include("OrbitControls.js")
+Qt.include("OrbitControls.js")
 Qt.include("BlendCharacter.js")
 //Qt.include("BlendCharacterGui.js")
 
-var blendMesh, camera, scene, renderer, controls;
-var canvas;
+var blendMesh, camera, scene, renderer, controls, controlEventSource;
+var canvas3d;
 var clock = new THREE.Clock();
-var gui = null;
 
 var isFrameStepping = false;
 var timeToStep = 0;
@@ -19,33 +18,31 @@ function log(message) {
         console.log(message)
 }
 
-function initGL(canvas) {
+function initGL(canvas, eventSource) {
     console.log("initGL ENTER...");
+
+    canvas3d = canvas;
+    controlEventSource = eventSource;
 
     // scene
 
     scene = new THREE.Scene();
     scene.add ( new THREE.AmbientLight( 0xaaaaaa ) );
 
-    camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 10000 );
-
     var light = new THREE.DirectionalLight( 0xffffff, 1.5 );
     light.position.set( 0, 0, 1000 );
     scene.add( light );
 
+    camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 10000 );
+
     renderer = new THREE.Canvas3DRenderer(
-                { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
+                { canvas: canvas, antialias: true, alpha:false, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setClearColor( '#777777', 1 );
     renderer.setSize( canvas.width, canvas.height );
     renderer.autoClear = true;
 
     blendMesh = new THREE.BlendCharacter();
     blendMesh.load( "marine_anims.js", start );
-
-    var radius = blendMesh.geometry.boundingSphere.radius;
-
-    camera.position.set( 0.0, radius, radius * 3.5 );
-
 }
 
 
@@ -60,108 +57,102 @@ function onCanvasResize(canvas) {
 
 }
 
-//function onStartAnimation( event ) {
+function onStartAnimation( data ) {
 
-//    var data = event.detail;
+    blendMesh.stopAll();
 
-//    blendMesh.stopAll();
+    // the blend mesh will combine 1 or more animations
+    for ( var i = 0; i < data.anims.length; ++i ) {
 
-//    // the blend mesh will combine 1 or more animations
-//    for ( var i = 0; i < data.anims.length; ++i ) {
+        blendMesh.play(data.anims[i], data.weights[i]);
 
-//        blendMesh.play(data.anims[i], data.weights[i]);
+    }
 
-//    }
+    isFrameStepping = false;
 
-//    isFrameStepping = false;
+}
 
-//}
+function onStopAnimation() {
 
-//function onStopAnimation( event ) {
+    blendMesh.stopAll();
+    isFrameStepping = false;
 
-//    blendMesh.stopAll();
-//    isFrameStepping = false;
+}
 
-//}
+function onPauseAnimation( ) {
 
-//function onPauseAnimation( event ) {
+    isFrameStepping ? blendMesh.unPauseAll(): blendMesh.pauseAll();
 
-//    ( isFrameStepping ) ? blendMesh.unPauseAll(): blendMesh.pauseAll();
+    isFrameStepping = false;
 
-//    isFrameStepping = false;
+}
 
-//}
+function onStepAnimation(stepSize) {
 
-//function onStepAnimation( event ) {
+    blendMesh.unPauseAll();
+    isFrameStepping = true;
+    timeToStep = stepSize;
+}
 
-//    blendMesh.unPauseAll();
-//    isFrameStepping = true;
-//    timeToStep = event.detail.stepSize;
-//}
+function onWeightAnimation(data) {
 
-//function onWeightAnimation(event) {
+    for ( var i = 0; i < data.anims.length; ++i ) {
 
-//    var data = event.detail;
-//    for ( var i = 0; i < data.anims.length; ++i ) {
+        blendMesh.applyWeight(data.anims[i], data.weights[i]);
 
-//        blendMesh.applyWeight(data.anims[i], data.weights[i]);
+    }
 
-//    }
+}
 
-//}
+function onCrossfade(data) {
 
-//function onCrossfade(event) {
+    blendMesh.stopAll();
+    blendMesh.crossfade( data.from, data.to, data.time );
 
-//    var data = event.detail;
+    isFrameStepping = false;
 
-//    blendMesh.stopAll();
-//    blendMesh.crossfade( data.from, data.to, data.time );
+}
 
-//    isFrameStepping = false;
+function onWarp( data ) {
 
-//}
+    blendMesh.stopAll();
+    blendMesh.warp( data.from, data.to, data.time );
 
-//function onWarp( event ) {
+    isFrameStepping = false;
 
-//    var data = event.detail;
-
-//    blendMesh.stopAll();
-//    blendMesh.warp( data.from, data.to, data.time );
-
-//    isFrameStepping = false;
-
-//}
+}
 
 
-//function onLockCameraToggle( event ) {
+function onLockCameraToggle( shouldLock ) {
 
-//    var shouldLock = event.detail.shouldLock;
-//    controls.enabled = !shouldLock;
+    controls.enabled = !shouldLock;
 
-//}
+}
 
-//function onShowSkeleton( event ) {
+function onShowSkeleton( shouldShow ) {
 
-//    var shouldShow = event.detail.shouldShow;
-//    blendMesh.showSkeleton( shouldShow );
+    blendMesh.showSkeleton( shouldShow );
 
-//}
+}
 
-function onShowModel( event ) {
+function onShowModel( shouldShow ) {
 
-    var shouldShow = event.detail.shouldShow;
     blendMesh.showModel( shouldShow );
 
 }
 
 function start() {
 
+
     blendMesh.rotation.y = Math.PI * -135 / 180;
     scene.add( blendMesh );
 
-//    controls = new THREE.OrbitControls( camera );
-//    controls.target = new THREE.Vector3( 0, radius, 0 );
-//    controls.update();
+    var radius = blendMesh.geometry.boundingSphere.radius;
+    camera.position.set( 0.0, radius, radius * 3.5 );
+
+    controls = new THREE.OrbitControls( camera, controlEventSource );
+    controls.target = new THREE.Vector3( 0, radius, 0 );
+    controls.update();
 
     // Set default weights
 
@@ -169,34 +160,34 @@ function start() {
     blendMesh.animations[ 'walk' ].weight = 1 / 3;
     blendMesh.animations[ 'run' ].weight = 1 / 3;
 
-//    gui = new BlendCharacterGui(blendMesh.animations);
-
+    // TODO: GUI needs complete rewrite as QtQuick
+    //gui = new BlendCharacterGui(blendMesh.animations);
 }
 
-function renderGL(canvas) {
+function renderGL(canvas, guiParameters) {
 
     log("renderGL ENTER...");
 
     // step forward in time based on whether we're stepping and scale
 
-//    var scale = gui.getTimeScale();
-//    var delta = clock.getDelta();
-//    var stepSize = (!isFrameStepping) ? delta * scale: timeToStep;
+    var scale = guiParameters.timeScale;
+    var delta = clock.getDelta();
+    var stepSize = (!isFrameStepping) ? delta * scale: timeToStep;
 
-//    // modify blend weights
+    // modify blend weights
 
-//    blendMesh.update( stepSize );
-//    gui.update();
+    blendMesh.update( stepSize );
+    // TODO: GUI needs complete rewrite as QtQuick
+    //gui.update();
 
-//    THREE.AnimationHandler.update( stepSize );
+    THREE.AnimationHandler.update( stepSize );
 
     renderer.render( scene, camera );
 
     // if we are stepping, consume time
     // ( will equal step size next time a single step is desired )
 
-//    timeToStep = 0;
+    timeToStep = 0;
 
     log("renderGL EXIT...");
-
 }

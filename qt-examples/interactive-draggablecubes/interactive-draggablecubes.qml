@@ -48,11 +48,10 @@ Item {
     Canvas3D {
         id: canvas3d
         anchors.fill:parent
-        focus: true
 
         // Emitted when one time initializations should happen
         onInitGL: {
-            GLCode.initGL(canvas3d, inputProxy);
+            GLCode.initGL(canvas3d, eventSource);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
@@ -72,30 +71,10 @@ Item {
             GLCode.onCanvasResize(canvas3d);
         }
 
-        Item {
-            id: inputProxy
-            property alias cursorShape: inputArea.cursorShape
-            signal mouseMove(variant mouseArea, variant canvas, int x, int y);
-            signal mouseDown(variant mouseArea, variant canvas, int x, int y);
-            signal mouseUp(variant mouseArea, variant canvas, int x, int y);
-        }
-
-        MouseArea {
+        ControlEventSource {
             anchors.fill: parent
-            id: inputArea
-            hoverEnabled: true
-
-            onPositionChanged: {
-                inputProxy.mouseMove(inputProxy, canvas3d, mouse.x, mouse.y);
-            }
-
-            onPressed: {
-                inputProxy.mouseDown(inputProxy, canvas3d, mouse.x, mouse.y);
-            }
-
-            onReleased: {
-                inputProxy.mouseUp(inputProxy, canvas3d, mouse.x, mouse.y);
-            }
+            focus: true
+            id: eventSource
         }
     }
 }
