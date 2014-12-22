@@ -7704,7 +7704,7 @@ THREE.Color.prototype = {
 
 	getHex: function () {
 
-		return ( this.r * 255 ) << 16 ^ ( this.g * 255 ) << 8 ^ ( this.b * 255 ) << 0;
+        return Math.floor( this.r * 255 ) << 16 ^ Math.floor( this.g * 255 ) << 8 ^ Math.floor( this.b * 255 ) << 0;
 
 	},
 
@@ -7761,7 +7761,7 @@ THREE.Color.prototype = {
 
 	getStyle: function () {
 
-        return 'rgb(' + ( ~~( this.r * 255 ) ) + ',' + ( ~~( this.g * 255 ) ) + ',' + ( ~~( this.b * 255 ) ) + ')';
+        return 'rgb(' + ( Math.floor( this.r * 255 ) ) + ',' + ( Math.floor( this.g * 255 ) ) + ',' + ( Math.floor( this.b * 255 ) ) + ')';
 
 	},
 
@@ -13685,7 +13685,7 @@ THREE.Math = {
 
 				} else {
 
-					if ( rnd <= 0x02 ) rnd = 0x2000000 + ( Math.random() * 0x1000000 ) | 0;
+                    if ( rnd <= 0x02 ) rnd = Math.floor(0x2000000 + ( Math.random() * 0x1000000 ));
 					r = rnd & 0xf;
 					rnd = rnd >> 4;
 					uuid[ i ] = chars[ ( i == 19 ) ? ( r & 0x3 ) | 0x8 : r ];
@@ -18432,8 +18432,9 @@ THREE.Loader.prototype = {
 		}
 
 		function rgb2hex( rgb ) {
-
-			return ( rgb[ 0 ] * 255 << 16 ) + ( rgb[ 1 ] * 255 << 8 ) + rgb[ 2 ] * 255;
+            return ( ( Math.floor(rgb[ 0 ] * 255) << 16 ) +
+                     ( Math.floor(rgb[ 1 ] * 255) << 8  ) +
+                       Math.floor(rgb[ 2 ] * 255)         );
 
 		}
 
@@ -27036,7 +27037,7 @@ THREE.ImageUtils = {
 
 		var width = image.width;
 		var height = image.height;
-
+        // TODO: Make this work in Qt Quick
 		var canvas = document.createElement( 'canvas' );
 		canvas.width = width;
 		canvas.height = height;
@@ -27097,10 +27098,11 @@ THREE.ImageUtils = {
 
 				var idx = ( y * width + x ) * 4;
 
-				output[ idx ] = ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) | 0;
-				output[ idx + 1 ] = ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) | 0;
-				output[ idx + 2 ] = ( normal[ 2 ] * 255 ) | 0;
-				output[ idx + 3 ] = 255;
+                // TODO: This might not work on QtQuick
+                output[ idx ] = ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 1 ] = ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 2 ] = ( normal[ 2 ] * 255 ) | 0;
+                output[ idx + 3 ] = 255;
 
 			}
 

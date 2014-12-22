@@ -72,7 +72,7 @@ THREE.OrbitControls = function ( object, controlEventSource ) {
 	this.noKeys = false;
 
 	// The four arrow keys
-	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+    this.keys = { LEFT: Qt.Key_Left, UP: Qt.Key_Up, RIGHT: Qt.Key_Right, BOTTOM: Qt.Key_Down };
 
 	// Mouse buttons
 	this.mouseButtons = { ORBIT: THREE.MOUSE.LEFT, ZOOM: THREE.MOUSE.MIDDLE, PAN: THREE.MOUSE.RIGHT };

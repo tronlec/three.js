@@ -33,7 +33,7 @@ Item {
     Canvas3D {
         id: canvas3d
         anchors.fill: parent
-        logAllCalls: true
+        logAllCalls: false
 
         // Emitted when one time initializations should happen
         onInitGL: {

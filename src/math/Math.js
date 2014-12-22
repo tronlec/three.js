@@ -27,7 +27,7 @@ THREE.Math = {
 
 				} else {
 
-					if ( rnd <= 0x02 ) rnd = 0x2000000 + ( Math.random() * 0x1000000 ) | 0;
+                    if ( rnd <= 0x02 ) rnd = Math.floor(0x2000000 + ( Math.random() * 0x1000000 ));
 					r = rnd & 0xf;
 					rnd = rnd >> 4;
 					uuid[ i ] = chars[ ( i == 19 ) ? ( r & 0x3 ) | 0x8 : r ];
