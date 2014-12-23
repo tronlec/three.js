@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file>particles-billboards-colors.qml</file>
+        <file>particles-billboards-colors.js</file>
+		<file alias="textures/sprites/ball.png">../../examples/textures/sprites/ball.png</file>
+    </qresource>
+</RCC>

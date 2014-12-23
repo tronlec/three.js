@@ -5,4 +5,5 @@ SUBDIRS += animation-cloth \
            camera \
            interactive-draggablecubes \
            materials \
+           particles-billboards-colors
 
