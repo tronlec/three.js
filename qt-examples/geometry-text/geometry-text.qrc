@@ -1,7 +1,28 @@
 <RCC>
     <qresource prefix="/">
         <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+		<file alias="GeometryUtils.js">../../examples/js/utils/GeometryUtils.js</file>
+        <file alias="ConvolutionShader.js">../../examples/js/shaders/ConvolutionShader.js</file>
+        <file alias="CopyShader.js">../../examples/js/shaders/CopyShader.js</file>
+        <file alias="FilmShader.js">../../examples/js/shaders/FilmShader.js</file>
+        <file alias="FXAAShader.js">../../examples/js/shaders/FXAAShader.js</file>
+        <file alias="EffectComposer.js">../../examples/js/postprocessing/EffectComposer.js</file>
+        <file alias="RenderPass.js">../../examples/js/postprocessing/RenderPass.js</file>
+        <file alias="ShaderPass.js">../../examples/js/postprocessing/ShaderPass.js</file>
+        <file alias="MaskPass.js">../../examples/js/postprocessing/MaskPass.js</file>
+        <file alias="BloomPass.js">../../examples/js/postprocessing/BloomPass.js</file>
+        <file alias="FilmPass.js">../../examples/js/postprocessing/FilmPass.js</file>
+        <file alias="gentilis_bold.typeface.js">../../examples/fonts/gentilis_bold.typeface.js</file>
+        <file alias="gentilis_regular.typeface.js">../../examples/fonts/gentilis_regular.typeface.js</file>
+        <file alias="optimer_bold.typeface.js">../../examples/fonts/optimer_bold.typeface.js</file>
+        <file alias="optimer_regular.typeface.js">../../examples/fonts/optimer_regular.typeface.js</file>
+        <file alias="helvetiker_bold.typeface.js">../../examples/fonts/helvetiker_bold.typeface.js</file>
         <file alias="helvetiker_regular.typeface.js">../../examples/fonts/helvetiker_regular.typeface.js</file>
+        <file alias="droid_sans_regular.typeface.js">../../examples/fonts/droid/droid_sans_regular.typeface.js</file>
+        <file alias="droid_sans_bold.typeface.js">../../examples/fonts/droid/droid_sans_bold.typeface.js</file>
+        <file alias="droid_serif_regular.typeface.js">../../examples/fonts/droid/droid_serif_regular.typeface.js</file>
+        <file alias="droid_serif_bold.typeface.js">../../examples/fonts/droid/droid_serif_bold.typeface.js</file>
         <file>geometry-text.js</file>
         <file>geometry-text.qml</file>
     </qresource>

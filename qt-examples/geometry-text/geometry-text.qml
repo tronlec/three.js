@@ -11,34 +11,61 @@ Item {
     visible: true
 
     Button {
-        id: orthoButton
+        id: colorButton
         anchors.left: parent.left
-        width: parent.width / 2
-        text: "Orthographic"
+        width: parent.width / 5
+        text: "Change Color"
 
-        onClicked: GLCode.changeProjection(0)
+        onClicked: GLCode.changeColor()
     }
 
     Button {
-        id: perspButton
-        anchors.left: orthoButton.right
-        anchors.right: parent.right
-        width: parent.width / 2
-        text: "Perspective"
+        id: fontButton
+        anchors.left: colorButton.right
+        width: parent.width / 5
+        text: "Change Font"
 
-        onClicked: GLCode.changeProjection(1)
+        onClicked: GLCode.changeFont()
+    }
+
+    Button {
+        id: weigthButton
+        anchors.left: fontButton.right
+        width: parent.width / 5
+        text: "Change Weight"
+
+        onClicked: GLCode.changeWeight()
+    }
+
+    Button {
+        id: bevelButton
+        anchors.left: weigthButton.right
+        width: parent.width / 5
+        text: "Change Bevel"
+
+        onClicked: GLCode.changeBevel()
+    }
+
+    Button {
+        id: postProcessingButton
+        anchors.left: bevelButton.right
+        anchors.right: parent.right
+        width: parent.width / 5
+        text: "Change Postprocessing"
+
+        onClicked: GLCode.changePostProcessing()
     }
 
     Canvas3D {
         id: canvas3d
         width: parent.width
-        anchors.top: orthoButton.bottom
+        anchors.top: colorButton.bottom
         anchors.bottom: parent.bottom
         focus: true
 
         // Emitted when one time initializations should happen
         onInitGL: {
-            GLCode.initGL(canvas3d);
+            GLCode.initGL(canvas3d, eventSource);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
@@ -56,6 +83,12 @@ Item {
 
         onDevicePixelRatioChanged: {
             GLCode.onCanvasResize(canvas3d);
+        }
+
+        ControlEventSource {
+            anchors.fill: parent
+            focus: true
+            id: eventSource
         }
     }
 }
