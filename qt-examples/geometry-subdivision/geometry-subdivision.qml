@@ -16,7 +16,7 @@ Item {
 
         // Emitted when one time initializations should happen
         onInitGL: {
-            GLCode.initGL(canvas3d);
+            GLCode.initGL(canvas3d, eventSource);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
@@ -36,5 +36,10 @@ Item {
             GLCode.onCanvasResize(canvas3d);
         }
 
+        ControlEventSource {
+            anchors.fill: parent
+            focus: true
+            id: eventSource
+        }
     }
 }

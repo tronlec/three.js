@@ -21,6 +21,7 @@ var createSomething = function( klass, args ) {
         return this;
 
     }
+
     F.prototype = klass.prototype;
     return new F( klass, args );
 
@@ -30,11 +31,6 @@ var createSomething = function( klass, args ) {
 
 var materials = [];
 
-for ( var i = 0; i < 6; i ++ ) {
-
-    materials.push( [ new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, wireframe: false } ) ] );
-
-}
 
 var geometriesParams = [
 
@@ -61,32 +57,6 @@ var geometriesParams = [
     { type: 'PlaneGeometry', args: [ 200, 200, 4, 4 ] }
 
 ];
-
-var loader = new THREE.JSONLoader();
-loader.load( 'obj/WaltHeadLo.js', function ( geometry ) {
-
-    geometriesParams.push({type: 'WaltHead', args: [ ], meshScale: 6 });
-
-    THREE.WaltHead = function() {
-        return geometry.clone();
-    };
-
-    updateInfo()
-
-});
-
-var loader2 = new THREE.JSONLoader();
-loader2.load( 'obj/Suzanne.js', function ( geometry ) {
-
-    geometriesParams.push({type: 'Suzanne', args: [ ], scale: 100, meshScale:2 });
-
-    THREE.Suzanne = function() {
-        return geometry.clone();
-    };
-
-    updateInfo()
-
-} );
 
 
 var info;
@@ -147,7 +117,6 @@ function addStuff() {
 
 
     var params = geometriesParams[ geometryIndex ];
-
     geometry = createSomething( THREE[ params.type ], params.args );
 
     // Scale Geometry
@@ -160,7 +129,7 @@ function addStuff() {
 
     // Cloning original geometry for debuging
 
-    smooth = geometry.clone();
+    var smooth = geometry.clone();
 
     // mergeVertices(); is run in case of duplicated vertices
     smooth.mergeVertices();
@@ -174,7 +143,7 @@ function addStuff() {
     var faceABCD = "abcd";
     var color, f, p, n, vertexIndex;
 
-    for ( i = 0; i < smooth.faces.length; i ++ ) {
+    for ( var i = 0; i < smooth.faces.length; i ++ ) {
 
         f  = smooth.faces[ i ];
 
@@ -196,7 +165,7 @@ function addStuff() {
 
     }
 
-    group = new THREE.Group();
+    var group = new THREE.Group();
     scene.add( group );
 
     var material = new THREE.MeshBasicMaterial( { color: 0xfefefe, wireframe: true, opacity: 0.5 } );
@@ -222,8 +191,41 @@ function addStuff() {
 
 }
 
-function initGL(canvas) {
+function initGL(canvas, eventSource) {
     log("initGL ENTER...");
+
+    var loader = new THREE.JSONLoader();
+    loader.load( 'obj/WaltHeadLo.js', function ( geometry ) {
+
+        geometriesParams.push({type: 'WaltHead', args: [ ], meshScale: 6 });
+
+        THREE.WaltHead = function() {
+            return geometry.clone();
+        };
+
+        updateInfo()
+
+    });
+
+    var loader2 = new THREE.JSONLoader();
+    loader2.load( 'obj/Suzanne.js', function ( geometry ) {
+
+        geometriesParams.push({type: 'Suzanne', args: [ ], scale: 100, meshScale:2 });
+
+        THREE.Suzanne = function() {
+            return geometry.clone();
+        };
+
+        updateInfo()
+
+    } );
+
+    for ( var i = 0; i < 6; i ++ ) {
+
+        materials.push( [ new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, wireframe: false } ) ] );
+
+    }
+
 
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 1, 10000 );
     camera.position.z = 500;
@@ -242,7 +244,7 @@ function initGL(canvas) {
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setSize( canvas.width, canvas.height );
 
-    controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls = new THREE.OrbitControls( camera, eventSource );
 
 }
 
