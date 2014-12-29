@@ -1,6 +1,7 @@
 //@author tiheikka / titta.heikkala@theqtcompany.com
 
 Qt.include("three.js")
+Qt.include("helvetiker_regular.typeface.js")
 
 var camera, scene, renderer;
 
@@ -70,7 +71,8 @@ function initGL(canvas) {
 
     scene.add( group );
 
-    renderer = new THREE.CanvasRenderer();
+    renderer = new THREE.Canvas3DRenderer(
+                { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setClearColor( 0xf0f0f0 );
     renderer.setSize( canvas.width, canvas.height );
 

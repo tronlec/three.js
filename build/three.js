@@ -801,7 +801,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	_logarithmicDepthBuffer = parameters.logarithmicDepthBuffer !== undefined ? parameters.logarithmicDepthBuffer : false,
 
 	_clearColor = new THREE.Color( 0x000000 ),
-	_clearAlpha = 0;
+    _clearAlpha = parameters.clearAlpha !== undefined ? parameters.clearAlpha : 0;
 
 	var lights = [];
 
@@ -4980,6 +4980,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			var shader = THREE.ShaderLib[ shaderID ];
 
 			material.__webglShader = {
+                id: shaderID,
 				uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
 				vertexShader: shader.vertexShader,
 				fragmentShader: shader.fragmentShader
@@ -4988,6 +4989,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		} else {
 
 			material.__webglShader = {
+                id: "material",
 				uniforms: material.uniforms,
 				vertexShader: material.vertexShader,
 				fragmentShader: material.fragmentShader
@@ -7704,7 +7706,7 @@ THREE.Color.prototype = {
 
 	getHex: function () {
 
-        return Math.floor( this.r * 255 ) << 16 ^ Math.floor( this.g * 255 ) << 8 ^ Math.floor( this.b * 255 ) << 0;
+        return Math.floor( this.r * 255 ) << 16 ^ Math.floor( this.g * 255 ) << 8 ^ Math.floor( this.b * 255 );
 
 	},
 
@@ -13760,7 +13762,13 @@ THREE.Math = {
 
 	randInt: function ( low, high ) {
 
-		return low + Math.floor( Math.random() * ( high - low + 1 ) );
+        var rValue = Math.random() * ( high - low + 1 );
+        if (rValue > 0)
+            rValue = Math.floor(rValue);
+        else
+            rValue = Math.ceil(rValue);
+
+        return low + rValue;
 
 	},
 
@@ -27255,7 +27263,7 @@ THREE.FontUtils = {
 
 		// RenderText
 
-		var i, p,
+        var i, p,
 			face = this.getFace(),
 			scale = this.size / face.resolution,
 			offset = 0,
@@ -27493,7 +27501,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 
 		var u, v, w;
 
-		if ( area( contour ) > 0.0 ) {
+        if ( THREE.FontUtils.area( contour ) > 0.0 ) {
 
 			for ( v = 0; v < n; v ++ ) verts[ v ] = v;
 
@@ -27533,7 +27541,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 			v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
 			w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
 
-			if ( snip( contour, u, v, w, nv, verts ) ) {
+            if ( THREE.FontUtils.snip( contour, u, v, w, nv, verts ) ) {
 
 				var a, b, c, s, t;
 
@@ -27653,8 +27661,8 @@ THREE.FontUtils.Triangulate.area = THREE.FontUtils.area;
 //} )( THREE.FontUtils );
 
 // To use the typeface.js face files, hook up the API
-//self._typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-//THREE.typeface_js = self._typeface_js;
+var _typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
+THREE.typeface_js = _typeface_js;
 
 // File:src/extras/audio/Audio.js
 
@@ -28469,7 +28477,7 @@ THREE.Gyroscope = function () {
 
 THREE.Gyroscope.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
+THREE.Gyroscope.prototype.updateMatrixWorld = function () {
 
 	var translationObject = new THREE.Vector3();
 	var quaternionObject = new THREE.Quaternion();
@@ -28481,7 +28489,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
 
 	return function ( force ) {
 
-		this.matrixAutoUpdate && this.updateMatrix();
+        if (this.matrixAutoUpdate) this.updateMatrix();
 
 		// update matrixWorld
 
@@ -28520,7 +28528,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
 
 	};
 	
-}() );
+}();
 
 // File:src/extras/core/Path.js
 

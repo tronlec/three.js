@@ -68,7 +68,7 @@ THREE.FontUtils = {
 
 		// RenderText
 
-		var i, p,
+        var i, p,
 			face = this.getFace(),
 			scale = this.size / face.resolution,
 			offset = 0,
@@ -306,7 +306,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 
 		var u, v, w;
 
-		if ( area( contour ) > 0.0 ) {
+        if ( THREE.FontUtils.area( contour ) > 0.0 ) {
 
 			for ( v = 0; v < n; v ++ ) verts[ v ] = v;
 
@@ -346,7 +346,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 			v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
 			w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
 
-			if ( snip( contour, u, v, w, nv, verts ) ) {
+            if ( THREE.FontUtils.snip( contour, u, v, w, nv, verts ) ) {
 
 				var a, b, c, s, t;
 
@@ -466,5 +466,5 @@ THREE.FontUtils.Triangulate.area = THREE.FontUtils.area;
 //} )( THREE.FontUtils );
 
 // To use the typeface.js face files, hook up the API
-//self._typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-//THREE.typeface_js = self._typeface_js;
+var _typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
+THREE.typeface_js = _typeface_js;

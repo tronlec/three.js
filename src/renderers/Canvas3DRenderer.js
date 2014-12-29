@@ -31,7 +31,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	_logarithmicDepthBuffer = parameters.logarithmicDepthBuffer !== undefined ? parameters.logarithmicDepthBuffer : false,
 
 	_clearColor = new THREE.Color( 0x000000 ),
-	_clearAlpha = 0;
+    _clearAlpha = parameters.clearAlpha !== undefined ? parameters.clearAlpha : 0;
 
 	var lights = [];
 
@@ -4210,6 +4210,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			var shader = THREE.ShaderLib[ shaderID ];
 
 			material.__webglShader = {
+                id: shaderID,
 				uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
 				vertexShader: shader.vertexShader,
 				fragmentShader: shader.fragmentShader
@@ -4218,6 +4219,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		} else {
 
 			material.__webglShader = {
+                id: "material",
 				uniforms: material.uniforms,
 				vertexShader: material.vertexShader,
 				fragmentShader: material.fragmentShader
