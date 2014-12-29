@@ -47,6 +47,8 @@ Item {
     signal mouseDown(int x, int y, int buttons);
     signal mouseUp(int x, int y);
     signal mouseWheel(int x, int y);
+    signal mouseIn();
+    signal mouseOut();
 
     signal keyDown(var event);
     signal keyUp(var event);
@@ -65,6 +67,10 @@ Item {
             ctrlEventSource.mouseMove.connect(handler);
         } else if (event === 'mousewheel') {
             ctrlEventSource.mouseWheel.connect(handler);
+        } else if (event === 'mouseout') {
+            ctrlEventSource.mouseOut.connect(handler);
+        } else if (event === 'mouseout') {
+            ctrlEventSource.mouseIn.connect(handler);
         } else if (event === 'touchstart') {
         } else if (event === 'touchmove') {
         } else if (event === 'touchend') {
@@ -85,6 +91,10 @@ Item {
             ctrlEventSource.mouseMove.disconnect(handler);
         } else if (event === 'mousewheel') {
             ctrlEventSource.mouseWheel.disconnect(handler);
+        } else if (event === 'mouseout') {
+            ctrlEventSource.mouseOut.disconnect(handler);
+        } else if (event === 'mouseout') {
+            ctrlEventSource.mouseIn.disconnect(handler);
         } else if (event === 'touchstart') {
         } else if (event === 'touchmove') {
         } else if (event === 'touchend') {
@@ -110,6 +120,14 @@ Item {
 
         onWheel: {
             ctrlEventSource.mouseWheel(wheel.angleDelta.x, wheel.angleDelta.y);
+        }
+
+        onEntered: {
+            ctrlEventSource.mouseIn();
+        }
+
+        onExited: {
+            ctrlEventSource.mouseOut();
         }
     }
 
