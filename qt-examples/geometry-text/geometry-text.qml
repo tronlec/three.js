@@ -56,10 +56,31 @@ Item {
         onClicked: GLCode.changePostProcessing()
     }
 
+    TextInput {
+        id: textInput
+        width: colorButton.width * 4
+        anchors.left: parent.left
+        anchors.top: colorButton.bottom
+        height: colorButton.height
+        verticalAlignment: TextInput.AlignVCenter
+        text: "three.js"
+    }
+
+    Button {
+        id: changeTextButton
+        width: colorButton.width
+        anchors.top: colorButton.bottom
+        anchors.left: textInput.right
+        anchors.right: parent.right
+        text: "Change Text"
+
+        onClicked: GLCode.changeText(textInput.text)
+    }
+
     Canvas3D {
         id: canvas3d
         width: parent.width
-        anchors.top: colorButton.bottom
+        anchors.top: textInput.bottom
         anchors.bottom: parent.bottom
         focus: true
 

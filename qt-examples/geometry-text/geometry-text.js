@@ -363,6 +363,13 @@ function changeBevel() {
     refreshText();
 }
 
+function changeText( newText ) {
+
+    text = newText;
+
+    refreshText();
+}
+
 function changePostProcessing() {
 
     postprocessing.enabled = !postprocessing.enabled;
