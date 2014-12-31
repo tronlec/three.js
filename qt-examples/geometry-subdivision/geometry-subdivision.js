@@ -3,6 +3,7 @@
 Qt.include("three.js")
 Qt.include("OrbitControls.js")
 Qt.include("SubdivisionModifier.js")
+Qt.include("helvetiker_regular.typeface.js")
 
 var container, stats;
 var camera, controls, scene, renderer;
@@ -58,11 +59,12 @@ var geometriesParams = [
 
 ];
 
-
 var info;
 var subdivisions = 2;
 var geometryIndex = 0;
 
+var group;
+var smooth;
 
 function log(message) {
     if (canvas3d.logAllCalls)
@@ -74,6 +76,11 @@ function nextSubdivision( x ) {
     subdivisions = Math.max( 0, subdivisions + x );
     addStuff();
 
+}
+
+function subdivisionsCount() {
+
+    return subdivisions;
 }
 
 function nextGeometry() {
@@ -97,10 +104,38 @@ function switchGeometry(i) {
     addStuff();
 }
 
-function updateInfo() {
+function geometryVertices() {
 
-    // do this in QML?
+    return geometry.vertices.length;
 
+}
+
+function smoothVertices() {
+
+    return smooth.vertices.length;
+
+}
+
+function geometryFaces() {
+
+    return geometry.faces.length;
+
+}
+
+function smoothFaces() {
+
+    return smooth.faces.length;
+
+}
+
+function geometryList() {
+
+    var list = [];
+    for (  var i = 0; i < geometriesParams.length; i ++ ) {
+        list.push(geometriesParams[i].type);
+    }
+    console.log("geometryList ", list);
+    return list;
 }
 
 function addStuff() {
@@ -129,7 +164,7 @@ function addStuff() {
 
     // Cloning original geometry for debuging
 
-    var smooth = geometry.clone();
+    smooth = geometry.clone();
 
     // mergeVertices(); is run in case of duplicated vertices
     smooth.mergeVertices();
@@ -137,8 +172,6 @@ function addStuff() {
     smooth.computeVertexNormals();
 
     modifier.modify( smooth );
-
-    updateInfo();
 
     var faceABCD = "abcd";
     var color, f, p, n, vertexIndex;
@@ -165,7 +198,7 @@ function addStuff() {
 
     }
 
-    var group = new THREE.Group();
+    group = new THREE.Group();
     scene.add( group );
 
     var material = new THREE.MeshBasicMaterial( { color: 0xfefefe, wireframe: true, opacity: 0.5 } );
@@ -203,8 +236,6 @@ function initGL(canvas, eventSource) {
             return geometry.clone();
         };
 
-        updateInfo()
-
     });
 
     var loader2 = new THREE.JSONLoader();
@@ -216,7 +247,7 @@ function initGL(canvas, eventSource) {
             return geometry.clone();
         };
 
-        updateInfo()
+        canvas.geometriesLoaded();
 
     } );
 
@@ -225,7 +256,6 @@ function initGL(canvas, eventSource) {
         materials.push( [ new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, wireframe: false } ) ] );
 
     }
-
 
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 1, 10000 );
     camera.position.z = 500;
@@ -242,6 +272,7 @@ function initGL(canvas, eventSource) {
 
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
+    renderer.setClearColor( 0xf0f0f0 );
     renderer.setSize( canvas.width, canvas.height );
 
     controls = new THREE.OrbitControls( camera, eventSource );

@@ -8,5 +8,6 @@
         <file>geometry-subdivision.qml</file>
         <file alias="OrbitControls.js">../js/controls/OrbitControls.js</file>
         <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="helvetiker_regular.typeface.js">../../examples/fonts/helvetiker_regular.typeface.js</file>
     </qresource>
 </RCC>
