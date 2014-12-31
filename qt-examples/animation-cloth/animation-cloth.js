@@ -235,7 +235,7 @@ function initGL(canvas) {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
 
-    renderer.shadowMapEnabled = false; // Should be true, change when problem is fixed
+    renderer.shadowMapEnabled = true; // Should be true, change when problem is fixed
 
 }
 
