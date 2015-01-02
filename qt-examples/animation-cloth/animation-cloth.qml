@@ -52,6 +52,8 @@ Item {
         anchors.top: cameraButton.bottom
         anchors.bottom: parent.bottom
         focus: true
+        logAllCalls: false
+        logAllErrors: false
 
         // Emitted when one time initializations should happen
         onInitGL: {

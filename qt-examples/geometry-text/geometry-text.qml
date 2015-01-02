@@ -83,6 +83,8 @@ Item {
         anchors.top: textInput.bottom
         anchors.bottom: parent.bottom
         focus: true
+        logAllCalls: false
+        logAllErrors: false
 
         // Emitted when one time initializations should happen
         onInitGL: {

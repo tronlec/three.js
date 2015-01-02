@@ -48,6 +48,8 @@ Item {
     Canvas3D {
         id: canvas3d
         anchors.fill:parent
+        logAllCalls: false
+        logAllErrors: false
 
         // Emitted when one time initializations should happen
         onInitGL: {
