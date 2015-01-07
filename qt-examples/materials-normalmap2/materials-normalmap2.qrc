@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file>materials-normalmap2.qml</file>
+        <file>materials-normalmap2.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="js/shaders/BleachBypassShader.js">../../examples/js/shaders/BleachBypassShader.js</file>
+        <file alias="js/shaders/ColorCorrectionShader.js">../../examples/js/shaders/ColorCorrectionShader.js</file>
+        <file alias="js/shaders/CopyShader.js">../../examples/js/shaders/CopyShader.js</file>
+        <file alias="js/shaders/FXAAShader.js">../../examples/js/shaders/FXAAShader.js</file>
+        <file alias="js/postprocessing/EffectComposer.js">../../examples/js/postprocessing/EffectComposer.js</file>
+        <file alias="js/postprocessing/RenderPass.js">../../examples/js/postprocessing/RenderPass.js</file>
+        <file alias="js/postprocessing/ShaderPass.js">../../examples/js/postprocessing/ShaderPass.js</file>
+        <file alias="js/postprocessing/MaskPass.js">../../examples/js/postprocessing/MaskPass.js</file>
+        <file alias="obj/leeperrysmith/LeePerrySmith.js">../../examples/obj/leeperrysmith/LeePerrySmith.js</file>
+        <file alias="obj/leeperrysmith/Infinite-Level_02_Tangent_SmoothUV.jpg">../../examples/obj/leeperrysmith/Infinite-Level_02_Tangent_SmoothUV.jpg</file>
+        <file alias="obj/leeperrysmith/Map-COL.jpg">../../examples/obj/leeperrysmith/Map-COL.jpg</file>
+        <file alias="obj/leeperrysmith/Map-SPEC.jpg">../../examples/obj/leeperrysmith/Map-SPEC.jpg</file>
+    </qresource>
+</RCC>
