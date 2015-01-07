@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="OrbitControls.js">../js/controls/OrbitControls.js</file>
+        <file alias="BlendCharacter.js">../js/BlendCharacter.js</file>
+        <file alias="marine_anims.js">../../examples/models/skinned/marine/marine_anims.js</file>
+        <file>animation-skinning-blending.js</file>
+        <file>animation-skinning-blending.qml</file>
+        <file alias="MarineCv2_color.jpg">../../examples/models/skinned/marine/MarineCv2_color.jpg</file>
+    </qresource>
+</RCC>

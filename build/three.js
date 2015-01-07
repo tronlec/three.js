@@ -639,8 +639,9 @@ function Image () {
     this.__defineSetter__("src", function(url){
         if (url && url !== '' && url !== _this._src) {
             _this._texImage.src = ""+url;
+            _this._texImage.name = ""+url;
         }
-        this._src = url;
+        _this._src = url;
     });
 
     this.__defineGetter__("width", function(){
@@ -674,8 +675,6 @@ Image.prototype = {
     },
 
     notifySuccess: function(image) {
-        console.log("NotifySuccess"+image+" source "+image.src);
-        console.log("Teximage"+this._texImage);
         if (this._onSuccessCallback !== undefined) {
             this._onSuccessCallback(new Event());
         }
@@ -688,7 +687,6 @@ Image.prototype = {
     },
 
     notifyError: function(image) {
-        console.log("NotifyError"+image+" source "+image.src);
         if (this._onErrorCallback !== undefined) {
             this._onErrorCallback(new Event());
         }
@@ -782,7 +780,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	console.log( 'THREE.Canvas3DRenderer', THREE.REVISION );
 
-    if (parameters === undefined) parameters = {};
+	parameters = parameters || {};
 
     if (parameters.canvas === undefined) {
         console.error("parameter.canvas must be set when using THREE.Canvas3DRenderer");
@@ -803,7 +801,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	_logarithmicDepthBuffer = parameters.logarithmicDepthBuffer !== undefined ? parameters.logarithmicDepthBuffer : false,
 
 	_clearColor = new THREE.Color( 0x000000 ),
-	_clearAlpha = 0;
+    _clearAlpha = parameters.clearAlpha !== undefined ? parameters.clearAlpha : 0;
 
 	var lights = [];
 
@@ -970,7 +968,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			preserveDrawingBuffer: _preserveDrawingBuffer
 		};
 
-        _gl = _context || _canvas.getContext( 'webgl', attributes );
+		_gl = _context || _canvas.getContext( 'webgl', attributes ) || _canvas.getContext( 'experimental-webgl', attributes );
 
 		if ( _gl === null ) {
 
@@ -1211,14 +1209,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
         //_canvas.width = width * this.devicePixelRatio;
         //_canvas.height = height * this.devicePixelRatio;
 
+		//if ( updateStyle !== false ) {
 
+		//	_canvas.style.width = width + 'px';
+		//	_canvas.style.height = height + 'px';
 
+		//}
 
-
-
-
-
-        this.setViewport( 0, 0, width, height );
+		this.setViewport( 0, 0, width, height );
 
 	};
 
@@ -1247,10 +1245,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.enableScissorTest = function ( enable ) {
 
-        if (enable)
-            _gl.enable( _gl.SCISSOR_TEST )
-        else
-            _gl.disable( _gl.SCISSOR_TEST );
+		enable ? _gl.enable( _gl.SCISSOR_TEST ) : _gl.disable( _gl.SCISSOR_TEST );
 
 	};
 
@@ -3312,7 +3307,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( object.hasPositions ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglVertexBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, object.positionArray, _gl.DYNAMIC_DRAW );
+            _gl.bufferData( _gl.ARRAY_BUFFER, object.positionArray.typedArray(), _gl.DYNAMIC_DRAW );
 			enableAttribute( program.attributes.position );
 			_gl.vertexAttribPointer( program.attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
@@ -4834,7 +4829,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			geometry.colorsNeedUpdate = false;
 			geometry.tangentsNeedUpdate = false;
 
-            if ( material.attributes ) clearCustomAttributes( material );
+			material.attributes && clearCustomAttributes( material );
 
 		} else if ( object instanceof THREE.Line ) {
 
@@ -4852,7 +4847,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			geometry.colorsNeedUpdate = false;
 			geometry.lineDistancesNeedUpdate = false;
 
-            if( material.attributes ) clearCustomAttributes( material );
+			material.attributes && clearCustomAttributes( material );
 
 
 		} else if ( object instanceof THREE.PointCloud ) {
@@ -4870,7 +4865,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			geometry.verticesNeedUpdate = false;
 			geometry.colorsNeedUpdate = false;
 
-            if( material.attributes ) clearCustomAttributes( material );
+			material.attributes && clearCustomAttributes( material );
 
 		}
 
@@ -4985,6 +4980,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			var shader = THREE.ShaderLib[ shaderID ];
 
 			material.__webglShader = {
+                id: shaderID,
 				uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
 				vertexShader: shader.vertexShader,
 				fragmentShader: shader.fragmentShader
@@ -4993,6 +4989,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		} else {
 
 			material.__webglShader = {
+                id: "material",
 				uniforms: material.uniforms,
 				vertexShader: material.vertexShader,
 				fragmentShader: material.fragmentShader
@@ -5231,7 +5228,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( refreshProgram || camera !== _currentCamera ) {
 
-            _gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
+			_gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
 
 			if ( _logarithmicDepthBuffer ) {
 
@@ -5265,7 +5262,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( p_uniforms.viewMatrix !== null ) {
 
-                    _gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements.typedArray() );
+					_gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements.typedArray() );
 
 				}
 
@@ -5281,13 +5278,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( object.bindMatrix && p_uniforms.bindMatrix !== null ) {
 
-                _gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements.typedArray() );
+				_gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements.typedArray() );
 
 			}
 
 			if ( object.bindMatrixInverse && p_uniforms.bindMatrixInverse !== null ) {
 
-                _gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements.typedArray() );
+				_gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements.typedArray() );
 
 			}
 
@@ -5318,7 +5315,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( p_uniforms.boneGlobalMatrices !== null ) {
 
-                    _gl.uniformMatrix4fv( p_uniforms.boneGlobalMatrices, false, object.skeleton.boneMatrices.typedArray() );
+					_gl.uniformMatrix4fv( p_uniforms.boneGlobalMatrices, false, object.skeleton.boneMatrices.typedArray() );
 
 				}
 
@@ -5415,7 +5412,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( p_uniforms.modelMatrix !== null ) {
 
-            _gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray() );
+			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray() );
 
 		}
 
@@ -5635,27 +5632,27 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	// If uniforms are marked as clean, they don't need to be loaded to the GPU.
 
-    function markUniformsLightsNeedsUpdate ( uniforms, bvalue ) {
+    function markUniformsLightsNeedsUpdate ( uniforms, bValue ) {
 
-        uniforms.ambientLightColor.needsUpdate = bvalue;
+        uniforms.ambientLightColor.needsUpdate = bValue;
 
-        uniforms.directionalLightColor.needsUpdate = bvalue;
-        uniforms.directionalLightDirection.needsUpdate = bvalue;
+        uniforms.directionalLightColor.needsUpdate = bValue;
+        uniforms.directionalLightDirection.needsUpdate = bValue;
 
-        uniforms.pointLightColor.needsUpdate = bvalue;
-        uniforms.pointLightPosition.needsUpdate = bvalue;
-        uniforms.pointLightDistance.needsUpdate = bvalue;
+        uniforms.pointLightColor.needsUpdate = bValue;
+        uniforms.pointLightPosition.needsUpdate = bValue;
+        uniforms.pointLightDistance.needsUpdate = bValue;
 
-        uniforms.spotLightColor.needsUpdate = bvalue;
-        uniforms.spotLightPosition.needsUpdate = bvalue;
-        uniforms.spotLightDistance.needsUpdate = bvalue;
-        uniforms.spotLightDirection.needsUpdate = bvalue;
-        uniforms.spotLightAngleCos.needsUpdate = bvalue;
-        uniforms.spotLightExponent.needsUpdate = bvalue;
+        uniforms.spotLightColor.needsUpdate = bValue;
+        uniforms.spotLightPosition.needsUpdate = bValue;
+        uniforms.spotLightDistance.needsUpdate = bValue;
+        uniforms.spotLightDirection.needsUpdate = bValue;
+        uniforms.spotLightAngleCos.needsUpdate = bValue;
+        uniforms.spotLightExponent.needsUpdate = bValue;
 
-        uniforms.hemisphereLightSkyColor.needsUpdate = bvalue;
-        uniforms.hemisphereLightGroundColor.needsUpdate = bvalue;
-        uniforms.hemisphereLightDirection.needsUpdate = bvalue;
+        uniforms.hemisphereLightSkyColor.needsUpdate = bValue;
+        uniforms.hemisphereLightGroundColor.needsUpdate = bValue;
+        uniforms.hemisphereLightDirection.needsUpdate = bValue;
 
 	}
 
@@ -5695,11 +5692,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function loadUniformsMatrices ( uniforms, object ) {
 
-        _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements.typedArray() );
+		_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements.typedArray() );
 
 		if ( uniforms.normalMatrix ) {
 
-            _gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements.typedArray() );
+			_gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements.typedArray() );
 
 		}
 
@@ -5973,7 +5970,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				case 'm3':
 
 					// single THREE.Matrix3
-                    _gl.uniformMatrix3fv( location, false, value.elements.typedArray() );
+					_gl.uniformMatrix3fv( location, false, value.elements.typedArray() );
 
 					break;
 
@@ -6000,7 +5997,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				case 'm4':
 
 					// single THREE.Matrix4
-                    _gl.uniformMatrix4fv( location, false, value.elements.typedArray() );
+					_gl.uniformMatrix4fv( location, false, value.elements.typedArray() );
 
 					break;
 
@@ -6068,7 +6065,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform1iv( location, uniform._array );
+					_gl.uniform1iva( location, uniform._array );
 
 					for ( var i = 0, il = uniform.value.length; i < il; i ++ ) {
 
@@ -6649,7 +6646,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 					mipmap = mipmaps[ i ];
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data.typedArray() );
 
 				}
 
@@ -6657,7 +6654,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
+                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data.typedArray() );
 
 			}
 
@@ -6671,7 +6668,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					if ( getCompressedTextureFormats().indexOf( glFormat ) > -1 ) {
 
-						_gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
+                        _gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data.typedArray() );
 
 					} else {
 
@@ -6681,7 +6678,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data.typedArray() );
 
 				}
 
@@ -6698,7 +6695,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 					mipmap = mipmaps[ i ];
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
+					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap.texImage() );
 
 				}
 
@@ -6706,7 +6703,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
+				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 			}
 
@@ -6750,7 +6747,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			var canvas = image.resize( canvasWith, canvasHeight );
 
 
-            console.log( 'THREE.Canvas3DRenderer:', image, 'is too big (' + image.width + 'x' + image.height + '). Resized to ' + canvasWidth + 'x' + canvasHeight + '.' );
+			console.log( 'THREE.Canvas3DRenderer:', image, 'is too big (' + image.width + 'x' + image.height + '). Resized to ' + canvasWidth + 'x' + canvasHeight + '.' );
 
 			return canvas;
 
@@ -6930,6 +6927,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			renderTarget.addEventListener( 'dispose', onRenderTargetDispose );
 
 			renderTarget.__webglTexture = _gl.createTexture();
+            renderTarget.__webglTexture.name = "WebGLRenderTarget_Texture"+_this.info.memory.textures;
 
 			_this.info.memory.textures ++;
 
@@ -6950,7 +6948,9 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0; i < 6; i ++ ) {
 
 					renderTarget.__webglFramebuffer[ i ] = _gl.createFramebuffer();
+                    renderTarget.__webglFramebuffer[ i ].name = "WebGLRenderTarget_Framebuffer";
 					renderTarget.__webglRenderbuffer[ i ] = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer[ i ].name = "WebGLRenderTarget_Renderbuffer";
 
 					_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, renderTarget.width, renderTarget.height, 0, glFormat, glType, null );
 
@@ -6964,6 +6964,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			} else {
 
 				renderTarget.__webglFramebuffer = _gl.createFramebuffer();
+                renderTarget.__webglFramebuffer.name = "WebGLRenderTarget_Framebuffer";
 
 				if ( renderTarget.shareDepthFrom ) {
 
@@ -6972,6 +6973,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				} else {
 
 					renderTarget.__webglRenderbuffer = _gl.createRenderbuffer();
+                    renderTarget.__webglRenderbuffer.name = "WebGLRenderTarget_Renderbuffer";
 
 				}
 
@@ -7330,7 +7332,7 @@ if ( Math.sign === undefined ) {
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.button
 
-THREE.MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2 };
+THREE.MOUSE = { LEFT: Qt.LeftButton, MIDDLE: Qt.MiddleButton, RIGHT: Qt.RightButton };
 
 // GL STATE CONSTANTS
 
@@ -7704,7 +7706,7 @@ THREE.Color.prototype = {
 
 	getHex: function () {
 
-		return ( this.r * 255 ) << 16 ^ ( this.g * 255 ) << 8 ^ ( this.b * 255 ) << 0;
+        return Math.floor( this.r * 255 ) << 16 ^ Math.floor( this.g * 255 ) << 8 ^ Math.floor( this.b * 255 );
 
 	},
 
@@ -7761,7 +7763,11 @@ THREE.Color.prototype = {
 
 	getStyle: function () {
 
+<<<<<<< HEAD
 		return 'rgb(' + ( ( this.r * 255 ) | 0 ) + ',' + ( ( this.g * 255 ) | 0 ) + ',' + ( ( this.b * 255 ) | 0 ) + ')';
+=======
+        return 'rgb(' + ( Math.floor( this.r * 255 ) ) + ',' + ( Math.floor( this.g * 255 ) ) + ',' + ( Math.floor( this.b * 255 ) ) + ')';
+>>>>>>> master
 
 	},
 
@@ -13685,7 +13691,11 @@ THREE.Math = {
 
 				} else {
 
+<<<<<<< HEAD
                     if ( rnd <= 0x02 ) rnd = ~~(0x2000000 + ( Math.random() * 0x1000000 ));
+=======
+                    if ( rnd <= 0x02 ) rnd = Math.floor(0x2000000 + ( Math.random() * 0x1000000 ));
+>>>>>>> master
 					r = rnd & 0xf;
 					rnd = rnd >> 4;
 					uuid[ i ] = chars[ ( i == 19 ) ? ( r & 0x3 ) | 0x8 : r ];
@@ -13760,7 +13770,13 @@ THREE.Math = {
 
 	randInt: function ( low, high ) {
 
-		return low + Math.floor( Math.random() * ( high - low + 1 ) );
+        var rValue = Math.random() * ( high - low + 1 );
+        if (rValue > 0)
+            rValue = Math.floor(rValue);
+        else
+            rValue = Math.ceil(rValue);
+
+        return low + rValue;
 
 	},
 
@@ -14208,9 +14224,7 @@ THREE.Clock.prototype = {
 
 	start: function () {
 
-		this.startTime = self.performance !== undefined && self.performance.now !== undefined
-					 ? self.performance.now()
-					 : Date.now();
+        this.startTime = Date.now();
 
 		this.oldTime = this.startTime;
 		this.running = true;
@@ -14242,9 +14256,7 @@ THREE.Clock.prototype = {
 
 		if ( this.running ) {
 
-			var newTime = self.performance !== undefined && self.performance.now !== undefined
-					 ? self.performance.now()
-					 : Date.now();
+            var newTime = Date.now();
 
 			diff = 0.001 * ( newTime - this.oldTime );
 			this.oldTime = newTime;
@@ -18436,8 +18448,9 @@ THREE.Loader.prototype = {
 		}
 
 		function rgb2hex( rgb ) {
-
-			return ( rgb[ 0 ] * 255 << 16 ) + ( rgb[ 1 ] * 255 << 8 ) + rgb[ 2 ] * 255;
+            return ( ( Math.floor(rgb[ 0 ] * 255) << 16 ) +
+                     ( Math.floor(rgb[ 1 ] * 255) << 8  ) +
+                       Math.floor(rgb[ 2 ] * 255)         );
 
 		}
 
@@ -18905,7 +18918,7 @@ THREE.JSONLoader.prototype.load = function ( url, callback, texturePath ) {
 
 	// todo: unify load API to for easier SceneLoader use
 
-    texturePath = ( texturePath !== undefined ) && ( typeof texturePath === 'string' ) ? texturePath : "";
+	texturePath = texturePath && ( typeof texturePath === 'string' ) ? texturePath : this.extractUrlBase( url );
 
 	this.onLoadStart();
 	this.loadAjaxJSON( this, url, callback, texturePath );
@@ -25182,6 +25195,7 @@ THREE.WebGLProgram = ( function () {
 		//
 
 		var program = _gl.createProgram();
+        program.name = "Program_"+material.type;
 
 		var prefix_vertex, prefix_fragment;
 
@@ -25764,6 +25778,7 @@ THREE.LensFlarePlugin = function ( renderer, flares ) {
 		}
 
 		program = createProgram( shader );
+        program.name = "ShaderProgram_LensFlarePlugin";
 
 		attributes = {
 			vertex: gl.getAttribLocation ( program, "position" ),
@@ -26551,6 +26566,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 		gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, faces, gl.STATIC_DRAW );
 
 		program = createProgram();
+        program.name = "ShaderProgram_SpritePlugin";
 
 		attributes = {
 			position:			gl.getAttribLocation ( program, 'position' ),
@@ -26930,7 +26946,7 @@ THREE.ImageUtils = {
 	loadTexture: function ( url, mapping, onLoad, onError ) {
 
 		var loader = new THREE.ImageLoader();
-        //loader.crossOrigin = this.crossOrigin;
+		loader.crossOrigin = this.crossOrigin;
 
 		var texture = new THREE.Texture( undefined, mapping );
 
@@ -27037,7 +27053,7 @@ THREE.ImageUtils = {
 
 		var width = image.width;
 		var height = image.height;
-
+        // TODO: Make this work in Qt Quick
 		var canvas = document.createElement( 'canvas' );
 		canvas.width = width;
 		canvas.height = height;
@@ -27098,10 +27114,18 @@ THREE.ImageUtils = {
 
 				var idx = ( y * width + x ) * 4;
 
+<<<<<<< HEAD
                 output[ idx ] = ~~( ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) );
                 output[ idx + 1 ] = ~~( ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) );
                 output[ idx + 2 ] = ~~( ( normal[ 2 ] * 255 ) );
 				output[ idx + 3 ] = 255;
+=======
+                // TODO: This might not work on QtQuick
+                output[ idx ] = ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 1 ] = ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 2 ] = ( normal[ 2 ] * 255 ) | 0;
+                output[ idx + 3 ] = 255;
+>>>>>>> master
 
 			}
 
@@ -27254,7 +27278,7 @@ THREE.FontUtils = {
 
 		// RenderText
 
-		var i, p,
+        var i, p,
 			face = this.getFace(),
 			scale = this.size / face.resolution,
 			offset = 0,
@@ -27492,7 +27516,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 
 		var u, v, w;
 
-		if ( area( contour ) > 0.0 ) {
+        if ( THREE.FontUtils.area( contour ) > 0.0 ) {
 
 			for ( v = 0; v < n; v ++ ) verts[ v ] = v;
 
@@ -27532,7 +27556,7 @@ THREE.FontUtils.process = function ( contour, indices ) {
 			v = u + 1;  if ( nv <= v ) v = 0;     /* new v    */
 			w = v + 1;  if ( nv <= w ) w = 0;     /* next     */
 
-			if ( snip( contour, u, v, w, nv, verts ) ) {
+            if ( THREE.FontUtils.snip( contour, u, v, w, nv, verts ) ) {
 
 				var a, b, c, s, t;
 
@@ -27652,8 +27676,8 @@ THREE.FontUtils.Triangulate.area = THREE.FontUtils.area;
 //} )( THREE.FontUtils );
 
 // To use the typeface.js face files, hook up the API
-//self._typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
-//THREE.typeface_js = self._typeface_js;
+var _typeface_js = { faces: THREE.FontUtils.faces, loadFace: THREE.FontUtils.loadFace };
+THREE.typeface_js = _typeface_js;
 
 // File:src/extras/audio/Audio.js
 
@@ -28468,7 +28492,7 @@ THREE.Gyroscope = function () {
 
 THREE.Gyroscope.prototype = Object.create( THREE.Object3D.prototype );
 
-THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
+THREE.Gyroscope.prototype.updateMatrixWorld = function () {
 
 	var translationObject = new THREE.Vector3();
 	var quaternionObject = new THREE.Quaternion();
@@ -28480,7 +28504,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
 
 	return function ( force ) {
 
-		this.matrixAutoUpdate && this.updateMatrix();
+        if (this.matrixAutoUpdate) this.updateMatrix();
 
 		// update matrixWorld
 
@@ -28519,7 +28543,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = ( function () {
 
 	};
 	
-}() );
+}();
 
 // File:src/extras/core/Path.js
 

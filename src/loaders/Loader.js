@@ -193,8 +193,9 @@ THREE.Loader.prototype = {
 		}
 
 		function rgb2hex( rgb ) {
-
-			return ( rgb[ 0 ] * 255 << 16 ) + ( rgb[ 1 ] * 255 << 8 ) + rgb[ 2 ] * 255;
+            return ( ( Math.floor(rgb[ 0 ] * 255) << 16 ) +
+                     ( Math.floor(rgb[ 1 ] * 255) << 8  ) +
+                       Math.floor(rgb[ 2 ] * 255)         );
 
 		}
 

@@ -9,6 +9,8 @@ Item {
     width: 1280
     height: 768
     visible: true
+    logAllCalls: false
+    logAllErrors: false
 
     Button {
         id: orthoButton

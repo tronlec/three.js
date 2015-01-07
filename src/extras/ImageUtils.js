@@ -11,7 +11,7 @@ THREE.ImageUtils = {
 	loadTexture: function ( url, mapping, onLoad, onError ) {
 
 		var loader = new THREE.ImageLoader();
-        //loader.crossOrigin = this.crossOrigin;
+		loader.crossOrigin = this.crossOrigin;
 
 		var texture = new THREE.Texture( undefined, mapping );
 
@@ -118,7 +118,7 @@ THREE.ImageUtils = {
 
 		var width = image.width;
 		var height = image.height;
-
+        // TODO: Make this work in Qt Quick
 		var canvas = document.createElement( 'canvas' );
 		canvas.width = width;
 		canvas.height = height;
@@ -179,10 +179,11 @@ THREE.ImageUtils = {
 
 				var idx = ( y * width + x ) * 4;
 
-                output[ idx ] = ~~( ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) );
-                output[ idx + 1 ] = ~~( ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) );
-                output[ idx + 2 ] = ~~( ( normal[ 2 ] * 255 ) );
-				output[ idx + 3 ] = 255;
+                // TODO: This might not work on QtQuick
+                output[ idx ] = ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 1 ] = ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) | 0;
+                output[ idx + 2 ] = ( normal[ 2 ] * 255 ) | 0;
+                output[ idx + 3 ] = 255;
 
 			}
 

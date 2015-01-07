@@ -1,6 +1,11 @@
 TEMPLATE = subdirs
 
-SUBDIRS += interactive-cubes \
+SUBDIRS += animation-cloth \
+           buffergeometry \
+           camera \
+           geometry-text \
            interactive-draggablecubes \
            materials \
-           webgl-camera
+           materials-normalmap2 \
+           particles-billboards-colors
+

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="SubdivisionModifier.js">../../examples/js/modifiers/SubdivisionModifier.js</file>
+        <file alias="obj/WaltHeadLo.js">../../examples/obj/WaltHeadLo.js</file>
+        <file alias="obj/Suzanne.js">../../examples/obj/Suzanne.js</file>
+        <file>geometry-subdivision.js</file>
+        <file>geometry-subdivision.qml</file>
+        <file alias="OrbitControls.js">../js/controls/OrbitControls.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="helvetiker_regular.typeface.js">../../examples/fonts/helvetiker_regular.typeface.js</file>
+    </qresource>
+</RCC>

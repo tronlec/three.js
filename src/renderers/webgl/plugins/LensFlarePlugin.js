@@ -246,6 +246,7 @@ THREE.LensFlarePlugin = function ( renderer, flares ) {
 		}
 
 		program = createProgram( shader );
+        program.name = "ShaderProgram_LensFlarePlugin";
 
 		attributes = {
 			vertex: gl.getAttribLocation ( program, "position" ),

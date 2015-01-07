@@ -3,7 +3,7 @@
 Qt.include("three.js")
 Qt.include("TrackballControls.js")
 
-var camera, controls, scene, renderer;
+var camera, controls, scene, renderer, eventSourceArea;
 var objects = [], plane;
 
 var mouse = new THREE.Vector2(),
@@ -15,13 +15,13 @@ function log(message) {
         console.log(message)
 }
 
-function initGL(canvas, mouseArea) {
+function initGL(canvas, eventSource) {
     log("initGL ENTER...");
-
+    eventSourceArea = eventSource;
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 1, 10000 );
     camera.position.z = 1000;
 
-    controls = new THREE.TrackballControls( camera, canvas, mouseArea );
+    controls = new THREE.TrackballControls( camera, eventSource );
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
     controls.panSpeed = 0.8;
@@ -95,9 +95,9 @@ function initGL(canvas, mouseArea) {
     renderer.shadowMapEnabled = true;
     renderer.shadowMapType = THREE.PCFShadowMap;
 
-    mouseArea.mouseMove.connect(onDocumentMouseMove);
-    mouseArea.mouseDown.connect(onDocumentMouseDown);
-    mouseArea.mouseUp.connect(onDocumentMouseUp);
+    eventSource.mouseMove.connect(onDocumentMouseMove);
+    eventSource.mouseDown.connect(onDocumentMouseDown);
+    eventSource.mouseUp.connect(onDocumentMouseUp);
 }
 
 function onCanvasResize(canvas) {
@@ -110,10 +110,10 @@ function onCanvasResize(canvas) {
     renderer.setSize( canvas.width, canvas.height );
 }
 
-function onDocumentMouseMove( mouseArea, canvas, x, y ) {
+function onDocumentMouseMove( x, y ) {
 
-    mouse.x = ( x / canvas.width ) * 2 - 1;
-    mouse.y = - ( y / canvas.height ) * 2 + 1;
+    mouse.x = ( x / eventSourceArea.width ) * 2 - 1;
+    mouse.y = - ( y / eventSourceArea.height ) * 2 + 1;
 
     var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 ).unproject( camera );
 
@@ -128,7 +128,7 @@ function onDocumentMouseMove( mouseArea, canvas, x, y ) {
     var intersects = raycaster.intersectObjects( objects );
 
     if ( intersects.length > 0 ) {
-        if ( INTERSECTED !== intersects[ 0 ].object ) {
+        if ( INTERSECTED != intersects[ 0 ].object ) {
             if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
             INTERSECTED = intersects[ 0 ].object;
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
@@ -136,15 +136,15 @@ function onDocumentMouseMove( mouseArea, canvas, x, y ) {
             plane.lookAt( camera.position );
         }
 
-        mouseArea.cursorShape = Qt.OpenHandCursor;
+        eventSourceArea.cursorShape = Qt.OpenHandCursor;
     } else {
         if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
         INTERSECTED = null;
-        mouseArea.cursorShape = Qt.ArrowCursor;
+        eventSourceArea.cursorShape = Qt.ArrowCursor;
     }
 }
 
-function onDocumentMouseDown( mouseArea, canvas, x, y ) {
+function onDocumentMouseDown( x, y, buttons ) {
     var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 ).unproject( camera );
 
     var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
@@ -160,11 +160,11 @@ function onDocumentMouseDown( mouseArea, canvas, x, y ) {
         var intersects = raycaster.intersectObject( plane );
         offset.copy( intersects[ 0 ].point ).sub( plane.position );
 
-        mouseArea.cursorShape = Qt.ClosedHandCursor;
+        eventSourceArea.cursorShape = Qt.ClosedHandCursor;
     }
 }
 
-function onDocumentMouseUp( mouseArea, canvas, x, y ) {
+function onDocumentMouseUp( x, y ) {
 
     controls.enabled = true;
 
@@ -176,7 +176,7 @@ function onDocumentMouseUp( mouseArea, canvas, x, y ) {
 
     }
 
-    mouseArea.cursorShape = Qt.ArrowCursor;
+    eventSourceArea.cursorShape = Qt.ArrowCursor;
 }
 
 function renderGL(canvas) {

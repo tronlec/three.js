@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file alias="three.js">../../build/three.js</file>
+        <file alias="TrackballControls.js">../js/controls/TrackballControls.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
         <file>interactive-draggablecubes.qml</file>
         <file>interactive-draggablecubes.js</file>
-        <file>TrackballControls.js</file>
     </qresource>
 </RCC>

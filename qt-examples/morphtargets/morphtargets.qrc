@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file>morphtargets.js</file>
+        <file>morphtargets.qml</file>
+    </qresource>
+</RCC>

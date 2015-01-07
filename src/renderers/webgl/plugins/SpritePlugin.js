@@ -36,6 +36,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 		gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, faces, gl.STATIC_DRAW );
 
 		program = createProgram();
+        program.name = "ShaderProgram_SpritePlugin";
 
 		attributes = {
 			position:			gl.getAttribLocation ( program, 'position' ),
