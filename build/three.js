@@ -7763,11 +7763,7 @@ THREE.Color.prototype = {
 
 	getStyle: function () {
 
-<<<<<<< HEAD
-		return 'rgb(' + ( ( this.r * 255 ) | 0 ) + ',' + ( ( this.g * 255 ) | 0 ) + ',' + ( ( this.b * 255 ) | 0 ) + ')';
-=======
         return 'rgb(' + ( Math.floor( this.r * 255 ) ) + ',' + ( Math.floor( this.g * 255 ) ) + ',' + ( Math.floor( this.b * 255 ) ) + ')';
->>>>>>> master
 
 	},
 
@@ -13691,11 +13687,7 @@ THREE.Math = {
 
 				} else {
 
-<<<<<<< HEAD
-                    if ( rnd <= 0x02 ) rnd = ~~(0x2000000 + ( Math.random() * 0x1000000 ));
-=======
                     if ( rnd <= 0x02 ) rnd = Math.floor(0x2000000 + ( Math.random() * 0x1000000 ));
->>>>>>> master
 					r = rnd & 0xf;
 					rnd = rnd >> 4;
 					uuid[ i ] = chars[ ( i == 19 ) ? ( r & 0x3 ) | 0x8 : r ];
@@ -27114,18 +27106,11 @@ THREE.ImageUtils = {
 
 				var idx = ( y * width + x ) * 4;
 
-<<<<<<< HEAD
-                output[ idx ] = ~~( ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) );
-                output[ idx + 1 ] = ~~( ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) );
-                output[ idx + 2 ] = ~~( ( normal[ 2 ] * 255 ) );
-				output[ idx + 3 ] = 255;
-=======
                 // TODO: This might not work on QtQuick
                 output[ idx ] = ( ( normal[ 0 ] + 1.0 ) / 2.0 * 255 ) | 0;
                 output[ idx + 1 ] = ( ( normal[ 1 ] + 1.0 ) / 2.0 * 255 ) | 0;
                 output[ idx + 2 ] = ( normal[ 2 ] * 255 ) | 0;
                 output[ idx + 3 ] = 255;
->>>>>>> master
 
 			}
 

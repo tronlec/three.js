@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file alias="three.js">../../build/three.js</file>
-        <file>interactive-cubes.qml</file>
-        <file>interactive-cubes.js</file>
-    </qresource>
-</RCC>
