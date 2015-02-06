@@ -14,7 +14,7 @@ Item {
         anchors.fill: parent
         focus: true
         logAllCalls: false
-        logAllErrors: false
+        logAllErrors: true
 
         // Emitted when one time initializations should happen
         onInitGL: {

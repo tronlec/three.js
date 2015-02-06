@@ -8,7 +8,6 @@ var particlesCanvas;
 
 var mouseX = 0, mouseY = 0;
 
-
 function log(message) {
     if (canvas3d.logAllCalls)
         console.log(message)

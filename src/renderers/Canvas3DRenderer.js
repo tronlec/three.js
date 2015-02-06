@@ -220,19 +220,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	}
 
-	if ( _gl.getShaderPrecisionFormat === undefined ) {
+//	if ( _gl.getShaderPrecisionFormat === undefined ) {
 
-		_gl.getShaderPrecisionFormat = function () {
+//		_gl.getShaderPrecisionFormat = function () {
 
-			return {
-				'rangeMin': 1,
-				'rangeMax': 1,
-				'precision': 1
-			};
+//			return {
+//				'rangeMin': 1,
+//				'rangeMax': 1,
+//				'precision': 1
+//			};
 
-		}
+//		}
 
-	}
+//	}
 
 	var extensions = new THREE.WebGLExtensions( _gl );
 
@@ -4987,56 +4987,56 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				case '1iv':
                     if (value instanceof Array)
-                        _gl.uniform1iva( location, value );
+                        _gl.uniform1iv( location, value );
                     else
                         _gl.uniform1iv( location, value.typedArray() );
 					break;
 
 				case '3iv':
                     if (value instanceof Array)
-                        _gl.uniform3iva( location, value );
+                        _gl.uniform3iv( location, value );
                     else
                         _gl.uniform3iv( location, value.typedArray() );
 					break;
 
 				case '1fv':
                     if (value instanceof Array)
-                        _gl.uniform1fva( location, value );
+                        _gl.uniform1fv( location, value );
                     else
                         _gl.uniform1fv( location, value.typedArray() );
 					break;
 
 				case '2fv':
                     if (value instanceof Array)
-                        _gl.uniform2fva( location, value );
+                        _gl.uniform2fv( location, value );
                     else
                         _gl.uniform2fv( location, value.typedArray() );
                     break;
 
 				case '3fv':
                     if (value instanceof Array)
-                        _gl.uniform3fva( location, value );
+                        _gl.uniform3fv( location, value );
                     else
                         _gl.uniform3fv( location, value.typedArray() );
 					break;
 
 				case '4fv':
                     if (value instanceof Array)
-                        _gl.uniform4fva( location, value );
+                        _gl.uniform4fv( location, value );
                     else
                         _gl.uniform4fv( location, value.typedArray() );
 					break;
 
 				case 'Matrix3fv':
                     if (value instanceof Array)
-                        _gl.uniformMatrix3fva( location, false, value );
+                        _gl.uniformMatrix4fv( location, false, value );
                     else
                         _gl.uniformMatrix3fv( location, false, value.typedArray() );
 					break;
 
 				case 'Matrix4fv':
                     if (value instanceof Array)
-                        _gl.uniformMatrix4fva( location, false, value );
+                        _gl.uniformMatrix4fv( location, false, value );
                     else
                         _gl.uniformMatrix4fv( location, false, value.typedArray() );
 					break;
@@ -5089,7 +5089,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					// flat array of integers (JS or typed array)
                     if (value instanceof Array)
-                        _gl.uniform1iva( location, value );
+                        _gl.uniform1iv( location, value );
                     else
                         _gl.uniform1iv( location, value.typedArray() );
 
@@ -5099,7 +5099,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					// flat array of integers with 3 x N size (JS or typed array)
                     if (value instanceof Array)
-                        _gl.uniform3iva( location, value );
+                        _gl.uniform3iv( location, value );
                     else
                         _gl.uniform3iv( location, value.typedArray() );
 
@@ -5109,7 +5109,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					// flat array of floats (JS or typed array)
                     if (value instanceof Array)
-                        _gl.uniform1fva( location, value );
+                        _gl.uniform1fv( location, value );
                     else
                         _gl.uniform1fv( location, value.typedArray() );
 
@@ -5119,7 +5119,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					// flat array of floats with 3 x N size (JS or typed array)
                     if (value instanceof Array)
-                        _gl.uniform3fva( location, value );
+                        _gl.uniform3fv( location, value );
                     else
                         _gl.uniform3fv( location, value.typedArray() );
 
@@ -5295,7 +5295,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform1iva( location, uniform._array );
+                    _gl.uniform1iv( location, uniform._array );
 
 					for ( var i = 0, il = uniform.value.length; i < il; i ++ ) {
 
