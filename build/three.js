@@ -1,10 +1,3 @@
-// File:src/qml/ThreeQML.js
-
-/**
- * three.js QML port by
- * @author Pasi keränen / pasi.keranen@digia.com
- */
-
 // File:src/qml/TypedArrayWrappers.js
 
 //Uint8ClampedArray
@@ -611,6 +604,13 @@ Uint8ClampedArray.prototype = {
     }
 }
 
+// File:src/qml/ThreeQML.js
+
+/**
+ * three.js QML port by
+ * @author Pasi keränen / pasi.keranen@theqtcompany.com
+ */
+
 // File:src/qml/QmlImageElement.js
 
 var __texImageToImageMap = {};
@@ -766,7 +766,7 @@ function HtmlDiv() {
 
 
 
-// File:src/renderers/Canvas3DRenderer.js
+// File:src/qml/Canvas3DRenderer_5_4.js
 
 /**
  * @author supereggbert / http://www.paulbrunt.co.uk/
@@ -26518,7 +26518,7 @@ THREE.ShadowMapPlugin = function ( _renderer, _lights, _webglObjects, _webglObje
 
 };
 
-// File:src/renderers/webgl/plugins/SpritePlugin.js
+// File:src/qml/SpritePlugin_5_4.js
 
 /**
  * @author mikael emtinger / http://gomo.se/

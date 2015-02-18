@@ -9,8 +9,6 @@ Item {
     width: 1280
     height: 768
     visible: true
-    logAllCalls: false
-    logAllErrors: false
 
     Button {
         id: orthoButton
@@ -37,6 +35,8 @@ Item {
         anchors.top: orthoButton.bottom
         anchors.bottom: parent.bottom
         focus: true
+        logAllCalls: false
+        logAllErrors: false
 
         // Emitted when one time initializations should happen
         onInitGL: {
