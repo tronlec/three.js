@@ -13,8 +13,6 @@ Item {
         id: canvas3d
         anchors.fill: parent
         focus: true
-        logAllCalls: false
-        logAllErrors: true
 
         // Emitted when one time initializations should happen
         onInitGL: {
