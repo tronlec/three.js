@@ -4,7 +4,7 @@ three.js
 
 This branch of the three.js includes changes and a new Canvas3DRenderer that allows it to run inside the QtQuick JavaScript environment and use the QtCanvas3D module for rendering. See https://qt.gitorious.org/qt/qtcanvas3d 
 
-The ready built libraries are meant to be used with Qt 5.4.1 and the Canvas3D Technology Preview 2. To build three.js that works with Qt 5.5 dev branch you need to use the utils/build/build_qt_5_5.sh script to build a new library that drops the unneeded TypedArray wrappers and includes the correct version of Canvas3DRenderer for Qt 5.5 that matches the new API.
+The ready built libraries are meant to be used with Qt 5.5 that contains the Canvas3D and necessary changes to the QtQuick JavaScript engine (support for TypedArrays etc.). To build three.js that works with Qt 5.4 dev branch you need to use the utils/build/build_qt_5_4.sh script to build a new library that includes the TypedArray wrappers and includes the correct version of Canvas3DRenderer for Qt 5.4 that matches the Canvas3D Technology Preview 2 API.
 
 #### JavaScript 3D library ####
 
@@ -13,27 +13,53 @@ The aim of the project is to create a lightweight 3D library with a very low lev
 [Examples](http://threejs.org/) — [Documentation](http://threejs.org/docs/) — [Migrating](https://github.com/mrdoob/three.js/wiki/Migration) — [Help](http://stackoverflow.com/questions/tagged/three.js)
 
 
-### Usage ###
+### Usage with Qt Canvas3D ###
 
-Download the [minified library](http://threejs.org/build/three.min.js) and include it in your html.
-Alternatively see [how to build the library yourself](https://github.com/mrdoob/three.js/wiki/build.py,-or-how-to-generate-a-compressed-Three.js-file).
+Download the [library](https://github.com/tronlec/three.js/blob/master/build/three.js) and include it in your project's resource (.qrc) file along with the code that uses three.js, then include the three.js library to the JavaScript file that will use it.
 
-```html
-<script src="js/three.min.js"></script>
+This QML code adds the Canvas3D as the only component to the QtQuick scene.
+
+```QML
+import QtQuick 2.0
+import QtCanvas3D 1.0
+import QtQuick.Controls 1.2
+
+import "code.js" as GLCode
+
+Item {
+    id: mainview
+    width: 1280
+    height: 768
+    visible: true
+
+    Canvas3D {
+        id: canvas3d
+        anchors.fill: parent
+
+        // Emitted when one time initializations should happen
+        onInitGL: {
+            GLCode.initGL(canvas3d);
+        }
+
+        // Emitted each time Canvas3D is ready for a new frame
+        onRenderGL: {
+            GLCode.renderGL(canvas3d);
+        }
+    }
+}
 ```
 
-This code creates a scene, then creates a camera, adds the camera and cube to the scene, creates a &lt;canvas&gt; renderer and adds its viewport in the document.body element.
+
+This code creates a scene, then creates a camera, adds the camera and cube to the scene, creates a &lt;Canvas3D&gt; renderer.
 
 ```html
 <script>
+	Qt.include("three.js")
 
 	var camera, scene, renderer;
 	var geometry, material, mesh;
 
-	init();
-	animate();
-
-	function init() {
+	function initGL(canvas) {
 
 		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
 		camera.position.z = 1000;
@@ -46,17 +72,14 @@ This code creates a scene, then creates a camera, adds the camera and cube to th
 		mesh = new THREE.Mesh( geometry, material );
 		scene.add( mesh );
 
-		renderer = new THREE.CanvasRenderer();
+		renderer = new THREE.Canvas3DRenderer( {canvas: canvas, devicePixelRatio: canvas.devicePixelRatio});
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 		document.body.appendChild( renderer.domElement );
 
 	}
 
-	function animate() {
-
-		// note: three.js includes requestAnimationFrame shim
-		requestAnimationFrame( animate );
+	function renderGL(canvas) {
 
 		mesh.rotation.x += 0.01;
 		mesh.rotation.y += 0.02;
@@ -69,6 +92,4 @@ This code creates a scene, then creates a camera, adds the camera and cube to th
 ```
 If everything went well you should see [this](http://jsfiddle.net/Gy4w7/).
 
-### Change log ###
-
-[releases](https://github.com/mrdoob/three.js/releases)
+For more examples on how to port content from HTML to run inside Qt Quick, see the /qt-examples folder that includes some of the three.js examples ported over to Qt Quick.

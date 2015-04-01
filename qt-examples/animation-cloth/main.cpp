@@ -8,13 +8,6 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    // Turns on all logging of Canvas3D
-    QString loggingFilter = QString("qt.canvas3d.info.debug=true\n");
-    loggingFilter += QStringLiteral("qt.canvas3d.rendering.debug=true\n")
-            + QStringLiteral("qt.canvas3d.rendering.warning=true\n")
-            + QStringLiteral("qt.canvas3d.glerrors.debug=true");
-    QLoggingCategory::setFilterRules(loggingFilter);
-
     QQuickView viewer;
 
     // The following are needed to make examples run without having to install the module

@@ -79,7 +79,6 @@ function initGL(canvas) {
 
     //
 
-
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setSize( canvas.width, canvas.height );

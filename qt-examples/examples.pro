@@ -6,6 +6,5 @@ SUBDIRS += animation-cloth \
            geometry-text \
            interactive-draggablecubes \
            materials \
-           materials-normalmap2 \
            particles-billboards-colors
 

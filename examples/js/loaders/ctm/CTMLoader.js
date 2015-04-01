@@ -15,6 +15,7 @@ THREE.CTMLoader = function ( showStatus ) {
 };
 
 THREE.CTMLoader.prototype = Object.create( THREE.Loader.prototype );
+THREE.CTMLoader.prototype.constructor = THREE.CTMLoader;
 
 // Load multiple CTM parts defined in JSON
 
@@ -125,7 +126,7 @@ THREE.CTMLoader.prototype.load = function( url, callback, parameters ) {
 							scope.createModel( ctmFile, callback );
 
 							var e = Date.now();
-							console.log( "model load time [worker]: " + (e-e1) + " ms, total: " + (e-s));
+							console.log( "model load time [worker]: " + (e - e1) + " ms, total: " + (e - s));
 
 						}
 
@@ -242,6 +243,7 @@ THREE.CTMLoader.prototype.createModel = function ( file, callback ) {
 	}
 
 	Model.prototype = Object.create( THREE.BufferGeometry.prototype );
+	Model.prototype.constructor = Model;
 
 	var geometry = new Model();
 

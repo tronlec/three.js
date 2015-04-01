@@ -9,6 +9,7 @@ THREE.Gyroscope = function () {
 };
 
 THREE.Gyroscope.prototype = Object.create( THREE.Object3D.prototype );
+THREE.Gyroscope.prototype.constructor = THREE.Gyroscope;
 
 THREE.Gyroscope.prototype.updateMatrixWorld = function () {
 
@@ -22,7 +23,7 @@ THREE.Gyroscope.prototype.updateMatrixWorld = function () {
 
 	return function ( force ) {
 
-        if (this.matrixAutoUpdate) this.updateMatrix();
+		this.matrixAutoUpdate && this.updateMatrix();
 
 		// update matrixWorld
 

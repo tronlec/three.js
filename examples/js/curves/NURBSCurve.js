@@ -18,7 +18,7 @@ THREE.NURBSCurve = function ( degree, knots /* array of reals */, controlPoints 
 	this.degree = degree;
 	this.knots = knots;
 	this.controlPoints = [];
-	for (var i = 0; i < controlPoints.length; ++i) { // ensure Vector4 for control points
+	for (var i = 0; i < controlPoints.length; ++ i) { // ensure Vector4 for control points
 		var point = controlPoints[i];
 		this.controlPoints[i] = new THREE.Vector4(point.x, point.y, point.z, point.w);
 	}
@@ -27,6 +27,7 @@ THREE.NURBSCurve = function ( degree, knots /* array of reals */, controlPoints 
 
 
 THREE.NURBSCurve.prototype = Object.create( THREE.Curve.prototype );
+THREE.NURBSCurve.prototype.constructor = THREE.NURBSCurve;
 
 
 THREE.NURBSCurve.prototype.getPoint = function ( t ) {

@@ -8,10 +8,11 @@ THREE.MultiVector3 = function(links) {
 }
 
 THREE.MultiVector3.prototype = Object.create( THREE.Vector3.prototype );
+THREE.MultiVector3.prototype.constructor = THREE.MultiVector3;
 
 THREE.MultiVector3.prototype.setAll = function(axis, value) {
 
-	for (var i = 0, l = this.links.length; i < l; i++) {
+	for (var i = 0, l = this.links.length; i < l; i ++) {
 
 		this.links[i][axis] = value;
 

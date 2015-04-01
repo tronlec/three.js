@@ -46,7 +46,7 @@
 
 		<h2>Methods</h2>
 
-		<h3>[method:todo getMorphTargetIndexByName]( [page:String name] )</h3>
+		<h3>[method:Integer getMorphTargetIndexByName]( [page:String name] )</h3>
 		<div>
 		name — a morph target name<br />
 		</div>
@@ -55,10 +55,16 @@
 		</div>
 
 
-		<h3>[method:todo updateMorphTargets]()</h3>
+		<h3>[method:null updateMorphTargets]()</h3>
 		<div>
 		Updates the morphtargets to have no influence on the object.
 		</div>
+
+		<h3>[method:Array raycast]([page:Raycaster raycaster], [page:Array intersects])</h3>
+		<div>
+		Get intersections between a casted ray and this mesh. [page:Raycaster.intersectObject] will call this method.
+		</div>
+
 
 		<h2>Source</h2>
 

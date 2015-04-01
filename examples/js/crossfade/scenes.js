@@ -1,14 +1,14 @@
 function generateGeometry(objectType, numObjects) {
 
 	var geometry = new THREE.Geometry();
-	
+
 	function applyVertexColors( g, c ) {
 
 		g.faces.forEach( function( f ) {
 
 			var n = ( f instanceof THREE.Face3 ) ? 3 : 4;
 
-			for( var j = 0; j < n; j ++ ) {
+			for ( var j = 0; j < n; j ++ ) {
 
 				f.vertexColors[ j ] = c;
 
@@ -19,7 +19,7 @@ function generateGeometry(objectType, numObjects) {
 	}
 
 	for ( var i = 0; i < numObjects; i ++ ) {
-	
+
 		var position = new THREE.Vector3();
 
 		position.x = Math.random() * 10000 - 5000;
@@ -43,15 +43,15 @@ function generateGeometry(objectType, numObjects) {
 			geom = new THREE.BoxGeometry( 1, 1, 1 );
 			scale.y = Math.random() * 200 + 100;
 			scale.z = Math.random() * 200 + 100;
-			color.setRGB( 0, 0, Math.random()+0.1 );
+			color.setRGB( 0, 0, Math.random() + 0.1 );
 		}
 		else if ( objectType == "sphere" )
 		{
 			geom = new THREE.IcosahedronGeometry( 1, 1 )
 			scale.y = scale.z = scale.x;
-			color.setRGB( Math.random()+0.1, 0, 0 );
+			color.setRGB( Math.random() + 0.1, 0, 0 );
 		}
-		
+
 		// give the geom's vertices a random color, to be displayed
 		applyVertexColors( geom, color );
 
@@ -70,12 +70,12 @@ function generateGeometry(objectType, numObjects) {
 }
 
 function Scene ( type, numObjects, cameraZ, fov, rotationSpeed, clearColor ) {
-	
+
 	this.clearColor = clearColor;
-	
+
 	this.camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 1, 10000 );
 	this.camera.position.z = cameraZ;
-	
+
 	// Setup scene
 	this.scene = new THREE.Scene();
 	this.scene.add( new THREE.AmbientLight( 0x555555 ) );
@@ -91,19 +91,19 @@ function Scene ( type, numObjects, cameraZ, fov, rotationSpeed, clearColor ) {
 
 	renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
 	this.fbo = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, renderTargetParameters );
-	
+
 	this.render = function( delta, rtt ) {
-		
-		this.mesh.rotation.x += delta*this.rotationSpeed.x;
-		this.mesh.rotation.y += delta*this.rotationSpeed.y;
-		this.mesh.rotation.z += delta*this.rotationSpeed.z;
-		
-		renderer.setClearColor( this.clearColor, 1 );
-		
+
+		this.mesh.rotation.x += delta * this.rotationSpeed.x;
+		this.mesh.rotation.y += delta * this.rotationSpeed.y;
+		this.mesh.rotation.z += delta * this.rotationSpeed.z;
+
+		renderer.setClearColor( this.clearColor );
+
 		if (rtt)
 			renderer.render( this.scene, this.camera, this.fbo, true );
 		else
 			renderer.render( this.scene, this.camera );
-		
+
 	};
 }

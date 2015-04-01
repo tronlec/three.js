@@ -50,7 +50,7 @@
 			var NEAR = 1;
 			var FAR = 500;
 
-			var camera, scane, renderer;
+			var camera, scene, renderer;
 
 			var cameraControls;
 
@@ -61,6 +61,7 @@
 
 				// renderer
 				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( WIDTH, HEIGHT );
 
 				// scene
@@ -85,7 +86,7 @@
 
 				var planeGeo = new THREE.PlaneBufferGeometry( 100.1, 100.1 );
 				
-				// MIRORR planes
+				// MIRROR planes
 				groundMirror = new THREE.Mirror( renderer, camera, { clipBias: 0.003, textureWidth: WIDTH, textureHeight: HEIGHT, color: 0x777777 } );
 				
 				var mirrorMesh = new THREE.Mesh( planeGeo, groundMirror.material );

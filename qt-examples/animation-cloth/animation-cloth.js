@@ -133,7 +133,7 @@ function initGL(canvas) {
 
     // cloth material
 
-    var clothTexture = THREE.ImageUtils.loadTexture( 'textures/patterns/circuit_pattern.png' );
+    var clothTexture = THREE.ImageUtils.loadTexture( 'qrc:/textures/patterns/circuit_pattern.png' );
     clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping;
     clothTexture.anisotropy = 16;
 
@@ -171,7 +171,7 @@ function initGL(canvas) {
 
     // ground
 
-    var groundTexture = THREE.ImageUtils.loadTexture( "textures/terrain/grasslight-big.jpg" );
+    var groundTexture = THREE.ImageUtils.loadTexture( "qrc:/textures/terrain/grasslight-big.jpg" );
     groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
     groundTexture.repeat.set( 25, 25 );
     groundTexture.anisotropy = 16;
@@ -235,7 +235,7 @@ function initGL(canvas) {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
 
-    renderer.shadowMapEnabled = true; // Should be true, change when problem is fixed
+    renderer.shadowMapEnabled = true;
 
 }
 

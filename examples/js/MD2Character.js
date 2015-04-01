@@ -183,7 +183,7 @@ THREE.MD2Character = function () {
 
 	function loadTextures( baseUrl, textureUrls ) {
 
-		var mapping = new THREE.UVMapping();
+		var mapping = THREE.UVMapping;
 		var textures = [];
 
 		for ( var i = 0; i < textureUrls.length; i ++ ) {
@@ -210,7 +210,7 @@ THREE.MD2Character = function () {
 		//
 
 		var mesh = new THREE.MorphAnimMesh( geometry, materialTexture );
-		mesh.rotation.y = -Math.PI/2;
+		mesh.rotation.y = -Math.PI / 2;
 
 		mesh.castShadow = true;
 		mesh.receiveShadow = true;

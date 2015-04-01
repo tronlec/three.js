@@ -102,6 +102,8 @@ THREE.Ray.prototype = {
 		// - The closest point on the ray
 		// - The closest point on the segment
 
+//		return function ( v0, v1, optionalPointOnRay, optionalPointOnSegment ) {
+
 		var segCenter = v0.clone().add( v1 ).multiplyScalar( 0.5 );
 		var segDir = v1.clone().sub( v0 ).normalize();
 		var segExtent = v0.distanceTo( v1 ) * 0.5;
@@ -335,7 +337,7 @@ THREE.Ray.prototype = {
 
 	}(),
 
-	intersectBox: function ( box , optionalTarget ) {
+	intersectBox: function ( box, optionalTarget ) {
 
 		// http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-7-intersecting-simple-shapes/ray-box-intersection/
 

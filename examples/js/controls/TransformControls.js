@@ -30,8 +30,8 @@
 
 			} else {
 
-					this.color.copy( this.oldColor );
-					this.opacity = this.oldOpacity;
+				this.color.copy( this.oldColor );
+				this.opacity = this.oldOpacity;
 
 			}
 
@@ -40,6 +40,7 @@
 	};
 
 	GizmoMaterial.prototype = Object.create( THREE.MeshBasicMaterial.prototype );
+	GizmoMaterial.prototype.constructor = GizmoMaterial;
 
 	var GizmoLineMaterial = function ( parameters ) {
 
@@ -64,8 +65,8 @@
 
 			} else {
 
-					this.color.copy( this.oldColor );
-					this.opacity = this.oldOpacity;
+				this.color.copy( this.oldColor );
+				this.opacity = this.oldOpacity;
 
 			}
 
@@ -74,6 +75,7 @@
 	};
 
 	GizmoLineMaterial.prototype = Object.create( THREE.LineBasicMaterial.prototype );
+	GizmoLineMaterial.prototype.constructor = GizmoLineMaterial;
 
 	THREE.TransformGizmo = function () {
 
@@ -95,7 +97,7 @@
 
 			//// PLANES
 
-			var planeGeometry = new THREE.PlaneGeometry( 50, 50, 2, 2 );
+			var planeGeometry = new THREE.PlaneBufferGeometry( 50, 50, 2, 2 );
 			var planeMaterial = new THREE.MeshBasicMaterial( { wireframe: true } );
 			planeMaterial.side = THREE.DoubleSide;
 
@@ -108,8 +110,8 @@
 
 			this.activePlane = planes["XYZE"];
 
-			planes["YZ"].rotation.set( 0, Math.PI/2, 0 );
-			planes["XZ"].rotation.set( -Math.PI/2, 0, 0 );
+			planes["YZ"].rotation.set( 0, Math.PI / 2, 0 );
+			planes["XZ"].rotation.set( -Math.PI / 2, 0, 0 );
 
 			for (var i in planes) {
 				planes[i].name = i;
@@ -124,7 +126,7 @@
 
 				for ( var name in gizmoMap ) {
 
-					for ( i = gizmoMap[name].length; i--;) {
+					for ( i = gizmoMap[name].length; i --;) {
 
 						var object = gizmoMap[name][i][0];
 						var position = gizmoMap[name][i][1];
@@ -152,10 +154,10 @@
 				if (child instanceof THREE.Mesh) {
 					child.updateMatrix();
 
-					var tempGeometry = new THREE.Geometry();
-					tempGeometry.merge( child.geometry, child.matrix );
-
+					var tempGeometry = child.geometry.clone();
+					tempGeometry.applyMatrix( child.matrix );
 					child.geometry = tempGeometry;
+
 					child.position.set( 0, 0, 0 );
 					child.rotation.set( 0, 0, 0 );
 					child.scale.set( 1, 1, 1 );
@@ -181,7 +183,7 @@
 
 		this.highlight = function ( axis ) {
 			this.traverse(function( child ) {
-				if ( child.material && child.material.highlight ){
+				if ( child.material && child.material.highlight ) {
 					if ( child.name == axis ) {
 						child.material.highlight( true );
 					} else {
@@ -194,6 +196,7 @@
 	};
 
 	THREE.TransformGizmo.prototype = Object.create( THREE.Object3D.prototype );
+	THREE.TransformGizmo.prototype.constructor = THREE.TransformGizmo;
 
 	THREE.TransformGizmo.prototype.update = function ( rotation, eye ) {
 
@@ -233,7 +236,7 @@
 
 		this.handleGizmos = {
 			X: [
-				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0xff0000 } ) ), [ 0.5, 0, 0 ], [ 0, 0, -Math.PI/2 ] ],
+				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0xff0000 } ) ), [ 0.5, 0, 0 ], [ 0, 0, -Math.PI / 2 ] ],
 				[ new THREE.Line( lineXGeometry, new GizmoLineMaterial( { color: 0xff0000 } ) ) ]
 			],
 			Y: [
@@ -241,44 +244,44 @@
 				[	new THREE.Line( lineYGeometry, new GizmoLineMaterial( { color: 0x00ff00 } ) ) ]
 			],
 			Z: [
-				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x0000ff } ) ), [ 0, 0, 0.5 ], [ Math.PI/2, 0, 0 ] ],
+				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x0000ff } ) ), [ 0, 0, 0.5 ], [ Math.PI / 2, 0, 0 ] ],
 				[ new THREE.Line( lineZGeometry, new GizmoLineMaterial( { color: 0x0000ff } ) ) ]
 			],
 			XYZ: [
 				[ new THREE.Mesh( new THREE.OctahedronGeometry( 0.1, 0 ), new GizmoMaterial( { color: 0xffffff, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ 0, 0, 0 ] ]
 			],
 			XY: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0xffff00, opacity: 0.25 } ) ), [ 0.15, 0.15, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0xffff00, opacity: 0.25 } ) ), [ 0.15, 0.15, 0 ] ]
 			],
 			YZ: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0x00ffff, opacity: 0.25 } ) ), [ 0, 0.15, 0.15 ], [ 0, Math.PI/2, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0x00ffff, opacity: 0.25 } ) ), [ 0, 0.15, 0.15 ], [ 0, Math.PI / 2, 0 ] ]
 			],
 			XZ: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0xff00ff, opacity: 0.25 } ) ), [ 0.15, 0, 0.15 ], [ -Math.PI/2, 0, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.29, 0.29 ), new GizmoMaterial( { color: 0xff00ff, opacity: 0.25 } ) ), [ 0.15, 0, 0.15 ], [ -Math.PI / 2, 0, 0 ] ]
 			]
 		};
 
 		this.pickerGizmos = {
 			X: [
-				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0.6, 0, 0 ], [ 0, 0, -Math.PI/2 ] ]
+				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0.6, 0, 0 ], [ 0, 0, -Math.PI / 2 ] ]
 			],
 			Y: [
 				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x00ff00, opacity: 0.25 } ) ), [ 0, 0.6, 0 ] ]
 			],
 			Z: [
-				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0.6 ], [ Math.PI/2, 0, 0 ] ]
+				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0.6 ], [ Math.PI / 2, 0, 0 ] ]
 			],
 			XYZ: [
 				[ new THREE.Mesh( new THREE.OctahedronGeometry( 0.2, 0 ), new GizmoMaterial( { color: 0xffffff, opacity: 0.25 } ) ) ]
 			],
 			XY: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0xffff00, opacity: 0.25 } ) ), [ 0.2, 0.2, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0xffff00, opacity: 0.25 } ) ), [ 0.2, 0.2, 0 ] ]
 			],
 			YZ: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0x00ffff, opacity: 0.25 } ) ), [ 0, 0.2, 0.2 ], [ 0, Math.PI/2, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0x00ffff, opacity: 0.25 } ) ), [ 0, 0.2, 0.2 ], [ 0, Math.PI / 2, 0 ] ]
 			],
 			XZ: [
-				[ new THREE.Mesh( new THREE.PlaneGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0xff00ff, opacity: 0.25 } ) ), [ 0.2, 0, 0.2 ], [ -Math.PI/2, 0, 0 ] ]
+				[ new THREE.Mesh( new THREE.PlaneBufferGeometry( 0.4, 0.4 ), new GizmoMaterial( { color: 0xff00ff, opacity: 0.25 } ) ), [ 0.2, 0, 0.2 ], [ -Math.PI / 2, 0, 0 ] ]
 			]
 		};
 
@@ -292,12 +295,12 @@
 				if ( Math.abs(eye.y) > Math.abs(eye.z) ) this.activePlane = this.planes[ "XZ" ];
 			}
 
-			if ( axis == "Y" ){
+			if ( axis == "Y" ) {
 				this.activePlane = this.planes[ "XY" ];
 				if ( Math.abs(eye.x) > Math.abs(eye.z) ) this.activePlane = this.planes[ "YZ" ];
 			}
 
-			if ( axis == "Z" ){
+			if ( axis == "Z" ) {
 				this.activePlane = this.planes[ "XZ" ];
 				if ( Math.abs(eye.x) > Math.abs(eye.y) ) this.activePlane = this.planes[ "YZ" ];
 			}
@@ -320,6 +323,7 @@
 	};
 
 	THREE.TransformGizmoTranslate.prototype = Object.create( THREE.TransformGizmo.prototype );
+	THREE.TransformGizmoTranslate.prototype.constructor = THREE.TransformGizmoTranslate;
 
 	THREE.TransformGizmoRotate = function () {
 
@@ -327,15 +331,15 @@
 
 		var CircleGeometry = function ( radius, facing, arc ) {
 
-				var geometry = new THREE.Geometry();
-				arc = arc ? arc : 1;
-				for ( var i = 0; i <= 64 * arc; ++i ) {
-					if ( facing == 'x' ) geometry.vertices.push( new THREE.Vector3( 0, Math.cos( i / 32 * Math.PI ), Math.sin( i / 32 * Math.PI ) ).multiplyScalar(radius) );
-					if ( facing == 'y' ) geometry.vertices.push( new THREE.Vector3( Math.cos( i / 32 * Math.PI ), 0, Math.sin( i / 32 * Math.PI ) ).multiplyScalar(radius) );
-					if ( facing == 'z' ) geometry.vertices.push( new THREE.Vector3( Math.sin( i / 32 * Math.PI ), Math.cos( i / 32 * Math.PI ), 0 ).multiplyScalar(radius) );
-				}
+			var geometry = new THREE.Geometry();
+			arc = arc ? arc : 1;
+			for ( var i = 0; i <= 64 * arc; ++ i ) {
+				if ( facing == 'x' ) geometry.vertices.push( new THREE.Vector3( 0, Math.cos( i / 32 * Math.PI ), Math.sin( i / 32 * Math.PI ) ).multiplyScalar(radius) );
+				if ( facing == 'y' ) geometry.vertices.push( new THREE.Vector3( Math.cos( i / 32 * Math.PI ), 0, Math.sin( i / 32 * Math.PI ) ).multiplyScalar(radius) );
+				if ( facing == 'z' ) geometry.vertices.push( new THREE.Vector3( Math.sin( i / 32 * Math.PI ), Math.cos( i / 32 * Math.PI ), 0 ).multiplyScalar(radius) );
+			}
 
-				return geometry;
+			return geometry;
 		};
 
 		this.handleGizmos = {
@@ -358,13 +362,13 @@
 
 		this.pickerGizmos = {
 			X: [
-				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ 0, -Math.PI/2, -Math.PI/2 ] ]
+				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ 0, -Math.PI / 2, -Math.PI / 2 ] ]
 			],
 			Y: [
-				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0x00ff00, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ Math.PI/2, 0, 0 ] ]
+				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0x00ff00, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ Math.PI / 2, 0, 0 ] ]
 			],
 			Z: [
-				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ 0, 0, -Math.PI/2 ] ]
+				[ new THREE.Mesh( new THREE.TorusGeometry( 1, 0.12, 4, 12, Math.PI ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0 ], [ 0, 0, -Math.PI / 2 ] ]
 			],
 			E: [
 				[ new THREE.Mesh( new THREE.TorusGeometry( 1.25, 0.12, 2, 24 ), new GizmoMaterial( { color: 0xffff00, opacity: 0.25 } ) ) ]
@@ -446,6 +450,7 @@
 	};
 
 	THREE.TransformGizmoRotate.prototype = Object.create( THREE.TransformGizmo.prototype );
+	THREE.TransformGizmoRotate.prototype.constructor = THREE.TransformGizmoRotate;
 
 	THREE.TransformGizmoScale = function () {
 
@@ -469,7 +474,7 @@
 
 		this.handleGizmos = {
 			X: [
-				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0xff0000 } ) ), [ 0.5, 0, 0 ], [ 0, 0, -Math.PI/2 ] ],
+				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0xff0000 } ) ), [ 0.5, 0, 0 ], [ 0, 0, -Math.PI / 2 ] ],
 				[ new THREE.Line( lineXGeometry, new GizmoLineMaterial( { color: 0xff0000 } ) ) ]
 			],
 			Y: [
@@ -477,7 +482,7 @@
 				[ new THREE.Line( lineYGeometry, new GizmoLineMaterial( { color: 0x00ff00 } ) ) ]
 			],
 			Z: [
-				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x0000ff } ) ), [ 0, 0, 0.5 ], [ Math.PI/2, 0, 0 ] ],
+				[ new THREE.Mesh( arrowGeometry, new GizmoMaterial( { color: 0x0000ff } ) ), [ 0, 0, 0.5 ], [ Math.PI / 2, 0, 0 ] ],
 				[ new THREE.Line( lineZGeometry, new GizmoLineMaterial( { color: 0x0000ff } ) ) ]
 			],
 			XYZ: [
@@ -487,13 +492,13 @@
 
 		this.pickerGizmos = {
 			X: [
-				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0.6, 0, 0 ], [ 0, 0, -Math.PI/2 ] ]
+				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0xff0000, opacity: 0.25 } ) ), [ 0.6, 0, 0 ], [ 0, 0, -Math.PI / 2 ] ]
 			],
 			Y: [
 				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x00ff00, opacity: 0.25 } ) ), [ 0, 0.6, 0 ] ]
 			],
 			Z: [
-				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0.6 ], [ Math.PI/2, 0, 0 ] ]
+				[ new THREE.Mesh( new THREE.CylinderGeometry( 0.2, 0, 1, 4, 1, false ), new GizmoMaterial( { color: 0x0000ff, opacity: 0.25 } ) ), [ 0, 0, 0.6 ], [ Math.PI / 2, 0, 0 ] ]
 			],
 			XYZ: [
 				[ new THREE.Mesh( new THREE.BoxGeometry( 0.4, 0.4, 0.4 ), new GizmoMaterial( { color: 0xffffff, opacity: 0.25 } ) ) ]
@@ -510,12 +515,12 @@
 				if ( Math.abs(eye.y) > Math.abs(eye.z) ) this.activePlane = this.planes[ "XZ" ];
 			}
 
-			if ( axis == "Y" ){
+			if ( axis == "Y" ) {
 				this.activePlane = this.planes[ "XY" ];
 				if ( Math.abs(eye.x) > Math.abs(eye.z) ) this.activePlane = this.planes[ "YZ" ];
 			}
 
-			if ( axis == "Z" ){
+			if ( axis == "Z" ) {
 				this.activePlane = this.planes[ "XZ" ];
 				if ( Math.abs(eye.x) > Math.abs(eye.y) ) this.activePlane = this.planes[ "YZ" ];
 			}
@@ -532,6 +537,7 @@
 	};
 
 	THREE.TransformGizmoScale.prototype = Object.create( THREE.TransformGizmo.prototype );
+	THREE.TransformGizmoScale.prototype.constructor = THREE.TransformGizmoScale;
 
 	THREE.TransformControls = function ( camera, domElement ) {
 
@@ -769,7 +775,7 @@
 
 					scope.gizmo[_mode].setActivePlane( scope.axis, eye );
 
-					var planeIntersect = intersectObjects( pointer, [scope.gizmo[_mode].activePlane] );
+					var planeIntersect = intersectObjects( pointer, [ scope.gizmo[_mode].activePlane ] );
 
 					oldPosition.copy( scope.object.position );
 					oldScale.copy( scope.object.scale );
@@ -797,9 +803,9 @@
 			event.preventDefault();
 			event.stopPropagation();
 
-			var pointer = event.changedTouches? event.changedTouches[0] : event;
+			var pointer = event.changedTouches ? event.changedTouches[0] : event;
 
-			var planeIntersect = intersectObjects( pointer, [scope.gizmo[_mode].activePlane] );
+			var planeIntersect = intersectObjects( pointer, [ scope.gizmo[_mode].activePlane ] );
 
 			point.copy( planeIntersect.point );
 
@@ -989,5 +995,6 @@
 	};
 
 	THREE.TransformControls.prototype = Object.create( THREE.Object3D.prototype );
+	THREE.TransformControls.prototype.constructor = THREE.TransformControls;
 
 }());
