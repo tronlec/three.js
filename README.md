@@ -2,7 +2,9 @@ three.js
 ========
 #### What this branch is about? ####
 
-This branch of the three.js includes changes and a new Renderer that allows it to run inside the Qt QML JavaScript environment and use the new preview state QtCanvas3D API for rendering. See https://qt.gitorious.org/qt/qtcanvas3d 
+This branch of the three.js includes changes and a new Canvas3DRenderer that allows it to run inside the QtQuick JavaScript environment and use the QtCanvas3D module for rendering. See https://qt.gitorious.org/qt/qtcanvas3d 
+
+The ready built libraries are meant to be used with Qt 5.4.1 and the Canvas3D Technology Preview 2. To build three.js that works with Qt 5.5 dev branch you need to use the utils/build/build_qt_5_5.sh script to build a new library that drops the unneeded TypedArray wrappers and includes the correct version of Canvas3DRenderer for Qt 5.5 that matches the new API.
 
 #### About This Branch ####
 
@@ -11,7 +13,7 @@ A ready built three.js file can be found inside the build folder or alternativel
 
 #### JavaScript 3D library ####
 
-The aim of the project is to create a lightweight 3D library with a very low level of complexity — in other words, for dummies. The library provides &lt;canvas&gt;, &lt;svg&gt;, CSS3D and WebGL renderers.
+The aim of the project is to create a lightweight 3D library with a very low level of complexity — in other words, for dummies. The library provides &lt;canvas&gt;, &lt;svg&gt;, CSS3D, WebGL and Qt Canvas3D renderers.
 
 [Examples](http://threejs.org/) — [Documentation](http://threejs.org/docs/) — [Migrating](https://github.com/mrdoob/three.js/wiki/Migration) — [Help](http://stackoverflow.com/questions/tagged/three.js)
 

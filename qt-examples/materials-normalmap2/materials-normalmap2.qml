@@ -49,8 +49,6 @@ Item {
         id: canvas3d
         anchors.fill:parent
         focus: true
-        logAllCalls: false
-        logAllErrors: false
 
         // Emitted when one time initializations should happen
         onInitGL: {

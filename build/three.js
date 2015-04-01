@@ -2,614 +2,8 @@
 
 /**
  * three.js QML port by
- * @author Pasi keränen / pasi.keranen@digia.com
+ * @author Pasi keränen / pasi.keranen@theqtcompany.com
  */
-
-// File:src/qml/TypedArrayWrappers.js
-
-//Uint8ClampedArray
-
-function Int8Array(initValue) {
-    var i;
-    if (initValue instanceof Int8Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newInt8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Int8Array.prototype = {
-    constructor: Int8Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Int8Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-        return ar;
-    }
-}
-
-function Uint8Array(initValue) {
-    var i;
-    if (initValue instanceof Uint8Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newUint8Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Uint8Array.prototype = {
-    constructor: Uint8Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Uint8Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Int16Array(initValue) {
-    var i;
-    if (initValue instanceof Int16Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newInt16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Int16Array.prototype = {
-    constructor: Int16Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Int16Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Uint16Array(initValue) {
-    var i;
-    if (initValue instanceof Uint16Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = iniValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = iniValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newUint16Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Uint16Array.prototype = {
-    constructor: Uint16Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Uint16Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Int32Array(initValue) {
-    var i;
-    if (initValue instanceof Int32Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Int32Array.prototype = {
-    constructor: Int32Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Int32Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Uint32Array(initValue) {
-    var i;
-    if (initValue instanceof Uint32Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newUint32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Uint32Array.prototype = {
-    constructor: Uint32Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Uint32Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Float32Array(initValue) {
-    var i;
-    if (initValue instanceof Float32Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newFloat32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newFloat32Array(this._length);
-        for (i = 0; i < this._length; i++) {
-            this[i] = initValue[i];
-        }
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newFloat32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Float32Array.prototype = {
-    constructor: Float32Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Float32Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++) {
-            ar.set(i, this[i]);
-        }
-        if (this.name !== undefined) {
-            ar.name = this.name;
-        }
-
-        return ar;
-    }
-}
-
-function Float64Array(initValue) {
-    var i;
-    if (initValue instanceof Float64Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newFloat64Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newFloat64Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newFloat64Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Float64Array.prototype = {
-    constructor: Float64Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Float64Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++) {
-            ar.set(i, this[i]);
-        }
-        if (this.name !== undefined) {
-            ar.name = this.name;
-        }
-
-        return ar;
-    }
-}
-
-function Int32Array(initValue) {
-    var i;
-    if (initValue instanceof Int32Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newInt32Array(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Int32Array.prototype = {
-    constructor: Int32Array,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Int32Array) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
-
-function Uint8ClampedArray(initValue) {
-    var i;
-    if (initValue instanceof Uint8ClampedArray) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint8ClampedArray(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else if (initValue instanceof Array) {
-        this._length = initValue.length;
-        this._internalArray = Arrays.newUint8ClampedArray(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = initValue[i];
-    } else {
-        this._length = initValue;
-        this._internalArray = Arrays.newUint8ClampedArray(this._length);
-        for (i = 0; i < this._length; i++)
-            this[i] = 0;
-    }
-
-    var _this = this;
-    this.__defineGetter__("length", function(){
-        return _this._length;
-    });
-}
-
-Uint8ClampedArray.prototype = {
-    constructor: Uint8ClampedArray,
-
-    set: function( index, value ) {
-        if (index instanceof Array || index instanceof Uint8ClampedArray) {
-            for (var i = 0; i < this._length; i++)
-                this[i] = index[i];
-        } else {
-            this[index] = value;
-        }
-    },
-
-    get: function( index ) {
-        return this[index];
-    },
-    print: function() {
-        var values = "[ "
-        for (var i = 0; i < this._length; i++) {
-            values += this[i] + " ";
-        };
-        values += "]";
-    },
-    typedArray: function() {
-        var ar = this._internalArray;
-        for (var i = 0; i < this._length; i++)
-            ar.set(i, this[i]);
-        if (this.name !== undefined)
-            ar.name = this.name;
-
-        return ar;
-    }
-}
 
 // File:src/qml/QmlImageElement.js
 
@@ -766,7 +160,7 @@ function HtmlDiv() {
 
 
 
-// File:src/renderers/Canvas3DRenderer.js
+// File:src/qml/Canvas3DRenderer.js
 
 /**
  * @author supereggbert / http://www.paulbrunt.co.uk/
@@ -990,19 +384,19 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	}
 
-	if ( _gl.getShaderPrecisionFormat === undefined ) {
+//	if ( _gl.getShaderPrecisionFormat === undefined ) {
 
-		_gl.getShaderPrecisionFormat = function () {
+//		_gl.getShaderPrecisionFormat = function () {
 
-			return {
-				'rangeMin': 1,
-				'rangeMax': 1,
-				'precision': 1
-			};
+//			return {
+//				'rangeMin': 1,
+//				'rangeMax': 1,
+//				'precision': 1
+//			};
 
-		}
+//		}
 
-	}
+//	}
 
 	var extensions = new THREE.WebGLExtensions( _gl );
 
@@ -2256,14 +1650,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( dirtyVertices || object.sortParticles ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglVertexBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, vertexArray, hint );
 
 		}
 
 		if ( dirtyColors || object.sortParticles ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglColorBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, colorArray, hint );
 
 		}
 
@@ -2276,7 +1670,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				if ( customAttribute.needsUpdate || object.sortParticles ) {
 
 					_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
-					_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+                    _gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array, hint );
 
 				}
 
@@ -2327,7 +1721,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglVertexBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, vertexArray, hint );
 
 		}
 
@@ -2346,7 +1740,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglColorBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, colorArray, hint );
 
 		}
 
@@ -2359,7 +1753,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometry.__webglLineDistanceBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, lineDistanceArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, lineDistanceArray, hint );
 
 		}
 
@@ -2448,7 +1842,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					}
 
 					_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
-					_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+                    _gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array, hint );
 
 				}
 
@@ -2572,7 +1966,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglVertexBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, vertexArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, vertexArray, hint );
 
 		}
 
@@ -2650,12 +2044,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				}
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphTargetsBuffers[ vk ] );
-				_gl.bufferData( _gl.ARRAY_BUFFER, morphTargetsArrays[ vk ].typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, morphTargetsArrays[ vk ], hint );
 
 				if ( material.morphNormals ) {
 
 					_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglMorphNormalsBuffers[ vk ] );
-					_gl.bufferData( _gl.ARRAY_BUFFER, morphNormalsArrays[ vk ].typedArray(), hint );
+                    _gl.bufferData( _gl.ARRAY_BUFFER, morphNormalsArrays[ vk ], hint );
 
 				}
 
@@ -2718,10 +2112,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( offset_skin > 0 ) {
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinIndicesBuffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, skinIndexArray.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, skinIndexArray, hint );
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglSkinWeightsBuffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, skinWeightArray.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, skinWeightArray, hint );
 
 			}
 
@@ -2769,7 +2163,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( offset_color > 0 ) {
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglColorBuffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, colorArray.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, colorArray, hint );
 
 			}
 
@@ -2807,7 +2201,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglTangentBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, tangentArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, tangentArray, hint );
 
 		}
 
@@ -2851,7 +2245,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglNormalBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, normalArray.typedArray(), hint );
+            _gl.bufferData( _gl.ARRAY_BUFFER, normalArray, hint );
 
 		}
 
@@ -2881,7 +2275,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( offset_uv > 0 ) {
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUVBuffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, uvArray.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, uvArray, hint );
 
 			}
 
@@ -2913,7 +2307,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			if ( offset_uv2 > 0 ) {
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, geometryGroup.__webglUV2Buffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, uv2Array.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, uv2Array, hint );
 
 			}
 
@@ -2945,10 +2339,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 			}
 
 			_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglFaceBuffer );
-			_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faceArray.typedArray(), hint );
+            _gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, faceArray, hint );
 
 			_gl.bindBuffer( _gl.ELEMENT_ARRAY_BUFFER, geometryGroup.__webglLineBuffer );
-			_gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, lineArray.typedArray(), hint );
+            _gl.bufferData( _gl.ELEMENT_ARRAY_BUFFER, lineArray, hint );
 
 		}
 
@@ -3233,7 +2627,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				}
 
 				_gl.bindBuffer( _gl.ARRAY_BUFFER, customAttribute.buffer );
-				_gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array.typedArray(), hint );
+                _gl.bufferData( _gl.ARRAY_BUFFER, customAttribute.array, hint );
 
 			}
 
@@ -3279,7 +2673,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				var bufferType = ( key === 'index' ) ? _gl.ELEMENT_ARRAY_BUFFER : _gl.ARRAY_BUFFER;
 
 				_gl.bindBuffer( bufferType, attribute.buffer );
-                _gl.bufferData( bufferType, attribute.array.typedArray(), _gl.STATIC_DRAW );
+                _gl.bufferData( bufferType, attribute.array, _gl.STATIC_DRAW );
 
 				attribute.needsUpdate = false;
 
@@ -3307,7 +2701,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( object.hasPositions ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglVertexBuffer );
-            _gl.bufferData( _gl.ARRAY_BUFFER, object.positionArray.typedArray(), _gl.DYNAMIC_DRAW );
+            _gl.bufferData( _gl.ARRAY_BUFFER, object.positionArray, _gl.DYNAMIC_DRAW );
 			enableAttribute( program.attributes.position );
 			_gl.vertexAttribPointer( program.attributes.position, 3, _gl.FLOAT, false, 0, 0 );
 
@@ -3360,7 +2754,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			}
 
-			_gl.bufferData( _gl.ARRAY_BUFFER, object.normalArray.typedArray(), _gl.DYNAMIC_DRAW );
+            _gl.bufferData( _gl.ARRAY_BUFFER, object.normalArray, _gl.DYNAMIC_DRAW );
 			enableAttribute( program.attributes.normal );
 			_gl.vertexAttribPointer( program.attributes.normal, 3, _gl.FLOAT, false, 0, 0 );
 
@@ -3369,7 +2763,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( object.hasUvs && material.map ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglUvBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, object.uvArray.typedArray(), _gl.DYNAMIC_DRAW );
+            _gl.bufferData( _gl.ARRAY_BUFFER, object.uvArray, _gl.DYNAMIC_DRAW );
 			enableAttribute( program.attributes.uv );
 			_gl.vertexAttribPointer( program.attributes.uv, 2, _gl.FLOAT, false, 0, 0 );
 
@@ -3378,7 +2772,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( object.hasColors && material.vertexColors !== THREE.NoColors ) {
 
 			_gl.bindBuffer( _gl.ARRAY_BUFFER, object.__webglColorBuffer );
-			_gl.bufferData( _gl.ARRAY_BUFFER, object.colorArray.typedArray(), _gl.DYNAMIC_DRAW );
+            _gl.bufferData( _gl.ARRAY_BUFFER, object.colorArray, _gl.DYNAMIC_DRAW );
 			enableAttribute( program.attributes.color );
 			_gl.vertexAttribPointer( program.attributes.color, 3, _gl.FLOAT, false, 0, 0 );
 
@@ -5228,7 +4622,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( refreshProgram || camera !== _currentCamera ) {
 
-			_gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
+            _gl.uniformMatrix4fv( p_uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
 
 			if ( _logarithmicDepthBuffer ) {
 
@@ -5262,7 +4656,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( p_uniforms.viewMatrix !== null ) {
 
-					_gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements.typedArray() );
+                    _gl.uniformMatrix4fv( p_uniforms.viewMatrix, false, camera.matrixWorldInverse.elements );
 
 				}
 
@@ -5278,13 +4672,13 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( object.bindMatrix && p_uniforms.bindMatrix !== null ) {
 
-				_gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements.typedArray() );
+                _gl.uniformMatrix4fv( p_uniforms.bindMatrix, false, object.bindMatrix.elements );
 
 			}
 
 			if ( object.bindMatrixInverse && p_uniforms.bindMatrixInverse !== null ) {
 
-				_gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements.typedArray() );
+                _gl.uniformMatrix4fv( p_uniforms.bindMatrixInverse, false, object.bindMatrixInverse.elements );
 
 			}
 
@@ -5315,7 +4709,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( p_uniforms.boneGlobalMatrices !== null ) {
 
-					_gl.uniformMatrix4fv( p_uniforms.boneGlobalMatrices, false, object.skeleton.boneMatrices.typedArray() );
+                    _gl.uniformMatrix4fv( p_uniforms.boneGlobalMatrices, false, object.skeleton.boneMatrices );
 
 				}
 
@@ -5412,7 +4806,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( p_uniforms.modelMatrix !== null ) {
 
-			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements.typedArray() );
+            _gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements );
 
 		}
 
@@ -5692,11 +5086,11 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	function loadUniformsMatrices ( uniforms, object ) {
 
-		_gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements.typedArray() );
+        _gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, object._modelViewMatrix.elements );
 
 		if ( uniforms.normalMatrix ) {
 
-			_gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements.typedArray() );
+            _gl.uniformMatrix3fv( uniforms.normalMatrix, false, object._normalMatrix.elements );
 
 		}
 
@@ -5756,59 +5150,35 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 					break;
 
 				case '1iv':
-                    if (value instanceof Array)
-                        _gl.uniform1iva( location, value );
-                    else
-                        _gl.uniform1iv( location, value.typedArray() );
-					break;
+                    _gl.uniform1iv( location, value );
+                    break;
 
 				case '3iv':
-                    if (value instanceof Array)
-                        _gl.uniform3iva( location, value );
-                    else
-                        _gl.uniform3iv( location, value.typedArray() );
-					break;
+                    _gl.uniform3iv( location, value );
+                    break;
 
 				case '1fv':
-                    if (value instanceof Array)
-                        _gl.uniform1fva( location, value );
-                    else
-                        _gl.uniform1fv( location, value.typedArray() );
+                    _gl.uniform1fv( location, value );
 					break;
 
 				case '2fv':
-                    if (value instanceof Array)
-                        _gl.uniform2fva( location, value );
-                    else
-                        _gl.uniform2fv( location, value.typedArray() );
+                    _gl.uniform2fv( location, value );
                     break;
 
 				case '3fv':
-                    if (value instanceof Array)
-                        _gl.uniform3fva( location, value );
-                    else
-                        _gl.uniform3fv( location, value.typedArray() );
+                    _gl.uniform3fv( location, value );
 					break;
 
 				case '4fv':
-                    if (value instanceof Array)
-                        _gl.uniform4fva( location, value );
-                    else
-                        _gl.uniform4fv( location, value.typedArray() );
+                    _gl.uniform4fv( location, value );
 					break;
 
 				case 'Matrix3fv':
-                    if (value instanceof Array)
-                        _gl.uniformMatrix3fva( location, false, value );
-                    else
-                        _gl.uniformMatrix3fv( location, false, value.typedArray() );
+                    _gl.uniformMatrix3fv( location, false, value );
 					break;
 
 				case 'Matrix4fv':
-                    if (value instanceof Array)
-                        _gl.uniformMatrix4fva( location, false, value );
-                    else
-                        _gl.uniformMatrix4fv( location, false, value.typedArray() );
+                    _gl.uniformMatrix4fv( location, false, value );
 					break;
 
 				//
@@ -5858,40 +5228,28 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				case 'iv1':
 
 					// flat array of integers (JS or typed array)
-                    if (value instanceof Array)
-                        _gl.uniform1iva( location, value );
-                    else
-                        _gl.uniform1iv( location, value.typedArray() );
+                    _gl.uniform1iv( location, value );
 
 					break;
 
 				case 'iv':
 
 					// flat array of integers with 3 x N size (JS or typed array)
-                    if (value instanceof Array)
-                        _gl.uniform3iva( location, value );
-                    else
-                        _gl.uniform3iv( location, value.typedArray() );
+                    _gl.uniform3iv( location, value );
 
 					break;
 
 				case 'fv1':
 
 					// flat array of floats (JS or typed array)
-                    if (value instanceof Array)
-                        _gl.uniform1fva( location, value );
-                    else
-                        _gl.uniform1fv( location, value.typedArray() );
+                    _gl.uniform1fv( location, value );
 
 					break;
 
 				case 'fv':
 
 					// flat array of floats with 3 x N size (JS or typed array)
-                    if (value instanceof Array)
-                        _gl.uniform3fva( location, value );
-                    else
-                        _gl.uniform3fv( location, value.typedArray() );
+                    _gl.uniform3fv( location, value );
 
 					break;
 
@@ -5914,7 +5272,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform2fv( location, uniform._array.typedArray() );
+                    _gl.uniform2fv( location, uniform._array );
 
 					break;
 
@@ -5938,7 +5296,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform3fv( location, uniform._array.typedArray() );
+                    _gl.uniform3fv( location, uniform._array );
 
 					break;
 
@@ -5963,14 +5321,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform4fv( location, uniform._array.typedArray() );
+                    _gl.uniform4fv( location, uniform._array );
 
 					break;
 
 				case 'm3':
 
 					// single THREE.Matrix3
-					_gl.uniformMatrix3fv( location, false, value.elements.typedArray() );
+                    _gl.uniformMatrix3fv( location, false, value.elements );
 
 					break;
 
@@ -5990,14 +5348,14 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniformMatrix3fv( location, false, uniform._array.typedArray() );
+                    _gl.uniformMatrix3fv( location, false, uniform._array );
 
 					break;
 
 				case 'm4':
 
 					// single THREE.Matrix4
-					_gl.uniformMatrix4fv( location, false, value.elements.typedArray() );
+                    _gl.uniformMatrix4fv( location, false, value.elements );
 
 					break;
 
@@ -6017,7 +5375,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniformMatrix4fv( location, false, uniform._array.typedArray() );
+                    _gl.uniformMatrix4fv( location, false, uniform._array );
 
 					break;
 
@@ -6065,7 +5423,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					}
 
-					_gl.uniform1iva( location, uniform._array );
+                    _gl.uniform1iv( location, uniform._array );
 
 					for ( var i = 0, il = uniform.value.length; i < il; i ++ ) {
 
@@ -6646,7 +6004,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
 					mipmap = mipmaps[ i ];
-                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data.typedArray() );
+                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
 				}
 
@@ -6654,7 +6012,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data.typedArray() );
+                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
 
 			}
 
@@ -6668,7 +6026,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					if ( getCompressedTextureFormats().indexOf( glFormat ) > -1 ) {
 
-                        _gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data.typedArray() );
+                        _gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
 
 					} else {
 
@@ -6678,7 +6036,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				} else {
 
-                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data.typedArray() );
+                    _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
 				}
 
@@ -7706,7 +7064,7 @@ THREE.Color.prototype = {
 
 	getHex: function () {
 
-        return Math.floor( this.r * 255 ) << 16 ^ Math.floor( this.g * 255 ) << 8 ^ Math.floor( this.b * 255 );
+		return ( this.r * 255 ) << 16 ^ ( this.g * 255 ) << 8 ^ ( this.b * 255 ) << 0;
 
 	},
 
@@ -13687,7 +13045,7 @@ THREE.Math = {
 
 				} else {
 
-                    if ( rnd <= 0x02 ) rnd = Math.floor(0x2000000 + ( Math.random() * 0x1000000 ));
+					if ( rnd <= 0x02 ) rnd = 0x2000000 + ( Math.random() * 0x1000000 ) | 0;
 					r = rnd & 0xf;
 					rnd = rnd >> 4;
 					uuid[ i ] = chars[ ( i == 19 ) ? ( r & 0x3 ) | 0x8 : r ];
@@ -26627,7 +25985,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 
 		gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, elementBuffer );
 
-        gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements.typedArray() );
+        gl.uniformMatrix4fv( uniforms.projectionMatrix, false, camera.projectionMatrix.elements );
 
 		gl.activeTexture( gl.TEXTURE0 );
 		gl.uniform1i( uniforms.map, 0 );
@@ -26700,7 +26058,7 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 			var material = sprite.material;
 
 			gl.uniform1f( uniforms.alphaTest, material.alphaTest );
-            gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements.typedArray() );
+            gl.uniformMatrix4fv( uniforms.modelViewMatrix, false, sprite._modelViewMatrix.elements );
 
 			scale[ 0 ] = sprite.scale.x;
 			scale[ 1 ] = sprite.scale.y;
