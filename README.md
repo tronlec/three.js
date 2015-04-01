@@ -36,24 +36,33 @@ Item {
         id: canvas3d
         anchors.fill: parent
 
-        // Emitted when one time initializations should happen
         onInitGL: {
             GLCode.initGL(canvas3d);
         }
 
-        // Emitted each time Canvas3D is ready for a new frame
         onRenderGL: {
             GLCode.renderGL(canvas3d);
+        }
+        
+        onWidthChanged: {
+            GLCode.onCanvasResize(canvas3d);
+        }
+
+        onHeightChanged: {
+            GLCode.onCanvasResize(canvas3d);
+        }
+
+        onDevicePixelRatioChanged: {
+            GLCode.onCanvasResize(canvas3d);
         }
     }
 }
 ```
 
 
-This code creates a scene, then creates a camera, adds the camera and cube to the scene, creates a &lt;Canvas3D&gt; renderer.
+This code (place it in "code.js" file in your Qt resource file) creates a scene, then creates a camera, adds the camera and cube to the scene, creates a &lt;Canvas3D&gt; renderer.
 
 ```html
-<script>
 	Qt.include("three.js")
 
 	var camera, scene, renderer;
@@ -61,7 +70,7 @@ This code creates a scene, then creates a camera, adds the camera and cube to th
 
 	function initGL(canvas) {
 
-		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera = new THREE.PerspectiveCamera( 75, canvas.width / canvas.height, 1, 10000 );
 		camera.position.z = 1000;
 
 		scene = new THREE.Scene();
@@ -73,10 +82,7 @@ This code creates a scene, then creates a camera, adds the camera and cube to th
 		scene.add( mesh );
 
 		renderer = new THREE.Canvas3DRenderer( {canvas: canvas, devicePixelRatio: canvas.devicePixelRatio});
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-		document.body.appendChild( renderer.domElement );
-
+		renderer.setSize( canvas.width, canvas.height );
 	}
 
 	function renderGL(canvas) {
@@ -88,7 +94,16 @@ This code creates a scene, then creates a camera, adds the camera and cube to th
 
 	}
 
-</script>
+	function onCanvasResize(canvas) {
+
+		if (camera === undefined) return;
+
+		camera.aspect = canvas.width / canvas.height;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( canvas.width, canvas.height );
+
+	}
 ```
 If everything went well you should see [this](http://jsfiddle.net/Gy4w7/).
 
