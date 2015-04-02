@@ -62,7 +62,7 @@ Item {
 
 This code (place it in "code.js" file in your Qt resource file) creates a scene, then creates a camera, adds the camera and cube to the scene, creates a &lt;Canvas3D&gt; renderer.
 
-```html
+```JavaScript
 	Qt.include("three.js")
 
 	var camera, scene, renderer;
