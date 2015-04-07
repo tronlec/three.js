@@ -25,10 +25,10 @@ THREE.XHRLoader.prototype = {
 
 		}
 
-		var request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
                 if (request.readyState === XMLHttpRequest.DONE) {
-                    if (http.status === 200) {
+                    if (request.status == 200) {
                         THREE.Cache.add( url, request.responseText );
                         if ( onLoad ) onLoad( request.responseText );
                         scope.manager.itemEnd( url );

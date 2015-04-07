@@ -18125,38 +18125,26 @@ THREE.XHRLoader.prototype = {
 
 		}
 
-		var request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+                if (request.readyState === XMLHttpRequest.DONE) {
+                    if (request.status == 200) {
+                        THREE.Cache.add( url, request.responseText );
+                        if ( onLoad ) onLoad( request.responseText );
+                        scope.manager.itemEnd( url );
+                    } else {
+                        if ( onError !== undefined ) {
+                            onError();
+                        }
+                    }
+                } else if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+                    if ( onProgress !== undefined ) {
+                        onProgress();
+                    }
+                }
+            };
+
 		request.open( 'GET', url, true );
-
-		request.addEventListener( 'load', function ( event ) {
-
-			THREE.Cache.add( url, this.response );
-
-			if ( onLoad ) onLoad( this.response );
-
-			scope.manager.itemEnd( url );
-
-		}, false );
-
-		if ( onProgress !== undefined ) {
-
-			request.addEventListener( 'progress', function ( event ) {
-
-				onProgress( event );
-
-			}, false );
-
-		}
-
-		if ( onError !== undefined ) {
-
-			request.addEventListener( 'error', function ( event ) {
-
-				onError( event );
-
-			}, false );
-
-		}
 
 		if ( this.crossOrigin !== undefined ) request.crossOrigin = this.crossOrigin;
 		if ( this.responseType !== undefined ) request.responseType = this.responseType;
