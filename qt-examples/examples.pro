@@ -5,6 +5,7 @@ SUBDIRS += animation-cloth \
            camera \
            geometry-text \
            interactive-draggablecubes \
+           loader-ply \
            materials \
            particles-billboards-colors
 

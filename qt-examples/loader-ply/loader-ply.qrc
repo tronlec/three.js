@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file>loader-ply.js</file>
+        <file>loader-ply.qml</file>
+        <file alias="js/loaders/PLYLoader.js">../js/loaders/PLYLoader.js</file>
+        <file alias="models/ply/ascii/dolphins.ply">../../examples/models/ply/ascii/dolphins.ply</file>
+    </qresource>
+</RCC>
