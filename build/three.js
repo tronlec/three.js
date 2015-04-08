@@ -18128,15 +18128,16 @@ THREE.XHRLoader.prototype = {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
                 if (request.readyState === XMLHttpRequest.DONE) {
-                    if (request.status == 200) {
-                        THREE.Cache.add( url, request.responseText );
-                        if ( onLoad ) onLoad( request.responseText );
+// TODO: Re-enable when issue with 'status' is solved in Qt
+//                    if (request.status == 200) {
+                        THREE.Cache.add( url, request.response );
+                        if ( onLoad ) onLoad( request.response );
                         scope.manager.itemEnd( url );
-                    } else {
-                        if ( onError !== undefined ) {
-                            onError();
-                        }
-                    }
+//                    } else {
+//                        if ( onError !== undefined ) {
+//                            onError();
+//                        }
+//                    }
                 } else if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
                     if ( onProgress !== undefined ) {
                         onProgress();
