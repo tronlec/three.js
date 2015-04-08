@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="js/loaders/DDSLoader.js">../../examples/js/loaders/DDSLoader.js</file>
+        <file>materials-texture-compressed.js</file>
+        <file>materials-texture-compressed.qml</file>
+        <file alias="textures/compressed/disturb_dxt1_nomip.dds">../../examples/textures/compressed/disturb_dxt1_nomip.dds</file>
+        <file alias="textures/compressed/disturb_dxt1_mip.dds">../../examples/textures/compressed/disturb_dxt1_mip.dds</file>
+        <file alias="textures/compressed/hepatica_dxt3_mip.dds">../../examples/textures/compressed/hepatica_dxt3_mip.dds</file>
+        <file alias="textures/compressed/explosion_dxt5_mip.dds">../../examples/textures/compressed/explosion_dxt5_mip.dds</file>
+        <file alias="textures/compressed/disturb_argb_nomip.dds">../../examples/textures/compressed/disturb_argb_nomip.dds</file>
+        <file alias="textures/compressed/disturb_argb_mip.dds">../../examples/textures/compressed/disturb_argb_mip.dds</file>
+        <file alias="textures/compressed/Mountains.dds">../../examples/textures/compressed/Mountains.dds</file>
+        <file alias="textures/compressed/Mountains_argb_mip.dds">../../examples/textures/compressed/Mountains_argb_mip.dds</file>
+        <file alias="textures/compressed/Mountains_argb_nomip.dds">../../examples/textures/compressed/Mountains_argb_nomip.dds</file>
+    </qresource>
+</RCC>

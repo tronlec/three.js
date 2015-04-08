@@ -7,5 +7,6 @@ SUBDIRS += animation-cloth \
            interactive-draggablecubes \
            loader-ply \
            materials \
+           materials-texture-compressed \
            particles-billboards-colors
 
