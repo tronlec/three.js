@@ -113,8 +113,6 @@ function onCanvasResize(canvas) {
 }
 
 function renderGL(canvas) {
-    log("renderGL ENTER...");
-
     var timer = Date.now() * 0.0005;
 
     camera.position.x = Math.sin( timer ) * 3;
@@ -123,6 +121,4 @@ function renderGL(canvas) {
     camera.lookAt( scene.position );
 
     renderer.render( scene, camera );
-
-    log("renderGL EXIT...");
 }
