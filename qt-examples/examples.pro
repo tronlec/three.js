@@ -8,5 +8,6 @@ SUBDIRS += animation-cloth \
            loader-ply \
            materials \
            materials-texture-compressed \
+           morphtargets \
            particles-billboards-colors
 
