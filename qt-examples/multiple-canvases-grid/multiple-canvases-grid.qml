@@ -12,6 +12,12 @@ Item {
     property int canvasWidth: 300
     property int canvasHeight: 200
 
+    ControlEventSource {
+        anchors.fill: parent
+        focus: true
+        id: eventSource
+    }
+
     Canvas3D {
         id: canvas1
         x: 0
@@ -24,7 +30,7 @@ Item {
         // Emitted when one time initializations should happen
         onInitGL: {
             app = new GLCode.App();
-            app.initGL(canvas1, eventSource1, width, height, 0, 0, canvasWidth, canvasHeight);
+            app.initGL(canvas1, eventSource, width, height, 0, 0, canvasWidth, canvasHeight);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
@@ -47,13 +53,6 @@ Item {
             if (app)
                 app.onCanvasResize(canvas1);
         }
-
-        ControlEventSource {
-            anchors.fill: parent
-            focus: true
-            id: eventSource1
-        }
-
     }
 
     Canvas3D {
@@ -68,7 +67,7 @@ Item {
         // Emitted when one time initializations should happen
         onInitGL: {
             app = new GLCode.App();
-            app.initGL(canvas2, eventSource2, width, height, canvasWidth, 0,
+            app.initGL(canvas2, eventSource, width, height, canvasWidth, 0,
                           canvasWidth, canvasHeight);
         }
 
@@ -92,12 +91,6 @@ Item {
             if (app)
                 app.onCanvasResize(canvas2);
         }
-
-        ControlEventSource {
-            anchors.fill: parent
-            focus: true
-            id: eventSource2
-        }
     }
 
     Canvas3D {
@@ -112,7 +105,7 @@ Item {
         // Emitted when one time initializations should happen
         onInitGL: {
             app = new GLCode.App();
-            app.initGL(canvas3, eventSource3, width, height, 0, canvasHeight,
+            app.initGL(canvas3, eventSource, width, height, 0, canvasHeight,
                           canvasWidth, canvasHeight);
         }
 
@@ -136,13 +129,6 @@ Item {
             if (app)
                 app.onCanvasResize(canvas3);
         }
-
-        ControlEventSource {
-            anchors.fill: parent
-            focus: true
-            id: eventSource3
-        }
-
     }
 
     Canvas3D {
@@ -157,7 +143,7 @@ Item {
         // Emitted when one time initializations should happen
         onInitGL: {
             app = new GLCode.App();
-            app.initGL(canvas4, eventSource4, width, height, canvasWidth, canvasHeight,
+            app.initGL(canvas4, eventSource, width, height, canvasWidth, canvasHeight,
                           canvasWidth, canvasHeight);
         }
 
@@ -181,13 +167,6 @@ Item {
             if (app)
                 app.onCanvasResize(canvas4);
         }
-
-        ControlEventSource {
-            anchors.fill: parent
-            focus: true
-            id: eventSource4
-        }
-
     }
 
     Rectangle { anchors.fill: canvas1; border.color: "red"; color: "transparent" }

@@ -117,7 +117,7 @@ function App() {
 
     this.renderGL = function(canvas) {
         camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-        camera.position.z += ( - mouseY - camera.position.y ) * 0.05;
+        camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
         camera.lookAt( scene.position );
 
