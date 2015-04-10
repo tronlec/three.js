@@ -356,12 +356,12 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( mediumpAvailable ) {
 
 			_precision = 'mediump';
-            THREE.warn( 'THREE.Canvas3DRenderer: highp not supported, using mediump.' );
+			THREE.warn( 'THREE.Canvas3DRenderer: highp not supported, using mediump.' );
 
 		} else {
 
 			_precision = 'lowp';
-            THREE.warn( 'THREE.Canvas3DRenderer: highp and mediump not supported, using lowp.' );
+			THREE.warn( 'THREE.Canvas3DRenderer: highp and mediump not supported, using lowp.' );
 
 		}
 
@@ -370,7 +370,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 	if ( _precision === 'mediump' && ! mediumpAvailable ) {
 
 		_precision = 'lowp';
-        THREE.warn( 'THREE.Canvas3DRenderer: mediump not supported, using lowp.' );
+		THREE.warn( 'THREE.Canvas3DRenderer: mediump not supported, using lowp.' );
 
 	}
 
@@ -3171,7 +3171,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( influences.length > morphTargets.length ) {
 
-                console.warn( 'THREE.Canvas3DRenderer: Influences array is bigger than morphTargets array.' );
+				console.warn( 'THREE.Canvas3DRenderer: Influences array is bigger than morphTargets array.' );
 				influences.length = morphTargets.length;
 
 			}
@@ -3317,7 +3317,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( camera instanceof THREE.Camera === false ) {
 
-            THREE.error( 'THREE.Canvas3DRenderer.render: camera is not an instance of THREE.Camera.' );
+			THREE.error( 'THREE.Canvas3DRenderer.render: camera is not an instance of THREE.Camera.' );
 			return;
 
 		}
@@ -3976,7 +3976,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					} else if ( attribute.updateRange.count === 0 ) {
 
-                        console.error( 'THREE.Canvas3DRenderer.updateObject: using updateRange for THREE.DynamicBufferAttribute and marked as needsUpdate but count is 0, ensure you are using set methods or updating manually.' );
+						console.error( 'THREE.Canvas3DRenderer.updateObject: using updateRange for THREE.DynamicBufferAttribute and marked as needsUpdate but count is 0, ensure you are using set methods or updating manually.' );
 
 					} else {
 
@@ -4878,7 +4878,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( textureUnit >= _maxTextures ) {
 
-            THREE.warn( 'Canvas3DRenderer: trying to use ' + textureUnit + ' texture units while this GPU supports only ' + _maxTextures );
+			THREE.warn( 'Canvas3DRenderer: trying to use ' + textureUnit + ' texture units while this GPU supports only ' + _maxTextures );
 
 		}
 
@@ -5216,7 +5216,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				default:
 
-                    THREE.warn( 'THREE.Canvas3DRenderer: Unknown uniform type: ' + type );
+					THREE.warn( 'THREE.Canvas3DRenderer: Unknown uniform type: ' + type );
 
 			}
 
@@ -5492,7 +5492,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( texture.wrapS !== THREE.ClampToEdgeWrapping || texture.wrapT !== THREE.ClampToEdgeWrapping ) {
 
-                THREE.warn( 'THREE.Canvas3DRenderer: Texture is not power of two. Texture.wrapS and Texture.wrapT should be set to THREE.ClampToEdgeWrapping. ( ' + texture.sourceFile + ' )' );
+				THREE.warn( 'THREE.Canvas3DRenderer: Texture is not power of two. Texture.wrapS and Texture.wrapT should be set to THREE.ClampToEdgeWrapping. ( ' + texture.sourceFile + ' )' );
 
 			}
 
@@ -5501,7 +5501,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( texture.minFilter !== THREE.NearestFilter && texture.minFilter !== THREE.LinearFilter ) {
 
-                THREE.warn( 'THREE.Canvas3DRenderer: Texture is not power of two. Texture.minFilter should be set to THREE.NearestFilter or THREE.LinearFilter. ( ' + texture.sourceFile + ' )' );
+				THREE.warn( 'THREE.Canvas3DRenderer: Texture is not power of two. Texture.minFilter should be set to THREE.NearestFilter or THREE.LinearFilter. ( ' + texture.sourceFile + ' )' );
 
 			}
 
@@ -5590,7 +5590,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 					} else {
 
-                        THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()" );
+						THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()" );
 
 					}
 
@@ -5621,7 +5621,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-                _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage());
+				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
 
 			}
 
@@ -5662,10 +5662,10 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			var canvasWidth = Math.floor( image.width * scale );
 			var canvasHeight = Math.floor( image.height * scale );
-            var canvas = image.resize( canvasWidth, canvasHeight );
+			var canvas = image.resize( canvasWidth, canvasHeight );
 
 
-            THREE.warn( 'THREE.Canvas3DRenderer: image is too big (' + image.width + 'x' + image.height + '). Resized to ' + canvasWidth + 'x' + canvasHeight, image );
+			THREE.warn( 'THREE.Canvas3DRenderer: image is too big (' + image.width + 'x' + image.height + '). Resized to ' + canvasWidth + 'x' + canvasHeight, image );
 
 			return canvas;
 
@@ -5732,7 +5732,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 						} else {
 
-                            _gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
+							_gl.texImage2D( _gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glFormat, glFormat, glType, cubeImage[ i ].texImage() );
 
 						}
 
@@ -5752,7 +5752,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 								} else {
 
-                                    THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .setCubeTexture()" );
+									THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .setCubeTexture()" );
 
 								}
 
@@ -5986,7 +5986,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 		if ( ! ( renderTarget instanceof THREE.WebGLRenderTarget ) ) {
 
-            console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.' );
+			console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.' );
 			return;
 
 		}
@@ -5995,7 +5995,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			if ( renderTarget.format !== THREE.RGBAFormat ) {
 
-                console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: renderTarget is not in RGBA format. readPixels can read only RGBA format.' );
+				console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: renderTarget is not in RGBA format. readPixels can read only RGBA format.' );
 				return;
 
 			}
@@ -6016,7 +6016,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 			} else {
 
-                console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: readPixels from renderTarget failed. Framebuffer not complete.' );
+				console.error( 'THREE.Canvas3DRenderer.readRenderTargetPixels: readPixels from renderTarget failed. Framebuffer not complete.' );
 
 			}
 
@@ -6187,7 +6187,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 				if ( maxBones < object.skeleton.bones.length ) {
 
-                    THREE.warn( 'Canvas3DRenderer: too many bones - ' + object.skeleton.bones.length + ', this GPU supports just ' + maxBones + ' (try OpenGL instead of ANGLE)' );
+					THREE.warn( 'Canvas3DRenderer: too many bones - ' + object.skeleton.bones.length + ', this GPU supports just ' + maxBones + ' (try OpenGL instead of ANGLE)' );
 
 				}
 
@@ -6246,25 +6246,25 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.initMaterial = function () {
 
-        THREE.warn( 'THREE.Canvas3DRenderer: .initMaterial() has been removed.' );
+		THREE.warn( 'THREE.Canvas3DRenderer: .initMaterial() has been removed.' );
 
 	};
 
 	this.addPrePlugin = function () {
 
-        THREE.warn( 'THREE.Canvas3DRenderer: .addPrePlugin() has been removed.' );
+		THREE.warn( 'THREE.Canvas3DRenderer: .addPrePlugin() has been removed.' );
 
 	};
 
 	this.addPostPlugin = function () {
 
-        THREE.warn( 'THREE.Canvas3DRenderer: .addPostPlugin() has been removed.' );
+		THREE.warn( 'THREE.Canvas3DRenderer: .addPostPlugin() has been removed.' );
 
 	};
 
 	this.updateShadowMap = function () {
 
-        THREE.warn( 'THREE.Canvas3DRenderer: .updateShadowMap() has been removed.' );
+		THREE.warn( 'THREE.Canvas3DRenderer: .updateShadowMap() has been removed.' );
 
 	};
 
