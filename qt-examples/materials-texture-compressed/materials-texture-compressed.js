@@ -8,8 +8,6 @@ var geometry;
 var meshes = [];
 
 function initGL(canvas) {
-    console.log("initGL ENTER...");
-
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 50, canvas.width / canvas.height, 1, 2000 );
@@ -128,7 +126,7 @@ function initGL(canvas) {
 
     renderer = new THREE.Canvas3DRenderer(
                    { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
 }
@@ -144,8 +142,6 @@ function onCanvasResize(canvas) {
 }
 
 function renderGL(canvas) {
-    console.log("renderGL ENTER...");
-
     var time = Date.now() * 0.001;
 
     for ( var i = 0; i < meshes.length; i ++ ) {
@@ -157,6 +153,4 @@ function renderGL(canvas) {
     }
 
     renderer.render( scene, camera );
-
-    console.log("renderGL EXIT...");
 }

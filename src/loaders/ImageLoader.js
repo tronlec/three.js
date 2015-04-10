@@ -27,11 +27,11 @@ THREE.ImageLoader.prototype = {
 
 		var image = document.createElement( 'img' );
 
-        image.addEventListener( 'load', function ( event ) {
+		image.addEventListener( 'load', function ( event ) {
 
-            THREE.Cache.add( url, image );
+			THREE.Cache.add( url, image );
 
-            if ( onLoad ) onLoad( image );
+			if ( onLoad ) onLoad( image );
 			
 			scope.manager.itemEnd( url );
 
@@ -59,7 +59,7 @@ THREE.ImageLoader.prototype = {
 
 		if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
 
-        image.src = url;
+		image.src = url;
 
 		scope.manager.itemStart( url );
 

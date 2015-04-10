@@ -2,7 +2,7 @@
 
 Qt.include("three.js")
 
-function App( containerId, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight ) {
+function App() {
 
     var camera, gridCanvas, scene, renderer;
 
