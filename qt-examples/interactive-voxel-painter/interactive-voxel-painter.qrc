@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file>interactive-voxel-painter.js</file>
+        <file>interactive-voxel-painter.qml</file>
+        <file alias="textures/square-outline-textured.png">../../examples/textures/square-outline-textured.png</file>
+    </qresource>
+</RCC>

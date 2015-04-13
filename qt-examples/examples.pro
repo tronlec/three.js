@@ -5,6 +5,7 @@ SUBDIRS += animation-cloth \
            camera \
            geometry-text \
            interactive-draggablecubes \
+           interactive-voxel-painter \
            loader-ply \
            materials \
            materials-texture-compressed \
