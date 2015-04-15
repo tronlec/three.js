@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="TransformControls.js">../js/controls/TransformControls.js</file>
+        <file>controls-transform.js</file>
+        <file>controls-transform.qml</file>
+        <file alias="textures/crate.gif">../../examples/textures/crate.gif</file>
+    </qresource>
+</RCC>

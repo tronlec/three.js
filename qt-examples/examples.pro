@@ -3,6 +3,7 @@ TEMPLATE = subdirs
 SUBDIRS += animation-cloth \
            buffergeometry \
            camera \
+           controls-transform \
            geometry-text \
            interactive-draggablecubes \
            interactive-voxel-painter \
