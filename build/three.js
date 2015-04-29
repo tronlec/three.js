@@ -18128,16 +18128,27 @@ THREE.XHRLoader.prototype = {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
                 if (request.readyState === XMLHttpRequest.DONE) {
-// TODO: Re-enable when issue with 'status' is solved in Qt
-//                    if (request.status == 200) {
-                        THREE.Cache.add( url, request.response );
-                        if ( onLoad ) onLoad( request.response );
+// TODO: Re-visit when issue with 'status' is solved in Qt
+                    if (request.status == 200 || request.status == 0) {
+                        var response;
+// TODO: File a bug in qt about the response not being set for text responses
+                        console.log("ResponseType:"+scope.responseType)
+                        if ( scope.responseType == 'arraybuffer' ) {
+                            console.log("response");
+                            response = request.response;
+                        } else {
+                            console.log("responseText");
+                            response = request.responseText;
+                        }
+
+                        THREE.Cache.add( url, response );
+                        if ( onLoad ) onLoad( response );
                         scope.manager.itemEnd( url );
-//                    } else {
-//                        if ( onError !== undefined ) {
-//                            onError();
-//                        }
-//                    }
+                    } else {
+                        if ( onError !== undefined ) {
+                            onError();
+                        }
+                    }
                 } else if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
                     if ( onProgress !== undefined ) {
                         onProgress();
