@@ -1,4 +1,4 @@
-#!/bin/sh
+
 # Build script for Qt 5.4.x environments without the native TypedArray support.
 # Works only with Qt Canvas3D Technology Preview 2.0 release available from:
 #
