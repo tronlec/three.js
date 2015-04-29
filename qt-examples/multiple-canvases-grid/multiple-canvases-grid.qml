@@ -28,30 +28,30 @@ Item {
         property variant app
 
         // Emitted when one time initializations should happen
-        onInitGL: {
+        onInitializeGL: {
             app = new GLCode.App();
-            app.initGL(canvas1, eventSource, width, height, 0, 0, canvasWidth, canvasHeight);
+            app.initializeGL(canvas1, eventSource, width, height, 0, 0, canvasWidth, canvasHeight);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
+        onPaintGL: {
             if (app)
-                app.renderGL(canvas1);
+                app.paintGL(canvas1);
         }
 
         onWidthChanged: {
             if (app)
-                app.onCanvasResize(canvas1);
+                app.onResizeGL(canvas1);
         }
 
         onHeightChanged: {
             if (app)
-                app.onCanvasResize(canvas1);
+                app.onResizeGL(canvas1);
         }
 
         onDevicePixelRatioChanged: {
             if (app)
-                app.onCanvasResize(canvas1);
+                app.onResizeGL(canvas1);
         }
     }
 
@@ -65,31 +65,31 @@ Item {
         property variant app
 
         // Emitted when one time initializations should happen
-        onInitGL: {
+        onInitializeGL: {
             app = new GLCode.App();
-            app.initGL(canvas2, eventSource, width, height, canvasWidth, 0,
+            app.initializeGL(canvas2, eventSource, width, height, canvasWidth, 0,
                           canvasWidth, canvasHeight);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
+        onPaintGL: {
             if (app)
-                app.renderGL(canvas2);
+                app.paintGL(canvas2);
         }
 
         onWidthChanged: {
             if (app)
-                app.onCanvasResize(canvas2);
+                app.onResizeGL(canvas2);
         }
 
         onHeightChanged: {
             if (app)
-                app.onCanvasResize(canvas2);
+                app.onResizeGL(canvas2);
         }
 
         onDevicePixelRatioChanged: {
             if (app)
-                app.onCanvasResize(canvas2);
+                app.onResizeGL(canvas2);
         }
     }
 
@@ -103,31 +103,31 @@ Item {
         property variant app
 
         // Emitted when one time initializations should happen
-        onInitGL: {
+        onInitializeGL: {
             app = new GLCode.App();
-            app.initGL(canvas3, eventSource, width, height, 0, canvasHeight,
+            app.initializeGL(canvas3, eventSource, width, height, 0, canvasHeight,
                           canvasWidth, canvasHeight);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
+        onPaintGL: {
             if (app)
-                app.renderGL(canvas3);
+                app.paintGL(canvas3);
         }
 
         onWidthChanged: {
             if (app)
-                app.onCanvasResize(canvas3);
+                app.onResizeGL(canvas3);
         }
 
         onHeightChanged: {
             if (app)
-                app.onCanvasResize(canvas3);
+                app.onResizeGL(canvas3);
         }
 
         onDevicePixelRatioChanged: {
             if (app)
-                app.onCanvasResize(canvas3);
+                app.onResizeGL(canvas3);
         }
     }
 
@@ -141,31 +141,31 @@ Item {
         property variant app
 
         // Emitted when one time initializations should happen
-        onInitGL: {
+        onInitializeGL: {
             app = new GLCode.App();
-            app.initGL(canvas4, eventSource, width, height, canvasWidth, canvasHeight,
+            app.initializeGL(canvas4, eventSource, width, height, canvasWidth, canvasHeight,
                           canvasWidth, canvasHeight);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
+        onPaintGL: {
             if (app)
-                app.renderGL(canvas4);
+                app.paintGL(canvas4);
         }
 
         onWidthChanged: {
             if (app)
-                app.onCanvasResize(canvas4);
+                app.onResizeGL(canvas4);
         }
 
         onHeightChanged: {
             if (app)
-                app.onCanvasResize(canvas4);
+                app.onResizeGL(canvas4);
         }
 
         onDevicePixelRatioChanged: {
             if (app)
-                app.onCanvasResize(canvas4);
+                app.onResizeGL(canvas4);
         }
     }
 

@@ -7,13 +7,7 @@ var particleLight;
 
 var materials = [];
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas) {
-    log("initGL ENTER...");
+function initializeGL(canvas) {
 
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 2000 );
     camera.position.set( 0, 200, 800 );
@@ -129,7 +123,7 @@ function initGL(canvas) {
     renderer.setSize( canvas.width, canvas.height );
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -139,8 +133,7 @@ function onCanvasResize(canvas) {
     renderer.setSize( canvas.width, canvas.height );
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     var timer = 0.0001 * Date.now();
 
@@ -166,5 +159,5 @@ function renderGL(canvas) {
     particleLight.position.z = Math.cos( timer * 3 ) * 300;
 
     renderer.render( scene, camera );
-    log("renderGL EXIT...");
+
 }

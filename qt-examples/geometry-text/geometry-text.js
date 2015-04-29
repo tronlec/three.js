@@ -91,13 +91,7 @@ var postprocessing = { enabled : false };
 var glow = 0.9;
 
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas, eventSource) {
-    log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
 
     window.innerWidth = canvas.width;
     window.innerHeight = canvas.height;
@@ -185,7 +179,7 @@ function initGL(canvas, eventSource) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -357,7 +351,6 @@ function changeWeight() {
 }
 
 function changeBevel() {
-    console.log("changeBevel");
     bevelEnabled = !bevelEnabled;
 
     refreshText();
@@ -410,8 +403,7 @@ function onDocumentMouseOut() {
     eventSource.mouseOut.disconnect(onDocumentMouseOut);
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
 
@@ -429,6 +421,4 @@ function renderGL(canvas) {
 
     }
 
-
-    log("renderGL EXIT...");
 }

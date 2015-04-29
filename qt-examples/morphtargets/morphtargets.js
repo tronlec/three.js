@@ -11,13 +11,7 @@ var mouseX = 0, mouseY = 0;
 
 var mesh;
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas, eventSource) {
-    log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
 
     morphCanvas = canvas;
 
@@ -76,7 +70,7 @@ function initGL(canvas, eventSource) {
     eventSource.mouseMove.connect(onDocumentMouseMove);
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
 
     if (camera === undefined) return;
 
@@ -100,8 +94,7 @@ function onMorphTargetChange(index, value) {
 
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     mesh.rotation.y += 0.01;
 
@@ -111,5 +104,4 @@ function renderGL(canvas) {
 
     renderer.render( scene, camera );
 
-    log("renderGL EXIT...");
 }

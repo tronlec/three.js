@@ -36,25 +36,25 @@ Item {
         logAllCalls: false
 
         // Emitted when one time initializations should happen
-        onInitGL: {
-            GLCode.initGL(canvas3d, eventSource);
+        onInitializeGL: {
+            GLCode.initializeGL(canvas3d, eventSource);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
-            GLCode.renderGL(canvas3d, guiInputParameters);
+        onPaintGL: {
+            GLCode.paintGL(canvas3d, guiInputParameters);
         }
 
         onWidthChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
         onHeightChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
         onDevicePixelRatioChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
         ControlEventSource {

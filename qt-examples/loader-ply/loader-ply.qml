@@ -15,25 +15,25 @@ Item {
         focus: true
 
         // Emitted when one time initializations should happen
-        onInitGL: {
-            GLCode.initGL(canvas3d);
+        onInitializeGL: {
+            GLCode.initializeGL(canvas3d);
         }
 
         // Emitted each time Canvas3D is ready for a new frame
-        onRenderGL: {
-            GLCode.renderGL(canvas3d);
+        onPaintGL: {
+            GLCode.paintGL(canvas3d);
         }
 
         onWidthChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
         onHeightChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
         onDevicePixelRatioChanged: {
-            GLCode.onCanvasResize(canvas3d);
+            GLCode.onResizeGL(canvas3d);
         }
 
     }

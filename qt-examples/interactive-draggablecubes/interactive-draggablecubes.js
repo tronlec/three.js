@@ -10,13 +10,7 @@ var mouse = new THREE.Vector2(),
 offset = new THREE.Vector3(),
 INTERSECTED, SELECTED;
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas, eventSource) {
-    log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
     eventSourceArea = eventSource;
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 1, 10000 );
     camera.position.z = 1000;
@@ -100,7 +94,7 @@ function initGL(canvas, eventSource) {
     eventSource.mouseUp.connect(onDocumentMouseUp);
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -179,13 +173,10 @@ function onDocumentMouseUp( x, y ) {
     eventSourceArea.cursorShape = Qt.ArrowCursor;
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     controls.update();
 
     renderer.render( scene, camera );
 
-
-    log("renderGL EXIT...");
 }

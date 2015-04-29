@@ -18,8 +18,8 @@ function log(message) {
         console.log(message)
 }
 
-function initGL(canvas, eventSource) {
-    console.log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
+    console.log("initializeGL ENTER...");
 
     canvas3d = canvas;
     controlEventSource = eventSource;
@@ -46,7 +46,7 @@ function initGL(canvas, eventSource) {
 }
 
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
 
     if (camera === undefined) return;
 
@@ -164,9 +164,9 @@ function start() {
     //gui = new BlendCharacterGui(blendMesh.animations);
 }
 
-function renderGL(canvas, guiParameters) {
+function paintGL(canvas, guiParameters) {
 
-    log("renderGL ENTER...");
+    log("paintGL ENTER...");
 
     // step forward in time based on whether we're stepping and scale
 
@@ -189,5 +189,5 @@ function renderGL(canvas, guiParameters) {
 
     timeToStep = 0;
 
-    log("renderGL EXIT...");
+    log("paintGL EXIT...");
 }

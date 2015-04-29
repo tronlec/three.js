@@ -13,7 +13,7 @@ var voxelCanvas;
 
 var objects = [];
 
-function initGL(canvas, eventSource) {
+function initializeGL(canvas, eventSource) {
 
     voxelCanvas = canvas;
 
@@ -93,7 +93,7 @@ function initGL(canvas, eventSource) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -183,7 +183,7 @@ function onDocumentKeyUp( event ) {
 
 }
 
-function renderGL(canvas) {
+function paintGL(canvas) {
 
     renderer.render( scene, camera );
 

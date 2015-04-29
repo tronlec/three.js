@@ -7,7 +7,7 @@ var camera, scene, renderer;
 var geometry;
 var meshes = [];
 
-function initGL(canvas) {
+function initializeGL(canvas) {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 50, canvas.width / canvas.height, 1, 2000 );
@@ -131,7 +131,7 @@ function initGL(canvas) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -141,7 +141,7 @@ function onCanvasResize(canvas) {
 
 }
 
-function renderGL(canvas) {
+function paintGL(canvas) {
     var time = Date.now() * 0.001;
 
     for ( var i = 0; i < meshes.length; i ++ ) {

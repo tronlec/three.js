@@ -8,13 +8,7 @@ var particlesCanvas;
 
 var mouseX = 0, mouseY = 0;
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas, eventSource) {
-    log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
 
     particlesCanvas = canvas;
 
@@ -60,7 +54,7 @@ function initGL(canvas, eventSource) {
     eventSource.mouseMove.connect(onDocumentMouseMove);
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -77,8 +71,7 @@ function onDocumentMouseMove( x, y ) {
     mouseY = y - particlesCanvas.height / 2;
 
 }
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     var time = Date.now() * 0.00005;
 
@@ -92,5 +85,4 @@ function renderGL(canvas) {
 
     renderer.render( scene, camera );
 
-    log("renderGL EXIT...");
 }

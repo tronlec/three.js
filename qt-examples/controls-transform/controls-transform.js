@@ -5,7 +5,7 @@ Qt.include("TransformControls.js")
 
 var camera, scene, renderer, control;
 
-function initGL(canvas, eventSource) {
+function initializeGL(canvas, eventSource) {
 
     camera = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 1, 3000 );
     camera.position.set( 1000, 500, 1000 );
@@ -43,7 +43,7 @@ function initGL(canvas, eventSource) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -78,7 +78,7 @@ function onDocumentKeyDown( event ) {
 
 }
 
-function renderGL(canvas) {
+function paintGL(canvas) {
 
     renderer.render( scene, camera );
 

@@ -11,7 +11,7 @@ function App() {
     var mouseX = 0, mouseY = 0;
 
 
-    this.initGL = function (canvas, eventSource, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight) {
+    this.initializeGL = function (canvas, eventSource, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight) {
         gridCanvas = canvas;
 
         camera = new THREE.PerspectiveCamera( 20, canvas.width / canvas.height, 1, 10000 );
@@ -98,7 +98,7 @@ function App() {
 
     }
 
-    this.onCanvasResize = function(canvas) {
+    this.onResizeGL = function(canvas) {
         if (camera === undefined) return;
 
         camera.aspect = canvas.width / canvas.height;
@@ -115,7 +115,7 @@ function App() {
 
     }
 
-    this.renderGL = function(canvas) {
+    this.paintGL = function(canvas) {
         camera.position.x += ( mouseX - camera.position.x ) * 0.05;
         camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 

@@ -224,8 +224,8 @@ function addStuff() {
 
 }
 
-function initGL(canvas, eventSource) {
-    log("initGL ENTER...");
+function initializeGL(canvas, eventSource) {
+    log("initializeGL ENTER...");
 
     var loader = new THREE.JSONLoader();
     loader.load( 'obj/WaltHeadLo.js', function ( geometry ) {
@@ -280,7 +280,7 @@ function initGL(canvas, eventSource) {
 }
 
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
 
     if (camera === undefined) return;
 
@@ -291,15 +291,15 @@ function onCanvasResize(canvas) {
 
 }
 
-function renderGL(canvas) {
+function paintGL(canvas) {
 
-    log("renderGL ENTER...");
+    log("paintGL ENTER...");
 
     controls.update();
 
     render();
 
-    log("renderGL EXIT...");
+    log("paintGL EXIT...");
 
 }
 

@@ -12,8 +12,7 @@ function log(message) {
         console.log(message)
 }
 
-function initGL(canvas) {
-    log("initGL ENTER...");
+function initializeGL(canvas) {
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
@@ -193,7 +192,7 @@ function initGL(canvas) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -204,8 +203,7 @@ function onCanvasResize(canvas) {
 
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     var time = Date.now() * 0.001;
 
@@ -214,5 +212,4 @@ function renderGL(canvas) {
 
     renderer.render( scene, camera );
 
-    log("renderGL EXIT...");
 }

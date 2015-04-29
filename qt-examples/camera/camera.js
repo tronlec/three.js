@@ -12,8 +12,7 @@ function log(message) {
         console.log(message)
 }
 
-function initGL(canvas) {
-    log("initGL ENTER...");
+function initializeGL(canvas) {
 
     camera = new THREE.PerspectiveCamera( 50, 0.5 * canvas.width / canvas.height, 1, 10000 );
     camera.position.z = 2500;
@@ -85,7 +84,7 @@ function initGL(canvas) {
     renderer.autoClear = false;
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     var SCREEN_WIDTH = canvas.width;
@@ -123,8 +122,7 @@ function changeProjection(projection) {
 
 }
 
-function renderGL(canvas) {
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     var r = Date.now() * 0.0005;
 
@@ -172,5 +170,4 @@ function renderGL(canvas) {
     renderer.setViewport( canvas.width/2, 0, canvas.width/2, canvas.height );
     renderer.render( scene, camera );
 
-    log("renderGL EXIT...");
 }

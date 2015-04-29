@@ -5,12 +5,7 @@ Qt.include("js/loaders/PLYLoader.js")
 
 var camera, cameraTarget, scene, renderer;
 
-function log(message) {
-    console.log(message)
-}
-
-function initGL(canvas) {
-    log("initGL ENTER...");
+function initializeGL(canvas) {
 
     camera = new THREE.PerspectiveCamera( 35, canvas.width / canvas.height, 1, 15 );
     camera.position.set( 3, 0.15, 3 );
@@ -102,7 +97,7 @@ function addShadowedLight( x, y, z, color, intensity ) {
 
 }
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -112,7 +107,7 @@ function onCanvasResize(canvas) {
 
 }
 
-function renderGL(canvas) {
+function paintGL(canvas) {
     var timer = Date.now() * 0.0005;
 
     camera.position.x = Math.sin( timer ) * 3;

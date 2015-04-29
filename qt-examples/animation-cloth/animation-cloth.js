@@ -83,13 +83,7 @@ var pos;
 
 var rotate = true;
 
-function log(message) {
-    if (canvas3d.logAllCalls)
-        console.log(message)
-}
-
-function initGL(canvas) {
-    log("initGL ENTER...");
+function initializeGL(canvas) {
 
     // scene
 
@@ -240,7 +234,7 @@ function initGL(canvas) {
 }
 
 
-function onCanvasResize(canvas) {
+function onResizeGL(canvas) {
 
     if (camera === undefined) return;
 
@@ -269,9 +263,7 @@ function toggleBall() {
 
 }
 
-function renderGL(canvas) {
-
-    log("renderGL ENTER...");
+function paintGL(canvas) {
 
     var time = Date.now();
 
@@ -280,8 +272,6 @@ function renderGL(canvas) {
 
     simulate(time);
     render();
-
-    log("renderGL EXIT...");
 
 }
 
