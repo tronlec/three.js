@@ -238,7 +238,7 @@ THREE.ObjectLoader.prototype = {
 
 				if ( data.name !== undefined ) material.name = data.name;
 
-				if ( data.map !== undefined ) {
+                if ( data.map !== undefined && data.map !== null ) {
 
 					material.map = getTexture( data.map );
 

@@ -28,10 +28,10 @@ THREE.XHRLoader.prototype = {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
                 if (request.readyState === XMLHttpRequest.DONE) {
-// TODO: Re-visit when issue with 'status' is solved in Qt
+// TODO: Re-visit https://bugreports.qt.io/browse/QTBUG-45581 is solved in Qt
                     if (request.status == 200 || request.status == 0) {
                         var response;
-// TODO: File a bug in qt about the response not being set for text responses
+// TODO: Remove once https://bugreports.qt.io/browse/QTBUG-45862 is fixed in Qt
                         if ( scope.responseType == 'arraybuffer' )
                             response = request.response;
                         else
