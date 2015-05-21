@@ -16,6 +16,7 @@ function initializeGL(canvas, eventSource) {
     camera.position.z = 1400;
 
     scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2( 0x000000, 0.0009 );
 
     geometry = new THREE.Geometry();
 
@@ -37,7 +38,7 @@ function initializeGL(canvas, eventSource) {
 
     geometry.colors = colors;
 
-    material = new THREE.PointCloudMaterial( { size: 85, map: sprite, vertexColors: THREE.VertexColors, transparent: true } );
+    material = new THREE.PointCloudMaterial( { size: 85, map: sprite, vertexColors: THREE.VertexColors, alphaTest: 0.5, transparent: true } );
     material.color.setHSL( 1.0, 0.2, 0.7 );
 
     particles = new THREE.PointCloud( geometry, material );
