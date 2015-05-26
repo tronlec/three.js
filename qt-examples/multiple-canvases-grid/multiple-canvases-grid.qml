@@ -1,10 +1,12 @@
 import QtQuick 2.0
 import QtCanvas3D 1.0
+import QtQuick.Controls 1.3
 
 import "multiple-canvases-grid.js" as GLCode
 
-Item {
+ApplicationWindow {
     id: mainview
+    title: qsTr("Qt Canvas 3D + three.js Examples - Multiple Canvases - Grid")
     width: 1200
     height: 800
     visible: true

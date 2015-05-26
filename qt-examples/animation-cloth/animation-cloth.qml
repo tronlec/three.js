@@ -1,11 +1,12 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import QtCanvas3D 1.0
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.3
 
 import "animation-cloth.js" as GLCode
 
-Item {
+ApplicationWindow {
     id: mainview
+    title: qsTr("Qt Canvas 3D + three.js Examples - Cloth Simulation")
     width: 1280
     height: 768
     visible: true

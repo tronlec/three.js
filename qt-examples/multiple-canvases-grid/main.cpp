@@ -1,30 +1,12 @@
-#include <QtGui/QGuiApplication>
-#include <QtCore/QDir>
-#include <QtQuick/QQuickView>
-#include <QtQml/QQmlEngine>
+#include <QApplication>
+#include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
 
-    QGuiApplication app(argc, argv);
-
-    QQuickView viewer;
-
-    // The following are needed to make examples run without having to install the module
-    // in desktop environments.
-#ifdef Q_OS_WIN
-    QString extraImportPath(QStringLiteral("%1/../../../../%2"));
-#else
-    QString extraImportPath(QStringLiteral("%1/../../../%2"));
-#endif
-    viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
-                                                       QString::fromLatin1("qml")));
-
-    viewer.setSource(QUrl("qrc:/multiple-canvases-grid.qml"));
-
-    viewer.setTitle(QStringLiteral("Qt Canvas 3D + three.js Examples - Multiple Canvases - Grid"));
-    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
-    viewer.show();
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/multiple-canvases-grid.qml")));
 
     return app.exec();
 }
