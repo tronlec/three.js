@@ -39,20 +39,11 @@ Item {
                 app.paintGL(canvas1);
         }
 
-        onWidthChanged: {
+        onResizeGL: {
             if (app)
                 app.onResizeGL(canvas1);
         }
 
-        onHeightChanged: {
-            if (app)
-                app.onResizeGL(canvas1);
-        }
-
-        onDevicePixelRatioChanged: {
-            if (app)
-                app.onResizeGL(canvas1);
-        }
     }
 
     Canvas3D {
@@ -77,20 +68,11 @@ Item {
                 app.paintGL(canvas2);
         }
 
-        onWidthChanged: {
+        onResizeGL: {
             if (app)
                 app.onResizeGL(canvas2);
         }
 
-        onHeightChanged: {
-            if (app)
-                app.onResizeGL(canvas2);
-        }
-
-        onDevicePixelRatioChanged: {
-            if (app)
-                app.onResizeGL(canvas2);
-        }
     }
 
     Canvas3D {
@@ -115,20 +97,11 @@ Item {
                 app.paintGL(canvas3);
         }
 
-        onWidthChanged: {
+        onResizeGL: {
             if (app)
                 app.onResizeGL(canvas3);
         }
 
-        onHeightChanged: {
-            if (app)
-                app.onResizeGL(canvas3);
-        }
-
-        onDevicePixelRatioChanged: {
-            if (app)
-                app.onResizeGL(canvas3);
-        }
     }
 
     Canvas3D {
@@ -153,20 +126,11 @@ Item {
                 app.paintGL(canvas4);
         }
 
-        onWidthChanged: {
+        onResizeGL: {
             if (app)
                 app.onResizeGL(canvas4);
         }
 
-        onHeightChanged: {
-            if (app)
-                app.onResizeGL(canvas4);
-        }
-
-        onDevicePixelRatioChanged: {
-            if (app)
-                app.onResizeGL(canvas4);
-        }
     }
 
     Rectangle { anchors.fill: canvas1; border.color: "red"; color: "transparent" }
