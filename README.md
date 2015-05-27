@@ -36,24 +36,16 @@ Item {
         id: canvas3d
         anchors.fill: parent
 
-        onInitGL: {
-            GLCode.initGL(canvas3d);
+        onInitializeGL: {
+            GLCode.initializeGL(canvas3d);
         }
 
-        onRenderGL: {
-            GLCode.renderGL(canvas3d);
+        onPaintGL: {
+            GLCode.paintGL(canvas3d);
         }
         
-        onWidthChanged: {
-            GLCode.onCanvasResize(canvas3d);
-        }
-
-        onHeightChanged: {
-            GLCode.onCanvasResize(canvas3d);
-        }
-
-        onDevicePixelRatioChanged: {
-            GLCode.onCanvasResize(canvas3d);
+        onResizeGL: {
+            GLCode.resizeGL(canvas3d);
         }
     }
 }
@@ -68,7 +60,7 @@ This code (place it in "code.js" file in your Qt resource file) creates a scene,
 	var camera, scene, renderer;
 	var geometry, material, mesh;
 
-	function initGL(canvas) {
+	function initializeGL(canvas) {
 
 		camera = new THREE.PerspectiveCamera( 75, canvas.width / canvas.height, 1, 10000 );
 		camera.position.z = 1000;
@@ -85,7 +77,7 @@ This code (place it in "code.js" file in your Qt resource file) creates a scene,
 		renderer.setSize( canvas.width, canvas.height );
 	}
 
-	function renderGL(canvas) {
+	function paintGL(canvas) {
 
 		mesh.rotation.x += 0.01;
 		mesh.rotation.y += 0.02;
@@ -94,7 +86,7 @@ This code (place it in "code.js" file in your Qt resource file) creates a scene,
 
 	}
 
-	function onCanvasResize(canvas) {
+	function resizeGL(canvas) {
 
 		if (camera === undefined) return;
 
