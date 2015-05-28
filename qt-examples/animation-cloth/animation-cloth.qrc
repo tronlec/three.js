@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file alias="three.js">../../build/three.js</file>
-		<file alias="Cloth.js">../../examples/js/Cloth.js</file>
+        <file alias="Cloth.js">../../examples/js/Cloth.js</file>
         <file>animation-cloth.js</file>
         <file>animation-cloth.qml</file>
-		<file alias="textures/patterns/circuit_pattern.png">../../examples/textures/patterns/circuit_pattern.png</file>
-		<file alias="textures/terrain/grasslight-big.jpg">../../examples/textures/terrain/grasslight-big.jpg</file>
+        <file alias="textures/patterns/circuit_pattern.png">../../examples/textures/patterns/circuit_pattern.png</file>
+        <file alias="textures/terrain/grasslight-big.jpg">../../examples/textures/terrain/grasslight-big.jpg</file>
     </qresource>
 </RCC>
