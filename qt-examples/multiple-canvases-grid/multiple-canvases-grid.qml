@@ -43,7 +43,7 @@ ApplicationWindow {
 
         onResizeGL: {
             if (app)
-                app.onResizeGL(canvas1);
+                app.resizeGL(canvas1);
         }
 
     }
@@ -72,7 +72,7 @@ ApplicationWindow {
 
         onResizeGL: {
             if (app)
-                app.onResizeGL(canvas2);
+                app.resizeGL(canvas2);
         }
 
     }
@@ -101,7 +101,7 @@ ApplicationWindow {
 
         onResizeGL: {
             if (app)
-                app.onResizeGL(canvas3);
+                app.resizeGL(canvas3);
         }
 
     }
@@ -130,7 +130,7 @@ ApplicationWindow {
 
         onResizeGL: {
             if (app)
-                app.onResizeGL(canvas4);
+                app.resizeGL(canvas4);
         }
 
     }

@@ -145,6 +145,7 @@ function initializeGL(canvas, eventSource) {
 
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio } );
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
     renderer.setClearColor( scene.fog.color, 1 );
@@ -179,7 +180,7 @@ function initializeGL(canvas, eventSource) {
 
 }
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
@@ -188,6 +189,7 @@ function onResizeGL(canvas) {
     window.innerWidth = canvas.width;
     window.innerHeight = canvas.height;
 
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
     composer.reset();

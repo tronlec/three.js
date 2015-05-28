@@ -27,7 +27,7 @@ ApplicationWindow {
         }
 
         onResizeGL: {
-            GLCode.onResizeGL(canvas3d);
+            GLCode.resizeGL(canvas3d);
         }
     }
 }

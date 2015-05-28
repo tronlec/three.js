@@ -80,16 +80,18 @@ function initializeGL(canvas) {
 
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
     renderer.autoClear = false;
 }
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
     if (camera === undefined) return;
 
     var SCREEN_WIDTH = canvas.width;
     var SCREEN_HEIGHT = canvas.height;
 
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
     camera.aspect = 0.5 * SCREEN_WIDTH / SCREEN_HEIGHT;

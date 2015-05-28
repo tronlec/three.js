@@ -50,19 +50,22 @@ function initializeGL(canvas, eventSource) {
 
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, clearAlpha: 1, devicePixelRatio: canvas.devicePixelRatio });
+    renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize( canvas.width, canvas.height );
 
     eventSource.mouseMove.connect(onDocumentMouseMove);
 }
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
     camera.updateProjectionMatrix();
 
+    renderer.setPixelRatio(canvas.devicePixelRatio);
     renderer.setSize( canvas.width, canvas.height );
 
+    material.size = 85 * canvas.devicePixelRatio;
 
 }
 

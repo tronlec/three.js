@@ -60,6 +60,7 @@ function initializeGL(canvas) {
 
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
     renderer.setClearColor( scene.fog.color );
@@ -97,12 +98,13 @@ function addShadowedLight( x, y, z, color, intensity ) {
 
 }
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
     camera.updateProjectionMatrix();
 
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
 }

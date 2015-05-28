@@ -37,18 +37,20 @@ function initializeGL(canvas, eventSource) {
 
     //
 
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
     eventSource.keyDown.connect(onDocumentKeyDown);
 
 }
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
     if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
     camera.updateProjectionMatrix();
 
+    renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
 }

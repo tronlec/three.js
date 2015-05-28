@@ -150,15 +150,15 @@ Item {
         }
 
         onWidthChanged: {
-            GLCode.onResizeGL(canvas3d);
+            GLCode.resizeGL(canvas3d);
         }
 
         onHeightChanged: {
-            GLCode.onResizeGL(canvas3d);
+            GLCode.resizeGL(canvas3d);
         }
 
         onDevicePixelRatioChanged: {
-            GLCode.onResizeGL(canvas3d);
+            GLCode.resizeGL(canvas3d);
         }
 
         ControlEventSource {

@@ -92,18 +92,20 @@ function App() {
         renderer = new THREE.Canvas3DRenderer(
                     { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
         renderer.setClearColor( 0xffffff  );
+        renderer.setPixelRatio( canvas.devicePixelRatio );
         renderer.setSize( canvas.width, canvas.height );
 
         eventSource.mouseMove.connect(this.onDocumentMouseMove);
 
     }
 
-    this.onResizeGL = function(canvas) {
+    this.resizeGL = function(canvas) {
         if (camera === undefined) return;
 
         camera.aspect = canvas.width / canvas.height;
         camera.updateProjectionMatrix();
 
+        renderer.setPixelRatio( canvas.devicePixelRatio );
         renderer.setSize( canvas.width, canvas.height );
 
     }
