@@ -86,7 +86,6 @@ function initializeGL(canvas) {
 }
 
 function resizeGL(canvas) {
-    if (camera === undefined) return;
 
     var SCREEN_WIDTH = canvas.width;
     var SCREEN_HEIGHT = canvas.height;

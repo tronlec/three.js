@@ -95,7 +95,6 @@ function initializeGL(canvas, eventSource) {
 }
 
 function resizeGL(canvas) {
-    if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
     camera.updateProjectionMatrix();

@@ -100,7 +100,6 @@ function App() {
     }
 
     this.resizeGL = function(canvas) {
-        if (camera === undefined) return;
 
         camera.aspect = canvas.width / canvas.height;
         camera.updateProjectionMatrix();

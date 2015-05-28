@@ -99,7 +99,6 @@ function addShadowedLight( x, y, z, color, intensity ) {
 }
 
 function resizeGL(canvas) {
-    if (camera === undefined) return;
 
     camera.aspect = canvas.width / canvas.height;
     camera.updateProjectionMatrix();
