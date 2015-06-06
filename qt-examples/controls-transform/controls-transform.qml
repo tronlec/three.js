@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtCanvas3D 1.0
 import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.1
 
 import "controls-transform.js" as GLCode
 
@@ -36,11 +37,99 @@ ApplicationWindow {
         }
     }
 
-    Text {
+    ExclusiveGroup {
+        id: modeGroup
+    }
+
+    RowLayout {
+        id: buttonLayout
         anchors.topMargin: 10
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "white"
-        text: "'T' translate | 'R' rotate | 'S' scale | '+' increase size | '- decrease size<br />Press 'Q' twice to toggle world/local space"
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        spacing: 6
+
+        Button {
+            id: translateButton
+            text: "Translate"
+            checkable: true
+            exclusiveGroup: modeGroup
+            Layout.fillWidth : true
+            checked: true
+
+            onClicked: GLCode.setTranslateMode();
+        }
+
+        Button {
+            id: rotateButton
+            text: "Rotate"
+            checkable: true
+            exclusiveGroup: modeGroup
+            Layout.fillWidth : true
+
+            onClicked: GLCode.setRotateMode();
+        }
+
+        Button {
+            id: scaleButton
+            text: "Scale"
+            checkable: true
+            exclusiveGroup: modeGroup
+            Layout.fillWidth : true
+
+            onClicked: GLCode.setScaleMode();
+        }
+
+        Item {
+            width: 16
+        }
+
+        Button {
+            id: incSizeButton
+            text: "Increase Size"
+            Layout.fillWidth : true
+
+            onClicked: GLCode.increaseSize();
+        }
+
+        Button {
+            id: decSizeButton
+            text: "Decrease Size"
+            Layout.fillWidth : true
+
+            onClicked: GLCode.decreaseSize();
+        }
+
+        Item {
+            width: 16
+        }
+
+        Label {
+            text: "Coordinates:"
+            color: "white"
+        }
+
+        Button {
+            id: coordSelection
+            text: "Local"
+            Layout.fillWidth : true
+            property bool isLocal: true
+
+            onClicked: {
+                if (coordSelection.isLocal) {
+                    coordSelection.isLocal = false;
+                    GLCode.setWorldControlSpace();
+                    coordSelection.text = "World";
+                }
+                else {
+                    coordSelection.isLocal = true;
+                    GLCode.setLocalControlSpace();
+                    coordSelection.text = "Local";
+                }
+            }
+        }
     }
 }

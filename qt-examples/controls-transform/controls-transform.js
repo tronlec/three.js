@@ -40,7 +40,7 @@ function initializeGL(canvas, eventSource) {
     renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
 
-    eventSource.keyDown.connect(onDocumentKeyDown);
+    setLocalControlSpace();
 
 }
 
@@ -54,29 +54,32 @@ function resizeGL(canvas) {
 
 }
 
-function onDocumentKeyDown( event ) {
+function setLocalControlSpace() {
+    control.setSpace( "local" );
+}
 
-    switch ( event.key ) {
-      case Qt.Key_Q:
-        control.setSpace( control.space == "local" ? "world" : "local" );
-        break;
-      case Qt.Key_T:
-        control.setMode( "translate" );
-        break;
-      case Qt.Key_R:
-        control.setMode( "rotate" );
-        break;
-      case Qt.Key_S:
-        control.setMode( "scale" );
-        break;
-    case Qt.Key_Plus:
-        control.setSize( control.size + 0.1 );
-        break;
-    case Qt.Key_Minus:
-        control.setSize( Math.max(control.size - 0.1, 0.1 ) );
-        break;
-    }
+function setWorldControlSpace() {
+    control.setSpace( "world" );
+}
 
+function setTranslateMode() {
+    control.setMode( "translate" );
+}
+
+function setRotateMode() {
+    control.setMode( "rotate" )
+}
+
+function setScaleMode() {
+    control.setMode( "scale" );
+}
+
+function increaseSize() {
+    control.setSize( control.size + 0.1 );
+}
+
+function decreaseSize() {
+    control.setSize( Math.max(control.size - 0.1, 0.1 ) );
 }
 
 function paintGL(canvas) {
