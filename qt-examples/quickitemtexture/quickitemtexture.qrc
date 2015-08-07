@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="three.js">../../build/three.js</file>
+        <file>quickitemtexture.js</file>
+        <file>quickitemtexture.qml</file>
+    </qresource>
+</RCC>

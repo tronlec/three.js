@@ -5524,110 +5524,134 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.uploadTexture = function ( texture ) {
 
-		if ( texture.__webglInit === undefined ) {
+        if ( texture instanceof THREE.QuickItemTexture ) {
 
-			texture.__webglInit = true;
+            var canvasTextureProvider = _gl.getExtension("QTCANVAS3D_texture_provider");
 
-			texture.addEventListener( 'dispose', onTextureDispose );
+            texture.__webglInit = true;
 
-			texture.__webglTexture = _gl.createTexture();
+            if ( canvasTextureProvider !== null )
+                texture.__webglTexture = canvasTextureProvider.createTextureFromSource(texture.quickItem);
+            else
+                texture.__webglTexture = 0;
 
-			_this.info.memory.textures ++;
+            _gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
 
-		}
+            var isImagePowerOfTwo = THREE.Math.isPowerOfTwo( texture.quickItem.width ) && THREE.Math.isPowerOfTwo( texture.quickItem.height );
 
-		_gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
+            if (isImagePowerOfTwo) {
+                _gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_S, paramThreeToGL( texture.wrapS ) );
+                _gl.texParameteri( _gl.TEXTURE_2D, _gl.TEXTURE_WRAP_T, paramThreeToGL( texture.wrapT ) );
+            } else if ( texture.wrapS !== THREE.ClampToEdgeWrapping || texture.wrapT !== THREE.ClampToEdgeWrapping ) {
+                THREE.warn( 'THREE.Canvas3DRenderer: Quick item width and/or height are not power of two. Texture.wrapS and Texture.wrapT should be set to THREE.ClampToEdgeWrapping.' );
+            }
+        } else {
 
-		_gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
-		_gl.pixelStorei( _gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );
-		_gl.pixelStorei( _gl.UNPACK_ALIGNMENT, texture.unpackAlignment );
+            if ( texture.__webglInit === undefined ) {
 
-		texture.image = clampToMaxSize( texture.image, _maxTextureSize );
+                texture.__webglInit = true;
 
-		var image = texture.image,
-		isImagePowerOfTwo = THREE.Math.isPowerOfTwo( image.width ) && THREE.Math.isPowerOfTwo( image.height ),
-		glFormat = paramThreeToGL( texture.format ),
-		glType = paramThreeToGL( texture.type );
+                texture.addEventListener( 'dispose', onTextureDispose );
 
-		setTextureParameters( _gl.TEXTURE_2D, texture, isImagePowerOfTwo );
+                texture.__webglTexture = _gl.createTexture();
 
-		var mipmap, mipmaps = texture.mipmaps;
+                _this.info.memory.textures ++;
 
-		if ( texture instanceof THREE.DataTexture ) {
+            }
 
-			// use manually created mipmaps if available
-			// if there are no manual mipmaps
-			// set 0 level mipmap and then use GL to generate other mipmap levels
+            _gl.bindTexture( _gl.TEXTURE_2D, texture.__webglTexture );
 
-			if ( mipmaps.length > 0 && isImagePowerOfTwo ) {
+            _gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
+            _gl.pixelStorei( _gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );
+            _gl.pixelStorei( _gl.UNPACK_ALIGNMENT, texture.unpackAlignment );
 
-				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
+            texture.image = clampToMaxSize( texture.image, _maxTextureSize );
 
-					mipmap = mipmaps[ i ];
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+            var image = texture.image,
+            isImagePowerOfTwo = THREE.Math.isPowerOfTwo( image.width ) && THREE.Math.isPowerOfTwo( image.height ),
+            glFormat = paramThreeToGL( texture.format ),
+            glType = paramThreeToGL( texture.type );
 
-				}
+            setTextureParameters( _gl.TEXTURE_2D, texture, isImagePowerOfTwo );
 
-				texture.generateMipmaps = false;
+            var mipmap, mipmaps = texture.mipmaps;
 
-			} else {
+            if ( texture instanceof THREE.DataTexture ) {
 
-				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
+                // use manually created mipmaps if available
+                // if there are no manual mipmaps
+                // set 0 level mipmap and then use GL to generate other mipmap levels
 
-			}
+                if ( mipmaps.length > 0 && isImagePowerOfTwo ) {
 
-		} else if ( texture instanceof THREE.CompressedTexture ) {
+                    for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
-			for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
+                        mipmap = mipmaps[ i ];
+                        _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
-				mipmap = mipmaps[ i ];
+                    }
 
-				if ( texture.format !== THREE.RGBAFormat && texture.format !== THREE.RGBFormat ) {
+                    texture.generateMipmaps = false;
 
-					if ( getCompressedTextureFormats().indexOf( glFormat ) > -1 ) {
+                } else {
 
-						_gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
+                    _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, image.width, image.height, 0, glFormat, glType, image.data );
 
-					} else {
+                }
 
-						THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()" );
+            } else if ( texture instanceof THREE.CompressedTexture ) {
 
-					}
+                for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
-				} else {
+                    mipmap = mipmaps[ i ];
 
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
+                    if ( texture.format !== THREE.RGBAFormat && texture.format !== THREE.RGBFormat ) {
 
-				}
+                        if ( getCompressedTextureFormats().indexOf( glFormat ) > -1 ) {
 
-			}
+                            _gl.compressedTexImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, mipmap.data );
 
-		} else { // regular Texture (image, video, canvas)
+                        } else {
 
-			// use manually created mipmaps if available
-			// if there are no manual mipmaps
-			// set 0 level mipmap and then use GL to generate other mipmap levels
+                            THREE.warn( "THREE.Canvas3DRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()" );
 
-			if ( mipmaps.length > 0 && isImagePowerOfTwo ) {
+                        }
 
-				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
+                    } else {
 
-					mipmap = mipmaps[ i ];
-					_gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
+                        _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data );
 
-				}
+                    }
 
-				texture.generateMipmaps = false;
+                }
 
-			} else {
+            } else { // regular Texture (image, video, canvas)
 
-				_gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
+                // use manually created mipmaps if available
+                // if there are no manual mipmaps
+                // set 0 level mipmap and then use GL to generate other mipmap levels
 
-			}
+                if ( mipmaps.length > 0 && isImagePowerOfTwo ) {
 
-		}
+                    for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
-		if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
+                        mipmap = mipmaps[ i ];
+                        _gl.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
+
+                    }
+
+                    texture.generateMipmaps = false;
+
+                } else {
+
+                    _gl.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, texture.image.texImage() );
+
+                }
+
+            }
+
+            if ( texture.generateMipmaps && isImagePowerOfTwo ) _gl.generateMipmap( _gl.TEXTURE_2D );
+        }
 
 		texture.needsUpdate = false;
 
