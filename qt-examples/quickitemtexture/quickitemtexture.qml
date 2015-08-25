@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtCanvas3D 1.1
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
@@ -28,13 +28,11 @@ Window {
             border.width: 4
             layer.enabled: true
             layer.smooth: true
-            // Flip again to show the label correctly in UI as well. Note that transforms done
-            // to layered item do not manifest into the generated texture.
-            transform: Scale { origin.y: textureSource.height / 2; yScale: -1 }
+            // Layer generates Y-mirrored textures by default, but three.js doesn't like that,
+            // so we disable mirroring
+            layer.textureMirroring: ShaderEffectSource.NoMirroring
             Label {
                 id: infoLabel
-                // Layer generates Y-mirrored textures, so flip the label
-                transform: Scale { origin.y: infoLabel.height / 2; yScale: -1 }
                 anchors.fill: parent
                 anchors.margins: 16
                 text: "X Rot:" + (canvas3d.xRotAnim | 0) + "\n"
