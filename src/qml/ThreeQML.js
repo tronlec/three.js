@@ -23,7 +23,8 @@ THE SOFTWARE.
 */
 
 /**
- * QtQuick port of three.js library https://github.com/mrdoob/three.js
- * Port source code is available at https://github.com/tronlec/three.js
+ * QtQuick port of three.js library from: https://github.com/mrdoob/three.js
+ * Latest version for current stable Qt version can be found at: https://github.com/tronlec/three.js/tree/stable
+ * Latest version for current Qt version under development can be found at: https://github.com/tronlec/three.js/tree/master
  * @author Pasi keränen / pasi.keranen@theqtcompany.com
  */
