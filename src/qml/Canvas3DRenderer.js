@@ -5524,7 +5524,7 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
 	this.uploadTexture = function ( texture ) {
 
-        if ( texture instanceof THREE.QuickItemTexture ) {
+        if ( texture instanceof THREE.QtQuickItemTexture ) {
 
             var canvasTextureProvider = _gl.getExtension("QTCANVAS3D_texture_provider");
 

@@ -40,7 +40,7 @@ Window {
                     + "Z Rot:" + (canvas3d.zRotAnim | 0) + "\n"
                     + "FPS:" + canvas3d.fps
                 color: "red"
-                font.pointSize: 30
+                font.pixelSize: 30
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
             }

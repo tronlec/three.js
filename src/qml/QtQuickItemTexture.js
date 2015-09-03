@@ -2,7 +2,7 @@
  * @author miheikki / miikka.heikkinen@theqtcompany.com
  */
 
-THREE.QuickItemTexture = function ( quickItem, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy ) {
+THREE.QtQuickItemTexture = function ( quickItem, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy ) {
 
     THREE.Texture.call( this, null, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy );
 
@@ -13,5 +13,5 @@ THREE.QuickItemTexture = function ( quickItem, mapping, wrapS, wrapT, magFilter,
 
 };
 
-THREE.QuickItemTexture.prototype = Object.create( THREE.Texture.prototype );
-THREE.QuickItemTexture.prototype.constructor = THREE.QuickItemTexture;
+THREE.QtQuickItemTexture.prototype = Object.create( THREE.Texture.prototype );
+THREE.QtQuickItemTexture.prototype.constructor = THREE.QtQuickItemTexture;

@@ -20,7 +20,7 @@ function initializeGL(canvas, textureSource) {
 
     var geometry = new THREE.BoxGeometry( 2, 2, 2 );
 
-    var texture = new THREE.QuickItemTexture( textureSource );
+    var texture = new THREE.QtQuickItemTexture( textureSource );
     texture.repeat = new THREE.Vector2( 2, 2 );
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
