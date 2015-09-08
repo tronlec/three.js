@@ -20,9 +20,11 @@ THREE.Clock.prototype = {
 
 	start: function () {
 
-		this.startTime = self.performance !== undefined && self.performance.now !== undefined
-					 ? self.performance.now()
-					 : Date.now();
+        this.startTime = ( Qt === undefined &&
+                           self.performance !== undefined &&
+                           self.performance.now !== undefined )
+                     ? self.performance.now()
+                     : Date.now();
 
 		this.oldTime = this.startTime;
 		this.running = true;
@@ -54,9 +56,11 @@ THREE.Clock.prototype = {
 
 		if ( this.running ) {
 
-			var newTime = self.performance !== undefined && self.performance.now !== undefined
-					 ? self.performance.now()
-					 : Date.now();
+            var newTime = ( Qt === undefined &&
+                               self.performance !== undefined &&
+                               self.performance.now !== undefined )
+                         ? self.performance.now()
+                         : Date.now();
 
 			diff = 0.001 * ( newTime - this.oldTime );
 			this.oldTime = newTime;
