@@ -33,7 +33,6 @@ Item {
     Canvas3D {
         id: canvas3d
         anchors.fill: parent
-        logAllCalls: false
 
         // Emitted when one time initializations should happen
         onInitializeGL: {
@@ -45,16 +44,8 @@ Item {
             GLCode.paintGL(canvas3d, guiInputParameters);
         }
 
-        onWidthChanged: {
-            GLCode.resizeGL(canvas3d);
-        }
-
-        onHeightChanged: {
-            GLCode.resizeGL(canvas3d);
-        }
-
-        onDevicePixelRatioChanged: {
-            GLCode.resizeGL(canvas3d);
+        onResizeGL: {
+            GLCode.onResizeGL(canvas3d);
         }
 
         ControlEventSource {
