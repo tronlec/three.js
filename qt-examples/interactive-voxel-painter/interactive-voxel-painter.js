@@ -33,7 +33,7 @@ function initializeGL(canvas, eventSource) {
     // cubes
 
     cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
-    cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( 'qrc:/textures/square-outline-textured.png' ) } );
+    cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, map: new THREE.TextureLoader().load( "qrc:/textures/square-outline-textured.png" ) } );
 
     // grid
 
@@ -53,7 +53,7 @@ function initializeGL(canvas, eventSource) {
 
     var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2, transparent: true } );
 
-    var line = new THREE.Line( geometry, material, THREE.LinePieces );
+    var line = new THREE.LineSegments( geometry, material );
     scene.add( line );
 
     //
@@ -61,11 +61,10 @@ function initializeGL(canvas, eventSource) {
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
-    geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+    geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
+    geometry.rotateX( - Math.PI / 2 );
 
-    plane = new THREE.Mesh( geometry );
-    plane.visible = false;
+    plane = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { visible: false } ) );
     scene.add( plane );
 
     objects.push( plane );

@@ -1,6 +1,6 @@
 /**
  * @author mrdoob / http://mrdoob.com/
- * @author bhouston / http://exocortex.com/
+ * @author bhouston / http://clara.io/
  * @author stephomi / http://stephaneginier.com/
  */
 
@@ -15,22 +15,33 @@
 		this.far = far || Infinity;
 
 		this.params = {
-			Sprite: {},
 			Mesh: {},
-			PointCloud: { threshold: 1 },
+			Line: {},
 			LOD: {},
-			Line: {}
+			Points: { threshold: 1 },
+			Sprite: {}
 		};
+
+		Object.defineProperties( this.params, {
+			PointCloud: {
+				get: function () {
+					console.warn( 'THREE.Raycaster: params.PointCloud has been renamed to params.Points.' );
+					return this.Points;
+				}
+			}
+		} );
 
 	};
 
-	var descSort = function ( a, b ) {
+	function ascSort( a, b ) {
 
 		return a.distance - b.distance;
 
-	};
+	}
 
-	var intersectObject = function ( object, raycaster, intersects, recursive ) {
+	function intersectObject( object, raycaster, intersects, recursive ) {
+
+		if ( object.visible === false ) return;
 
 		object.raycast( raycaster, intersects );
 
@@ -46,7 +57,7 @@
 
 		}
 
-	};
+	}
 
 	//
 
@@ -54,7 +65,6 @@
 
 		constructor: THREE.Raycaster,
 
-		precision: 0.0001,
 		linePrecision: 1,
 
 		set: function ( origin, direction ) {
@@ -67,12 +77,10 @@
 
 		setFromCamera: function ( coords, camera ) {
 
-			// camera is assumed _not_ to be a child of a transformed object
-
 			if ( camera instanceof THREE.PerspectiveCamera ) {
 
-				this.ray.origin.copy( camera.position );
-				this.ray.direction.set( coords.x, coords.y, 0.5 ).unproject( camera ).sub( camera.position ).normalize();
+				this.ray.origin.setFromMatrixPosition( camera.matrixWorld );
+				this.ray.direction.set( coords.x, coords.y, 0.5 ).unproject( camera ).sub( this.ray.origin ).normalize();
 
 			} else if ( camera instanceof THREE.OrthographicCamera ) {
 
@@ -81,7 +89,7 @@
 
 			} else {
 
-				THREE.error( 'THREE.Raycaster: Unsupported camera type.' );
+				console.error( 'THREE.Raycaster: Unsupported camera type.' );
 
 			}
 
@@ -93,7 +101,7 @@
 
 			intersectObject( object, this, intersects, recursive );
 
-			intersects.sort( descSort );
+			intersects.sort( ascSort );
 
 			return intersects;
 
@@ -103,9 +111,9 @@
 
 			var intersects = [];
 
-			if ( objects instanceof Array === false ) {
+			if ( Array.isArray( objects ) === false ) {
 
-				THREE.warn( 'THREE.Raycaster.intersectObjects: objects is not an Array.' );
+				console.warn( 'THREE.Raycaster.intersectObjects: objects is not an Array.' );
 				return intersects;
 
 			}
@@ -116,7 +124,7 @@
 
 			}
 
-			intersects.sort( descSort );
+			intersects.sort( ascSort );
 
 			return intersects;
 

@@ -6,6 +6,7 @@ var camera, scene, renderer, mesh;
 var cameraRig, activeCamera, activeHelper;
 var cameraPerspective, cameraOrtho;
 var cameraPerspectiveHelper, cameraOrthoHelper;
+var frustumSize = 600;
 
 function log(message) {
     if (canvas3d.logAllCalls)
@@ -13,19 +14,25 @@ function log(message) {
 }
 
 function initializeGL(canvas) {
+    var SCREEN_WIDTH = canvas.width;
+    var SCREEN_HEIGHT = canvas.height;
+    var aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 
-    camera = new THREE.PerspectiveCamera( 50, 0.5 * canvas.width / canvas.height, 1, 10000 );
+    camera = new THREE.PerspectiveCamera( 50, 0.5 * aspect, 1, 10000 );
+
     camera.position.z = 2500;
 
     scene = new THREE.Scene();
 
-    cameraPerspective = new THREE.PerspectiveCamera( 50, 0.5 * canvas.width / canvas.height, 150, 1000 );
+    cameraPerspective = new THREE.PerspectiveCamera( 50, 0.5 * aspect, 150, 1000 );
 
     cameraPerspectiveHelper = new THREE.CameraHelper( cameraPerspective );
     scene.add( cameraPerspectiveHelper );
 
-    cameraOrtho = new THREE.OrthographicCamera( 0.5 * canvas.width / - 2, 0.5 * canvas.width / 2, canvas.height / 2, canvas.height / - 2, 150, 1000 );
-
+    cameraOrtho = new THREE.OrthographicCamera( 0.5 * frustumSize * aspect / - 2,
+                                               0.5 * frustumSize * aspect / 2,
+                                               frustumSize / 2,
+                                               frustumSize / - 2, 150, 1000 );
     cameraOrthoHelper = new THREE.CameraHelper( cameraOrtho );
     scene.add( cameraOrthoHelper );
 
@@ -38,7 +45,7 @@ function initializeGL(canvas) {
     cameraOrtho.rotation.y = Math.PI;
     cameraPerspective.rotation.y = Math.PI;
 
-    cameraRig = new THREE.Object3D();
+    cameraRig = new THREE.Group();
 
     cameraRig.add( cameraPerspective );
     cameraRig.add( cameraOrtho );
@@ -47,14 +54,23 @@ function initializeGL(canvas) {
 
     //
 
-    mesh = new THREE.Mesh( new THREE.SphereGeometry( 100, 16, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true } ) );
+    mesh = new THREE.Mesh(
+        new THREE.SphereBufferGeometry( 100, 16, 8 ),
+        new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true } )
+    );
     scene.add( mesh );
 
-    var mesh2 = new THREE.Mesh( new THREE.SphereGeometry( 50, 16, 8 ), new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } ) );
+    var mesh2 = new THREE.Mesh(
+        new THREE.SphereBufferGeometry( 50, 16, 8 ),
+        new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } )
+    );
     mesh2.position.y = 150;
     mesh.add( mesh2 );
 
-    var mesh3 = new THREE.Mesh( new THREE.SphereGeometry( 5, 16, 8 ), new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe: true } ) );
+    var mesh3 = new THREE.Mesh(
+        new THREE.SphereBufferGeometry( 5, 16, 8 ),
+        new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe: true } )
+    );
     mesh3.position.z = 150;
     cameraRig.add( mesh3 );
 
@@ -73,7 +89,7 @@ function initializeGL(canvas) {
 
     }
 
-    var particles = new THREE.PointCloud( geometry, new THREE.PointCloudMaterial( { color: 0x888888 } ) );
+    var particles = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x888888 } ) );
     scene.add( particles );
 
     //
@@ -89,20 +105,21 @@ function resizeGL(canvas) {
 
     var SCREEN_WIDTH = canvas.width;
     var SCREEN_HEIGHT = canvas.height;
+    var aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 
     renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
-    camera.aspect = 0.5 * SCREEN_WIDTH / SCREEN_HEIGHT;
+    camera.aspect = 0.5 * aspect;
     camera.updateProjectionMatrix();
 
-    cameraPerspective.aspect = 0.5 * SCREEN_WIDTH / SCREEN_HEIGHT;
+    cameraPerspective.aspect = 0.5 * aspect;
     cameraPerspective.updateProjectionMatrix();
 
-    cameraOrtho.left   = - 0.5 * SCREEN_WIDTH / 2;
-    cameraOrtho.right  =   0.5 * SCREEN_WIDTH / 2;
-    cameraOrtho.top    =   SCREEN_HEIGHT / 2;
-    cameraOrtho.bottom = - SCREEN_HEIGHT / 2;
+    cameraOrtho.left   = - 0.5 * frustumSize * aspect / 2;
+    cameraOrtho.right  =   0.5 * frustumSize * aspect / 2;
+    cameraOrtho.top    =   frustumSize / 2;
+    cameraOrtho.bottom = - frustumSize / 2;
     cameraOrtho.updateProjectionMatrix();
 
 }

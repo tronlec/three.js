@@ -30,6 +30,10 @@ THREE.WebGLExtensions = function ( gl ) {
 				extension = gl.getExtension( 'WEBGL_compressed_texture_pvrtc' ) || gl.getExtension( 'WEBKIT_WEBGL_compressed_texture_pvrtc' );
 				break;
 
+			case 'WEBGL_compressed_texture_etc1':
+				extension = gl.getExtension( 'WEBGL_compressed_texture_etc1' );
+				break;
+
 			default:
 				extension = gl.getExtension( name );
 
@@ -37,7 +41,7 @@ THREE.WebGLExtensions = function ( gl ) {
 
 		if ( extension === null ) {
 
-			THREE.warn( 'THREE.WebGLRenderer: ' + name + ' extension not supported.' );
+			console.warn( 'THREE.WebGLRenderer: ' + name + ' extension not supported.' );
 
 		}
 

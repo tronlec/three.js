@@ -3,7 +3,6 @@
 Qt.include("three.js")
 Qt.include("OrbitControls.js")
 Qt.include("SubdivisionModifier.js")
-Qt.include("helvetiker_regular.typeface.js")
 
 var container, stats;
 var camera, controls, scene, renderer;
@@ -35,29 +34,28 @@ var materials = [];
 
 var geometriesParams = [
 
-    { type: 'BoxGeometry', args: [ 200, 200, 200, 2, 2, 2, materials ] },
-    { type: 'TorusGeometry', args: [ 100, 60, 4, 8, Math.PI*2 ] },
-    { type: 'TorusKnotGeometry', args: [  ], scale:0.25, meshScale:4 },
-    { type: 'SphereGeometry', args: [ 100, 3, 3 ], meshScale:2 },
-    { type: 'IcosahedronGeometry', args: [ 100, 1 ], meshScale:2 },
-    { type: 'CylinderGeometry', args: [ 25, 75, 200, 8, 3 ]} ,
-    { type: 'OctahedronGeometry', args: [200, 0], meshScale:2 },
-    { type: 'LatheGeometry', args: [ [
-        new THREE.Vector3(0,0,0),
-        new THREE.Vector3(0,50,50),
-        new THREE.Vector3(0,10,100),
-        new THREE.Vector3(0,50,150),
-        new THREE.Vector3(0,0,200) ] ]},
-    { type: 'TextGeometry', args: ['&', {
-                            size: 200,
-                            height: 50,
-                            curveSegments: 1,
-                            font: "helvetiker"
+            { type: 'BoxGeometry', args: [ 200, 200, 200, 2, 2, 2, materials ] },
+            { type: 'TorusGeometry', args: [ 100, 60, 4, 8, Math.PI*2 ] },
+            { type: 'TorusKnotGeometry', args: [  ], scale:0.25, meshScale:4 },
+            { type: 'SphereGeometry', args: [ 100, 3, 3 ], meshScale:2 },
+            { type: 'IcosahedronGeometry', args: [ 100, 1 ], meshScale:2 },
+            { type: 'CylinderGeometry', args: [ 25, 75, 200, 8, 3 ]} ,
+            { type: 'OctahedronGeometry', args: [200, 0], meshScale:2 },
+            { type: 'LatheGeometry', args: [ [
+                        new THREE.Vector2(0,0),
+                        new THREE.Vector2(50,50),
+                        new THREE.Vector2(10,100),
+                        new THREE.Vector2(50,150),
+                        new THREE.Vector2(0,200) ] ]},
+            { type: 'TextGeometry', args: ['&', {
+                        size: 200,
+                        height: 50,
+                        curveSegments: 1
 
-                        }]},
-    { type: 'PlaneGeometry', args: [ 200, 200, 4, 4 ] }
+                    }]},
+            { type: 'PlaneGeometry', args: [ 200, 200, 4, 4 ] }
 
-];
+        ];
 
 var info;
 var subdivisions = 2;
@@ -157,9 +155,7 @@ function addStuff() {
     // Scale Geometry
 
     if ( params.scale ) {
-
-        geometry.applyMatrix( new THREE.Matrix4().makeScale( params.scale, params.scale, params.scale ) );
-
+        geometry.scale( params.scale, params.scale, params.scale );
     }
 
     // Cloning original geometry for debuging
@@ -202,13 +198,13 @@ function addStuff() {
     scene.add( group );
 
     var material = new THREE.MeshBasicMaterial( { color: 0xfefefe, wireframe: true, opacity: 0.5 } );
-    var mesh = new THREE.Mesh( geometry, material )
+    var mesh = new THREE.Mesh( geometry, material );
     group.add( mesh );
 
     var meshmaterials = [
-        new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } ),
-        new THREE.MeshBasicMaterial( { color: 0x405040, wireframe: true, opacity: 0.8, transparent: true } )
-    ];
+                new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, shininess: 0 } ),
+                new THREE.MeshBasicMaterial( { color: 0x405040, wireframe: true, opacity: 0.8, transparent: true } )
+            ];
 
     cube = THREE.SceneUtils.createMultiMaterialObject( smooth, meshmaterials );
 
@@ -226,6 +222,13 @@ function addStuff() {
 
 function initializeGL(canvas, eventSource) {
     log("initializeGL ENTER...");
+
+    var loader = new THREE.FontLoader();
+    loader.load( 'helvetiker_regular.typeface.js', function ( font ) {
+
+        geometriesParams[ 8 ].args[ 1 ].font = font;
+
+    } );
 
     var loader = new THREE.JSONLoader();
     loader.load( 'obj/WaltHeadLo.js', function ( geometry ) {
@@ -280,7 +283,7 @@ function initializeGL(canvas, eventSource) {
 }
 
 
-function onResizeGL(canvas) {
+function resizeGL(canvas) {
 
     if (camera === undefined) return;
 

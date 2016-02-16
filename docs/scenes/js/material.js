@@ -22,7 +22,6 @@ var constants = {
 
 	shading : {
 
-		"THREE.NoShading" : THREE.NoShading,
 		"THREE.FlatShading" : THREE.FlatShading,
 		"THREE.SmoothShading" : THREE.SmoothShading
 
@@ -105,12 +104,12 @@ var envMaps = (function () {
 		path + 'pz' + format, path + 'nz' + format
 	];
 
-	var textureCube = THREE.ImageUtils.loadTextureCube( urls, THREE.CubeRefractionMapping );
-	var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
+	var reflectionCube = new THREE.CubeTextureLoader().load( urls );
 	reflectionCube.format = THREE.RGBFormat;
 
-	var refractionCube = new THREE.Texture( reflectionCube.image, THREE.CubeRefractionMapping );
-	reflectionCube.format = THREE.RGBFormat;
+	var refractionCube = new THREE.CubeTextureLoader().load( urls );
+	refractionCube.mapping = THREE.CubeRefractionMapping;
+	refractionCube.format = THREE.RGBFormat;
 
 	return {
 		none : null,
@@ -126,7 +125,7 @@ var textureMaps = (function () {
 
 	return {
 		none : null,
-		grass : THREE.ImageUtils.loadTexture( "../../examples/textures/terrain/grasslight-thin.jpg" )
+		grass : new THREE.TextureLoader().load( "../../examples/textures/terrain/grasslight-thin.jpg" )
 	};
 
 })();
@@ -324,7 +323,6 @@ function guiMeshBasicMaterial ( gui, mesh, material, geometry ) {
 		color : material.color.getHex(),
 		envMaps : envMapKeys,
 		map : textureMapKeys,
-		lightMap : textureMapKeys,
 		specularMap : textureMapKeys,
 		alphaMap : textureMapKeys
 	};
@@ -340,7 +338,6 @@ function guiMeshBasicMaterial ( gui, mesh, material, geometry ) {
 
 	folder.add( data, 'envMaps', envMapKeys ).onChange( updateTexture( material, 'envMap', envMaps ) );
 	folder.add( data, 'map', textureMapKeys ).onChange( updateTexture( material, 'map', textureMaps ) );
-	folder.add( data, 'lightMap', textureMapKeys ).onChange( updateTexture( material, 'lightMap', textureMaps ) );
 	folder.add( data, 'specularMap', textureMapKeys ).onChange( updateTexture( material, 'specularMap', textureMaps ) );
 	folder.add( data, 'alphaMap', textureMapKeys ).onChange( updateTexture( material, 'alphaMap', textureMaps ) );
 	folder.add( material, 'morphTargets' ).onChange( updateMorphs( mesh, material ) );
@@ -365,7 +362,6 @@ function guiMeshNormalMaterial ( gui, mesh, material, geometry ) {
 
 	var folder = gui.addFolder('THREE.MeshNormalMaterial');
 
-	folder.add( material, 'shading', constants.shading).onChange( needsUpdate( material, geometry ) );
 	folder.add( material, 'wireframe' );
 	folder.add( material, 'wireframeLinewidth', 0, 10 );
 	folder.add( material, 'morphTargets' ).onChange( updateMorphs( mesh, material ) );
@@ -396,7 +392,6 @@ function guiMeshLambertMaterial ( gui, mesh, material, geometry ) {
 		emissive : material.emissive.getHex(),
 		envMaps : envMapKeys,
 		map : textureMapKeys,
-		lightMap : textureMapKeys,
 		specularMap : textureMapKeys,
 		alphaMap : textureMapKeys
 	};
@@ -408,7 +403,6 @@ function guiMeshLambertMaterial ( gui, mesh, material, geometry ) {
 	folder.addColor( data, 'color' ).onChange( handleColorChange( material.color ) );
 	folder.addColor( data, 'emissive' ).onChange( handleColorChange( material.emissive ) );
 
-	folder.add( material, 'shading', constants.shading ).onChange( needsUpdate( material, geometry ) );
 	folder.add( material, 'wireframe' );
 	folder.add( material, 'wireframeLinewidth', 0, 10 );
 	folder.add( material, 'vertexColors', constants.colors ).onChange( needsUpdate( material, geometry ) );
@@ -416,7 +410,6 @@ function guiMeshLambertMaterial ( gui, mesh, material, geometry ) {
 
 	folder.add( data, 'envMaps', envMapKeys ).onChange( updateTexture( material, 'envMap', envMaps ) );
 	folder.add( data, 'map', textureMapKeys ).onChange( updateTexture( material, 'map', textureMaps ) );
-	folder.add( data, 'lightMap', textureMapKeys ).onChange( updateTexture( material, 'lightMap', textureMaps ) );
 	folder.add( data, 'specularMap', textureMapKeys ).onChange( updateTexture( material, 'specularMap', textureMaps ) );
 	folder.add( data, 'alphaMap', textureMapKeys ).onChange( updateTexture( material, 'alphaMap', textureMaps ) );
 	folder.add( material, 'morphTargets' ).onChange( updateMorphs( mesh, material ) );
@@ -446,7 +439,7 @@ function guiMeshPhongMaterial ( gui, mesh, material, geometry ) {
 	folder.addColor( data, 'emissive' ).onChange( handleColorChange( material.emissive ) );
 	folder.addColor( data, 'specular' ).onChange( handleColorChange( material.specular ) );
 
-	folder.add( material, 'shininess', 1, 100);
+	folder.add( material, 'shininess', 0, 100);
 	folder.add( material, 'shading', constants.shading).onChange( needsUpdate( material, geometry ) );
 	folder.add( material, 'wireframe' );
 	folder.add( material, 'wireframeLinewidth', 0, 10 );

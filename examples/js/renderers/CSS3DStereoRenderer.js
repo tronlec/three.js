@@ -11,7 +11,7 @@ THREE.CSS3DObject = function ( element ) {
 
 	this.elementR = element.cloneNode( true );
 	this.elementR.style.position = 'absolute';
-	
+
 	this.addEventListener( 'removed', function ( event ) {
 
 		if ( this.elementL.parentNode !== null ) {
@@ -48,18 +48,15 @@ THREE.CSS3DStereoRenderer = function () {
 
 	console.log( 'THREE.CSS3DRenderer', THREE.REVISION );
 
+	var _stereo = new THREE.StereoCamera();
+	_stereo.aspect = 0.5;
+
+	var _cameraL, _cameraR;
+
 	var _width, _height;
 	var _widthHalf, _heightHalf;
 
 	var matrix = new THREE.Matrix4();
-
-	var _position = new THREE.Vector3();
-	var _quaternion = new THREE.Quaternion();
-	var _scale = new THREE.Vector3();
-
-	var _cameraL = new THREE.PerspectiveCamera();
-	var _cameraR = new THREE.PerspectiveCamera();
-	var _target = new THREE.Vector3();
 
 	this.separation = 6;
 	this.targetDistance = 500;
@@ -145,7 +142,7 @@ THREE.CSS3DStereoRenderer = function () {
 
 	var epsilon = function ( value ) {
 
-		return Math.abs( value ) < 0.000001 ? 0 : value;
+		return Math.abs( value ) < Number.EPSILON ? 0 : value;
 
 	};
 
@@ -254,29 +251,15 @@ THREE.CSS3DStereoRenderer = function () {
 
 		scene.updateMatrixWorld();
 
-		if ( camera.parent === undefined ) camera.updateMatrixWorld();
+		if ( camera.parent === null ) camera.updateMatrixWorld();
 
-		camera.matrixWorld.decompose( _position, _quaternion, _scale );
-
-		_target.set( 0, 0, - this.targetDistance );
-		_target.applyQuaternion( _quaternion );
-		_target.add( _position );
+		_stereo.update( camera );
 
 		var fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
 
 		// Left
-		
-		_cameraL.fov = camera.fov;
-		_cameraL.aspect = 0.5 * camera.aspect;
-		_cameraL.updateProjectionMatrix();
 
-		_cameraL.near = camera.near;
-		_cameraL.far = camera.far;
-
-		_cameraL.position.copy( _position );
-		_cameraL.translateX( - this.separation );
-		_cameraL.lookAt( _target );
-		_cameraL.updateMatrixWorld();
+		_cameraL = _stereo.cameraL;
 
 		domElementL.style.WebkitPerspective = fov + "px";
 		domElementL.style.MozPerspective = fov + "px";
@@ -292,20 +275,12 @@ THREE.CSS3DStereoRenderer = function () {
 		cameraElementL.style.MozTransform = style;
 		cameraElementL.style.oTransform = style;
 		cameraElementL.style.transform = style;
-		
+
 		renderObject( scene, _cameraL, cameraElementL, 'L' );
-		
+
 		// Right
-		
-		_cameraR.projectionMatrix = _cameraL.projectionMatrix;
 
-		_cameraR.near = camera.near;
-		_cameraR.far = camera.far;
-
-		_cameraR.position.copy( _position );
-		_cameraR.translateX( this.separation );
-		_cameraR.lookAt( _target );
-		_cameraR.updateMatrixWorld();
+		_cameraR = _stereo.cameraR;
 
 		domElementR.style.WebkitPerspective = fov + "px";
 		domElementR.style.MozPerspective = fov + "px";
@@ -321,7 +296,7 @@ THREE.CSS3DStereoRenderer = function () {
 		cameraElementR.style.MozTransform = style;
 		cameraElementR.style.oTransform = style;
 		cameraElementR.style.transform = style;
-		
+
 		renderObject( scene, _cameraR, cameraElementR, 'R' );
 
 	};

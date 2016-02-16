@@ -7,7 +7,8 @@
  *  opacity: <float>,
  *  map: new THREE.Texture( <Image> ),
  *
- *  lightMap: new THREE.Texture( <Image> ),
+ *  aoMap: new THREE.Texture( <Image> ),
+ *  aoMapIntensity: <float>
  *
  *  specularMap: new THREE.Texture( <Image> ),
  *
@@ -45,7 +46,8 @@ THREE.MeshBasicMaterial = function ( parameters ) {
 
 	this.map = null;
 
-	this.lightMap = null;
+	this.aoMap = null;
+	this.aoMapIntensity = 1.0;
 
 	this.specularMap = null;
 
@@ -77,41 +79,40 @@ THREE.MeshBasicMaterial = function ( parameters ) {
 THREE.MeshBasicMaterial.prototype = Object.create( THREE.Material.prototype );
 THREE.MeshBasicMaterial.prototype.constructor = THREE.MeshBasicMaterial;
 
-THREE.MeshBasicMaterial.prototype.clone = function () {
+THREE.MeshBasicMaterial.prototype.copy = function ( source ) {
 
-	var material = new THREE.MeshBasicMaterial();
+	THREE.Material.prototype.copy.call( this, source );
 
-	THREE.Material.prototype.clone.call( this, material );
+	this.color.copy( source.color );
 
-	material.color.copy( this.color );
+	this.map = source.map;
 
-	material.map = this.map;
+	this.aoMap = source.aoMap;
+	this.aoMapIntensity = source.aoMapIntensity;
 
-	material.lightMap = this.lightMap;
+	this.specularMap = source.specularMap;
 
-	material.specularMap = this.specularMap;
+	this.alphaMap = source.alphaMap;
 
-	material.alphaMap = this.alphaMap;
+	this.envMap = source.envMap;
+	this.combine = source.combine;
+	this.reflectivity = source.reflectivity;
+	this.refractionRatio = source.refractionRatio;
 
-	material.envMap = this.envMap;
-	material.combine = this.combine;
-	material.reflectivity = this.reflectivity;
-	material.refractionRatio = this.refractionRatio;
+	this.fog = source.fog;
 
-	material.fog = this.fog;
+	this.shading = source.shading;
 
-	material.shading = this.shading;
+	this.wireframe = source.wireframe;
+	this.wireframeLinewidth = source.wireframeLinewidth;
+	this.wireframeLinecap = source.wireframeLinecap;
+	this.wireframeLinejoin = source.wireframeLinejoin;
 
-	material.wireframe = this.wireframe;
-	material.wireframeLinewidth = this.wireframeLinewidth;
-	material.wireframeLinecap = this.wireframeLinecap;
-	material.wireframeLinejoin = this.wireframeLinejoin;
+	this.vertexColors = source.vertexColors;
 
-	material.vertexColors = this.vertexColors;
+	this.skinning = source.skinning;
+	this.morphTargets = source.morphTargets;
 
-	material.skinning = this.skinning;
-	material.morphTargets = this.morphTargets;
-
-	return material;
+	return this;
 
 };

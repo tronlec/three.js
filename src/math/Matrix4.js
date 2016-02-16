@@ -7,7 +7,7 @@
  * @author alteredq / http://alteredqualia.com/
  * @author mikael emtinger / http://gomo.se/
  * @author timknip / http://www.floorplanner.com/
- * @author bhouston / http://exocortex.com
+ * @author bhouston / http://clara.io
  * @author WestLangley / http://github.com/WestLangley
  */
 
@@ -24,7 +24,7 @@ THREE.Matrix4 = function () {
 
 	if ( arguments.length > 0 ) {
 
-		THREE.error( 'THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.' );
+		console.error( 'THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.' );
 
 	}
 
@@ -62,18 +62,17 @@ THREE.Matrix4.prototype = {
 
 	},
 
+	clone: function () {
+
+		return new THREE.Matrix4().fromArray( this.elements );
+
+	},
+
 	copy: function ( m ) {
 
 		this.elements.set( m.elements );
 
 		return this;
-
-	},
-
-	extractPosition: function ( m ) {
-
-		THREE.warn( 'THREE.Matrix4: .extractPosition() has been renamed to .copyPosition().' );
-		return this.copyPosition( m );
 
 	},
 
@@ -91,17 +90,17 @@ THREE.Matrix4.prototype = {
 	},
 
 	extractBasis: function ( xAxis, yAxis, zAxis ) {
- 
+
 		var te = this.elements;
- 
+
 		xAxis.set( te[ 0 ], te[ 1 ], te[ 2 ] );
 		yAxis.set( te[ 4 ], te[ 5 ], te[ 6 ] );
 		zAxis.set( te[ 8 ], te[ 9 ], te[ 10 ] );
- 
+
 		return this;
- 		
+
 	},
- 
+
 	makeBasis: function ( xAxis, yAxis, zAxis ) {
 
 		this.set(
@@ -117,9 +116,11 @@ THREE.Matrix4.prototype = {
 
 	extractRotation: function () {
 
-		var v1 = new THREE.Vector3();
+		var v1;
 
 		return function ( m ) {
+
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
 
 			var te = this.elements;
 			var me = m.elements;
@@ -150,7 +151,7 @@ THREE.Matrix4.prototype = {
 
 		if ( euler instanceof THREE.Euler === false ) {
 
-			THREE.error( 'THREE.Matrix: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.' );
+			console.error( 'THREE.Matrix: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.' );
 
 		}
 
@@ -274,14 +275,6 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	setRotationFromQuaternion: function ( q ) {
-
-		THREE.warn( 'THREE.Matrix4: .setRotationFromQuaternion() has been renamed to .makeRotationFromQuaternion().' );
-
-		return this.makeRotationFromQuaternion( q );
-
-	},
-
 	makeRotationFromQuaternion: function ( q ) {
 
 		var te = this.elements;
@@ -321,17 +314,19 @@ THREE.Matrix4.prototype = {
 
 	lookAt: function () {
 
-		var x = new THREE.Vector3();
-		var y = new THREE.Vector3();
-		var z = new THREE.Vector3();
+		var x, y, z;
 
 		return function ( eye, target, up ) {
+
+			if ( x === undefined ) x = new THREE.Vector3();
+			if ( y === undefined ) y = new THREE.Vector3();
+			if ( z === undefined ) z = new THREE.Vector3();
 
 			var te = this.elements;
 
 			z.subVectors( eye, target ).normalize();
 
-			if ( z.length() === 0 ) {
+			if ( z.lengthSq() === 0 ) {
 
 				z.z = 1;
 
@@ -339,7 +334,7 @@ THREE.Matrix4.prototype = {
 
 			x.crossVectors( up, z ).normalize();
 
-			if ( x.length() === 0 ) {
+			if ( x.lengthSq() === 0 ) {
 
 				z.x += 0.0001;
 				x.crossVectors( up, z ).normalize();
@@ -363,7 +358,7 @@ THREE.Matrix4.prototype = {
 
 		if ( n !== undefined ) {
 
-			THREE.warn( 'THREE.Matrix4: .multiply() now only accepts one argument. Use .multiplyMatrices( a, b ) instead.' );
+			console.warn( 'THREE.Matrix4: .multiply() now only accepts one argument. Use .multiplyMatrices( a, b ) instead.' );
 			return this.multiplyMatrices( m, n );
 
 		}
@@ -440,47 +435,21 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	multiplyVector3: function ( vector ) {
-
-		THREE.warn( 'THREE.Matrix4: .multiplyVector3() has been removed. Use vector.applyMatrix4( matrix ) or vector.applyProjection( matrix ) instead.' );
-		return vector.applyProjection( this );
-
-	},
-
-	multiplyVector4: function ( vector ) {
-
-		THREE.warn( 'THREE.Matrix4: .multiplyVector4() has been removed. Use vector.applyMatrix4( matrix ) instead.' );
-		return vector.applyMatrix4( this );
-
-	},
-
-	multiplyVector3Array: function ( a ) {
-
-		THREE.warn( 'THREE.Matrix4: .multiplyVector3Array() has been renamed. Use matrix.applyToVector3Array( array ) instead.' );
-		return this.applyToVector3Array( a );
-
-	},
-
 	applyToVector3Array: function () {
 
-		var v1 = new THREE.Vector3();
+		var v1;
 
 		return function ( array, offset, length ) {
 
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
 
 			for ( var i = 0, j = offset; i < length; i += 3, j += 3 ) {
 
-				v1.x = array[ j ];
-				v1.y = array[ j + 1 ];
-				v1.z = array[ j + 2 ];
-
+				v1.fromArray( array, j );
 				v1.applyMatrix4( this );
-
-				array[ j ]     = v1.x;
-				array[ j + 1 ] = v1.y;
-				array[ j + 2 ] = v1.z;
+				v1.toArray( array, j );
 
 			}
 
@@ -490,20 +459,33 @@ THREE.Matrix4.prototype = {
 
 	}(),
 
-	rotateAxis: function ( v ) {
+	applyToBuffer: function () {
 
-		THREE.warn( 'THREE.Matrix4: .rotateAxis() has been removed. Use Vector3.transformDirection( matrix ) instead.' );
+		var v1;
 
-		v.transformDirection( this );
+		return function applyToBuffer( buffer, offset, length ) {
 
-	},
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
+			if ( offset === undefined ) offset = 0;
+			if ( length === undefined ) length = buffer.length / buffer.itemSize;
 
-	crossVector: function ( vector ) {
+			for ( var i = 0, j = offset; i < length; i ++, j ++ ) {
 
-		THREE.warn( 'THREE.Matrix4: .crossVector() has been removed. Use vector.applyMatrix4( matrix ) instead.' );
-		return vector.applyMatrix4( this );
+				v1.x = buffer.getX( j );
+				v1.y = buffer.getY( j );
+				v1.z = buffer.getZ( j );
 
-	},
+				v1.applyMatrix4( this );
+
+				buffer.setXYZ( v1.x, v1.y, v1.z );
+
+			}
+
+			return buffer;
+
+		};
+
+	}(),
 
 	determinant: function () {
 
@@ -576,7 +558,7 @@ THREE.Matrix4.prototype = {
 
 		var te = this.elements;
 
-		array[ offset     ] = te[ 0 ];
+		array[ offset ] = te[ 0 ];
 		array[ offset + 1 ] = te[ 1 ];
 		array[ offset + 2 ] = te[ 2 ];
 		array[ offset + 3 ] = te[ 3 ];
@@ -602,11 +584,12 @@ THREE.Matrix4.prototype = {
 
 	getPosition: function () {
 
-		var v1 = new THREE.Vector3();
+		var v1;
 
 		return function () {
 
-			THREE.warn( 'THREE.Matrix4: .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.' );
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
+			console.warn( 'THREE.Matrix4: .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.' );
 
 			var te = this.elements;
 			return v1.set( te[ 12 ], te[ 13 ], te[ 14 ] );
@@ -657,7 +640,7 @@ THREE.Matrix4.prototype = {
 
 		var det = n11 * te[ 0 ] + n21 * te[ 4 ] + n31 * te[ 8 ] + n41 * te[ 12 ];
 
-		if ( det == 0 ) {
+		if ( det === 0 ) {
 
 			var msg = "THREE.Matrix4.getInverse(): can't invert matrix, determinant is 0";
 
@@ -667,48 +650,19 @@ THREE.Matrix4.prototype = {
 
 			} else {
 
-				THREE.warn( msg );
+				console.warn( msg );
 
 			}
 
 			this.identity();
 
 			return this;
+
 		}
 
 		this.multiplyScalar( 1 / det );
 
 		return this;
-
-	},
-
-	translate: function ( v ) {
-
-		THREE.error( 'THREE.Matrix4: .translate() has been removed.' );
-
-	},
-
-	rotateX: function ( angle ) {
-
-		THREE.error( 'THREE.Matrix4: .rotateX() has been removed.' );
-
-	},
-
-	rotateY: function ( angle ) {
-
-		THREE.error( 'THREE.Matrix4: .rotateY() has been removed.' );
-
-	},
-
-	rotateZ: function ( angle ) {
-
-		THREE.error( 'THREE.Matrix4: .rotateZ() has been removed.' );
-
-	},
-
-	rotateByAxis: function ( axis, angle ) {
-
-		THREE.error( 'THREE.Matrix4: .rotateByAxis() has been removed.' );
 
 	},
 
@@ -734,7 +688,7 @@ THREE.Matrix4.prototype = {
 		var scaleYSq = te[ 4 ] * te[ 4 ] + te[ 5 ] * te[ 5 ] + te[ 6 ] * te[ 6 ];
 		var scaleZSq = te[ 8 ] * te[ 8 ] + te[ 9 ] * te[ 9 ] + te[ 10 ] * te[ 10 ];
 
-		return Math.sqrt( Math.max( scaleXSq, Math.max( scaleYSq, scaleZSq ) ) );
+		return Math.sqrt( Math.max( scaleXSq, scaleYSq, scaleZSq ) );
 
 	},
 
@@ -854,10 +808,12 @@ THREE.Matrix4.prototype = {
 
 	decompose: function () {
 
-		var vector = new THREE.Vector3();
-		var matrix = new THREE.Matrix4();
+		var vector, matrix;
 
 		return function ( position, quaternion, scale ) {
+
+			if ( vector === undefined ) vector = new THREE.Vector3();
+			if ( matrix === undefined ) matrix = new THREE.Matrix4();
 
 			var te = this.elements;
 
@@ -868,7 +824,9 @@ THREE.Matrix4.prototype = {
 			// if determine is negative, we need to invert one scale
 			var det = this.determinant();
 			if ( det < 0 ) {
+
 				sx = - sx;
+
 			}
 
 			position.x = te[ 12 ];
@@ -958,6 +916,21 @@ THREE.Matrix4.prototype = {
 
 	},
 
+	equals: function ( matrix ) {
+
+		var te = this.elements;
+		var me = matrix.elements;
+
+		for ( var i = 0; i < 16; i ++ ) {
+
+			if ( te[ i ] !== me[ i ] ) return false;
+
+		}
+
+		return true;
+
+	},
+
 	fromArray: function ( array ) {
 
 		this.elements.set( array );
@@ -976,12 +949,6 @@ THREE.Matrix4.prototype = {
 			te[ 8 ], te[ 9 ], te[ 10 ], te[ 11 ],
 			te[ 12 ], te[ 13 ], te[ 14 ], te[ 15 ]
 		];
-
-	},
-
-	clone: function () {
-
-		return new THREE.Matrix4().fromArray( this.elements );
 
 	}
 

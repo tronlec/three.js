@@ -1,7 +1,7 @@
 /**
  * @author alteredq / http://alteredqualia.com/
  * @author WestLangley / http://github.com/WestLangley
- * @author bhouston / http://exocortex.com
+ * @author bhouston / http://clara.io
  */
 
 THREE.Matrix3 = function () {
@@ -16,7 +16,7 @@ THREE.Matrix3 = function () {
 
 	if ( arguments.length > 0 ) {
 
-		THREE.error( 'THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.' );
+		console.error( 'THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.' );
 
 	}
 
@@ -52,6 +52,12 @@ THREE.Matrix3.prototype = {
 
 	},
 
+	clone: function () {
+
+		return new this.constructor().fromArray( this.elements );
+
+	},
+
 	copy: function ( m ) {
 
 		var me = m.elements;
@@ -68,44 +74,53 @@ THREE.Matrix3.prototype = {
 
 	},
 
-	multiplyVector3: function ( vector ) {
-
-		THREE.warn( 'THREE.Matrix3: .multiplyVector3() has been removed. Use vector.applyMatrix3( matrix ) instead.' );
-		return vector.applyMatrix3( this );
-
-	},
-
-	multiplyVector3Array: function ( a ) {
-
-		THREE.warn( 'THREE.Matrix3: .multiplyVector3Array() has been renamed. Use matrix.applyToVector3Array( array ) instead.' );
-		return this.applyToVector3Array( a );
-
-	},
-
 	applyToVector3Array: function () {
 
-		var v1 = new THREE.Vector3();
+		var v1;
 
 		return function ( array, offset, length ) {
 
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
 			if ( offset === undefined ) offset = 0;
 			if ( length === undefined ) length = array.length;
 
 			for ( var i = 0, j = offset; i < length; i += 3, j += 3 ) {
 
-				v1.x = array[ j ];
-				v1.y = array[ j + 1 ];
-				v1.z = array[ j + 2 ];
-
+				v1.fromArray( array, j );
 				v1.applyMatrix3( this );
-
-				array[ j ]     = v1.x;
-				array[ j + 1 ] = v1.y;
-				array[ j + 2 ] = v1.z;
+				v1.toArray( array, j );
 
 			}
 
 			return array;
+
+		};
+
+	}(),
+
+	applyToBuffer: function () {
+
+		var v1;
+
+		return function applyToBuffer( buffer, offset, length ) {
+
+			if ( v1 === undefined ) v1 = new THREE.Vector3();
+			if ( offset === undefined ) offset = 0;
+			if ( length === undefined ) length = buffer.length / buffer.itemSize;
+
+			for ( var i = 0, j = offset; i < length; i ++, j ++ ) {
+
+				v1.x = buffer.getX( j );
+				v1.y = buffer.getY( j );
+				v1.z = buffer.getZ( j );
+
+				v1.applyMatrix3( this );
+
+				buffer.setXYZ( v1.x, v1.y, v1.z );
+
+			}
+
+			return buffer;
 
 		};
 
@@ -135,7 +150,7 @@ THREE.Matrix3.prototype = {
 
 	},
 
-	getInverse: function ( matrix, throwOnInvertible ) {
+	getInverse: function ( matrix, throwOnDegenerate ) {
 
 		// input: THREE.Matrix4
 		// ( based on http://code.google.com/p/webgl-mjs/ )
@@ -159,15 +174,15 @@ THREE.Matrix3.prototype = {
 
 		if ( det === 0 ) {
 
-			var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+			var msg = "THREE.Matrix3.getInverse(): can't invert matrix, determinant is 0";
 
-			if ( throwOnInvertible || false ) {
+			if ( throwOnDegenerate || false ) {
 
 				throw new Error( msg );
 
 			} else {
 
-				THREE.warn( msg );
+				console.warn( msg );
 
 			}
 
@@ -199,7 +214,7 @@ THREE.Matrix3.prototype = {
 
 		var te = this.elements;
 
-		array[ offset     ] = te[ 0 ];
+		array[ offset ] = te[ 0 ];
 		array[ offset + 1 ] = te[ 1 ];
 		array[ offset + 2 ] = te[ 2 ];
 
@@ -260,12 +275,6 @@ THREE.Matrix3.prototype = {
 			te[ 3 ], te[ 4 ], te[ 5 ],
 			te[ 6 ], te[ 7 ], te[ 8 ]
 		];
-
-	},
-
-	clone: function () {
-
-		return new THREE.Matrix3().fromArray( this.elements );
 
 	}
 

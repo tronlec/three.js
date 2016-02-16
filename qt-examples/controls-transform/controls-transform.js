@@ -21,7 +21,8 @@ function initializeGL(canvas, eventSource) {
     renderer = new THREE.Canvas3DRenderer(
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
 
-    var texture = THREE.ImageUtils.loadTexture( 'qrc:/textures/crate.gif', THREE.UVMapping );
+    var texture = new THREE.TextureLoader().load( 'qrc:/textures/crate.gif');
+    texture.mapping = THREE.UVMapping;
     texture.anisotropy = renderer.getMaxAnisotropy();
 
     var geometry = new THREE.BoxGeometry( 200, 200, 200 );

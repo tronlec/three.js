@@ -35,7 +35,7 @@ THREE.ShadowMapViewer = function ( light ) {
 	var userAutoClearSetting;
 
 	//Holds the initial position and dimension of the HUD
-	var frame = { 
+	var frame = {
 		x: 10,
 		y: 10,
 		width: 256,
@@ -103,7 +103,7 @@ THREE.ShadowMapViewer = function ( light ) {
 
 	//- API
 	// Set to false to disable displaying this shadow map
-	this.enabled = true; 
+	this.enabled = true;
 
 	// Set the size of the displayed shadow map on the HUD
 	this.size = {
@@ -134,7 +134,7 @@ THREE.ShadowMapViewer = function ( light ) {
 			var width = scope.size.width;
 			var height = scope.size.height;
 
-			mesh.position.set( -window.innerWidth / 2 + width / 2 + this.x, window.innerHeight / 2 - height / 2 - this.y, 0 );
+			mesh.position.set( - window.innerWidth / 2 + width / 2 + this.x, window.innerHeight / 2 - height / 2 - this.y, 0 );
 
 			if ( doRenderLabel ) labelMesh.position.set( mesh.position.x, mesh.position.y - scope.size.height / 2 + labelCanvas.height / 2, 0 );
 
@@ -150,11 +150,11 @@ THREE.ShadowMapViewer = function ( light ) {
 			//always end up with the scene's first added shadow casting light's shadowMap
 			//in the shader
 			//See: https://github.com/mrdoob/three.js/issues/5932
-			uniforms.tDiffuse.value = light.shadowMap;
+			uniforms.tDiffuse.value = light.shadow.map;
 
 			userAutoClearSetting = renderer.autoClear;
 			renderer.autoClear = false; // To allow render overlay
-			renderer.clearDepth()
+			renderer.clearDepth();
 			renderer.render( scene, camera );
 			renderer.autoClear = userAutoClearSetting;	//Restore user's setting
 
@@ -185,6 +185,6 @@ THREE.ShadowMapViewer = function ( light ) {
 	//Force an update to set position/size
 	this.update();
 
-}
+};
 
 THREE.ShadowMapViewer.prototype.constructor = THREE.ShadowMapViewer;

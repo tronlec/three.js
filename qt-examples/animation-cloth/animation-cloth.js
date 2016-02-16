@@ -110,33 +110,36 @@ function initializeGL(canvas) {
 
     light.castShadow = true;
 
-    light.shadowMapWidth = 1024;
-    light.shadowMapHeight = 1024;
+    light.shadow.mapSize.width = 1024;
+    light.shadow.mapSize.height = 1024;
 
     var d = 300;
 
-    light.shadowCameraLeft = -d;
-    light.shadowCameraRight = d;
-    light.shadowCameraTop = d;
-    light.shadowCameraBottom = -d;
+    light.shadow.camera.left = -d;
+    light.shadow.camera.right = d;
+    light.shadow.camera.top = d;
+    light.shadow.camera.bottom = -d;
 
-    light.shadowCameraFar = 1000;
-    light.shadowDarkness = 0.5;
+    light.shadow.camera.far = 1000;
 
     scene.add( light );
 
     // cloth material
 
-    var clothTexture = THREE.ImageUtils.loadTexture( 'qrc:/textures/patterns/circuit_pattern.png' );
+    var loader = new THREE.TextureLoader();
+    var clothTexture = loader.load( 'qrc:/textures/patterns/circuit_pattern.png' );
     clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping;
     clothTexture.anisotropy = 16;
 
-    var clothMaterial = new THREE.MeshPhongMaterial( { alphaTest: 0.5, ambient: 0xffffff, color: 0xffffff, specular: 0x030303, emissive: 0x111111, shiness: 10, map: clothTexture, side: THREE.DoubleSide } );
+    var clothMaterial = new THREE.MeshPhongMaterial(
+                { alphaTest: 0.5,
+                    specular: 0x030303,
+                    map: clothTexture,
+                    side: THREE.DoubleSide } );
 
     // cloth geometry
     clothGeometry = new THREE.ParametricGeometry( clothFunction, cloth.w, cloth.h );
     clothGeometry.dynamic = true;
-    clothGeometry.computeFaceNormals();
 
     var uniforms = { texture:  { type: "t", value: clothTexture } };
     var clothShader = THREE.ShaderLib[ "cloth" ];
@@ -148,15 +151,18 @@ function initializeGL(canvas) {
     object = new THREE.Mesh( clothGeometry, clothMaterial );
     object.position.set( 0, 0, 0 );
     object.castShadow = true;
-    object.receiveShadow = true;
     scene.add( object );
 
-    object.customDepthMaterial = new THREE.ShaderMaterial( { uniforms: uniforms, vertexShader: vertexShader, fragmentShader: fragmentShader } );
+    object.customDepthMaterial = new THREE.ShaderMaterial(
+                { uniforms: uniforms,
+                    vertexShader: vertexShader,
+                    fragmentShader: fragmentShader,
+                    side: THREE.DoubleSide } );
 
     // sphere
 
     var ballGeo = new THREE.SphereGeometry( ballSize, 20, 20 );
-    var ballMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff } );
+    var ballMaterial = new THREE.MeshPhongMaterial( { color: 0xaaaaaa } );
 
     sphere = new THREE.Mesh( ballGeo, ballMaterial );
     sphere.castShadow = true;
@@ -165,7 +171,7 @@ function initializeGL(canvas) {
 
     // ground
 
-    var groundTexture = THREE.ImageUtils.loadTexture( "qrc:/textures/terrain/grasslight-big.jpg" );
+    var groundTexture = loader.load( "qrc:/textures/terrain/grasslight-big.jpg" );
     groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
     groundTexture.repeat.set( 25, 25 );
     groundTexture.anisotropy = 16;
@@ -181,7 +187,7 @@ function initializeGL(canvas) {
     // poles
 
     var poleGeo = new THREE.BoxGeometry( 5, 375, 5 );
-    var poleMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shiness: 100 } );
+    var poleMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 100 } );
 
     var mesh = new THREE.Mesh( poleGeo, poleMat );
     mesh.position.x = -125;
@@ -229,7 +235,7 @@ function initializeGL(canvas) {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
 
-    renderer.shadowMapEnabled = true;
+    renderer.shadowMap.enabled = true;
 
 }
 

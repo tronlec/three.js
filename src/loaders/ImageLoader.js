@@ -14,14 +14,33 @@ THREE.ImageLoader.prototype = {
 
 	load: function ( url, onLoad, onProgress, onError ) {
 
+		if ( this.path !== undefined ) url = this.path + url;
+
 		var scope = this;
 
 		var cached = THREE.Cache.get( url );
 
 		if ( cached !== undefined ) {
 
-			onLoad( cached );
-			return;
+			scope.manager.itemStart( url );
+
+			if ( onLoad ) {
+
+				setTimeout( function () {
+
+					onLoad( cached );
+
+					scope.manager.itemEnd( url );
+
+				}, 0 );
+
+			} else {
+
+				scope.manager.itemEnd( url );
+
+			}
+
+			return cached;
 
 		}
 
@@ -32,7 +51,7 @@ THREE.ImageLoader.prototype = {
 			THREE.Cache.add( url, image );
 
 			if ( onLoad ) onLoad( image );
-			
+
 			scope.manager.itemEnd( url );
 
 		}, false );
@@ -47,21 +66,19 @@ THREE.ImageLoader.prototype = {
 
 		}
 
-		if ( onError !== undefined ) {
+		image.addEventListener( 'error', function ( event ) {
 
-			image.addEventListener( 'error', function ( event ) {
+			if ( onError ) onError( event );
 
-				onError( event );
+			scope.manager.itemError( url );
 
-			}, false );
-
-		}
+		}, false );
 
 		if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
 
-		image.src = url;
-
 		scope.manager.itemStart( url );
+
+		image.src = url;
 
 		return image;
 
@@ -71,6 +88,12 @@ THREE.ImageLoader.prototype = {
 
 		this.crossOrigin = value;
 
+	},
+
+	setPath: function ( value ) {
+
+		this.path = value;
+
 	}
 
-}
+};

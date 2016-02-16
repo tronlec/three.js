@@ -38,7 +38,7 @@
 		<a href="http://openctm.sourceforge.net/" target="_blank">CTM format</a> loader test -
 		using <a href="http://code.google.com/p/js-openctm/">js-openctm</a> -
 		models from <a href="http://www.sci.utah.edu/~wald/animrep/" target="_blank">The Utah 3D Animation Repository</a>,
-		<a href="http://www.ir-ltd.net/infinite-3d-head-scan-released/" target="_blank">Lee Perry-Smith</a>,
+		<a href="http://graphics.cs.williams.edu/data/meshes.xml#14" target="_blank">Lee Perry-Smith</a>,
 		<a href="http://davidoreilly.com/post/18087489343/disneyhead" target="_blank">David OReilly</a>
 		</div>
 
@@ -67,6 +67,9 @@
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
+			var textureLoader = new THREE.TextureLoader();
+			var cubeTextureLoader = new THREE.CubeTextureLoader();
+
 			document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 			init();
@@ -92,7 +95,7 @@
 					path + 'pz' + format, path + 'nz' + format
 				];
 
-				reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
+				reflectionCube = cubeTextureLoader.load( urls );
 
 				// LIGHTS
 
@@ -125,7 +128,7 @@
 				renderer.gammaInput = true;
 				renderer.gammaOutput = true;
 
-				renderer.shadowMapEnabled = true;
+				renderer.shadowMap.enabled = true;
 
 				// STATS
 
@@ -157,7 +160,7 @@
 
 				loader.load( "models/ctm/ben.ctm",   function( geometry ) {
 
-					var material = new THREE.MeshLambertMaterial( { color: 0xffaa00, map: THREE.ImageUtils.loadTexture( "textures/UV_Grid_Sm.jpg" ), envMap: reflectionCube, combine: THREE.MixOperation, reflectivity: 0.3 } );
+					var material = new THREE.MeshLambertMaterial( { color: 0xffaa00, map: textureLoader.load( "textures/UV_Grid_Sm.jpg" ), envMap: reflectionCube, combine: THREE.MixOperation, reflectivity: 0.3 } );
 					callbackModel( geometry, 450, material, 0, -200, 0, 0, 0 );
 					checkTime();
 
@@ -179,18 +182,14 @@
 
 				loader.load( "models/ctm/LeePerry.ctm",  function( geometry ) {
 
-					geometry.computeTangents();
-
 					var material = new THREE.MeshPhongMaterial( {
 
 						specular: 0x303030,
 						shininess: 50,
-						map: THREE.ImageUtils.loadTexture( "obj/leeperrysmith/Map-COL.jpg" ),
-						specularMap: THREE.ImageUtils.loadTexture( "obj/leeperrysmith/Map-SPEC.jpg" ),
-						normalMap: THREE.ImageUtils.loadTexture( "obj/leeperrysmith/Infinite-Level_02_Tangent_SmoothUV.jpg" ),
-						normalScale: new THREE.Vector2( 0.8, 0.8 ),
-						wrapRGB: new THREE.Vector3( 0.75, 0.5, 0.5 ),
-						wrapAround: true
+						map: textureLoader.load( "obj/leeperrysmith/Map-COL.jpg" ),
+						specularMap: textureLoader.load( "obj/leeperrysmith/Map-SPEC.jpg" ),
+						normalMap: textureLoader.load( "obj/leeperrysmith/Infinite-Level_02_Tangent_SmoothUV.jpg" ),
+						normalScale: new THREE.Vector2( 0.8, 0.8 )
 
 					} );
 

@@ -18,9 +18,9 @@ function initializeGL(canvas) {
     // Ground
 
     var plane = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry( 40, 40 ),
-        new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
-    );
+                new THREE.PlaneBufferGeometry( 40, 40 ),
+                new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+                );
     plane.rotation.x = -Math.PI/2;
     plane.position.y = -0.5;
     scene.add( plane );
@@ -31,15 +31,15 @@ function initializeGL(canvas) {
     // PLY file
 
     var loader = new THREE.PLYLoader();
-    loader.addEventListener( 'load', function ( event ) {
+    loader.load( './models/ply/ascii/dolphins.ply', function ( geometry ) {
+        geometry.computeFaceNormals();
 
-        var geometry = event.content;
-        var material = new THREE.MeshPhongMaterial( { color: 0x0055ff, specular: 0x111111, shininess: 200 } );
+        var material = new THREE.MeshStandardMaterial( { color: 0x0055ff } );
         var mesh = new THREE.Mesh( geometry, material );
 
-        mesh.position.set( 0, - 0.25, 0 );
-        mesh.rotation.set( 0, - Math.PI / 2, 0 );
-        mesh.scale.set( 0.001, 0.001, 0.001 );
+        mesh.position.y = - 0.25;
+        mesh.rotation.x = - Math.PI / 2;
+        mesh.scale.multiplyScalar( 0.001 );
 
         mesh.castShadow = true;
         mesh.receiveShadow = true;
@@ -47,11 +47,10 @@ function initializeGL(canvas) {
         scene.add( mesh );
 
     } );
-    loader.load( './models/ply/ascii/dolphins.ply' );
 
     // Lights
 
-    scene.add( new THREE.AmbientLight( 0x777777 ) );
+    scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
     addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
     addShadowedLight( 0.5, 1, -1, 0xffaa00, 1 );
@@ -68,33 +67,32 @@ function initializeGL(canvas) {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
 
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapCullFace = THREE.CullFaceBack;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.cullFace = THREE.CullFaceBack;
 
 }
 
 function addShadowedLight( x, y, z, color, intensity ) {
 
     var directionalLight = new THREE.DirectionalLight( color, intensity );
-    directionalLight.position.set( x, y, z )
+    directionalLight.position.set( x, y, z );
     scene.add( directionalLight );
 
     directionalLight.castShadow = true;
 
     var d = 1;
-    directionalLight.shadowCameraLeft = -d;
-    directionalLight.shadowCameraRight = d;
-    directionalLight.shadowCameraTop = d;
-    directionalLight.shadowCameraBottom = -d;
+    directionalLight.shadow.camera.left = -d;
+    directionalLight.shadow.camera.right = d;
+    directionalLight.shadow.camera.top = d;
+    directionalLight.shadow.camera.bottom = -d;
 
-    directionalLight.shadowCameraNear = 1;
-    directionalLight.shadowCameraFar = 4;
+    directionalLight.shadow.camera.near = 1;
+    directionalLight.shadow.camera.far = 4;
 
-    directionalLight.shadowMapWidth = 1024;
-    directionalLight.shadowMapHeight = 1024;
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
 
-    directionalLight.shadowBias = -0.005;
-    directionalLight.shadowDarkness = 0.15;
+    directionalLight.shadow.bias = -0.005;
 
 }
 

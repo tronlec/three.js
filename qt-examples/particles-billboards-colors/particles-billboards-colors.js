@@ -20,7 +20,7 @@ function initializeGL(canvas, eventSource) {
 
     geometry = new THREE.Geometry();
 
-    sprite = THREE.ImageUtils.loadTexture( "textures/sprites/ball.png" );
+    sprite = new THREE.TextureLoader().load( "textures/sprites/ball.png" );
 
     for ( i = 0; i < 5000; i ++ ) {
 
@@ -38,10 +38,10 @@ function initializeGL(canvas, eventSource) {
 
     geometry.colors = colors;
 
-    material = new THREE.PointCloudMaterial( { size: 85, map: sprite, vertexColors: THREE.VertexColors, alphaTest: 0.5, transparent: true } );
+    material = new THREE.PointsMaterial( { size: 85, map: sprite, vertexColors: THREE.VertexColors, alphaTest: 0.5, transparent: true } );
     material.color.setHSL( 1.0, 0.2, 0.7 );
 
-    particles = new THREE.PointCloud( geometry, material );
+    particles = new THREE.Points( geometry, material );
     particles.sortParticles = true;
 
     scene.add( particles );

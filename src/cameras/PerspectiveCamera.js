@@ -10,6 +10,7 @@ THREE.PerspectiveCamera = function ( fov, aspect, near, far ) {
 
 	this.type = 'PerspectiveCamera';
 
+	this.focalLength = 10;
 	this.zoom = 1;
 
 	this.fov = fov !== undefined ? fov : 50;
@@ -27,7 +28,7 @@ THREE.PerspectiveCamera.prototype.constructor = THREE.PerspectiveCamera;
 
 /**
  * Uses Focal Length (in mm) to estimate and set FOV
- * 35mm (fullframe) camera is used if frame size is not specified;
+ * 35mm (full-frame) camera is used if frame size is not specified;
  * Formula based on http://www.bobatkins.com/photography/technical/field_of_view.html
  */
 
@@ -38,7 +39,7 @@ THREE.PerspectiveCamera.prototype.setLens = function ( focalLength, frameHeight 
 	this.fov = 2 * THREE.Math.radToDeg( Math.atan( frameHeight / ( focalLength * 2 ) ) );
 	this.updateProjectionMatrix();
 
-}
+};
 
 
 /**
@@ -122,21 +123,34 @@ THREE.PerspectiveCamera.prototype.updateProjectionMatrix = function () {
 
 };
 
-THREE.PerspectiveCamera.prototype.clone = function () {
+THREE.PerspectiveCamera.prototype.copy = function ( source ) {
 
-	var camera = new THREE.PerspectiveCamera();
+	THREE.Camera.prototype.copy.call( this, source );
 
-	THREE.Camera.prototype.clone.call( this, camera );
+	this.focalLength = source.focalLength;
+	this.zoom = source.zoom;
 
-	camera.zoom = this.zoom;
+	this.fov = source.fov;
+	this.aspect = source.aspect;
+	this.near = source.near;
+	this.far = source.far;
 
-	camera.fov = this.fov;
-	camera.aspect = this.aspect;
-	camera.near = this.near;
-	camera.far = this.far;
+	return this;
 
-	camera.projectionMatrix.copy( this.projectionMatrix );
+};
 
-	return camera;
+THREE.PerspectiveCamera.prototype.toJSON = function ( meta ) {
+
+	var data = THREE.Object3D.prototype.toJSON.call( this, meta );
+
+	data.object.focalLength = this.focalLength;
+	data.object.zoom = this.zoom;
+
+	data.object.fov = this.fov;
+	data.object.aspect = this.aspect;
+	data.object.near = this.near;
+	data.object.far = this.far;
+
+	return data;
 
 };

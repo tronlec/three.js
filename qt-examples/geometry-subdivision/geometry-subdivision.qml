@@ -149,15 +149,7 @@ Item {
             GLCode.paintGL(canvas3d);
         }
 
-        onWidthChanged: {
-            GLCode.resizeGL(canvas3d);
-        }
-
-        onHeightChanged: {
-            GLCode.resizeGL(canvas3d);
-        }
-
-        onDevicePixelRatioChanged: {
+        onResizeGL: {
             GLCode.resizeGL(canvas3d);
         }
 

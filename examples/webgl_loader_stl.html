@@ -165,11 +165,10 @@
 
 				// Lights
 
-				scene.add( new THREE.AmbientLight( 0x777777 ) );
+				scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
 				addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
 				addShadowedLight( 0.5, 1, -1, 0xffaa00, 1 );
-
 				// renderer
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -180,8 +179,8 @@
 				renderer.gammaInput = true;
 				renderer.gammaOutput = true;
 
-				renderer.shadowMapEnabled = true;
-				renderer.shadowMapCullFace = THREE.CullFaceBack;
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.cullFace = THREE.CullFaceBack;
 
 				container.appendChild( renderer.domElement );
 
@@ -201,7 +200,7 @@
 			function addShadowedLight( x, y, z, color, intensity ) {
 
 				var directionalLight = new THREE.DirectionalLight( color, intensity );
-				directionalLight.position.set( x, y, z )
+				directionalLight.position.set( x, y, z );
 				scene.add( directionalLight );
 
 				directionalLight.castShadow = true;
@@ -220,7 +219,6 @@
 				directionalLight.shadowMapHeight = 1024;
 
 				directionalLight.shadowBias = -0.005;
-				directionalLight.shadowDarkness = 0.15;
 
 			}
 

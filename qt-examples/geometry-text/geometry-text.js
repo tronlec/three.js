@@ -7,32 +7,9 @@
 Qt.include("three.js")
 Qt.include("GeometryUtils.js")
 
-Qt.include("ConvolutionShader.js")
-Qt.include("CopyShader.js")
-Qt.include("FilmShader.js")
-Qt.include("FXAAShader.js")
-Qt.include("EffectComposer.js")
-Qt.include("RenderPass.js")
-Qt.include("ShaderPass.js")
-Qt.include("MaskPass.js")
-Qt.include("BloomPass.js")
-Qt.include("FilmPass.js")
-
-Qt.include("gentilis_bold.typeface.js")
-Qt.include("gentilis_regular.typeface.js")
-Qt.include("optimer_bold.typeface.js")
-Qt.include("optimer_regular.typeface.js")
-Qt.include("helvetiker_bold.typeface.js")
-Qt.include("helvetiker_regular.typeface.js")
-Qt.include("droid_sans_regular.typeface.js")
-Qt.include("droid_sans_bold.typeface.js")
-Qt.include("droid_serif_regular.typeface.js")
-Qt.include("droid_serif_bold.typeface.js")
+THREE.Cache.enabled = true;
 
 var camera, cameraTarget, scene, renderer;
-
-var composer;
-var effectFXAA;
 
 var group, textMesh1, textMesh2, textGeo, material;
 
@@ -51,9 +28,10 @@ var text = "three.js",
     bevelSegments = 3,
     bevelEnabled = true,
 
-    font = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
-    weight = "bold", // normal bold
-    style = "normal"; // normal italic
+    font = undefined,
+
+    fontName = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
+    fontWeight = "bold"; // normal bold
 
 var mirror = true;
 
@@ -64,12 +42,11 @@ var fontMap = {
     "gentilis": 2,
     "droid sans": 3,
     "droid serif": 4
-
 };
 
 var weightMap = {
 
-    "normal": 0,
+    "regular": 0,
     "bold": 1
 
 };
@@ -89,7 +66,6 @@ var mouseXOnMouseDown = 0;
 
 var postprocessing = { enabled : false };
 var glow = 0.9;
-
 
 function initializeGL(canvas, eventSource) {
 
@@ -121,7 +97,7 @@ function initializeGL(canvas, eventSource) {
 
     pointLight.color.setHSL( Math.random(), 1, 0.5 );
 
-    material = new THREE.MeshFaceMaterial( [
+    material = new THREE.MultiMaterial( [
         new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
         new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
     ] );
@@ -131,7 +107,7 @@ function initializeGL(canvas, eventSource) {
 
     scene.add( group );
 
-    createText();
+    loadFont();
 
     var plane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry( 10000, 10000 ),
@@ -150,32 +126,6 @@ function initializeGL(canvas, eventSource) {
 
     renderer.setClearColor( scene.fog.color, 1 );
 
-    // POSTPROCESSING
-
-    renderer.autoClear = false;
-
-    var renderModel = new THREE.RenderPass( scene, camera );
-    var effectBloom = new THREE.BloomPass( 0.25 );
-    var effectFilm = new THREE.FilmPass( 0.5, 0.125, 2048, false );
-
-    effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
-
-    var width = canvas.width || 2;
-    var height = canvas.height || 2;
-
-    effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
-
-    effectFilm.renderToScreen = true;
-
-    composer = new THREE.EffectComposer( renderer );
-
-    composer.addPass( renderModel );
-    composer.addPass( effectFXAA );
-    composer.addPass( effectBloom );
-    composer.addPass( effectFilm );
-
-    //
-
     eventSource.mouseDown.connect(onDocumentMouseDown);
 
 }
@@ -190,24 +140,28 @@ function resizeGL(canvas) {
 
     renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
+}
 
-    composer.reset();
+function loadFont() {
 
-    effectFXAA.uniforms[ 'resolution' ].value.set( 1 / canvas.width, 1 / canvas.height );
+    var loader = new THREE.FontLoader();
+    loader.load( 'qrc:/' + fontName + '_' + fontWeight + '.typeface.js', function ( response ) {
+
+        font = response;
+
+        refreshText();
+
+    } );
 
 }
 
 function createText() {
 
     textGeo = new THREE.TextGeometry( text, {
-
+        font: font,
         size: size,
         height: height,
         curveSegments: curveSegments,
-
-        font: font,
-        weight: weight,
-        style: style,
 
         bevelThickness: bevelThickness,
         bevelSize: bevelSize,
@@ -311,50 +265,44 @@ function changeColor() {
 
 function changeFont() {
 
-    if ( font == "helvetiker" ) {
+    if ( fontName == "helvetiker" ) {
 
-        font = "optimer";
+        fontName = "optimer";
 
-    } else if ( font == "optimer" ) {
+    } else if ( fontName == "optimer" ) {
 
-        font = "gentilis";
+        fontName = "gentilis";
 
-    } else if ( font == "gentilis" ) {
+    } else if ( fontName == "gentilis" ) {
 
-        font = "droid sans";
+        fontName = "droid_sans";
 
-    } else if ( font == "droid sans" ) {
+    } else if ( fontName == "droid_sans" ) {
 
-        font = "droid serif";
+        fontName = "droid_serif";
 
     } else {
 
-        font = "helvetiker";
+        fontName = "helvetiker";
 
     }
 
-    refreshText();
+    loadFont();
 
 }
 
 function changeWeight() {
 
-    if ( weight == "bold" ) {
+    if ( fontWeight == "bold" ) {
 
-        weight = "normal";
+        fontWeight = "regular";
 
     } else {
 
-        weight = "bold";
+        fontWeight = "bold";
     }
 
-    refreshText();
-}
-
-function changeBevel() {
-    bevelEnabled = !bevelEnabled;
-
-    refreshText();
+    loadFont();
 }
 
 function changeText( newText ) {
@@ -362,12 +310,6 @@ function changeText( newText ) {
     text = newText;
 
     refreshText();
-}
-
-function changePostProcessing() {
-
-    postprocessing.enabled = !postprocessing.enabled;
-
 }
 
 function onDocumentMouseDown( x, y, buttons ) {
@@ -412,14 +354,5 @@ function paintGL(canvas) {
 
     renderer.clear();
 
-    if ( postprocessing.enabled ) {
-
-        composer.render( 0.05 );
-
-    } else {
-
-        renderer.render( scene, camera );
-
-    }
-
+    renderer.render( scene, camera );
 }

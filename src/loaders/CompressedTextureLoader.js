@@ -4,7 +4,9 @@
  * Abstract Base class to block based textures loader (dds, pvr, ...)
  */
 
-THREE.CompressedTextureLoader = function () {
+THREE.CompressedTextureLoader = function ( manager ) {
+
+	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
 
 	// override in sub classes
 	this._parser = null;
@@ -16,7 +18,7 @@ THREE.CompressedTextureLoader.prototype = {
 
 	constructor: THREE.CompressedTextureLoader,
 
-	load: function ( url, onLoad, onError ) {
+	load: function ( url, onLoad, onProgress, onError ) {
 
 		var scope = this;
 
@@ -25,43 +27,44 @@ THREE.CompressedTextureLoader.prototype = {
 		var texture = new THREE.CompressedTexture();
 		texture.image = images;
 
-		var loader = new THREE.XHRLoader();
+		var loader = new THREE.XHRLoader( this.manager );
+		loader.setPath( this.path );
 		loader.setResponseType( 'arraybuffer' );
 
-		if ( url instanceof Array ) {
+		function loadTexture( i ) {
+
+			loader.load( url[ i ], function ( buffer ) {
+
+				var texDatas = scope._parser( buffer, true );
+
+				images[ i ] = {
+					width: texDatas.width,
+					height: texDatas.height,
+					format: texDatas.format,
+					mipmaps: texDatas.mipmaps
+				};
+
+				loaded += 1;
+
+				if ( loaded === 6 ) {
+
+					if ( texDatas.mipmapCount === 1 )
+						texture.minFilter = THREE.LinearFilter;
+
+					texture.format = texDatas.format;
+					texture.needsUpdate = true;
+
+					if ( onLoad ) onLoad( texture );
+
+				}
+
+			}, onProgress, onError );
+
+		}
+
+		if ( Array.isArray( url ) ) {
 
 			var loaded = 0;
-
-			var loadTexture = function ( i ) {
-
-				loader.load( url[ i ], function ( buffer ) {
-
-					var texDatas = scope._parser( buffer, true );
-
-					images[ i ] = {
-						width: texDatas.width,
-						height: texDatas.height,
-						format: texDatas.format,
-						mipmaps: texDatas.mipmaps
-					};
-
-					loaded += 1;
-
-					if ( loaded === 6 ) {
-
-						if (texDatas.mipmapCount == 1)
- 							texture.minFilter = THREE.LinearFilter;
-
-						texture.format = texDatas.format;
-						texture.needsUpdate = true;
-
-						if ( onLoad ) onLoad( texture );
-
-					}
-
-				} );
-
-			};
 
 			for ( var i = 0, il = url.length; i < il; ++ i ) {
 
@@ -115,11 +118,17 @@ THREE.CompressedTextureLoader.prototype = {
 
 				if ( onLoad ) onLoad( texture );
 
-			} );
+			}, onProgress, onError );
 
 		}
 
 		return texture;
+
+	},
+
+	setPath: function ( value ) {
+
+		this.path = value;
 
 	}
 

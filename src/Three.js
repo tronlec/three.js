@@ -3,17 +3,28 @@
  */
 function THREE() {};
 
-THREE.REVISION = '71'
+THREE.REVISION = '74'
 
-// browserify support
+//
 
-//if ( typeof module === 'object' ) {
+//if ( typeof define === 'function' && define.amd ) {
+
+//	define( 'three', THREE );
+
+//} else if ( 'undefined' !== typeof exports && 'undefined' !== typeof module ) {
 
 //	module.exports = THREE;
 
 //}
+//
 
-// polyfills
+if ( Number.EPSILON === undefined ) {
+
+	Number.EPSILON = Math.pow( 2, - 52 );
+
+}
+
+//
 
 if ( Math.sign === undefined ) {
 
@@ -21,18 +32,82 @@ if ( Math.sign === undefined ) {
 
 	Math.sign = function ( x ) {
 
-		return ( x < 0 ) ? - 1 : ( x > 0 ) ? 1 : +x;
+		return ( x < 0 ) ? - 1 : ( x > 0 ) ? 1 : + x;
 
 	};
 
 }
 
+if ( Function.prototype.name === undefined && Object.defineProperty !== undefined ) {
 
-// set the default log handlers
-THREE.log = function() { console.log.apply( console, arguments ); }
-THREE.warn = function() { console.warn.apply( console, arguments ); }
-THREE.error = function() { console.error.apply( console, arguments ); }
+	// Missing in IE9-11.
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
 
+	Object.defineProperty( Function.prototype, 'name', {
+
+		get: function () {
+
+			return this.toString().match( /^\s*function\s*(\S*)\s*\(/ )[ 1 ];
+
+		}
+
+	} );
+
+}
+
+if ( Object.assign === undefined ) {
+
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+
+	Object.defineProperty( Object, 'assign', {
+
+		writable: true,
+		configurable: true,
+
+		value: function ( target ) {
+
+			'use strict';
+
+			if ( target === undefined || target === null ) {
+
+				throw new TypeError( "Cannot convert first argument to object" );
+
+			}
+
+			var to = Object( target );
+
+			for ( var i = 1, n = arguments.length; i !== n; ++ i ) {
+
+				var nextSource = arguments[ i ];
+
+				if ( nextSource === undefined || nextSource === null ) continue;
+
+				nextSource = Object( nextSource );
+
+				var keysArray = Object.keys( nextSource );
+
+				for ( var nextIndex = 0, len = keysArray.length; nextIndex !== len; ++ nextIndex ) {
+
+					var nextKey = keysArray[ nextIndex ];
+					var desc = Object.getOwnPropertyDescriptor( nextSource, nextKey );
+
+					if ( desc !== undefined && desc.enumerable ) {
+
+						to[ nextKey ] = nextSource[ nextKey ];
+
+					}
+
+				}
+
+			}
+
+			return to;
+
+		}
+
+	} );
+
+}
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.button
 
@@ -64,7 +139,6 @@ THREE.DoubleSide = 2;
 
 // shading
 
-THREE.NoShading = 0;
 THREE.FlatShading = 1;
 THREE.SmoothShading = 2;
 
@@ -85,7 +159,7 @@ THREE.CustomBlending = 5;
 
 // custom blending equations
 // (numbers start from 100 not to clash with other
-//  mappings to OpenGL constants defined in Texture.js)
+// mappings to OpenGL constants defined in Texture.js)
 
 THREE.AddEquation = 100;
 THREE.SubtractEquation = 101;
@@ -115,6 +189,17 @@ THREE.OneMinusDstAlphaFactor = 207;
 THREE.DstColorFactor = 208;
 THREE.OneMinusDstColorFactor = 209;
 THREE.SrcAlphaSaturateFactor = 210;
+
+// depth modes
+
+THREE.NeverDepth = 0;
+THREE.AlwaysDepth = 1;
+THREE.LessDepth = 2;
+THREE.LessEqualDepth = 3;
+THREE.EqualDepth = 4;
+THREE.GreaterEqualDepth = 5;
+THREE.GreaterDepth = 6;
+THREE.NotEqualDepth = 7;
 
 
 // TEXTURE CONSTANTS
@@ -193,43 +278,30 @@ THREE.RGB_PVRTC_2BPPV1_Format = 2101;
 THREE.RGBA_PVRTC_4BPPV1_Format = 2102;
 THREE.RGBA_PVRTC_2BPPV1_Format = 2103;
 
+// ETC compressed texture formats
 
-// DEPRECATED
+THREE.RGB_ETC1_Format = 2151;
 
-THREE.Projector = function () {
+// Loop styles for AnimationAction
 
-	THREE.error( 'THREE.Projector has been moved to /examples/js/renderers/Projector.js.' );
+THREE.LoopOnce = 2200;
+THREE.LoopRepeat = 2201;
+THREE.LoopPingPong = 2202;
 
-	this.projectVector = function ( vector, camera ) {
+// Interpolation
 
-		THREE.warn( 'THREE.Projector: .projectVector() is now vector.project().' );
-		vector.project( camera );
+THREE.InterpolateDiscrete = 2300;
+THREE.InterpolateLinear = 2301;
+THREE.InterpolateSmooth = 2302;
 
-	};
+// Interpolant ending modes
 
-	this.unprojectVector = function ( vector, camera ) {
+THREE.ZeroCurvatureEnding = 2400;
+THREE.ZeroSlopeEnding = 2401;
+THREE.WrapAroundEnding = 2402;
 
-		THREE.warn( 'THREE.Projector: .unprojectVector() is now vector.unproject().' );
-		vector.unproject( camera );
+// Triangle Draw modes
 
-	};
-
-	this.pickingRay = function ( vector, camera ) {
-
-		THREE.error( 'THREE.Projector: .pickingRay() is now raycaster.setFromCamera().' );
-
-	};
-
-};
-
-THREE.CanvasRenderer = function () {
-
-	THREE.error( 'THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js' );
-
-	this.domElement = document.createElement( 'canvas' );
-	this.clear = function () {};
-	this.render = function () {};
-	this.setClearColor = function () {};
-	this.setSize = function () {};
-
-};
+THREE.TrianglesDrawMode = 0;
+THREE.TriangleStripDrawMode = 1;
+THREE.TriangleFanDrawMode = 2;

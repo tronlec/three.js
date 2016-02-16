@@ -5,7 +5,7 @@ Qt.include("OrbitControls.js")
 Qt.include("BlendCharacter.js")
 //Qt.include("BlendCharacterGui.js")
 
-var blendMesh, camera, scene, renderer, controls, controlEventSource;
+var blendMesh, helper, camera, scene, renderer, controls, controlEventSource;
 var canvas3d;
 var clock = new THREE.Clock();
 
@@ -123,15 +123,9 @@ function onWarp( data ) {
 }
 
 
-function onLockCameraToggle( shouldLock ) {
-
-    controls.enabled = !shouldLock;
-
-}
-
 function onShowSkeleton( shouldShow ) {
 
-    blendMesh.showSkeleton( shouldShow );
+    helper.visible = shouldShow;
 
 }
 
@@ -151,17 +145,22 @@ function start() {
     camera.position.set( 0.0, radius, radius * 3.5 );
 
     controls = new THREE.OrbitControls( camera, controlEventSource );
-    controls.target = new THREE.Vector3( 0, radius, 0 );
+    controls.target.set( 0, radius, 0 );
     controls.update();
 
     // Set default weights
-
-    blendMesh.animations[ 'idle' ].weight = 1 / 3;
-    blendMesh.animations[ 'walk' ].weight = 1 / 3;
-    blendMesh.animations[ 'run' ].weight = 1 / 3;
-
+    blendMesh.applyWeight( 'idle', 1 / 3 );
+    blendMesh.applyWeight( 'walk', 1 / 3 );
+    blendMesh.applyWeight( 'run', 1 / 3 );
     // TODO: GUI needs complete rewrite as QtQuick
-    //gui = new BlendCharacterGui(blendMesh.animations);
+    //gui = new BlendCharacterGui(blendMesh);
+
+    // Create the debug visualization
+//    helper = new THREE.SkeletonHelper( blendMesh );
+//    helper.material.linewidth = 3;
+//    scene.add( helper );
+
+//    helper.visible = false;
 }
 
 function paintGL(canvas, guiParameters) {
@@ -176,11 +175,11 @@ function paintGL(canvas, guiParameters) {
 
     // modify blend weights
 
-    blendMesh.update( stepSize );
+    if(blendMesh.mixer)
+        blendMesh.update( stepSize );
     // TODO: GUI needs complete rewrite as QtQuick
-    //gui.update();
-
-    THREE.AnimationHandler.update( stepSize );
+    //helper.update();
+    //gui.update( blendMesh.mixer.time );
 
     renderer.render( scene, camera );
 

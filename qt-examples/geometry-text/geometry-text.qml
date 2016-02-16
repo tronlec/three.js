@@ -39,43 +39,21 @@ ApplicationWindow {
     }
 
     Button {
-        id: bevelButton
+        id: changeTextButton
+        width: colorButton.width
         anchors.left: weigthButton.right
-        width: parent.width / 5
-        text: "Change Bevel"
+        text: "Change Text to:"
 
-        onClicked: GLCode.changeBevel()
-    }
-
-    Button {
-        id: postProcessingButton
-        anchors.left: bevelButton.right
-        anchors.right: parent.right
-        width: parent.width / 5
-        text: "Change Postprocessing"
-
-        onClicked: GLCode.changePostProcessing()
+        onClicked: GLCode.changeText(textInput.text)
     }
 
     TextInput {
         id: textInput
-        width: colorButton.width * 4
-        anchors.left: parent.left
-        anchors.top: colorButton.bottom
+        width: colorButton.width
+        anchors.left: changeTextButton.right
         height: colorButton.height
         verticalAlignment: TextInput.AlignVCenter
         text: "three.js"
-    }
-
-    Button {
-        id: changeTextButton
-        width: colorButton.width
-        anchors.top: colorButton.bottom
-        anchors.left: textInput.right
-        anchors.right: parent.right
-        text: "Change Text"
-
-        onClicked: GLCode.changeText(textInput.text)
     }
 
     Canvas3D {

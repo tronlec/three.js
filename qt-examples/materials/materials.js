@@ -2,10 +2,10 @@
 
 Qt.include("three.js")
 
-var camera, scene, renderer, objects;
+var camera, scene, renderer;
 var particleLight;
 
-var materials = [];
+var objects = [], materials = [];
 
 function initializeGL(canvas) {
 
@@ -17,8 +17,8 @@ function initializeGL(canvas) {
     // Grid
 
     var line_material = new THREE.LineBasicMaterial( { color: 0x303030 } ),
-        geometry = new THREE.Geometry(),
-        floor = -75, step = 25;
+            geometry = new THREE.Geometry(),
+            floor = -75, step = 25;
 
     for ( var i = 0; i <= 40; i ++ ) {
 
@@ -30,73 +30,51 @@ function initializeGL(canvas) {
 
     }
 
-    var line = new THREE.Line( geometry, line_material, THREE.LinePieces );
+    var line = new THREE.LineSegments( geometry, line_material );
     scene.add( line );
 
     // Materials
-    var texture = THREE.ImageUtils.loadTexture("qrc:/textures/land_ocean_ice_cloud_2048.jpg")
+    var texture = new THREE.TextureLoader().load("qrc:/textures/land_ocean_ice_cloud_2048.jpg")
 
     materials.push( new THREE.MeshLambertMaterial( { map: texture, transparent: true } ) );
-    materials.push( new THREE.MeshLambertMaterial( { color: 0xdddddd, shading: THREE.FlatShading } ) );
-    materials.push( new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } ) );
+    materials.push( new THREE.MeshLambertMaterial( { color: 0xdddddd } ) );
+    materials.push( new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } ) );
     materials.push( new THREE.MeshNormalMaterial( ) );
     materials.push( new THREE.MeshBasicMaterial( { color: 0xffaa00, transparent: true, blending: THREE.AdditiveBlending } ) );
     //materials.push( new THREE.MeshBasicMaterial( { color: 0xff0000, blending: THREE.SubtractiveBlending } ) );
 
-    materials.push( new THREE.MeshLambertMaterial( { color: 0xdddddd, shading: THREE.SmoothShading } ) );
-    materials.push( new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.SmoothShading, map: texture, transparent: true } ) );
-    materials.push( new THREE.MeshNormalMaterial( { shading: THREE.SmoothShading } ) );
+    materials.push( new THREE.MeshLambertMaterial( { color: 0xdddddd } ) );
+    materials.push( new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.SmoothShading, map: texture, transparent: true } ) );
+    materials.push( new THREE.MeshNormalMaterial() );
     materials.push( new THREE.MeshBasicMaterial( { color: 0xffaa00, wireframe: true } ) );
 
     materials.push( new THREE.MeshDepthMaterial() );
 
-    materials.push( new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0xff0000, ambient: 0x000000, shading: THREE.SmoothShading } ) );
-    materials.push( new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0xff0000, ambient: 0x000000, shininess: 10, shading: THREE.SmoothShading, opacity: 0.9, transparent: true } ) );
+    materials.push( new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0xff0000 } ) );
+    materials.push( new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0xff0000, shininess: 10, shading: THREE.SmoothShading, opacity: 0.9, transparent: true } ) );
 
     materials.push( new THREE.MeshBasicMaterial( { map: texture, transparent: true } ) );
 
     // Spheres geometry
 
-    var geometry_smooth = new THREE.SphereGeometry( 70, 32, 16 );
-    var geometry_flat = new THREE.SphereGeometry( 70, 32, 16 );
-    var geometry_pieces = new THREE.SphereGeometry( 70, 32, 16 ); // Extra geometry to be broken down for MeshFaceMaterial
+    geometry = new THREE.SphereGeometry( 70, 32, 16 );
 
-    for ( var i = 0, l = geometry_pieces.faces.length; i < l; i ++ ) {
+    for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
 
-        var face = geometry_pieces.faces[ i ];
+        var face = geometry.faces[ i ];
         face.materialIndex = Math.floor( Math.random() * materials.length );
 
     }
 
-    geometry_pieces.materials = materials;
-
-    materials.push( new THREE.MeshFaceMaterial( materials ) );
+    geometry.sortFacesByMaterialIndex();
 
     objects = [];
 
-    var sphere, geometry, material;
-
     for ( var i = 0, l = materials.length; i < l; i ++ ) {
-
-        material = materials[ i ];
-
-        geometry = material instanceof THREE.MeshFaceMaterial ? geometry_pieces :
-                   ( material.shading == THREE.FlatShading ? geometry_flat : geometry_smooth );
-
-        sphere = new THREE.Mesh( geometry, material );
-
-        sphere.position.x = ( i % 4 ) * 200 - 400;
-        sphere.position.z = Math.floor( i / 4 ) * 200 - 200;
-
-        sphere.rotation.x = Math.random() * 200 - 100;
-        sphere.rotation.y = Math.random() * 200 - 100;
-        sphere.rotation.z = Math.random() * 200 - 100;
-
-        objects.push( sphere );
-
-        scene.add( sphere );
-
+        addMesh( geometry, materials[ i ] );
     }
+
+    addMesh( geometry, new THREE.MultiMaterial( materials ) );
 
     particleLight = new THREE.Mesh( new THREE.SphereGeometry( 4, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
     scene.add( particleLight );
@@ -122,6 +100,22 @@ function initializeGL(canvas) {
                 { canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setPixelRatio( canvas.devicePixelRatio );
     renderer.setSize( canvas.width, canvas.height );
+}
+
+function addMesh( geometry, material ) {
+
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.x = ( objects.length % 4 ) * 200 - 400;
+    mesh.position.z = Math.floor( objects.length / 4 ) * 200 - 200;
+
+    mesh.rotation.x = Math.random() * 200 - 100;
+    mesh.rotation.y = Math.random() * 200 - 100;
+    mesh.rotation.z = Math.random() * 200 - 100;
+
+    objects.push( mesh );
+
+    scene.add( mesh );
 }
 
 function resizeGL(canvas) {
@@ -151,8 +145,8 @@ function paintGL(canvas) {
 
     }
 
-    materials[ materials.length - 3 ].emissive.setHSL( 0.54, 1, 0.35 * ( 0.5 + 0.5 * Math.sin( 35 * timer ) ) );
-    materials[ materials.length - 4 ].emissive.setHSL( 0.04, 1, 0.35 * ( 0.5 + 0.5 * Math.cos( 35 * timer ) ) );
+    materials[ materials.length - 2 ].emissive.setHSL( 0.54, 1, 0.35 * ( 0.5 + 0.5 * Math.sin( 35 * timer ) ) );
+    materials[ materials.length - 3 ].emissive.setHSL( 0.04, 1, 0.35 * ( 0.5 + 0.5 * Math.cos( 35 * timer ) ) );
 
     particleLight.position.x = Math.sin( timer * 7 ) * 300;
     particleLight.position.y = Math.cos( timer * 5 ) * 400;

@@ -32,15 +32,14 @@ function initializeGL(canvas, eventSource) {
     light.position.set( 0, 500, 2000 );
     light.castShadow = true;
 
-    light.shadowCameraNear = 200;
-    light.shadowCameraFar = camera.far;
-    light.shadowCameraFov = 50;
+    light.shadow.camera.near = 200;
+    light.shadow.camera.far = camera.far;
+    light.shadow.camera.fov = 50;
 
-    light.shadowBias = -0.00022;
-    light.shadowDarkness = 0.5;
+    light.shadow.bias = -0.00022;
 
-    light.shadowMapWidth = 2048;
-    light.shadowMapHeight = 2048;
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
 
     scene.add( light );
 
@@ -75,9 +74,8 @@ function initializeGL(canvas, eventSource) {
 
     plane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry( 2000, 2000, 8, 8 ),
-        new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0.25, transparent: true } )
+        new THREE.MeshBasicMaterial( { visible: false } )
     );
-    plane.visible = false;
     scene.add( plane );
 
     renderer = new THREE.Canvas3DRenderer(
@@ -87,8 +85,8 @@ function initializeGL(canvas, eventSource) {
     renderer.setSize( canvas.width, canvas.height );
     renderer.sortObjects = false;
 
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapType = THREE.PCFShadowMap;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 
     eventSource.mouseMove.connect(onDocumentMouseMove);
     eventSource.mouseDown.connect(onDocumentMouseDown);
@@ -113,13 +111,16 @@ function onDocumentMouseMove( x, y ) {
 
     var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
 
+    var intersects;
     if ( SELECTED ) {
-        var intersects = raycaster.intersectObject( plane );
-        SELECTED.position.copy( intersects[ 0 ].point.sub( offset ) );
+        intersects = raycaster.intersectObject( plane );
+        if ( intersects.length > 0 ) {
+            SELECTED.position.copy( intersects[ 0 ].point.sub( offset ) );
+        }
         return;
     }
 
-    var intersects = raycaster.intersectObjects( objects );
+    intersects = raycaster.intersectObjects( objects );
 
     if ( intersects.length > 0 ) {
         if ( INTERSECTED != intersects[ 0 ].object ) {
@@ -142,7 +143,6 @@ function onDocumentMouseDown( x, y, buttons ) {
     var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 ).unproject( camera );
 
     var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
     var intersects = raycaster.intersectObjects( objects );
 
     if ( intersects.length > 0 ) {
@@ -151,8 +151,10 @@ function onDocumentMouseDown( x, y, buttons ) {
 
         SELECTED = intersects[ 0 ].object;
 
-        var intersects = raycaster.intersectObject( plane );
-        offset.copy( intersects[ 0 ].point ).sub( plane.position );
+        intersects = raycaster.intersectObject( plane );
+        if ( intersects.length > 0 ) {
+            offset.copy( intersects[ 0 ].point ).sub( plane.position );
+        }
 
         eventSourceArea.cursorShape = Qt.ClosedHandCursor;
     }

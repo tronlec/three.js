@@ -1,0 +1,6 @@
+[
+        "src/qml/QmlImageElement.js",
+        "src/qml/QmlHtmlElements.js",
+        "src/qml/Canvas3DRenderer.js",
+        "src/qml/QtQuickItemTexture.js"
+]

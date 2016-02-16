@@ -25,7 +25,6 @@ Item {
     window.addEventListener( 'weight-animation', onWeightAnimation );
     window.addEventListener( 'crossfade', onCrossfade );
     window.addEventListener( 'warp', onWarp );
-    window.addEventListener( 'toggle-lock-camera', onLockCameraToggle );
     window.addEventListener( 'toggle-show-skeleton', onShowSkeleton );
     window.addEventListener( 'toggle-show-model', onShowModel );
     */

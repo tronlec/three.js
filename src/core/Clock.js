@@ -28,6 +28,7 @@ THREE.Clock.prototype = {
 
 		this.oldTime = this.startTime;
 		this.running = true;
+
 	},
 
 	stop: function () {

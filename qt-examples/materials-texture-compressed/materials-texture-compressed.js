@@ -46,7 +46,7 @@ function initializeGL(canvas) {
     map6.anisotropy = 4;
 
     var cubemap1 = loader.load( 'qrc:/textures/compressed/Mountains.dds', function ( texture ) {
-        texture.magFilter = THREE.LinearFilter
+        texture.magFilter = THREE.LinearFilter;
         texture.minFilter = THREE.LinearFilter;
         texture.mapping = THREE.CubeReflectionMapping;
         material1.needsUpdate = true;

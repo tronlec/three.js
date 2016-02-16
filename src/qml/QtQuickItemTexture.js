@@ -7,7 +7,7 @@ THREE.QtQuickItemTexture = function ( quickItem, mapping, wrapS, wrapT, magFilte
     THREE.Texture.call( this, null, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy );
 
     this.generateMipmaps = false;
-    this._needsUpdate = true;
+    this.version++;
 
     this.quickItem = quickItem;
 

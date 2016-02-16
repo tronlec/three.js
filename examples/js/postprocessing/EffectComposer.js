@@ -8,9 +8,9 @@ THREE.EffectComposer = function ( renderer, renderTarget ) {
 
 	if ( renderTarget === undefined ) {
 
-        var pixelRatio = 1.0;
+		var pixelRatio = 1.0;
 
-        var width  = Math.floor( renderer.context.canvas.width  / pixelRatio ) || 1;
+		var width  = Math.floor( renderer.context.canvas.width  / pixelRatio ) || 1;
 		var height = Math.floor( renderer.context.canvas.height / pixelRatio ) || 1;
 		var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
 
@@ -68,7 +68,7 @@ THREE.EffectComposer.prototype = {
 
 			pass = this.passes[ i ];
 
-			if ( !pass.enabled ) continue;
+			if ( ! pass.enabled ) continue;
 
 			pass.render( this.renderer, this.writeBuffer, this.readBuffer, delta, maskActive );
 
@@ -110,14 +110,18 @@ THREE.EffectComposer.prototype = {
 
 			renderTarget = this.renderTarget1.clone();
 
-            var pixelRatio = 1.0;
+			var pixelRatio = 1.0;
 
-			renderTarget.width  = Math.floor( this.renderer.context.canvas.width  / pixelRatio );
-			renderTarget.height = Math.floor( this.renderer.context.canvas.height / pixelRatio );
+			renderTarget.setSize(
+				Math.floor( this.renderer.context.canvas.width  / pixelRatio ),
+				Math.floor( this.renderer.context.canvas.height / pixelRatio )
+			);
 
 		}
 
+		this.renderTarget1.dispose();
 		this.renderTarget1 = renderTarget;
+		this.renderTarget2.dispose();
 		this.renderTarget2 = renderTarget.clone();
 
 		this.writeBuffer = this.renderTarget1;
@@ -127,12 +131,8 @@ THREE.EffectComposer.prototype = {
 
 	setSize: function ( width, height ) {
 
-		var renderTarget = this.renderTarget1.clone();
-
-		renderTarget.width = width;
-		renderTarget.height = height;
-
-		this.reset( renderTarget );
+		this.renderTarget1.setSize( width, height );
+		this.renderTarget2.setSize( width, height );
 
 	}
 

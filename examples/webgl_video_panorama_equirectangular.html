@@ -59,7 +59,7 @@
 				scene = new THREE.Scene();
 
 				var geometry = new THREE.SphereGeometry( 500, 60, 40 );
-				geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+				geometry.scale( - 1, 1, 1 );
 
 				var video = document.createElement( 'video' );
 				video.width = 640;
@@ -86,7 +86,7 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
-				document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
+				document.addEventListener( 'MozMousePixelScroll', onDocumentMouseWheel, false);
 
 				//
 
