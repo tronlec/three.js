@@ -7,6 +7,7 @@ SUBDIRS += animation-cloth \
            geometry-text \
            interactive-draggablecubes \
            interactive-voxel-painter \
+           loader-gltf \
            loader-ply \
            materials \
            materials-texture-compressed \

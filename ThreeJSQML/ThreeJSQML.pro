@@ -13,6 +13,7 @@ OTHER_FILES = qmldir \
     ../src/extras/geometries/* \
     ../src/extras/helpers/* \
     ../src/extras/objects/* \
+    ../src/gltf/* \
     ../src/lights/* \
     ../src/loaders/* \
     ../src/materials/* \

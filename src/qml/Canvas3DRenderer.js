@@ -2951,7 +2951,8 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 
             if ( textureNeedsPowerOfTwo( texture ) && isPowerOfTwo( image ) === false ) {
 
-                image = makePowerOfTwo( image );
+                // No way to make the image power of two, so just warn about it
+                console.warn( 'THREE.Canvas3DRenderer: image is not power of two (' + image.width + 'x' + image.height + ').', image );
 
             }
 
@@ -3116,27 +3117,6 @@ THREE.Canvas3DRenderer = function ( parameters ) {
 		if ( texture.minFilter !== THREE.NearestFilter && texture.minFilter !== THREE.LinearFilter ) return true;
 
 		return false;
-
-	}
-
-	function makePowerOfTwo( image ) {
-
-		if ( image instanceof HTMLImageElement || image instanceof HTMLCanvasElement ) {
-
-			var canvas = document.createElement( 'canvas' );
-			canvas.width = THREE.Math.nearestPowerOfTwo( image.width );
-			canvas.height = THREE.Math.nearestPowerOfTwo( image.height );
-
-			var context = canvas.getContext( '2d' );
-			context.drawImage( image, 0, 0, canvas.width, canvas.height );
-
-            console.warn( 'THREE.Canvas3DRenderer: image is not power of two (' + image.width + 'x' + image.height + '). Resized to ' + canvas.width + 'x' + canvas.height, image );
-
-			return canvas;
-
-		}
-
-		return image;
 
 	}
 

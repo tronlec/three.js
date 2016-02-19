@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>loader-gltf.js</file>
+        <file alias="three.js">../../build/three.js</file>
+        <file alias="OrbitControls.js">../js/controls/OrbitControls.js</file>
+        <file alias="ControlEventSource.qml">../qml/controls/ControlEventSource.qml</file>
+        <file alias="cellphone_scene.qgltf">model/cellphone_scene.qgltf</file>
+        <file alias="cellphone_scene_1.bin">model/cellphone_scene_1.bin</file>
+        <file alias="cellphone_scene_shader_1_f.frag">model/cellphone_scene_shader_1_f.frag</file>
+        <file alias="cellphone_scene_shader_1_v.vert">model/cellphone_scene_shader_1_v.vert</file>
+        <file alias="cellphone_scene_shader_2_f.frag">model/cellphone_scene_shader_2_f.frag</file>
+        <file alias="cellphone_scene_shader_2_v.vert">model/cellphone_scene_shader_2_v.vert</file>
+        <file alias="qtlogo.png">model/qtlogo.png</file>
+        <file alias="dummy_phone.png">model/dummy_phone.png</file>
+	</qresource>
+</RCC>

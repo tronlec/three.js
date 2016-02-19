@@ -2,5 +2,10 @@
         "src/qml/QmlImageElement.js",
         "src/qml/QmlHtmlElements.js",
         "src/qml/Canvas3DRenderer.js",
-        "src/qml/QtQuickItemTexture.js"
+        "src/qml/QtQuickItemTexture.js",
+        "src/gltf/glTF-parser.js",
+        "src/gltf/glTFAnimation.js",
+        "src/gltf/glTFLoader.js",
+        "src/gltf/glTFLoaderUtils.js",
+        "src/gltf/glTFShaders.js"
 ]
