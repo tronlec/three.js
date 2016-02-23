@@ -234,7 +234,7 @@ THREE.GLTFLoaderUtils = Object.create(Object, {
 	                nElements = 16;
 	                break;
 	            default :
-	            	debugger;
+                    console.log("Invalid type in _elementSizeForGLType:", type); //debugger; // Changed for Qt, debugger keyword is not supported
 	            	break;
     		}
     		
@@ -246,7 +246,7 @@ THREE.GLTFLoaderUtils = Object.create(Object, {
                 case Context3D.UNSIGNED_SHORT : // Changed for Qt
                     return Uint16Array.BYTES_PER_ELEMENT * nElements;
                 default :
-                	debugger;
+                    console.log("Invalid componentType in _elementSizeForGLType:", componentType); //debugger; // Changed for Qt, debugger keyword is not supported
                     return null;
             }
         }

@@ -41473,7 +41473,7 @@ THREE.glTFLoader.prototype.load = function( url, callback ) {
                 nElements = 16;
                 break;
             default :
-                debugger;
+                console.log("Invalid type in componentsPerElementForGLType:", type); //debugger; // Changed for Qt, debugger keyword is not supported
                 break;
         }
         
@@ -43230,7 +43230,7 @@ THREE.glTFLoader.prototype.load = function( url, callback ) {
                     var parameter = parameters[param];
                     var accessor = this.resources.getEntry(parameter);
                     if (!accessor)
-                        debugger;
+                        console.log("Invalid accessor in handleAnimation"); //debugger; // Changed for Qt, debugger keyword is not supported
                     accessor = accessor.object;
                     var bufferView = this.resources.getEntry(accessor.bufferView);
                     var paramObject = {
@@ -43646,7 +43646,7 @@ THREE.GLTFLoaderUtils = Object.create(Object, {
 	                nElements = 16;
 	                break;
 	            default :
-	            	debugger;
+                    console.log("Invalid type in _elementSizeForGLType:", type); //debugger; // Changed for Qt, debugger keyword is not supported
 	            	break;
     		}
     		
@@ -43658,7 +43658,7 @@ THREE.GLTFLoaderUtils = Object.create(Object, {
                 case Context3D.UNSIGNED_SHORT : // Changed for Qt
                     return Uint16Array.BYTES_PER_ELEMENT * nElements;
                 default :
-                	debugger;
+                    console.log("Invalid componentType in _elementSizeForGLType:", componentType); //debugger; // Changed for Qt, debugger keyword is not supported
                     return null;
             }
         }
