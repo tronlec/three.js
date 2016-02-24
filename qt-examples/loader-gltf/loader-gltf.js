@@ -158,9 +158,12 @@ function switchCamera(index)
     if (cameraIndex >= 1 && cameraIndex <= cameras.length) {
         camera = cameras[cameraIndex - 1];
     }
-    camera.position.copy(camera.parent.position);
-    camera.up = new THREE.Vector3(0, 1, 0);
-    camera.up.applyQuaternion(camera.parent.quaternion);
+    if (camera.parent) {
+        if (camera.parent.position)
+            camera.position.copy(camera.parent.position);
+        camera.up = new THREE.Vector3(0, 1, 0);
+        camera.up.applyQuaternion(camera.parent.quaternion);
+    }
     camera.updateProjectionMatrix();
     scene.add(camera)
 }
