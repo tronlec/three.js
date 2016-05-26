@@ -31,6 +31,12 @@ THE SOFTWARE.
  * @author Pasi keränen / pasi.keranen@theqtcompany.com
  */
 
+// .pragma library
+.import QtCanvas3D 1.0 as QtCanvas3D
+
+var TextureImageFactory  = QtCanvas3D.TextureImageFactory
+
+
 // File:src/Three.js
 
 /**
